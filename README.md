@@ -57,3 +57,8 @@ Runs Jest unit tests to validate changes between commits
 yarn run test
 ```
 
+###Contributing
+
+- Create a new branch from 'develop' with a standard name(e.g. feat/create-x-feature, hotfix/x-bug).
+- Code, test, commit and push your branch. Create a PR into 'develop'.
+- Ask for PR review from an appropriate reviewer.
