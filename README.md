@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Boshamlan
 
-## Getting Started
+## Features
+- ▲ Based on latest [Next.js](https://github.com/zeit/next.js)
+- 💅 Styling with [TailwindCSS](https://tailwindcss.com/)
+- ✳️ Hooks for fetching, caching and updating asynchronous data in React [React Query](https://react-query.tanstack.com)
+- 🐻 Hooks based state management library[Zustand](https://github.com/pmndrs/zustand)
+- 🐐 Unit testing with [Jest](https://github.com/facebook/jest) & [react-testing-library](https://github.com/testing-library/react-testing-library)
+- ⚡️ E2E testing with [Cypress](https://www.cypress.io/)
 
-First, run the development server:
+### Design Patterns
+
+- ⛔ **[ESLint](https://eslint.org)** – Find and fix problems in your JavaScript code. Following Airbnb style guide.
+- 🎀 **[Prettier](https://prettier.io)** – An opinionated code formatter, supporting multiple languages and code editors
+- 🐺 **[Husky](https://github.com/typicode/husky)** – Modern native Git hooks made easy
+- 💩 **[lint-staged](https://github.com/okonet/lint-staged)** – Run linters against staged git files and don't let 💩 slip into your code base
+- 📓 **[commitlint](https://commitlint.js.org)** – Helps your team adhering to a commit convention
+
+## Getting started
+```
+git clone https://github.com/q8villa/boshamlan2023.git
+cd boshamlan2023
+yarn install
+yarn run dev
+```
+Then open `http://localhost:3000/` to see the app.
+
+### build
+
+Builds the production application in the .next folder.
 
 ```bash
-npm run dev
-# or
-yarn dev
+yarn run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### start
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Starts the application in production mode.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+yarn run start
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### lint
 
-## Learn More
+Runs ESLint static code analysis based on your `.eslintrc` configuration
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+yarn run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### test
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Runs Jest unit tests to validate changes between commits
 
-## Deploy on Vercel
+```bash
+yarn run test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
