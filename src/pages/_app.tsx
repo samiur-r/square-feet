@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 
-import { useCreateStore, StoreProvider } from '../store'
+import { useCreateStore, StoreProvider } from 'store'
 
 const MyApp = ({
   Component,
