@@ -1,6 +1,7 @@
 # Boshamlan
 
 ## Features
+
 - ▲ Based on latest [Next.js](https://github.com/zeit/next.js)
 - 💅 Styling with [TailwindCSS](https://tailwindcss.com/)
 - ✳️ Hooks for fetching, caching and updating asynchronous data in React [React Query](https://react-query.tanstack.com)
@@ -17,12 +18,14 @@
 - 📓 **[commitlint](https://commitlint.js.org)** – Helps your team adhering to a commit convention
 
 ## Getting started
+
 ```
 git clone https://github.com/q8villa/boshamlan2023.git
 cd boshamlan2023
 yarn install
 yarn run dev
 ```
+
 Then open `http://localhost:3000/` to see the app.
 
 ### build
