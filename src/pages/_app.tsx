@@ -16,12 +16,14 @@ const MyApp = ({
 }: AppProps<{ dehydratedState: DehydratedState }>) => {
   const [queryClient] = React.useState(() => new QueryClient())
 
-  ;<QueryClientProvider client={queryClient}>
-    <Hydrate state={pageProps.dehydratedState}>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
-    </Hydrate>
-  </QueryClientProvider>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Hydrate state={pageProps.dehydratedState}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </Hydrate>
+    </QueryClientProvider>
+  )
 }
 
 export default MyApp
