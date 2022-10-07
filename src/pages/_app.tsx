@@ -6,6 +6,7 @@ import {
   QueryClientProvider,
   DehydratedState
 } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
@@ -22,6 +23,7 @@ const MyApp = ({
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Component {...pageProps} />
       </Hydrate>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }
