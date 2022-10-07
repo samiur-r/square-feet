@@ -1,4 +1,5 @@
 import React from 'react'
+import type { AppProps } from 'next/app'
 import {
   Hydrate,
   QueryClient,
@@ -8,7 +9,6 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 
 import { useCreateStore, StoreProvider } from 'store'
 

@@ -67,6 +67,7 @@ export const useCreateStore = (serverInitialState: InitialState) => {
   //
   // eslint complaining "React Hooks must be called in the exact same order in every component render"
   // is ignorable as this code runs in same order in a given environment
+
   useLayoutEffect(() => {
     // serverInitialState is undefined for CSR pages. It is up to you if you want to reset
     // states on CSR page navigation or not. I have chosen not to, but if you choose to,
