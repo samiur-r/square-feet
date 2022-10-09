@@ -20,8 +20,8 @@
 ## Getting started
 
 ```
-git clone https://github.com/q8villa/boshamlan2023.git
-cd boshamlan2023
+git clone https://github.com/q8villa/boshamlan-frontend.git
+cd boshamlan-frontend
 yarn install
 yarn run dev
 ```
