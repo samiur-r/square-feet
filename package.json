@@ -14,7 +14,7 @@
     "test:lighthouse": "bash scripts/lighthouse.sh",
     "test:unit": "jest --watch",
     "test:unit:ci": "jest --ci",
-		"test:e2e": "cypress open"
+    "test:e2e": "cypress open"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.10.1",
@@ -22,6 +22,7 @@
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "yup": "^0.32.11",
     "zustand": "^4.1.1"
   },
   "devDependencies": {
