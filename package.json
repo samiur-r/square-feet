@@ -11,7 +11,9 @@
     "lint:fix": "yarn run _lint -- --fix ./src/",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,scss,md,json}' --config ./.prettierrc.json",
     "prepare": "husky install",
-    "test:lighthouse": "bash scripts/lighthouse.sh"
+    "test:lighthouse": "bash scripts/lighthouse.sh",
+    "test:unit": "jest --watch",
+    "test:unit:ci": "jest --ci"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.10.1",
