@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Droid Arabic Kufi";
-  src: url("../fonts/DroidKufi.ttf");
+  font-family: 'Droid Arabic Kufi';
+  src: url('/fonts/DroidKufi.woff') format('woff');
 }

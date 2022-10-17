@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        droidkufi: ['DroidKufi']
+        sans: ['Droid Arabic Kufi', 'sans-serif']
       }
     }
   },
