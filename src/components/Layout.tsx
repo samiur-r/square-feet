@@ -14,12 +14,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="preload"
-          href="fonts/DroidKufi.woff"
+          href="fonts/DroidKufi.woff&display=swap"
           as="font"
           crossOrigin=""
         />
       </Head>
-      <main className="container border">{children}</main>
+      <main className="container">{children}</main>
       <footer>footer</footer>
     </>
   )
