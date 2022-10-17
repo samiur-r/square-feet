@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           crossOrigin=""
         />
       </Head>
-      <main>{children}</main>
+      <main className="container border">{children}</main>
       <footer>footer</footer>
     </>
   )
