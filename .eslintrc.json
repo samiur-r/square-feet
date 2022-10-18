@@ -34,6 +34,7 @@
         "unnamedComponents": "arrow-function"
       }
     ],
-    "@typescript-eslint/no-unused-vars": "error"
+    "@typescript-eslint/no-unused-vars": "error",
+    "react/require-default-props": "off"
   }
 }

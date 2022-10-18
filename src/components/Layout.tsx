@@ -1,6 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
 
+import Nav from './Nav'
+
 interface LayoutProps {
   children: React.ReactNode
 }
@@ -14,11 +16,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="preload"
-          href="fonts/DroidKufi.woff&display=swap"
+          href="fonts/DroidKufi.woff"
           as="font"
           crossOrigin=""
         />
       </Head>
+      <Nav />
       <main className="container">{children}</main>
       <footer>footer</footer>
     </>

@@ -9,13 +9,12 @@ module.exports = {
   theme: {
     container: {
       center: true,
-			padding: '1rem'
+      padding: '1rem'
     },
     extend: {
       colors: {
-        primary: colors.indigo,
-        secondary: colors.yellow,
-        bg: colors.gray
+        primary: colors.blue,
+        secondary: '#F66F4A'
       },
       fontFamily: {
         sans: ['Droid Arabic Kufi', 'sans-serif']

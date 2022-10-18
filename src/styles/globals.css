@@ -7,3 +7,9 @@
   src: url('/fonts/DroidKufi.woff') format('woff');
 	font-display: swap;
 }
+
+@layer base {
+  body {
+    @apply bg-gray-500;
+  }
+}
