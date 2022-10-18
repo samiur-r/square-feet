@@ -12,7 +12,7 @@ const CTA: React.FC<CTAProps> = ({ title, backgroundColor, Icon }) => {
       type="button"
       className={`${
         backgroundColor === 'primary' ? 'bg-primary-700' : 'bg-secondary'
-      } opacity-60 text-white font-medium py-3 px-10 h-14 md:rounded-lg rounded-full inline-flex items-center`}
+      } opacity-60 text-white font-medium py-3 px-8 md:rounded-lg rounded-full inline-flex items-center`}
     >
       <span>{title}</span>
       {Icon && Icon}

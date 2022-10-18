@@ -22,7 +22,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       </Head>
       <Nav />
-      <main className="container">{children}</main>
+      <main className="container max-w-6xl">{children}</main>
       <footer>footer</footer>
     </>
   )
