@@ -282,12 +282,7 @@ const Nav: React.FC = () => {
           </Popover.Group>
           <div className="flex justify-center items-center pl-5 md:pl-auto lg:w-0 lg:flex-1 w-full">
             <span className="sr-only">Company Logo</span>
-            <Image
-              width="150px"
-              height="47px"
-              src="/images/logo.svg"
-              alt="logo"
-            />
+            <Image width={150} height={47} src="/images/logo.svg" alt="logo" />
           </div>
           <div className="md:hidden">
             <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none">
@@ -323,8 +318,8 @@ const Nav: React.FC = () => {
                 </div>
                 <div>
                   <Image
-                    width="130px"
-                    height="41px"
+                    width={130}
+                    height={41}
                     src="/images/logo.svg"
                     alt="logo"
                   />
