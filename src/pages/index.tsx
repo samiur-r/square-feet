@@ -1,7 +1,12 @@
 import type { NextPage } from 'next'
+import SelectBox from 'components/SearchBox'
 
 const Home: NextPage = () => {
-  return <div className="text-4xl">للبيع</div>
+  return (
+    <div>
+      <SelectBox />
+    </div>
+  )
 }
 
 export default Home

@@ -282,7 +282,7 @@ const Nav: React.FC = () => {
           </Popover.Group>
           <div className="flex justify-center items-center pl-5 md:pl-auto lg:w-0 lg:flex-1 w-full">
             <span className="sr-only">Company Logo</span>
-            <Image width={150} height={47} src="/images/logo.svg" alt="logo" />
+            <Image width={150} height={47} src="/images/logo.png" alt="logo" />
           </div>
           <div className="md:hidden">
             <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none">
@@ -318,9 +318,9 @@ const Nav: React.FC = () => {
                 </div>
                 <div>
                   <Image
-                    width={130}
-                    height={41}
-                    src="/images/logo.svg"
+                    width={150}
+                    height={47}
+                    src="/images/logo.png"
                     alt="logo"
                   />
                 </div>
@@ -338,7 +338,13 @@ const Nav: React.FC = () => {
                         activeItemOnMobile === item.title && 'bg-blue-100'
                       } flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl hover:bg-blue-100 cursor-pointer transition-colors ease-in-out duration-500`}
                     >
-                      <p className="font-semibold">{item.title}</p>
+                      <p
+                        className={`${
+                          item.title === 'إعلان مجانًا' && 'text-secondary'
+                        } font-semibold`}
+                      >
+                        {item.title}
+                      </p>
                       <Image
                         src={item.icon}
                         height={30}
