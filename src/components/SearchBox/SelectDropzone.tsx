@@ -77,6 +77,10 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
     }
   }
 
+  const handleSearchIconClick = () => {
+    toggleLocationDropDown()
+  }
+
   useEffect(() => {
     filterLocations()
   }, [debouncedLocationSearchedVal])
@@ -87,8 +91,8 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
 
   return (
     <>
-      <div className="py-3 w-full min-h-14 md:w-80 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm text-center inline-flex flex-col">
-        <div className="flex items-center border">
+      <div className="py-4 md:py-3 w-full md:w-80 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm text-center inline-flex flex-col">
+        <div className="flex items-center">
           {showLocationDropdown ? (
             <svg
               className="w-5 h-5"
@@ -129,7 +133,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
             dir="rtl"
             placeholder="اكتب المنطقه للبحث"
             value={locationSearchedValue}
-            className="w-60 md:w-52 md:bg-stone-100 text-lg focus:outline-none"
+            className="w-60 md:w-52 md:bg-stone-100 text-md md:text-lg focus:outline-none"
             onClick={toggleLocationDropDown}
             onChange={(e) => setLocationSearchedValue(e.target.value)}
           />
@@ -140,7 +144,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
             strokeWidth="1.5"
             stroke="blue"
             className="w-5 h-5 ml-3"
-            onClick={toggleLocationDropDown}
+            onClick={handleSearchIconClick}
           >
             <path
               strokeLinecap="round"

@@ -1019,6 +1019,9 @@ const SearchBox = () => {
   })
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
   const [filteredPosts, setFilteredPosts] = useState(posts)
+  const [priceRangeSelected, setPricerangeSelected] = useState<
+    Array<number> | undefined
+  >(undefined)
 
   const handleSetPropertyType = (id: number, title: string) => {
     setPropertyType({ id, title })
