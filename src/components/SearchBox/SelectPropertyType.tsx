@@ -43,13 +43,13 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
   return (
     <>
       <button
-        className="py-4 w-full md:w-56 h-14 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm text-center inline-flex items-center"
+        className="py-4 w-full md:w-56 h-14 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm text-center flex items-center"
         type="button"
         onClick={togglePropertyTypeDropDown}
       >
         {showPropertyTypeDropdown ? (
           <svg
-            className="w-5 h-5"
+            className="w-5 h-5 md:w-7 md:h-7"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -65,7 +65,7 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
           </svg>
         ) : (
           <svg
-            className="w-5 h-5"
+            className="w-5 h-5 md:w-7 md:h-7"
             aria-hidden="true"
             fill="none"
             stroke="currentColor"
@@ -89,7 +89,7 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="blue"
-          className="w-5 h-5 ml-3"
+          className="w-5 h-5 md:w-6 md:h-6 ml-3"
         >
           <path
             strokeLinecap="round"
