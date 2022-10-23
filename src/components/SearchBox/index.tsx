@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { PRICE_RANGES } from 'constant'
 import { LocationType } from 'intefaces'
 import SelectDropZone from './SelectDropzone'
 import SelectPropertyType from './SelectPropertyType'
+import FilterModal from './FilterModal'
 
 const propertyTypes = [
   {
@@ -1019,9 +1021,11 @@ const SearchBox = () => {
   })
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
   const [filteredPosts, setFilteredPosts] = useState(posts)
-  const [priceRangeSelected, setPricerangeSelected] = useState<
-    Array<number> | undefined
-  >(undefined)
+  const [priceRange, setPriceRange] = useState([
+    PRICE_RANGES.min,
+    PRICE_RANGES.max
+  ])
+  const [showFilterModal, setShowFilterModal] = useState(false)
 
   const handleSetPropertyType = (id: number, title: string) => {
     setPropertyType({ id, title })
@@ -1120,8 +1124,23 @@ const SearchBox = () => {
         <SelectDropZone
           locations={locations}
           handleSetLocationsSelected={handleSetLocationsSelected}
+          setShowFilterModal={setShowFilterModal}
         />
       </div>
+      {showFilterModal && (
+        <FilterModal
+          purposes={purposes}
+          propertyTypes={propertyTypes}
+          selectedPurpose={purpose}
+          selectedPropertyType={propertyType}
+          selectedPriceRange={priceRange}
+          showFilterModal={showFilterModal}
+          setPurpose={setPurpose}
+          setPropertyType={setPropertyType}
+          setPriceRange={setPriceRange}
+          setShowFilterModal={setShowFilterModal}
+        />
+      )}
     </div>
   )
 }

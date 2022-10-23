@@ -37,6 +37,7 @@
     "@typescript-eslint/no-unused-vars": "error",
     "react/require-default-props": "off",
     "jsx-a11y/label-has-for": "off",
-    "label-has-associated-control": "off"
+    "label-has-associated-control": "off",
+    "react/prop-types": "off"
   }
 }

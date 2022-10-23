@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
 import { LocationType } from 'intefaces'
 
@@ -8,6 +8,7 @@ interface LocationsModalProps {
   setLocationSearchedValue: (title: string) => void
   resetLocation: () => void
   setShowLocationsModal: (show: boolean) => void
+  setShowFilterModal: Dispatch<SetStateAction<boolean>>
 }
 
 const LocationsModal: React.FC<LocationsModalProps> = ({
@@ -15,7 +16,8 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
   handleLocationChanged,
   setLocationSearchedValue,
   resetLocation,
-  setShowLocationsModal
+  setShowLocationsModal,
+  setShowFilterModal
 }) => {
   return (
     <div className="md:hidden absolute top-0 left-0 bg-white z-15 w-full h-full">
@@ -28,6 +30,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
             strokeWidth="1.5"
             stroke="blue"
             className="w-5 h-5 md:w-6 md:h-6 ml-3"
+            onClick={() => setShowFilterModal(true)}
           >
             <path
               strokeLinecap="round"
@@ -53,7 +56,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-8 h-8"
+              className="w-6 h-6"
               onClick={() => setShowLocationsModal(false)}
             >
               <path
@@ -69,7 +72,10 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
         <button
           type="button"
           className="flex w-full justify-end px-4 py-2 m-0 hover:bg-gray-100 text-black font-bold"
-          onClick={resetLocation}
+          onClick={() => {
+            resetLocation()
+            setShowLocationsModal(false)
+          }}
         >
           كل مناطق الكويت
         </button>

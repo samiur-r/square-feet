@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react'
 
 import useComponentVisible from 'hooks/useComponentVisible'
 import useWindowSize from 'hooks/useWindowSize'
 import { LocationType } from 'intefaces'
 import useDebounce from 'hooks/useDebounce'
-
 import LocationsModal from './LocationsModal'
 
 interface SelectDropZoneProps {
   locations: LocationType[]
   handleSetLocationsSelected: (locations: LocationType[]) => void
+  setShowFilterModal: Dispatch<SetStateAction<boolean>>
 }
 
 const SelectDropZone: React.FC<SelectDropZoneProps> = ({
   locations,
-  handleSetLocationsSelected
+  handleSetLocationsSelected,
+  setShowFilterModal
 }) => {
   const {
     ref: locationRef,
@@ -87,7 +88,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
   }
 
   const handleSetShowLocationsModal = (show: boolean) => {
-    if (windowWidth < 768) setShowLocationsModal(show)
+    if ((windowWidth as number) < 768) setShowLocationsModal(show)
   }
 
   useEffect(() => {
@@ -100,87 +101,97 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
 
   return (
     <>
-      <div className="flex items-center px-5 py-4 md:py-3 w-full md:w-80 cursor-text border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm text-center">
-        <div>
-          {showLocationDropdown ? (
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              onClick={() => {
-                toggleLocationDropDown()
-                handleSetShowLocationsModal(true)
-              }}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4.5 15.75l7.5-7.5 7.5 7.5"
+      <div
+        className={`${
+          locationsSelected.length
+            ? 'pb-2 rounded-md'
+            : 'rounded-full md:rounded-lg'
+        } cursor-text border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium text-center`}
+      >
+        <div className="flex items-center justify-between p-4 md:p-3">
+          <div>
+            {showLocationDropdown ? (
+              <svg
+                className="w-5 h-5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                onClick={() => {
+                  toggleLocationDropDown()
+                  handleSetShowLocationsModal(true)
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-5 h-5"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={() => {
+                  toggleLocationDropDown()
+                  handleSetShowLocationsModal(true)
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <div>
+              <input
+                type="text"
+                dir="rtl"
+                placeholder="اكتب المنطقه للبحث"
+                value={locationSearchedValue}
+                className="md:bg-stone-100 text-md md:text-lg focus:outline-none"
+                onClick={() => {
+                  toggleLocationDropDown()
+                  handleSetShowLocationsModal(true)
+                }}
+                onChange={(e) => setLocationSearchedValue(e.target.value)}
               />
-            </svg>
-          ) : (
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={() => {
-                toggleLocationDropDown()
-                handleSetShowLocationsModal(true)
-              }}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          )}
-        </div>
-        <div>
-          <input
-            type="text"
-            dir="rtl"
-            placeholder="اكتب المنطقه للبحث"
-            value={locationSearchedValue}
-            className="w-60 pr-3 md:bg-stone-100 text-md md:text-lg focus:outline-none"
-            onClick={() => {
-              toggleLocationDropDown()
-              handleSetShowLocationsModal(true)
-            }}
-            onChange={(e) => setLocationSearchedValue(e.target.value)}
-          />
-        </div>
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="blue"
-            className="w-5 h-5"
-            onClick={() => {
-              handleSearchIconClick()
-              handleSetShowLocationsModal(true)
-            }}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
+            </div>
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="blue"
+                className="w-5 h-5"
+                onClick={() => {
+                  handleSearchIconClick()
+                  handleSetShowLocationsModal(true)
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
         <div
           className={`${
-            locationsSelected.length ? 'mt-2' : 'mt-0'
+            locationsSelected.length ? 'mx-5 my-1' : 'm-0'
           } flex flex-wrap justify-end`}
         >
           {locationsSelected.map((location: LocationType) => (
@@ -260,6 +271,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
           setLocationSearchedValue={setLocationSearchedValue}
           resetLocation={resetLocation}
           setShowLocationsModal={handleSetShowLocationsModal}
+          setShowFilterModal={setShowFilterModal}
         />
       )}
     </>
