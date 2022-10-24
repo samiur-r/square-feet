@@ -5,7 +5,7 @@ import React from 'react'
 const ApartmentRent = () => {
   return (
     <div className="bg-primary py-10">
-      <div className="container max-w-6xl">
+      <div className="container max-w-6xl px-5">
         <div className="dir-rtl mb-3 text-white text-2xl font-semibold">
           شقق للايجار في الكويت
         </div>
@@ -29,7 +29,7 @@ const ApartmentRent = () => {
             </Link>{' '}
             . باستخدام محرك البحث المبسط تستطيع تحديد البيانات التالية:
           </div>
-          <ul className="list-disc my-5 grid gap-3">
+          <ul className="list-disc my-5 mx-5 grid gap-3">
             <li>
               الغرض من الإعلان:{' '}
               <Link href="/للبيع">

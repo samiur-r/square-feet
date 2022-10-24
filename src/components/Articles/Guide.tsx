@@ -4,7 +4,7 @@ import React from 'react'
 
 const Guide = () => {
   return (
-    <div className="bg-primary py-10">
+    <div className="bg-primary py-10 w-full">
       <div className="container max-w-6xl">
         <div className="dir-rtl mb-3 text-white text-2xl font-semibold">
           بو شملان دليل عقارات الكويت
