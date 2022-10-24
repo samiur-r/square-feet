@@ -27,7 +27,7 @@ const Cards = () => {
   return (
     <div className="container max-w-3xl pt-32 pb-28 grid md:grid-cols-3 gap-20 place-items-center">
       {items.map((item) => (
-        <Link href={item.href}>
+        <Link key={Math.random()} href={item.href}>
           <div className="shadow-md rounded-lg px-12 bg-stone-100 cursor-pointer">
             <div className="bg-blue-100 p-5 rounded-full -mt-10">
               <Image src={item.icon} width={64} height={51} alt="for-sale" />
