@@ -1064,7 +1064,7 @@ const SearchBox = () => {
   }
 
   return (
-    <div className="md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 py-12 mt-20 md:rounded-lg md:shadow-md">
+    <div className="md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 py-12 md:rounded-lg md:shadow-md md:-mt-20 bg-white">
       <button
         type="button"
         className="bg-secondary w-full md:w-auto order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 h-14 md:rounded-lg rounded-full"
@@ -1078,8 +1078,7 @@ const SearchBox = () => {
             key={purposeItem.id}
             type="button"
             className={`${
-              purposeItem.id === purpose.id &&
-              'bg-primary-600 text-white opacity-70'
+              purposeItem.id === purpose.id && 'bg-primary text-white'
             } ${
               index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
             } flex justify-center items-center px-3 py-3 text-lg border-r`}

@@ -86,7 +86,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
             className={`${
               location.type === 'state' && 'text-black font-bold'
             } ${
-              location.type === 'city' && 'text-primary-400'
+              location.type === 'city' && 'text-primary'
             } relative w-full  flex justify-end px-4 py-2 m-0 hover:bg-gray-100`}
             onClick={() => {
               handleLocationChanged(location.id, location.title, location.type)

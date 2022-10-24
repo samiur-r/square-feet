@@ -103,7 +103,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                           key={purpose.id}
                           className={`${
                             selectedPurpose.id === purpose.id
-                              ? 'bg-primary-400 text-white'
+                              ? 'bg-primary text-white'
                               : 'bg-gray-200 text-gray-500 '
                           } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
                           onClick={() =>
@@ -124,7 +124,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                           key={type.id}
                           className={`${
                             selectedPropertyType.id === type.id
-                              ? 'bg-primary-400 text-white'
+                              ? 'bg-primary text-white'
                               : 'bg-gray-200 text-gray-500 '
                           } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
                           onClick={() =>

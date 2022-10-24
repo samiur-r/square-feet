@@ -271,9 +271,9 @@ const Nav: React.FC = () => {
                 onClick={() => handleNavChange(item)}
                 className={`${
                   activeItem === item.title
-                    ? "text-primary-500 after:content-['.'] after:text-primary-500 after:text-3xl after:font-bold after:absolute after:-bottom-4 after:w-full after:left-0"
+                    ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-bold after:absolute after:-bottom-4 after:w-full after:left-0"
                     : 'text-base'
-                } font-medium hover:text-primary-500 relative`}
+                } font-medium hover:text-primary relative`}
                 key={item.title}
               >
                 {item.title}
