@@ -1,8 +1,11 @@
 import type { NextPage } from 'next'
 
 import SelectBox from 'components/SearchBox'
-import Hero from 'components/Hero'
-import Banner from 'components/Banner'
+import Hero from 'components/Home/Hero'
+import Banner from 'components/Home/Banner'
+import Guide from 'components/Articles/Guide'
+import Cards from 'components/Home/Cards'
+import ApartmentRent from 'components/Articles/ApartmentRent'
 
 const Home: NextPage = () => {
   return (
@@ -10,6 +13,9 @@ const Home: NextPage = () => {
       <Hero />
       <SelectBox />
       <Banner />
+      <Guide />
+      <Cards />
+      <ApartmentRent />
     </>
   )
 }

@@ -5,7 +5,11 @@
 @font-face {
   font-family: 'Droid Arabic Kufi';
   src: url('/fonts/DroidKufi.woff') format('woff');
-	font-display: swap;
+  font-display: swap;
+}
+
+.dir-rtl {
+	direction: rtl;
 }
 
 @layer base {
