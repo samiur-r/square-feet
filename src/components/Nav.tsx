@@ -193,7 +193,7 @@ const Nav: React.FC = () => {
   }
 
   return (
-    <Popover className="relative bg-white shadow-sm">
+    <Popover className="fixed top-0 bg-white shadow-sm w-full z-30">
       <div className="container max-w-6xl">
         <div className="flex items-center justify-between border-b-2 border-gray-100 py-3 md:py-5 md:justify-start md:space-x-10">
           <div className="hidden md:flex md:flex-1">

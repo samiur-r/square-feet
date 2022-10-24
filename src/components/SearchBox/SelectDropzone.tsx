@@ -159,7 +159,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
                 dir="rtl"
                 placeholder="اكتب المنطقه للبحث"
                 value={locationSearchedValue}
-                className="md:bg-stone-100 text-md md:text-lg focus:outline-none"
+                className="md:bg-stone-100 text-md md:text-lg focus:outline-none w-full"
                 onClick={() => {
                   toggleLocationDropDown()
                   handleSetShowLocationsModal(true)

@@ -1064,10 +1064,10 @@ const SearchBox = () => {
   }
 
   return (
-    <div className="container max-w-6xl md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 py-12 md:rounded-lg md:shadow-md md:-mt-20 bg-white">
+    <div className="container max-w-6xl md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 py-12 md:rounded-lg md:shadow-md mt-20 md:-mt-20 bg-white">
       <button
         type="button"
-        className="bg-secondary w-full md:w-auto order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 h-14 md:rounded-lg rounded-full"
+        className="bg-secondary w-full md:w-auto order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
         onClick={filterPosts}
       >
         إبحث الآن
