@@ -7,6 +7,7 @@ import Guide from 'components/Articles/Guide'
 import Cards from 'components/Home/Cards'
 import ApartmentRent from 'components/Articles/ApartmentRent'
 import Faq from 'components/Articles/Faq'
+import Posts from 'components/Posts'
 
 const Home: NextPage = () => {
   return (
@@ -14,6 +15,7 @@ const Home: NextPage = () => {
       <Hero />
       <SelectBox />
       <Banner />
+      <Posts />
       <Guide />
       <Cards />
       <ApartmentRent />
