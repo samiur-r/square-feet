@@ -66,11 +66,17 @@ const Posts = () => {
         <div
           key={post.id}
           className={`${
-            post.isSticky ? 'border-red-300 bg-red-50' : 'shadow-md'
-          } rounded-lg border cursor-pointer mt-5 p-3`}
+            post.isSticky
+              ? `
+							border-rose-300 bg-red-50 after:absolute after:content-["مميز"] after:bg-rose-500 after:top-1 after:right-3 after:text-white 
+							after:px-3 after:py-2 before:absolute before:top-7 before:right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
+							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-rose-500 before:p-1`
+              : 'shadow-md'
+          } rounded-lg border cursor-pointer mt-5 py-3 px-5 relative
+					`}
         >
           <div className={`flex gap-5 `}>
-            <div className="flex-grow-0 rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center border">
+            <div className="flex-grow-0 rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center relative ">
               <Image
                 src={post.thumbnail}
                 width={100}
