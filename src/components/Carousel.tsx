@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import Image from 'next/image'
 import { Dialog, Transition } from '@headlessui/react'
 import { Carousel } from 'react-responsive-carousel'
@@ -6,9 +6,15 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loa
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-const Slider = () => {
-  const [open, setOpen] = useState(true)
+import isImage from 'utils/isImage'
 
+interface SliderProps {
+  media: string[]
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+}
+
+const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const next = () => {
@@ -24,12 +30,6 @@ const Slider = () => {
       setCurrentImageIndex(index)
     }
   }
-
-  const sliderMedia = [
-    'slide-placeholder.svg',
-    'slide-placeholder.svg',
-    'slide-placeholder.svg'
-  ]
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -58,7 +58,7 @@ const Slider = () => {
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
-                <div className="h-screen flex flex-col justify-center md:justify-between 2xl:justify-center overflow-hidden">
+                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-10">
                   <Carousel
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
@@ -69,31 +69,56 @@ const Slider = () => {
                     useKeyboardArrows
                     showStatus={false}
                     renderThumbs={() =>
-                      sliderMedia.map((media) => (
-                        <Image
-                          key={Math.random()}
-                          src={`/images/${media}`}
-                          width={150}
-                          height={150}
-                          objectFit="contain"
-                          alt=""
-                        />
-                      ))
+                      media.map((src) =>
+                        isImage(src) ? (
+                          <Image
+                            key={Math.random()}
+                            src={`/images/${src}`}
+                            width={150}
+                            height={150}
+                            objectFit="contain"
+                            alt=""
+                          />
+                        ) : (
+                          // eslint-disable-next-line jsx-a11y/media-has-caption
+                          <video
+                            key={Math.random()}
+                            className="2xl:w-96 2xl:h-96 w-26 h-26"
+                            playsInline
+                          >
+                            <source src={`/images/posts/${src}`} />
+                            Your browser does not support the video tag.
+                          </video>
+                        )
+                      )
                     }
                   >
-                    {sliderMedia.map((media) => (
-                      <Image
-                        key={Math.random()}
-                        src={`/images/${media}`}
-                        alt=""
-                        width={600}
-                        height={600}
-                        objectFit="contain"
-                      />
-                    ))}
+                    {media.map((src) =>
+                      isImage(src) ? (
+                        <Image
+                          key={Math.random()}
+                          src={`/images/${src}`}
+                          alt=""
+                          width={600}
+                          height={600}
+                          objectFit="contain"
+                        />
+                      ) : (
+                        // eslint-disable-next-line jsx-a11y/media-has-caption
+                        <video
+                          key={Math.random()}
+                          className="max-w-3xl"
+                          controls
+                          playsInline
+                        >
+                          <source src={`/images/posts/${src}`} />
+                          Your browser does not support the video tag.
+                        </video>
+                      )
+                    )}
                   </Carousel>
                 </div>
-                <div className="absolute top-0 right-0 w-8 md:w-16 cursor-pointer m-2 z-10">
+                <div className="absolute top-0 right-0 w-8 md:w-10 cursor-pointer m-2 z-10">
                   <XMarkIcon
                     className="text-white"
                     onClick={() => setOpen(false)}

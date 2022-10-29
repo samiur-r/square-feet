@@ -1,6 +1,9 @@
-import Carousel from 'components/Carousel'
 import type { NextPage } from 'next'
+import { useState } from 'react'
 import Image from 'next/image'
+
+import Carousel from 'components/Carousel'
+import isImage from 'utils/isImage'
 
 const post = {
   id: 0,
@@ -13,13 +16,21 @@ const post = {
   isSticky: true,
   mobile: '1234',
   thumbnail: '/images/posts/post.jpeg',
-  media: ['', '']
+  media: [
+    'post.mp4',
+    'slide-placeholder.svg',
+    'slide-placeholder.svg',
+    'slide-placeholder.svg',
+    'slide-placeholder.svg',
+    'slide-placeholder.svg'
+  ]
 }
 
 const Posts: NextPage = () => {
+  const [showCarousel, setShowCarousel] = useState(true)
   return (
     <div className="dir-rtl grid gap-12 pb-12">
-      <div className="bg-primary flex flex-col gap-7 justify-center items-center text-white px-5 py-16">
+      <div className="bg-primary flex flex-col gap-7 justify-center items-center text-white px-5 py-8 md:py-16">
         <h1 className="font-bold text-4xl text-center">{post.title}</h1>
         <div className="font-bold text-2xl ">{post.price} دك</div>
         <div className="flex gap-5 dir-ltr">
@@ -57,8 +68,60 @@ const Posts: NextPage = () => {
             />
           </div>
         </div>
+        <div className="mt-16 relative flex flex-col items-center">
+          <div className="relative">
+            {isImage(post.media[0]) ? (
+              <Image
+                key={Math.random()}
+                src={`/images/${post.media[0]}`}
+                alt=""
+                width={500}
+                height={500}
+                objectFit="contain"
+                className="cursor-pointer"
+                onClick={() => setShowCarousel(true)}
+              />
+            ) : (
+              // eslint-disable-next-line jsx-a11y/media-has-caption
+              <video
+                className="max-w-lg"
+                controls
+                onClick={() => setShowCarousel(true)}
+              >
+                <source src={`/images/posts/${post.media[0]}`} />
+                Your browser does not support the video tag.
+              </video>
+            )}
+          </div>
+          <div className="mt-5 flex flex-wrap justify-center gap-5">
+            {post.media.map((src) =>
+              isImage(src) ? (
+                <Image
+                  key={Math.random()}
+                  src={`/images/${src}`}
+                  width={100}
+                  height={100}
+                  objectFit="contain"
+                  alt=""
+                  className="cursor-pointer"
+                  onClick={() => setShowCarousel(true)}
+                />
+              ) : (
+                // eslint-disable-next-line jsx-a11y/media-has-caption
+                <video className="w-24 h-24" controls>
+                  <source src={`/images/posts/${src}`} />
+                  Your browser does not support the video tag.
+                </video>
+              )
+            )}
+          </div>
+        </div>
         <div>
-          <Carousel />
+          <Carousel
+            media={post.media}
+            open={showCarousel}
+            setOpen={setShowCarousel}
+          />
         </div>
       </div>
     </div>
