@@ -193,9 +193,9 @@ const Nav: React.FC = () => {
   }
 
   return (
-    <Popover className="fixed top-0 bg-white shadow-sm w-full z-30">
-      <div className="container max-w-6xl">
-        <div className="flex items-center justify-between border-b-2 border-gray-100 py-3 md:py-5 md:justify-start md:space-x-10">
+    <Popover className="fixed top-0 bg-white shadow-sm w-full z-20 h-24">
+      <div className="container max-w-6xl h-full">
+        <div className="h-full flex items-center justify-between md:justify-start md:space-x-10">
           <div className="hidden md:flex md:flex-1">
             <CTA
               title="إضافة إعلان"
@@ -224,7 +224,7 @@ const Nav: React.FC = () => {
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 translate-y-1"
                   >
-                    <Popover.Panel className="absolute z-10 transform">
+                    <Popover.Panel className="absolute z-20 transform">
                       <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                         <div className="bg-white w-48">
                           {realEstate.map((item, index) => (
@@ -382,7 +382,7 @@ const Nav: React.FC = () => {
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 translate-y-1"
                       >
-                        <Popover.Panel className="absolute z-10 transform">
+                        <Popover.Panel className="absolute z-20 transform">
                           <div className="overflow-hidden rounded-lg w-full shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="bg-white w-full">
                               {realEstate.map((item, index) => (

@@ -2,7 +2,7 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    <div className="bg-primary text-white font-bold text-4xl pt-5 justify-center items-center h-96 hidden md:flex">
+    <div className="bg-primary text-white font-bold text-4xl justify-center items-start pt-16 h-64 hidden md:flex">
       شقق للإيجار | بيوت للبيع
     </div>
   )

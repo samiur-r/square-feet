@@ -14,7 +14,8 @@ module.exports = {
     extend: {
       colors: {
         primary: '#6598CB',
-        secondary: '#F66F4A'
+        secondary: '#F66F4A',
+        primaryGlassEffect: '#608fbf'
       },
       fontFamily: {
         sans: ['Droid Arabic Kufi', 'sans-serif']

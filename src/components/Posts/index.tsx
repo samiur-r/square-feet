@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import React from 'react'
+import Image from 'next/image'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
 
 import CTA from 'components/CTA'

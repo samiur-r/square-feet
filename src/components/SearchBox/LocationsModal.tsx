@@ -20,8 +20,8 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
   setShowFilterModal
 }) => {
   return (
-    <div className="md:hidden absolute top-0 left-0 bg-white z-15 w-full h-full">
-      <div className="flex justify-between items-center p-5 gap-3 shadow-md">
+    <div className="md:hidden fixed overflow-scroll top-0 left-0 bottom-0 bg-white z-20 w-full h-full">
+      <div className="flex justify-between items-center p-5 mb-5 gap-3 shadow-md">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,10 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
             strokeWidth="1.5"
             stroke="blue"
             className="w-5 h-5 md:w-6 md:h-6 ml-3"
-            onClick={() => setShowFilterModal(true)}
+            onClick={() => {
+              setShowFilterModal(true)
+              setShowLocationsModal(false)
+            }}
           >
             <path
               strokeLinecap="round"
@@ -68,7 +71,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
           </div>
         </div>
       </div>
-      <div className="">
+      <div className="bg-white">
         <button
           type="button"
           className="flex w-full justify-end px-4 py-2 m-0 hover:bg-gray-100 text-black font-bold"
@@ -91,6 +94,11 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
             onClick={() => {
               handleLocationChanged(location.id, location.title, location.type)
               setShowLocationsModal(false)
+              window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+              })
             }}
           >
             {location.type === 'city' && (

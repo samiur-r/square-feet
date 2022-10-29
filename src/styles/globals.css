@@ -9,7 +9,11 @@
 }
 
 .dir-rtl {
-	direction: rtl;
+  direction: rtl;
+}
+
+.dir-ltr {
+  direction: ltr;
 }
 
 @layer base {
@@ -17,3 +21,42 @@
     @apply bg-white;
   }
 }
+
+/* carousel style overrides start*/
+.carousel:nth-of-type(2) {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+.carousel .slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.carousel .thumbs-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel .thumbs {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel .thumb {
+  display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+	padding: 0 !important;
+}
+
+@media screen and (min-width: 1920px) {
+		.carousel .thumb{
+			flex-basis: 150px !important;
+			height: 150px !important;
+		}
+}
+/* carousel style overrides end*/
