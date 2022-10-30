@@ -57,7 +57,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
         ) : (
           <button
             type="button"
-            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
+            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 rounded-lg"
           >
             دخول
           </button>

@@ -4,7 +4,7 @@ import Auth from 'components/Auth'
 
 const link = {
   title: 'اضغط هنا إذا نسيت كلمة السر؟',
-  href: 'https://kw.boshamlan.com/password/reset'
+  href: '/password/reset'
 }
 
 const login: NextPage = () => {

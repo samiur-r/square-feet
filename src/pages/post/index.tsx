@@ -27,7 +27,7 @@ const post = {
 }
 
 const Posts: NextPage = () => {
-  const [showCarousel, setShowCarousel] = useState(true)
+  const [showCarousel, setShowCarousel] = useState(false)
   return (
     <div className="dir-rtl grid gap-12 pb-12">
       <div className="bg-primary flex flex-col gap-7 justify-center items-center text-white px-5 py-8 md:py-16">
