@@ -17,7 +17,7 @@ const post = {
   mobile: '1234',
   thumbnail: '/images/posts/post.jpeg',
   media: [
-    'post.mp4',
+    'slide-placeholder.svg',
     'slide-placeholder.svg',
     'slide-placeholder.svg',
     'slide-placeholder.svg',
