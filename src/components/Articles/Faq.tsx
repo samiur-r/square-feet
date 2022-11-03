@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import Accordion from 'components/Accordion'
 import React from 'react'
 
@@ -45,14 +44,14 @@ const faqs = [
   }
 ]
 
-const Faq = () => {
+const Faq: React.FC<{ bgPrimary: boolean }> = ({ bgPrimary }) => {
   return (
-    <div className="bg-primary py-10">
+    <div className={`${bgPrimary && 'bg-primary text-white'} py-10`}>
       <div className="container max-w-6xl">
-        <div className="dir-rtl mb-3 text-white text-2xl font-semibold">
+        <h3 className="dir-rtl mb-3 text-2xl font-semibold">
           الأسئلة الشائعة عن العقارات المعروضة للايجار او للبيع في الكويت
-        </div>
-        <div className="text-white text-sm md:text-lg dir-rtl">
+        </h3>
+        <div className="text-sm md:text-lg dir-rtl">
           {faqs.map((faq) => (
             <Accordion key={faq.id} title={faq.question} content={faq.answer} />
           ))}

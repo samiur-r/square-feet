@@ -20,7 +20,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
   setShowFilterModal
 }) => {
   return (
-    <div className="md:hidden fixed overflow-scroll top-0 left-0 bottom-0 bg-white z-20 w-full h-full">
+    <div className="fixed overflow-scroll top-0 left-0 bottom-0 bg-white z-20 w-full h-full">
       <div className="flex justify-between items-center p-5 mb-5 gap-3 shadow-md">
         <div>
           <svg

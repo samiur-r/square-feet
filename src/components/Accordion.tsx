@@ -16,9 +16,7 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
           {title}
         </p>
       </button>
-      <div className="h-12 overflow-auto overflow-hidden text-start text-base">
-        {content}
-      </div>
+      <div className="h-12 overflow-hidden text-start text-base">{content}</div>
     </div>
   )
 }

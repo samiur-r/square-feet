@@ -19,6 +19,14 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Droid Arabic Kufi', 'sans-serif']
+      },
+      maxHeight: {
+        128: '32rem',
+        256: '64rem',
+        384: '96rem'
+      },
+      transitionDuration: {
+        2000: '2000ms'
       }
     }
   },

@@ -1,17 +1,17 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   XMarkIcon,
   PlusCircleIcon
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
-import LocationsDropDown from './SearchBox/LocationsDropDown'
 import CTA from './CTA'
+import AutoComplete from './AutoComplete'
 
 const realEstate = [
   {
@@ -1135,6 +1135,8 @@ const Nav: React.FC = () => {
   const [activeItemOnMobile, setActiveItemOnMobile] = useState(
     mobileNavItems[0].title
   )
+  const [isFilterPage, setIsFilterPage] = useState(false)
+  const [isLocationDropDownOpen, setIsLocationDropDownOpen] = useState(false)
 
   const handleShowSubRealState = (index: number) => {
     setShowSubRealState(
@@ -1154,22 +1156,27 @@ const Nav: React.FC = () => {
     setActiveItemOnMobile(item.title)
   }
 
+  useEffect(() => {
+    setIsFilterPage(pathname === '/filter')
+  }, [pathname])
+
   return (
     <Popover className="fixed top-0 bg-white shadow-sm w-full z-20 h-24">
       <div className="container max-w-6xl h-full items-center flex">
         <div
           className={`${
-            pathname === '/filter' && 'border'
+            isFilterPage && 'border'
           } w-full flex items-center justify-between md:space-x-10 rounded-lg md:border-0`}
         >
-          {pathname && pathname === '/filter' && (
-            <LocationsDropDown
-              propertyTypes={propertyTypes}
-              purposes={purposes}
+          {isFilterPage && (
+            <AutoComplete
               locations={locations}
+              purposes={purposes}
+              propertyTypes={propertyTypes}
+              handleIsLocationDropDownOpen={setIsLocationDropDownOpen}
             />
           )}
-          {pathname && pathname !== '/filter' && (
+          {!isFilterPage && (
             <div className="hidden md:flex w-3/12">
               <CTA
                 title="إضافة إعلان"
@@ -1178,7 +1185,7 @@ const Nav: React.FC = () => {
               />
             </div>
           )}
-          {pathname && pathname !== '/filter' && (
+          {!isFilterPage && (
             <Popover.Group
               as="nav"
               className="hidden md:flex justify-between w-7/12"
@@ -1265,14 +1272,37 @@ const Nav: React.FC = () => {
           )}
           <div
             className={`${
-              pathname === '/filter' && 'hidden'
+              isFilterPage && 'hidden'
             } flex md:flex justify-center items-center pl-5 md:pl-0 w-full md:w-2/12`}
           >
             <span className="sr-only">Company Logo</span>
-            <Image width={150} height={47} src="/images/logo.png" alt="logo" />
+            <Link href="/">
+              <a>
+                <Image
+                  width={150}
+                  height={47}
+                  src="/images/logo.png"
+                  alt="logo"
+                />
+              </a>
+            </Link>
           </div>
-          <div className={`${pathname !== '/filter' && 'md:hidden'}`}>
-            <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none">
+          <div className={`${!isFilterPage && 'md:hidden'}`}>
+            <div
+              className={`${
+                isLocationDropDownOpen ? 'block md:hidden' : 'hidden'
+              }`}
+            >
+              <ChevronRightIcon
+                className="h-9 w-9 text-gray-600"
+                aria-hidden="true"
+              />
+            </div>
+            <Popover.Button
+              className={`${
+                isLocationDropDownOpen && 'hidden md:inline-flex'
+              } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none`}
+            >
               <span className="sr-only">Open menu</span>
               <Bars3Icon className="h-9 w-9" aria-hidden="true" />
             </Popover.Button>
@@ -1293,7 +1323,7 @@ const Nav: React.FC = () => {
         <Popover.Panel
           focus
           className={`${
-            pathname !== '/filter' && 'md:hidden'
+            !isFilterPage && 'md:hidden'
           } absolute top-0 right-0 transform transition w-10/12 md:w-3/12 h-screen`}
         >
           <div className="rounded-lg bg-white shadow-2xl h-full flex flex-col justify-between">

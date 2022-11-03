@@ -19,7 +19,7 @@ const Home: NextPage = () => {
       <Guide />
       <Cards />
       <ApartmentRent />
-      <Faq />
+      <Faq bgPrimary />
     </>
   )
 }
