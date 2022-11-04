@@ -1,11 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { OfficeType } from 'intefaces'
+import { AgencyType } from 'intefaces'
 import PackageCard from './PackageCard'
-import OfficeCard from './OfficeCard'
+import AgencyCard from './AgencyCard'
 
-const Office: React.FC<{ officeList: OfficeType[] }> = ({ officeList }) => {
+const Agency: React.FC<{ agencyList: AgencyType[] }> = ({ agencyList }) => {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex justify-center">
@@ -25,18 +25,19 @@ const Office: React.FC<{ officeList: OfficeType[] }> = ({ officeList }) => {
         قائمة المكاتب
       </h1>
       <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-5">
-        {officeList.map((office) => (
-          <OfficeCard
-            key={office.id}
-            thumbnail={office.thumbnail}
-            title={office.title}
-            phone={office.phone}
-            socialLinks={office.socialLinks}
-          />
+        {agencyList.map((agency) => (
+          <Link key={agency.id} href="/agency">
+            <AgencyCard
+              thumbnail={agency.thumbnail}
+              title={agency.title}
+              phone={agency.phone}
+              socialLinks={agency.socialLinks}
+            />
+          </Link>
         ))}
       </div>
     </div>
   )
 }
 
-export default Office
+export default Agency

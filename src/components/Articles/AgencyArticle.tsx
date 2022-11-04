@@ -1,6 +1,6 @@
 import React from 'react'
 
-const OfficesArticle = () => {
+const AgencyArticle = () => {
   return (
     <div className="dir-rtl bg-primary py-10">
       <div className="container max-w-6xl px-5 text-white text-sm md:text-lg">
@@ -134,4 +134,4 @@ const OfficesArticle = () => {
   )
 }
 
-export default OfficesArticle
+export default AgencyArticle

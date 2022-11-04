@@ -2,16 +2,16 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { OfficeType } from 'intefaces'
+import { AgencyType } from 'intefaces'
 
-const OfficeCard: React.FC<OfficeType> = ({
+const AgencyCard: React.FC<AgencyType> = ({
   thumbnail,
   title,
   phone,
   socialLinks
 }) => {
   return (
-    <div className="flex flex-col w-44 justify-center items-center gap-5 bg-white p-2 rounded-lg border border-gray-300 shadow-sm">
+    <div className="flex flex-col w-44 justify-center items-center gap-5 bg-white p-2 rounded-lg border border-gray-300 shadow-sm cursor-pointer">
       <div className="w-40 h-40 rounded-lg overflow-hidden relative border">
         <Image src={thumbnail} layout="fill" objectFit="cover" />
       </div>
@@ -47,4 +47,4 @@ const OfficeCard: React.FC<OfficeType> = ({
   )
 }
 
-export default OfficeCard
+export default AgencyCard

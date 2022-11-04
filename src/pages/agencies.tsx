@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
 
-import Office from 'components/Office'
-import OfficesArticle from 'components/Articles/OfficesArticle'
+import Agency from 'components/Agency'
+import AgencyArticle from 'components/Articles/AgencyArticle'
 
-const officeList = [
+const agencyList = [
   {
     id: 1,
     thumbnail: '/images/nopic-ar.jpg',
@@ -150,15 +150,15 @@ const officeList = [
   }
 ]
 
-const Offices: NextPage = () => {
+const Agencies: NextPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-5">
       <div className="dir-rtl container max-w-6xl py-10 flex flex-col items-center gap-5">
-        <Office officeList={officeList} />
+        <Agency agencyList={agencyList} />
       </div>
-      <OfficesArticle />
+      <AgencyArticle />
     </div>
   )
 }
 
-export default Offices
+export default Agencies

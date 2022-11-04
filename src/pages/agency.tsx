@@ -1,9 +1,8 @@
 import type { NextPage } from 'next'
-import { LegacyRef, useCallback } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import PostCard from 'components/Posts/PostCard'
-import FilterArticle from 'components/Articles/Filter'
 
 const posts = [
   {
@@ -59,55 +58,52 @@ const posts = [
   }
 ]
 
-const Filter: NextPage = () => {
-  const scroll = useCallback(
-    (
-      node: {
-        getBoundingClientRect: () => {
-          (): unknown
-          new (): unknown
-          top: number | undefined
-        }
-      } | null
-    ) => {
-      if (node !== null) {
-        window.scrollTo({
-          top: node.getBoundingClientRect().top,
-          behavior: 'smooth'
-        })
-      }
-    },
-    []
-  )
-
+const Agency: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl py-10 flex flex-col">
-      <div className="flex flex-col gap-5">
-        <FilterArticle />
-        <h3
-          ref={scroll as LegacyRef<HTMLHeadingElement>}
-          className="font-semibold text-xl"
-        >
-          قد تهمك نتائج بحث مشابهة
-        </h3>
-        <div>
-          <Link href="/">
-            <a className="text-primary underline">عقارات للبيع في الكويت</a>
-          </Link>
+    <div className="dir-rtl pb-12">
+      <div className="bg-primary flex flex-col md:flex-row gap-10 justify-center items-center text-white px-3 py-20">
+        <div className="w-40 h-40 rounded-lg overflow-hidden relative border">
+          <Image src="/images/nopic-ar.jpg" layout="fill" objectFit="cover" />
+        </div>
+        <div className="flex flex-col items-center">
+          <h3 className="text-xl font-bold tracking-widest mb-5">
+            شركة العتيقي العقارية
+          </h3>
+          <p>القبلة، شارع فهد السالم، مجمع الدولية، الميزانين، مكتب رقم ١٦٨</p>
+          <p className="mt-2">instagram: @alateeqire</p>
+          <a
+            href="tel:+96599491575"
+            className="bg-green-600 hover:bg-green-700 w-40 flex items-center justify-center gap-2 text-center text-white py-5 mt-10 rounded-md"
+          >
+            99491575{' '}
+            <Image
+              src="/images/call-white.svg"
+              height={16}
+              width={16}
+              className="text-white"
+            />
+          </a>
+          <div className="flex gap-3 justify-center mt-5">
+            <Link href="/">
+              <a className="p-2 rounded-full bg-blue-600 flex items-center ">
+                <Image
+                  src="/images/instagram-white.svg"
+                  width={18}
+                  height={18}
+                />
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="max-w-4xl flex flex-col gap-5 mt-5 items-end p-2 md:p-5 self-end">
-        <h1 className="font-semibold text-2xl self-start">
-          شاليهات للبيع في الكويت (100 إعلان)
-        </h1>
-        <div className="w-full">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
+      <div className="container max-w-4xl mt-10">
+        <h3 className="text-xl font-bold">اعلانات المكتب</h3>
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
       </div>
     </div>
   )
 }
 
-export default Filter
+export default Agency

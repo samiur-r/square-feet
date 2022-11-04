@@ -11,7 +11,8 @@ export interface WindowSize {
   height: number | undefined
 }
 
-export interface OfficeType {
+export interface AgencyType {
+  id?: number
   thumbnail: string
   title: string
   phone: string
