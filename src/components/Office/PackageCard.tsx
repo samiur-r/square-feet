@@ -7,7 +7,7 @@ const PackageCard = () => {
   const [openModal, setOpenModal] = useState(false)
 
   return (
-    <div className="flex flex-col md:flex-row items-center gap-5 bg-white p-5 rounded-lg border border-gray-300 shadow-sm">
+    <div className="flex flex-col md:flex-row items-center md:max-w-min gap-5 bg-white p-5 rounded-lg border border-gray-300 shadow-sm">
       <div className="rounded-lg h-52 w-52 overflow-hidden relative">
         <Image src="/images/subscribe.png" layout="fill" objectFit="contain" />
         <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
