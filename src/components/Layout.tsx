@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       </Head>
       <Nav />
-      <main className="mt-24 min-h-screen">{children}</main>
+      <main className="mt-24">{children}</main>
       <Footer />
     </>
   )

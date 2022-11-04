@@ -9,7 +9,7 @@ const Agency: React.FC<{ agencyList: AgencyType[] }> = ({ agencyList }) => {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex justify-center">
-        <PackageCard />
+        <PackageCard styleRow />
       </div>
       <div className="flex justify-center gap-2 pb-5">
         <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">

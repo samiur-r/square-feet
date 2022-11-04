@@ -3,11 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PackageModal from './PackageModal'
 
-const PackageCard = () => {
+const PackageCard: React.FC<{ styleRow?: boolean }> = ({ styleRow }) => {
   const [openModal, setOpenModal] = useState(false)
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:max-w-min gap-5 bg-white p-5 rounded-lg border border-gray-300 shadow-sm">
+    <div
+      className={`${
+        styleRow && 'md:flex-row'
+      } flex flex-col items-center md:max-w-max gap-5 bg-white p-5 rounded-lg border border-gray-300 shadow-sm`}
+    >
       <div className="rounded-lg h-52 w-52 overflow-hidden relative">
         <Image src="/images/subscribe.png" layout="fill" objectFit="contain" />
         <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
@@ -24,14 +28,12 @@ const PackageCard = () => {
         <div className="flex flex-col gap-3">
           <Link href="https://www.kpay.com">
             <a className="bg-secondary opacity-80 text-white px-20 py-4 rounded-md hover:opacity-100">
-              {' '}
-              2 أشهر 100 دك{' '}
+              2 أشهر 100 دك
             </a>
           </Link>
           <Link href="https://www.kpay.com">
             <a className="bg-secondary opacity-80 text-white px-20 py-4 rounded-md hover:opacity-100">
-              {' '}
-              6 أشهر 270 دك{' '}
+              6 أشهر 270 دك
             </a>
           </Link>
         </div>
