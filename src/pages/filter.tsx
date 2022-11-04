@@ -60,30 +60,40 @@ const posts = [
 ]
 
 const Filter: NextPage = () => {
-  const scroll = useCallback((node) => {
-    if (node !== null) {
-      window.scrollTo({
-        top: node.getBoundingClientRect().top,
-        behavior: 'smooth'
-      })
-    }
-  }, [])
+  const scroll = useCallback(
+    (
+      node: {
+        getBoundingClientRect: () => {
+          (): unknown
+          new (): unknown
+          top: unknown
+        }
+      } | null
+    ) => {
+      if (node !== null) {
+        window.scrollTo({
+          top: node.getBoundingClientRect().top,
+          behavior: 'smooth'
+        })
+      }
+    },
+    []
+  )
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col">
       <div className="flex flex-col gap-5">
         <FilterArticle />
-        <h3 className="font-semibold text-xl">قد تهمك نتائج بحث مشابهة</h3>
+        <h3 ref={scroll} className="font-semibold text-xl">
+          قد تهمك نتائج بحث مشابهة
+        </h3>
         <div>
           <Link href="/">
             <a className="text-primary underline">عقارات للبيع في الكويت</a>
           </Link>
         </div>
       </div>
-      <div
-        ref={scroll}
-        className="max-w-4xl flex flex-col gap-5 mt-5 items-end p-2 md:p-5 self-end"
-      >
+      <div className="max-w-4xl flex flex-col gap-5 mt-5 items-end p-2 md:p-5 self-end">
         <h1 className="font-semibold text-2xl self-start">
           شاليهات للبيع في الكويت (100 إعلان)
         </h1>
