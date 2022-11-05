@@ -11,7 +11,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 import CTA from './CTA'
-import AutoComplete from './AutoComplete'
+import FilterAutoComplete from './FilterAutoComplete'
 
 const realEstate = [
   {
@@ -1169,7 +1169,7 @@ const Nav: React.FC = () => {
           } w-full flex items-center justify-between md:space-x-10 rounded-lg md:border-0`}
         >
           {isFilterPage && (
-            <AutoComplete
+            <FilterAutoComplete
               locations={locations}
               purposes={purposes}
               propertyTypes={propertyTypes}
