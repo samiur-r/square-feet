@@ -13,9 +13,13 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   locations,
   isHomePage
 }) => {
-  const [selected, setSelected] = useState({
-    title: 'اكتب-المنطقه للبحث'
-  })
+  const [selected, setSelected] = useState(
+    isHomePage
+      ? {
+          title: 'اكتب-المنطقه للبحث'
+        }
+      : undefined
+  )
 
   const [query, setQuery] = useState('')
 
@@ -31,7 +35,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
   return (
     <div className="dir-rtl w-full">
-      <Combobox value={isHomePage ? selected : null} onChange={setSelected}>
+      <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <div>
             {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
@@ -120,7 +124,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                         <Combobox.Option
                           key={location.id}
                           className="relative cursor-default select-none"
-                          value={location}
+                          value={
+                            isHomePage || location.type === 'city'
+                              ? location
+                              : undefined
+                          }
                         >
                           {isHomePage && location.type === 'city' && (
                             <span className="absolute left-5">
