@@ -34,7 +34,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full">
+    <div className="dir-rtl w-full relative mt-10">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <div>
@@ -75,7 +75,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   {!isHomePage && (
                     <label
                       htmlFor="location"
-                      className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1"
+                      className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1"
                     >
                       المنطقه
                     </label>

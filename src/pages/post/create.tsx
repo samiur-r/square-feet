@@ -1,4 +1,5 @@
 import AutoComplete from 'components/AutoComplete'
+import Select from 'components/Select'
 import type { NextPage } from 'next'
 
 const locations = [
@@ -947,31 +948,142 @@ const propertyTypes = [
   }
 ]
 
+const purposes = [
+  {
+    id: 0,
+    title: 'للبدل'
+  },
+  {
+    id: 1,
+    title: 'للبيع'
+  },
+  {
+    id: 2,
+    title: 'للايجار'
+  }
+]
+
 const CreatePost: NextPage = () => {
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-5 items-center tracking-wider">
       <h1 className="text-xl font-bold">إضافة إعلان</h1>
       <p className="text-gray-500">أدخل البيانات التالية لإضافة اعلان</p>
-      <form className="w-full max-w-md">
+      <form className="w-full max-w-lg">
         <div className="relative mt-10">
           <input
             type="number"
             name="phone"
             id="phone"
-            className="block bg-gray-50 px-2.5 py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block bg-gray-50 px-2.5 py-4 w-full text-base text-gray-400 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=""
             value="65432165"
             disabled
           />
           <label
             htmlFor="phone"
-            className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1"
+            className="absolute cursor-text text-md text-gray-500 duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-1"
           >
             رقم الموبايل{' '}
           </label>
         </div>
+        <AutoComplete locations={locations} />
+        <Select options={propertyTypes} placeholder="نوع العقار" />
+        <Select options={purposes} placeholder="الغرض" />
         <div className="relative mt-10">
-          <AutoComplete locations={locations} />
+          <input
+            type="number"
+            name="price"
+            id="price"
+            className="block px-2.5 py-4 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+          />
+          <label
+            htmlFor="price"
+            className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-1"
+          >
+            السعر (اختياري)
+          </label>
+        </div>
+        <div className="relative mt-10">
+          <textarea
+            name="description"
+            rows={5}
+            className="block px-2.5 py-3 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+          />
+          <label
+            htmlFor="description"
+            className="absolute pointer-events-none cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-3"
+          >
+            اكتب تفاصيل الاعلان هنا{' '}
+          </label>
+        </div>
+        <div className="relative mt-10">
+          <input
+            type="number"
+            name="price"
+            id="price"
+            className="block px-2.5 py-4 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+          />
+          <label
+            htmlFor="price"
+            className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-1"
+          >
+            السعر (اختياري)
+          </label>
+        </div>
+        <div className="flex justify-center items-center w-full mt-10">
+          <label
+            htmlFor="dropzone-file"
+            className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          >
+            <div className="flex flex-col justify-center items-center pt-5 pb-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-12 h-12 text-primary"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                />
+              </svg>
+
+              <p className="mb-2 mt-2 text-sm text-gray-500 dark:text-gray-400 flex flex-col items-center">
+                إضافة الصور<span className="block">(اختياري)</span>
+              </p>
+            </div>
+            <input id="dropzone-file" type="file" className="hidden" />
+          </label>
+        </div>
+        <div className="flex items-center mt-10">
+          <input
+            id="checked-checkbox"
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label htmlFor="checked-checkbox" className="mr-3 font-medium">
+            <a className="hover:underline flex gap-3 cursor-pointer">
+              <p className="text-primary text-base">
+                إجعل إعلاني مميزًا مقابل 12 دك
+              </p>
+              <p className="text-secondary text-base">(لمعرفة المزيد)</p>
+            </a>
+          </label>
+        </div>
+        <div className="mt-10">
+          <button
+            type="button"
+            className="bg-secondary text-white rounded-lg w-full mt-8 py-4 opacity-80 hover:opacity-100"
+          >
+            إضافة الإعلان{' '}
+          </button>
         </div>
       </form>
     </div>
