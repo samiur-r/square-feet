@@ -44,7 +44,7 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
     <>
       {/* eslint-disable-next-line */}
       <div
-        className="flex justify-between md:w-60 py-4 h-14 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm"
+        className="flex justify-between relative z-10 md:w-60 py-4 h-14 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm"
         onClick={togglePropertyTypeDropDown}
       >
         <div>
