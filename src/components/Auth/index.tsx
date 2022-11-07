@@ -7,12 +7,14 @@ export interface AuthProps {
     title: string
     href: string
   }
+  headline: string
+  description: string
 }
 
-const Auth: React.FC<AuthProps> = ({ type, link }) => {
+const Auth: React.FC<AuthProps> = ({ type, link, headline, description }) => {
   return (
     <div className="container max-w-md grid place-items-center py-16 px-5">
-      <Header />
+      <Header headline={headline} description={description} />
       <Form type={type} link={link} />
     </div>
   )

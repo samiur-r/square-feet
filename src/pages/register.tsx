@@ -7,10 +7,18 @@ const link = {
   href: 'https://kw.boshamlan.com/terms-and-conditions'
 }
 
+const headline = 'تسجيل'
+const description = 'اكتب رقم موبايلك المسجل وكلمة المرور للدخول إلى حسابك'
+
 const register: NextPage = () => {
   return (
     <div>
-      <Auth type="register" link={link} />
+      <Auth
+        type="register"
+        link={link}
+        headline={headline}
+        description={description}
+      />
     </div>
   )
 }

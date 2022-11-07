@@ -63,6 +63,23 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           </button>
         )}
       </div>
+      <div className="mt-10 flex gap-3 justify-center">
+        {type === 'login' ? (
+          <>
+            <p>لا تمتلك حساب؟</p>
+            <Link href="/register">
+              <a className="text-primary hover:underline">تسجيل</a>
+            </Link>
+          </>
+        ) : (
+          <>
+            <p>يس لديك حساب</p>
+            <Link href="/login">
+              <a className="text-primary hover:underline">دخول</a>
+            </Link>
+          </>
+        )}
+      </div>
     </form>
   )
 }
