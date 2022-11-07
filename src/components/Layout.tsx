@@ -3,6 +3,7 @@ import Head from 'next/head'
 
 import Nav from './Nav'
 import Footer from './Footer'
+// import Breadcrumbs from './Breadcrumbs'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -23,7 +24,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       </Head>
       <Nav />
-      <main className="mt-24">{children}</main>
+      <div className="h-24" />
+      {/* <Breadcrumbs /> */}
+      <main>{children}</main>
       <Footer />
     </>
   )
