@@ -77,7 +77,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                             width={150}
                             height={150}
                             objectFit="contain"
-                            alt=""
+                            alt="post_image"
                           />
                         ) : (
                           // eslint-disable-next-line jsx-a11y/media-has-caption
@@ -98,7 +98,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                         <Image
                           key={Math.random()}
                           src={`/images/${src}`}
-                          alt=""
+                          alt="post_image"
                           width={600}
                           height={600}
                           objectFit="contain"

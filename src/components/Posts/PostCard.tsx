@@ -38,6 +38,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             width={100}
             height={100}
             objectFit="cover"
+            alt="property_image"
           />
         </div>
         <div className="flex-grow">
@@ -47,13 +48,23 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
               {post.price} دك
             </div>
             <div className="flex flex-nowrap gap-2 items-center">
-              <Image src="/images/time.svg" width={17} height={17} />
+              <Image
+                src="/images/time.svg"
+                width={17}
+                height={17}
+                alt="clock_icon"
+              />
               <div className="text-gray-500 md:text-base text-xs">
                 {post.createdAt}
               </div>
             </div>
             <div className="flex gap-2 items-center">
-              <Image src="/images/eye.svg" width={19} height={14} />
+              <Image
+                src="/images/eye.svg"
+                width={19}
+                height={14}
+                alt="views_icon"
+              />
               <div className="text-gray-500 md:text-base text-xs">
                 {post.views}
               </div>

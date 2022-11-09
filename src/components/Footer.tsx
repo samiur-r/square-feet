@@ -167,7 +167,12 @@ const Footer = () => {
               type="button"
               className="px-3 py-2 flex items-center bg-white rounded-lg cursor-pointer"
             >
-              <Image src={link.imagePath} width={21} height={24} />
+              <Image
+                src={link.imagePath}
+                width={21}
+                height={24}
+                alt="social_link"
+              />
             </button>
           </Link>
         ))}
@@ -175,12 +180,22 @@ const Footer = () => {
       <div className="mt-10 flex justify-center gap-5">
         <Link href="https://apps.apple.com/kw/app/%D8%A8%D9%88%D8%B4%D9%85%D9%84%D8%A7%D9%86-%D8%B9%D9%82%D8%A7%D8%B1-%D9%84%D9%84%D8%A7%D9%8A%D8%AC%D8%A7%D8%B1-%D9%88-%D9%84%D9%84%D8%A8%D9%8A%D8%B9/id1185405864?mt=8">
           <button type="button">
-            <Image src="/images/apple-store.svg" width={119} height={35} />
+            <Image
+              src="/images/apple-store.svg"
+              width={119}
+              height={35}
+              alt="apple_store"
+            />
           </button>
         </Link>
         <Link href="https://play.google.com/store/apps/details?id=com.q8villa.product">
           <button type="button">
-            <Image src="/images/google-play.svg" width={119} height={35} />
+            <Image
+              src="/images/google-play.svg"
+              width={119}
+              height={35}
+              alt="google_play"
+            />
           </button>
         </Link>
       </div>

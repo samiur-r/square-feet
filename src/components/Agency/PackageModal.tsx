@@ -36,7 +36,12 @@ const PackageModal: React.FC<PackageModalProps> = ({ open, setOpen }) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
                 <div>
-                  <Image src="/images/subscribe.png" width={600} height={600} />
+                  <Image
+                    src="/images/subscribe.png"
+                    width={600}
+                    height={600}
+                    alt="package"
+                  />
                 </div>
                 <div className="mt-5 sm:mt-6 w-full flex justify-center">
                   <button

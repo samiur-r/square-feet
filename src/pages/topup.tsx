@@ -26,7 +26,12 @@ const Topup: NextPage = () => {
       </div>
       <div className="flex gap-5 mt-10 items-center">
         <div className="w-20 h-20 md:w-auto md:h-auto">
-          <Image src="/images/checkmark_circle.svg" height={42} width={42} />
+          <Image
+            src="/images/checkmark_circle.svg"
+            height={42}
+            width={42}
+            alt="check_icon"
+          />
         </div>
         <div className="text-xl font-semibold text-green-800">
           كل وسائل الدفع الإلكترونية في بوشملان معتمدة وموثوقة 100% من البنوك

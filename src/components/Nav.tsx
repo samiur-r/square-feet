@@ -1456,7 +1456,12 @@ const Nav: React.FC = () => {
                     type="button"
                     className="px-3 py-2 flex items-center bg-gray-100 rounded-lg cursor-pointer"
                   >
-                    <Image src={link.imagePath} width={21} height={24} />
+                    <Image
+                      src={link.imagePath}
+                      width={21}
+                      height={24}
+                      alt="social_link"
+                    />
                   </button>
                 </Link>
               ))}

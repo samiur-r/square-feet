@@ -1091,15 +1091,15 @@ const SearchBox = () => {
         ))}
       </div>
       <div className="hidden md:flex ml-10 h-14 order-1 md:order-2">
-        {purposes.map((purposeItem) => (
+        {purposes.map((purposeItem, index) => (
           <div className="flex items-center mr-5 w-max" key={purposeItem.id}>
             <label
-              htmlFor="default-radio-1"
+              htmlFor={`default-radio-${index + 1}`}
               className="text-sm font-medium text-gray-900"
             >
               {purposeItem.title}
               <input
-                id="default-radio-1"
+                id={`default-radio-${index + 1}`}
                 type="radio"
                 value=""
                 name="default-radio"

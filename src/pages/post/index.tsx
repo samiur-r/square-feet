@@ -35,15 +35,30 @@ const Posts: NextPage = () => {
         <div className="font-bold text-2xl ">{post.price} دك</div>
         <div className="flex gap-5 dir-ltr">
           <div className="flex items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
-            <Image src="/images/share.svg" width={17} height={17} />
+            <Image
+              src="/images/share.svg"
+              width={17}
+              height={17}
+              alt="share_icon"
+            />
           </div>
           <div className="flex flex-nowrap gap-2 items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
             <div className="md:text-base text-xs">{post.views}</div>
-            <Image src="/images/eye-white.svg" width={19} height={14} />
+            <Image
+              src="/images/eye-white.svg"
+              width={19}
+              height={14}
+              alt="icon"
+            />
           </div>
           <div className="flex flex-nowrap gap-2 items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
             <div className="dir-rtl md:text-base text-xs">{post.createdAt}</div>
-            <Image src="/images/time-white.svg" width={17} height={17} />
+            <Image
+              src="/images/time-white.svg"
+              width={17}
+              height={17}
+              alt="icon"
+            />
           </div>
         </div>
       </div>
@@ -74,7 +89,7 @@ const Posts: NextPage = () => {
               <Image
                 key={Math.random()}
                 src={`/images/${post.media[0]}`}
-                alt=""
+                alt="post_image"
                 width={500}
                 height={500}
                 objectFit="contain"
@@ -102,7 +117,7 @@ const Posts: NextPage = () => {
                   width={100}
                   height={100}
                   objectFit="contain"
-                  alt=""
+                  alt="post_image"
                   className="cursor-pointer"
                   onClick={() => setShowCarousel(true)}
                 />

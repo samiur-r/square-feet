@@ -63,7 +63,12 @@ const Agency: NextPage = () => {
     <div className="dir-rtl pb-12">
       <div className="bg-primary flex flex-col md:flex-row gap-10 justify-center items-center text-white px-3 py-20">
         <div className="w-40 h-40 rounded-lg overflow-hidden relative border">
-          <Image src="/images/nopic-ar.jpg" layout="fill" objectFit="cover" />
+          <Image
+            src="/images/nopic-ar.jpg"
+            layout="fill"
+            objectFit="cover"
+            alt="no_pic"
+          />
         </div>
         <div className="flex flex-col items-center">
           <h3 className="text-xl font-bold tracking-widest mb-5">
@@ -81,6 +86,7 @@ const Agency: NextPage = () => {
               height={16}
               width={16}
               className="text-white"
+              alt="phone_icon"
             />
           </a>
           <div className="flex gap-3 justify-center mt-5">
@@ -90,6 +96,7 @@ const Agency: NextPage = () => {
                   src="/images/instagram-white.svg"
                   width={18}
                   height={18}
+                  alt="instagram_icon"
                 />
               </a>
             </Link>

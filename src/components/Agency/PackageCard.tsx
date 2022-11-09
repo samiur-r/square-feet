@@ -13,7 +13,12 @@ const PackageCard: React.FC<{ styleRow?: boolean }> = ({ styleRow }) => {
       } flex flex-col items-center md:max-w-max gap-5 bg-white p-5 rounded-lg border border-gray-300 shadow-sm`}
     >
       <div className="rounded-lg h-52 w-52 overflow-hidden relative">
-        <Image src="/images/subscribe.png" layout="fill" objectFit="contain" />
+        <Image
+          src="/images/subscribe.png"
+          layout="fill"
+          objectFit="contain"
+          alt="package"
+        />
         <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
         <button
           type="button"

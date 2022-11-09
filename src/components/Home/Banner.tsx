@@ -9,7 +9,7 @@ const Banner = () => {
         width={1350}
         height={758}
         objectFit="cover"
-        alt="banner"
+        alt="boshamlan_banner"
       />
     </div>
   )
