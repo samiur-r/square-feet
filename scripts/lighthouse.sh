@@ -1,7 +1,7 @@
 set -e
 OUTPUT=temp/lighthouse-report.json
 mkdir -p temp
-THRESH=0.9
+THRESH=0.99
 
 if [ ! -d dist ]; then
   GZIP=true yarn build

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
+  <g id="Home_search" data-name="Home &amp; search" transform="translate(-334.47 -117.986)">
+    <rect id="Rectangle_2684" data-name="Rectangle 2684" width="35" height="35" transform="translate(334.47 117.986)" fill="none"/>
+    <g id="search_" data-name="search " transform="translate(336.955 120.954)">
+      <path id="Path_62238" data-name="Path 62238" d="M26.629,24.862l-3.174-3.174a6.267,6.267,0,1,0-1.767,1.767l3.174,3.174a1.249,1.249,0,1,0,1.767-1.767ZM18.248,22A3.749,3.749,0,1,1,22,18.248,3.753,3.753,0,0,1,18.248,22Z" transform="translate(2.995 2.995)" fill="#656565" stroke="#656565" stroke-width="0.2"/>
+      <path id="Path_62239" data-name="Path 62239" d="M25.678,11.781,21.243,7.445c-5.653-5.607.218,1.12-2.5-2.444L13.994.356a1.249,1.249,0,0,0-1.747,0L.564,11.781A1.857,1.857,0,0,0,0,13.121,1.877,1.877,0,0,0,1.874,15H3.749v6.873a3.128,3.128,0,0,0,3.124,3.124h4.374a1.25,1.25,0,0,0,0-2.5H6.873a.626.626,0,0,1-.625-.625V13.746A1.249,1.249,0,0,0,5,12.5H3.408L13.121,3,23.93,13.567a1.249,1.249,0,0,0,1.748-1.786Z" transform="translate(0 0)" fill="#656565" stroke="#656565" stroke-width="0.2"/>
+    </g>
+  </g>
+</svg>
