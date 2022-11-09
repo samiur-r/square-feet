@@ -106,7 +106,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
           locationsSelected.length
             ? 'pb-2 rounded-md'
             : 'rounded-full md:rounded-lg'
-        } cursor-text border w-80 relative z-10 border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium text-center`}
+        } cursor-text border w-full md:w-80 relative z-10 border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium text-center`}
       >
         <div className="flex items-center justify-between p-4 md:p-3">
           <div>
