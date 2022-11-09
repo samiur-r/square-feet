@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 const Topup: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl px-3 py-5">
+    <div className="dir-rtl container max-w-6xl px-3 py-10 md:py-16">
       <h1 className="text-2xl font-bold">اشحن رصيد</h1>
       <ul className="list-disc mt-5 mr-5 text-base tracking-wider">
         <li>لا يوجد لديك عضوية مكتب</li>

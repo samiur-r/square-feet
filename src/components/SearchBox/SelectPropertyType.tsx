@@ -106,7 +106,7 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
         ref={propertyTypeRef}
         className={`${
           showPropertyTypeDropdown ? 'block' : 'hidden'
-        } z-10 w-80 md:w-56 mt-4 bg-white rounded-md divide-y divide-gray-100 drop-shadow-[0px_0px_3px_rgb(156,163,175)] absolute`}
+        } z-10 w-80 md:w-60 mt-4 bg-white rounded-md divide-y divide-gray-100 drop-shadow-[0px_0px_3px_rgb(156,163,175)] absolute`}
       >
         <ul
           className="m-0 p-0 text-md font-bold text-[#6E9ECE] tracking-wider bg-white cursor-pointer rounded-md"

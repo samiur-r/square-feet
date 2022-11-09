@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 
 const PasswordReset: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-md grid place-items-center py-16 px-5">
+    <div className="dir-rtl container max-w-md grid place-items-center py-10 md:py-16 px-5">
       <h1 className="font-semibold text-xl">تغيير كلمة السر</h1>
       <p className="text-md text-gray-600 text-center mt-5 tracking-wider">
         سنرسل لك رسالة نصية SMS وفيها رقم تفعيل OTP للتأكد من أن رقم موبايلك

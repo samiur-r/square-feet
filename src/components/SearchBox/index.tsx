@@ -1064,10 +1064,10 @@ const SearchBox = () => {
   }
 
   return (
-    <div className="container max-w-6xl md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 py-12 md:rounded-lg md:shadow-md mt-20 md:-mt-20 bg-white">
+    <div className="container max-w-6xl md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 pb-12 md:pb-auto md:py-12 md:rounded-lg md:shadow-md mt-20 md:-mt-20 bg-white">
       <button
         type="button"
-        className="bg-secondary w-full md:w-auto order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
+        className="bg-secondary w-full md:w-auto whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
         onClick={filterPosts}
       >
         إبحث الآن
@@ -1092,7 +1092,7 @@ const SearchBox = () => {
       </div>
       <div className="hidden md:flex ml-10 h-14 order-1 md:order-2">
         {purposes.map((purposeItem) => (
-          <div className="flex items-center mr-5" key={purposeItem.id}>
+          <div className="flex items-center mr-5 w-max" key={purposeItem.id}>
             <label
               htmlFor="default-radio-1"
               className="text-sm font-medium text-gray-900"
