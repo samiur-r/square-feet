@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { PRICE_RANGES } from 'constant'
 import { LocationType } from 'intefaces'
+import Link from 'next/link'
 import SelectDropZone from './SelectDropzone'
 import SelectPropertyType from './SelectPropertyType'
 import FilterModal from './FilterModal'
@@ -1065,13 +1066,15 @@ const SearchBox = () => {
 
   return (
     <div className="container max-w-6xl md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 pb-12 md:pb-auto md:py-12 md:rounded-lg md:shadow-md mt-20 md:-mt-20 bg-white">
-      <button
-        type="button"
-        className="bg-secondary w-full md:w-auto whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
-        onClick={filterPosts}
-      >
-        إبحث الآن
-      </button>
+      <Link href="/filter">
+        <button
+          type="button"
+          className="bg-secondary w-full md:w-auto whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
+          onClick={filterPosts}
+        >
+          إبحث الآن
+        </button>
+      </Link>
       <div className="md:hidden mb-5 cursor-pointer w-full grid grid-cols-3 rounded-full border">
         {purposes.map((purposeItem, index) => (
           <button
