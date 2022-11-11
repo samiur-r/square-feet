@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react'
-
-import { PRICE_RANGES } from 'constant'
-import { LocationType } from 'intefaces'
 import Link from 'next/link'
-import SelectDropZone from './SelectDropzone'
-import SelectPropertyType from './SelectPropertyType'
-import FilterModal from './FilterModal'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import dynamic from 'next/dynamic'
+
+import ListBox from 'components/ListBox'
+import AutoComplete from 'components/AutoComplete'
+import FilterAutoComplete from 'components/FilterAutoComplete'
 
 const propertyTypes = [
   {
@@ -953,49 +952,6 @@ const locations = [
   }
 ]
 
-const posts = [
-  {
-    _id: '633b3a5dfe37729cc703fc74',
-    user: 1,
-    state: 'محافظة مبارك الكب',
-    city: 'ابوفطيره',
-    propertyType: 'شقه',
-    purpose: 'للايجار',
-    price: '2000',
-    description: 'flat in ابوفطيره city'
-  },
-  {
-    _id: '633b3c09fe37729cc703fc75',
-    user: 1,
-    state: 'محافظة مبارك الكب',
-    city: 'ابوفطيره',
-    propertyType: 'شقه',
-    purpose: 'للايجار',
-    price: '3000',
-    description: 'Another flat in ابوفطيره city'
-  },
-  {
-    _id: '633b3cbcfe37729cc703fc76',
-    user: 2,
-    state: 'محافظة مبارك الكب',
-    city: 'اسواق القرين - غرب ابوفطيره',
-    propertyType: 'كبد',
-    purpose: 'للبيع',
-    price: '55000',
-    description: 'House sell in اسواق القرين - غرب ابوفطيره city'
-  },
-  {
-    _id: '633b3db0fe37729cc703fc77',
-    user: 2,
-    state: 'محافظة حولي',
-    city: 'السلام',
-    propertyType: 'شقه',
-    purpose: 'للايجار',
-    price: '4000',
-    description: 'Apartment rent in السلام city'
-  }
-]
-
 const purposes = [
   {
     id: 0,
@@ -1012,138 +968,108 @@ const purposes = [
 ]
 
 const SearchBox = () => {
-  const [propertyType, setPropertyType] = useState({
-    id: propertyTypes[0].id,
-    title: propertyTypes[0].title
-  })
   const [purpose, setPurpose] = useState({
     id: purposes[2].id,
     title: purposes[2].title
   })
-  const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
-  const [filteredPosts, setFilteredPosts] = useState(posts)
-  const [priceRange, setPriceRange] = useState([
-    PRICE_RANGES.min,
-    PRICE_RANGES.max
-  ])
-  const [showFilterModal, setShowFilterModal] = useState(false)
+  const [isLocationDropDownOpen, setIsLocationDropDownOpen] = useState(false)
+  const [
+    isLocationDropDownOpenUpdatedOnce,
+    setIsLocationDropDownOpenUpdatedOnce
+  ] = useState(false)
+  const [showFilterCombobox, setShowFilterCombobox] = useState(false)
 
-  const handleSetPropertyType = (id: number, title: string) => {
-    setPropertyType({ id, title })
-  }
+  useEffect(() => {
+    if (isLocationDropDownOpen) setIsLocationDropDownOpenUpdatedOnce(false)
+  }, [isLocationDropDownOpen])
 
-  const handleSetLocationsSelected = (regions: LocationType[]) => {
-    setLocationsSelected(regions)
-  }
-
-  const filterPosts = () => {
-    // const filteredByPurpose = posts.filter(
-    //   (post: { purpose: string }) => post.purpose === purpose
-    // )
-    // const filteredByPropertyType =
-    //   propertyType === 'الكل'
-    //     ? filteredByPurpose
-    //     : filteredByPurpose.filter(
-    //         (post: { propertyType: string }) =>
-    //           post.propertyType === propertyType
-    //       )
-    // const filteredByLocation = !locationsSelected.length
-    //   ? filteredByPropertyType
-    //   : locationsSelected[0].type === 'all'
-    //   ? filteredByPropertyType
-    //   : locationsSelected[0].type === 'state'
-    //   ? filteredByPropertyType.filter(
-    //       (post: { state: unknown }) =>
-    //         post.state === locationsSelected[0].value
-    //     )
-    //   : filteredByPropertyType.filter((post: { city: unknown }) =>
-    //       locationsSelected
-    //         .map((location: { value: unknown }) => location.value)
-    //         .includes(post.city)
-    //     )
-    setFilteredPosts([])
-  }
+  useEffect(() => {
+    if (isLocationDropDownOpenUpdatedOnce)
+      setShowFilterCombobox(isLocationDropDownOpen)
+  }, [isLocationDropDownOpen])
 
   return (
-    <div className="container max-w-6xl md:flex grid grid-cols-1 w-full md:w-auto px-5 md:px-10 pb-12 md:pb-auto md:py-12 md:rounded-lg md:shadow-md mt-20 md:-mt-20 bg-white">
-      <Link href="/filter">
-        <button
-          type="button"
-          className="bg-secondary w-full md:w-auto whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
-          onClick={filterPosts}
-        >
-          إبحث الآن
-        </button>
-      </Link>
-      <div className="md:hidden mb-5 cursor-pointer w-full grid grid-cols-3 rounded-full border">
-        {purposes.map((purposeItem, index) => (
+    <>
+      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-5 md:px-10 pb-10 md:pb-auto md:py-12 md:rounded-lg md:shadow-md mt-10 md:-mt-20 bg-white">
+        <Link href="/filter">
           <button
-            key={purposeItem.id}
             type="button"
-            className={`${
-              purposeItem.id === purpose.id && 'bg-primary text-white'
-            } ${
-              index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
-            } flex justify-center items-center px-3 py-3 text-lg border-r`}
-            onClick={() =>
-              setPurpose({ id: purposeItem.id, title: purposeItem.title })
-            }
+            className="md:w-2/12 py-5 bg-secondary whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold flex justify-center items-center md:rounded-lg rounded-full"
           >
-            {purposeItem.title}
+            إبحث الآن
           </button>
-        ))}
-      </div>
-      <div className="hidden md:flex ml-10 h-14 order-1 md:order-2">
-        {purposes.map((purposeItem, index) => (
-          <div className="flex items-center mr-5 w-max" key={purposeItem.id}>
-            <label
-              htmlFor={`default-radio-${index + 1}`}
-              className="text-sm font-medium text-gray-900"
+        </Link>
+        <div className="md:hidden cursor-pointer grid grid-cols-3 rounded-full border">
+          {purposes.map((purposeItem, index) => (
+            <button
+              key={purposeItem.id}
+              type="button"
+              className={`${
+                purposeItem.id === purpose.id && 'bg-primary text-white'
+              } ${
+                index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
+              } flex justify-center items-center px-3 py-3 text-lg border-r`}
+              onClick={() =>
+                setPurpose({ id: purposeItem.id, title: purposeItem.title })
+              }
             >
               {purposeItem.title}
-              <input
-                id={`default-radio-${index + 1}`}
-                type="radio"
-                value=""
-                name="default-radio"
-                className="w-4 h-4 ml-2 accent-orange-600/50"
-                defaultChecked={purposeItem.id === purpose.id}
-                onClick={() =>
-                  setPurpose({ id: purposeItem.id, title: purposeItem.title })
-                }
-              />
-            </label>
-          </div>
-        ))}
+            </button>
+          ))}
+        </div>
+        <div className="md:w-3/12 hidden md:flex gap-5 justify-center order-1 md:order-2">
+          {purposes.map((purposeItem, index) => (
+            <div className="flex items-center w-max" key={purposeItem.id}>
+              <label
+                htmlFor={`default-radio-${index + 1}`}
+                className="text-sm font-medium text-gray-900"
+              >
+                {purposeItem.title}
+                <input
+                  id={`default-radio-${index + 1}`}
+                  type="radio"
+                  value=""
+                  name="default-radio"
+                  className="w-4 h-4 ml-2 accent-orange-600/50"
+                  defaultChecked={purposeItem.id === purpose.id}
+                  onClick={() =>
+                    setPurpose({ id: purposeItem.id, title: purposeItem.title })
+                  }
+                />
+              </label>
+            </div>
+          ))}
+        </div>
+        <div className="md:w-3/12 order-3">
+          <ListBox
+            selectedOpt={propertyTypes[0]}
+            options={propertyTypes}
+            bgGray
+            showFilterIcon
+          />
+        </div>
+        <div className="md:w-4/12 order-2 md:order-4">
+          <AutoComplete
+            locations={locations}
+            isHomePage
+            showFilterCombobox={showFilterCombobox}
+            handleSetShowFilterCombobox={setShowFilterCombobox}
+          />
+        </div>
       </div>
-      <div className="md:ml-8 order-3 mb-5 md:mb-0 w-full md:w-auto">
-        <SelectPropertyType
-          propertyTypes={propertyTypes}
-          handleSetPropertyType={handleSetPropertyType}
-        />
-      </div>
-      <div className="md:ml-8 order-2 md:order-4 mb-5 md:mb-0 w-full md:w-auto">
-        <SelectDropZone
-          locations={locations}
-          handleSetLocationsSelected={handleSetLocationsSelected}
-          setShowFilterModal={setShowFilterModal}
-        />
-      </div>
-      {showFilterModal && (
-        <FilterModal
-          purposes={purposes}
-          propertyTypes={propertyTypes}
-          selectedPurpose={purpose}
-          selectedPropertyType={propertyType}
-          selectedPriceRange={priceRange}
-          showFilterModal={showFilterModal}
-          setPurpose={setPurpose}
-          setPropertyType={setPropertyType}
-          setPriceRange={setPriceRange}
-          setShowFilterModal={setShowFilterModal}
-        />
+      {showFilterCombobox && (
+        <div className="fixed md:hidden w-screen h-full z-30 bg-white top-0 left-0">
+          <FilterAutoComplete
+            locations={locations}
+            purposes={purposes}
+            propertyTypes={propertyTypes}
+            isLocationDropDownOpen={isLocationDropDownOpen}
+            handleIsLocationDropDownOpen={setIsLocationDropDownOpen}
+            showOptions
+          />
+        </div>
       )}
-    </div>
+    </>
   )
 }
 

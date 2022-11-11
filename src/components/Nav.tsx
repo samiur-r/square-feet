@@ -1173,6 +1173,7 @@ const Nav: React.FC = () => {
               locations={locations}
               purposes={purposes}
               propertyTypes={propertyTypes}
+              isLocationDropDownOpen={isLocationDropDownOpen}
               handleIsLocationDropDownOpen={setIsLocationDropDownOpen}
             />
           )}

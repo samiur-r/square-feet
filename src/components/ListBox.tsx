@@ -8,7 +8,8 @@ interface OptType {
 }
 
 interface ListProps {
-  placeholder: string
+  selectedOpt: OptType | undefined
+  placeholder?: string
   options: Array<OptType>
   isFloatingLabel?: boolean
   showFilterIcon?: boolean
@@ -16,18 +17,19 @@ interface ListProps {
 }
 
 const List: React.FC<ListProps> = ({
+  selectedOpt,
   placeholder,
   options,
   isFloatingLabel,
   showFilterIcon,
   bgGray
 }) => {
-  const [selected, setSelected] = useState<OptType | undefined>(undefined)
+  const [selected, setSelected] = useState<OptType | undefined>(selectedOpt)
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
-        <div className="relative">
+        <div className="relative dir-rtl">
           {isFloatingLabel && (
             <span
               className={`${(open || selected) && '-top-2 mx-4 text-sm'} ${
@@ -39,8 +41,10 @@ const List: React.FC<ListProps> = ({
           )}
           <Listbox.Button
             className={`${
-              bgGray ? 'bg-gray-50' : 'bg-white'
-            } flex justify-between items-center py-4 px-2 relative w-full cursor-text rounded-lg border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
+              bgGray
+                ? 'bg-gray-50 rounded-full md:rounded-lg'
+                : 'bg-white rounded-lg'
+            } flex justify-between items-center py-4 px-2 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
           >
             <span className="flex gap-3 items-center w-full">
               <span className={`${!showFilterIcon && 'hidden'}`}>
@@ -82,7 +86,7 @@ const List: React.FC<ListProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-20 mt-3 max-h-60 w-full overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-20 mt-3 max-h-60 w-full overflow-auto rounded-lg bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.id}

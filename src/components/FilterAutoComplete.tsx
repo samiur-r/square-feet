@@ -1,4 +1,11 @@
-import { Fragment, useState, SetStateAction, Dispatch } from 'react'
+import {
+  Fragment,
+  useState,
+  useRef,
+  SetStateAction,
+  Dispatch,
+  useEffect
+} from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
@@ -12,17 +19,39 @@ interface FilterAutoCompleteProps {
   locations: LocationType[]
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
+  isLocationDropDownOpen: boolean
   handleIsLocationDropDownOpen: Dispatch<SetStateAction<boolean>>
+  showOptions?: boolean
 }
 
 const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
   purposes,
   propertyTypes,
-  handleIsLocationDropDownOpen
+  isLocationDropDownOpen,
+  handleIsLocationDropDownOpen,
+  showOptions
 }) => {
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
+  const [showFilterModal, setShowFilterModal] = useState(false)
+
+  const isOpenRef = useRef<HTMLInputElement>(null)
+  const comboBtn = useRef<HTMLButtonElement>(null)
+
+  const handleInputFocus = () => comboBtn.current?.click()
+
+  useEffect(() => {
+    if (showOptions) handleInputFocus()
+  }, [showOptions])
+
+  // TODO: optimize the func
+  const changeOpenStatus = () => {
+    const isOpen = isOpenRef?.current?.value
+    setTimeout(() => {
+      handleIsLocationDropDownOpen(isOpen === 'true')
+    })
+  }
 
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
@@ -36,7 +65,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     PRICE_RANGES.min,
     PRICE_RANGES.max
   ])
-  const [showFilterModal, setShowFilterModal] = useState(false)
 
   const filteredLocations =
     query === ''
@@ -52,12 +80,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     <div className="dir-rtl w-full">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
-          <div className="relative">
-            {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
-            <>
-              {open
-                ? handleIsLocationDropDownOpen(true)
-                : handleIsLocationDropDownOpen(false)}
+          <>
+            {open !== isLocationDropDownOpen && changeOpenStatus()}
+            <input ref={isOpenRef} type="hidden" value={`${open}`} />
+            <div className="relative">
               <div className="flex py-3 px-2 gap-2 items-center relative w-full h-full cursor-default overflow-hidden rounded-lg bg-white text-left md:shadow-md outline-none">
                 <Combobox.Button className="hidden md:flex items-center">
                   {open ? (
@@ -72,11 +98,20 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                     />
                   )}
                 </Combobox.Button>
+                <Combobox.Button className="hidden" ref={comboBtn} />
                 <Combobox.Button className="w-full h-8" as="div">
                   <Combobox.Input
-                    className="w-full h-full text-base leading-5 text-gray-900 outline-none"
                     // @ts-ignore
-                    displayValue={(location) => location?.title}
+                    key={open}
+                    className="w-full h-full text-base leading-5 text-gray-900 outline-none"
+                    placeholder="اكتب المنطقه للبحث"
+                    displayValue={(location) => {
+                      if (open) {
+                        return ''
+                      }
+                      // @ts-ignore
+                      return location?.title
+                    }}
                     onChange={(event) => setQuery(event.target.value)}
                   />
                 </Combobox.Button>
@@ -97,18 +132,20 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                     />
                   </svg>
                 </div>
-                <div className="md:hidden">
-                  <Link href="/">
-                    <a className="flex items-center">
-                      <Image
-                        width={40}
-                        height={40}
-                        src="/images/mobile-search-logo.svg"
-                        alt="logo"
-                      />
-                    </a>
-                  </Link>
-                </div>
+                {!showOptions && (
+                  <div className="md:hidden">
+                    <Link href="/">
+                      <a className="flex items-center">
+                        <Image
+                          width={40}
+                          height={40}
+                          src="/images/mobile-search-logo.svg"
+                          alt="logo"
+                        />
+                      </a>
+                    </Link>
+                  </div>
+                )}
               </div>
               <Transition
                 as={Fragment}
@@ -160,8 +197,8 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                   )}
                 </Combobox.Options>
               </Transition>
-            </>
-          </div>
+            </div>
+          </>
         )}
       </Combobox>
       <FilterModal

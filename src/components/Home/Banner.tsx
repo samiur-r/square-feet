@@ -3,7 +3,7 @@ import React from 'react'
 
 const Banner = () => {
   return (
-    <div className="opacity-60 flex justify-center -mt-10 md:-mt-20">
+    <div className="opacity-60 flex justify-center -mt-10 md:-mt-20 border">
       <Image
         src="/images/banner.svg"
         width={1350}

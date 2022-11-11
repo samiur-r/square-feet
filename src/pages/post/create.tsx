@@ -1,6 +1,6 @@
-import AutoComplete from 'components/AutoComplete'
 import type { NextPage } from 'next'
 
+import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 
 const locations = [
@@ -987,16 +987,24 @@ const CreatePost: NextPage = () => {
             رقم الموبايل{' '}
           </label>
         </div>
-        <AutoComplete locations={locations} />
+        <div className="mt-10">
+          <AutoComplete locations={locations} />
+        </div>
         <div className="mt-10">
           <ListBox
+            selectedOpt={undefined}
             options={propertyTypes}
             placeholder="نوع العقار"
             isFloatingLabel
           />
         </div>
         <div className="mt-10">
-          <ListBox options={purposes} placeholder="الغرض" isFloatingLabel />
+          <ListBox
+            selectedOpt={undefined}
+            options={purposes}
+            placeholder="الغرض"
+            isFloatingLabel
+          />
         </div>
 
         <div className="relative mt-10">
