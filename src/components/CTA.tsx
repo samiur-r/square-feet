@@ -15,7 +15,7 @@ const CTA: React.FC<CTAProps> = ({
 }) => {
   return (
     <button
-      type="button"
+      type="submit"
       className={`${
         backgroundColor === 'primary' ? 'bg-primary' : 'bg-secondary'
       } ${

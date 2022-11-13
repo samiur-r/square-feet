@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import dynamic from 'next/dynamic'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
-import FilterAutoComplete from 'components/FilterAutoComplete'
+
+const DynamicFilterAutoComplete = dynamic(
+  () => import('components/FilterAutoComplete'),
+  {
+    suspense: true
+  }
+)
 
 const propertyTypes = [
   {
@@ -972,28 +977,25 @@ const SearchBox = () => {
     id: purposes[2].id,
     title: purposes[2].title
   })
-  const [isLocationDropDownOpen, setIsLocationDropDownOpen] = useState(false)
-  const [
-    isLocationDropDownOpenUpdatedOnce,
-    setIsLocationDropDownOpenUpdatedOnce
-  ] = useState(false)
+  const [isfilterComboboxOpen, setIsfilterComboboxOpen] = useState(false)
+  const [canUpdateFilterAutoCompleteShow, setCanUpdateFilterAutoCompleteShow] =
+    useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
 
   useEffect(() => {
-    if (isLocationDropDownOpen) setIsLocationDropDownOpenUpdatedOnce(false)
-  }, [isLocationDropDownOpen])
+    if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
+  }, [canUpdateFilterAutoCompleteShow])
 
   useEffect(() => {
-    if (isLocationDropDownOpenUpdatedOnce)
-      setShowFilterCombobox(isLocationDropDownOpen)
-  }, [isLocationDropDownOpen])
+    setShowFilterCombobox(isfilterComboboxOpen)
+  }, [isfilterComboboxOpen])
 
   return (
     <>
       <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-5 md:px-10 pb-10 md:pb-auto md:py-12 md:rounded-lg md:shadow-md mt-10 md:-mt-20 bg-white">
         <Link href="/filter">
           <button
-            type="button"
+            type="submit"
             className="md:w-2/12 py-5 bg-secondary whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold flex justify-center items-center md:rounded-lg rounded-full"
           >
             إبحث الآن
@@ -1003,7 +1005,7 @@ const SearchBox = () => {
           {purposes.map((purposeItem, index) => (
             <button
               key={purposeItem.id}
-              type="button"
+              type="submit"
               className={`${
                 purposeItem.id === purpose.id && 'bg-primary text-white'
               } ${
@@ -1052,21 +1054,25 @@ const SearchBox = () => {
           <AutoComplete
             locations={locations}
             isHomePage
-            showFilterCombobox={showFilterCombobox}
-            handleSetShowFilterCombobox={setShowFilterCombobox}
+            canUpdateFilterAutoCompleteShow={canUpdateFilterAutoCompleteShow}
+            handleCanUpdateFilterAutoCompleteShow={
+              setCanUpdateFilterAutoCompleteShow
+            }
           />
         </div>
       </div>
       {showFilterCombobox && (
-        <div className="fixed md:hidden w-screen h-full z-30 bg-white top-0 left-0">
-          <FilterAutoComplete
-            locations={locations}
-            purposes={purposes}
-            propertyTypes={propertyTypes}
-            isLocationDropDownOpen={isLocationDropDownOpen}
-            handleIsLocationDropDownOpen={setIsLocationDropDownOpen}
-            showOptions
-          />
+        <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
+          <Suspense fallback="Loading...">
+            <DynamicFilterAutoComplete
+              locations={locations}
+              purposes={purposes}
+              propertyTypes={propertyTypes}
+              isfilterComboboxOpen={isfilterComboboxOpen}
+              handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
+              showOptions
+            />
+          </Suspense>
         </div>
       )}
     </>

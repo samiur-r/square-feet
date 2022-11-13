@@ -40,6 +40,7 @@ const List: React.FC<ListProps> = ({
             </span>
           )}
           <Listbox.Button
+            type="submit"
             className={`${
               bgGray
                 ? 'bg-gray-50 rounded-full md:rounded-lg'

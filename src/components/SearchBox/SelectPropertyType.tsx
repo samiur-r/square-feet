@@ -114,7 +114,7 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
         >
           {propertyTypes.map((type) => (
             <button
-              type="button"
+              type="submit"
               key={type.id}
               className={`${
                 propertyTypeSelected.title === type.title && 'bg-gray-200'

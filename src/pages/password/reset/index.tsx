@@ -26,7 +26,7 @@ const PasswordReset: NextPage = () => {
         </div>
         <div className="mt-8">
           <button
-            type="button"
+            type="submit"
             className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 rounded-lg"
           >
             أرسل لي رقم التفعيل SMS

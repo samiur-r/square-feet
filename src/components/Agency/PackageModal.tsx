@@ -45,7 +45,7 @@ const PackageModal: React.FC<PackageModalProps> = ({ open, setOpen }) => {
                 </div>
                 <div className="mt-5 sm:mt-6 w-full flex justify-center">
                   <button
-                    type="button"
+                    type="submit"
                     className="rounded-md bg-indigo-100 px-4 py-4 text-base font-medium shadow-sm hover:bg-indigo-200 focus:outline-none"
                     onClick={() => setOpen(false)}
                   >

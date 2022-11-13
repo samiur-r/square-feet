@@ -33,10 +33,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
 }) => {
   return (
     <Transition.Root show={showFilterModal} as={Fragment}>
-      <Dialog as="div" className="relative z-20" onClose={setShowFilterModal}>
+      <Dialog as="div" className="relative z-30" onClose={setShowFilterModal}>
         <Transition.Child
           as={Fragment}
-          enter="ease-out duration-300"
+          enter="ease-out duration-500"
           enterFrom="opacity-0"
           enterTo="opacity-100"
           leave="ease-in duration-200"
@@ -62,7 +62,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   <div className="grid grid-cols-3 md:grid-cols-2 items-center border-b pb-5">
                     <div>
                       <button
-                        type="button"
+                        type="submit"
                         className="rounded-md hidden md:block bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
                         onClick={() => setShowFilterModal(false)}
                       >
@@ -99,7 +99,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
                       {purposes.map((purpose) => (
                         <button
-                          type="button"
+                          type="submit"
                           key={purpose.id}
                           className={`${
                             selectedPurpose.id === purpose.id
@@ -120,7 +120,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
                       {propertyTypes.map((type) => (
                         <button
-                          type="button"
+                          type="submit"
                           key={type.id}
                           className={`${
                             selectedPropertyType.id === type.id
@@ -251,7 +251,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   </div>
                   <div className="py-5 mt-3">
                     <button
-                      type="button"
+                      type="submit"
                       className="bg-secondary w-full md:w-auto rounded-full opacity-80 text-white py-3 px-5"
                     >
                       عرض النتائج

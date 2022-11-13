@@ -1084,7 +1084,7 @@ const CreatePost: NextPage = () => {
         </div>
         <div className="mt-10">
           <button
-            type="button"
+            type="submit"
             className="bg-secondary text-white rounded-lg w-full mt-8 py-4 opacity-80 hover:opacity-100"
           >
             إضافة الإعلان{' '}

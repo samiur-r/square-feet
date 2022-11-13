@@ -19,7 +19,7 @@ const BalanceCard = () => {
         </div>
       </div>
       <button
-        type="button"
+        type="submit"
         className="bg-secondary text-white rounded-lg w-full mt-8 py-4 opacity-80"
       >
         اشحن الرصيد

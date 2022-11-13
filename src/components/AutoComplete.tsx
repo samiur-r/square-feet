@@ -7,15 +7,15 @@ import { LocationType } from 'intefaces'
 interface AutoCompleteProps {
   locations: LocationType[]
   isHomePage?: boolean
-  showFilterCombobox?: boolean
-  handleSetShowFilterCombobox?: Dispatch<SetStateAction<boolean>>
+  canUpdateFilterAutoCompleteShow?: boolean
+  handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
   locations,
   isHomePage,
-  showFilterCombobox,
-  handleSetShowFilterCombobox
+  canUpdateFilterAutoCompleteShow,
+  handleCanUpdateFilterAutoCompleteShow
 }) => {
   const [selected, setSelected] = useState(
     isHomePage
@@ -31,7 +31,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const changeShowFilterComboboxStatus = (open: boolean) => {
     setTimeout(() => {
       // @ts-ignore
-      handleSetShowFilterCombobox(open)
+      handleCanUpdateFilterAutoCompleteShow(open)
     })
   }
 
@@ -50,8 +50,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
-            {showFilterCombobox !== undefined &&
-              showFilterCombobox !== open &&
+            {canUpdateFilterAutoCompleteShow !== undefined &&
+              canUpdateFilterAutoCompleteShow !== open &&
               changeShowFilterComboboxStatus(open)}
             <div>
               <div
@@ -102,7 +102,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     </label>
                   )}
                 </Combobox.Button>
-                <Combobox.Button className="flex items-center">
+                <Combobox.Button
+                  className="flex items-center"
+                  type="submit"
+                  aria-label="dropdown"
+                >
                   {open ? (
                     <ChevronUpIcon
                       className="h-7 w-7 text-gray-400"
@@ -118,6 +122,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
               </div>
               <Transition
                 as={Fragment}
+                enter="transition ease-in duration-100"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
                 leave="transition ease-in duration-100"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
