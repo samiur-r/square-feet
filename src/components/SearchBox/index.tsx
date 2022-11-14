@@ -992,11 +992,11 @@ const SearchBox = () => {
 
   return (
     <>
-      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-5 md:px-10 pb-10 md:pb-auto md:py-12 md:rounded-lg md:shadow-md mt-10 md:-mt-20 bg-white">
+      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-10 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-gray-50 md:bg-white">
         <Link href="/filter">
           <button
             type="submit"
-            className="md:w-2/12 py-5 bg-secondary whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold flex justify-center items-center md:rounded-lg rounded-full"
+            className="md:w-2/12 py-3 bg-secondary whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold flex justify-center items-center md:rounded-lg rounded-full"
           >
             إبحث الآن
           </button>
@@ -1010,7 +1010,7 @@ const SearchBox = () => {
                 purposeItem.id === purpose.id && 'bg-primary text-white'
               } ${
                 index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
-              } flex justify-center items-center px-3 py-3 text-lg border-r`}
+              } flex justify-center items-center px-3 py-2 text-lg border-r`}
               onClick={() =>
                 setPurpose({ id: purposeItem.id, title: purposeItem.title })
               }
@@ -1024,7 +1024,7 @@ const SearchBox = () => {
             <div className="flex items-center w-max" key={purposeItem.id}>
               <label
                 htmlFor={`default-radio-${index + 1}`}
-                className="text-sm font-medium text-gray-900"
+                className="text-base font-medium text-gray-900"
               >
                 {purposeItem.title}
                 <input
@@ -1042,7 +1042,7 @@ const SearchBox = () => {
             </div>
           ))}
         </div>
-        <div className="md:w-3/12 order-3">
+        <div className="md:w-3/12 order-3 place-items-center">
           <ListBox
             selectedOpt={propertyTypes[0]}
             options={propertyTypes}

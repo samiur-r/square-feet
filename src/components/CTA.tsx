@@ -20,7 +20,7 @@ const CTA: React.FC<CTAProps> = ({
         backgroundColor === 'primary' ? 'bg-primary' : 'bg-secondary'
       } ${
         fullWidth && 'w-full md:w-auto mx-10 md:mx-auto'
-      } text-white font-medium py-3 px-8 md:rounded-lg rounded-full flex justify-center items-center`}
+      } text-white font-medium py-3.5 px-8 md:rounded-lg rounded-full flex justify-center items-center`}
     >
       <span>{title}</span>
       {Icon && Icon}

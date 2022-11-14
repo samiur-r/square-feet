@@ -45,7 +45,7 @@ const List: React.FC<ListProps> = ({
               bgGray
                 ? 'bg-gray-50 rounded-full md:rounded-lg'
                 : 'bg-white rounded-lg'
-            } flex justify-between items-center py-4 px-2 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
+            } flex justify-between items-center py-2 md:py-3 px-3 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
           >
             <span className="flex gap-3 items-center w-full">
               <span className={`${!showFilterIcon && 'hidden'}`}>
@@ -96,7 +96,7 @@ const List: React.FC<ListProps> = ({
                   } relative cursor-pointer hover:bg-gray-100 transition-all duration-500 select-none py-2 px-3`}
                   value={option}
                 >
-                  <span className="block truncate font-semibold text-primary">
+                  <span className="block text-base truncate font-bold text-primary">
                     {option.title}
                   </span>
                 </Listbox.Option>

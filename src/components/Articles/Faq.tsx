@@ -51,7 +51,7 @@ const Faq: React.FC<{ bgPrimary: boolean }> = ({ bgPrimary }) => {
         <h3 className="dir-rtl mb-3 text-2xl font-semibold">
           الأسئلة الشائعة عن العقارات المعروضة للايجار او للبيع في الكويت
         </h3>
-        <div className="text-sm md:text-lg dir-rtl">
+        <div className="text-sm md:text-lg dir-rtl grid gap-5">
           {faqs.map((faq) => (
             <Accordion key={faq.id} title={faq.question} content={faq.answer} />
           ))}

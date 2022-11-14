@@ -53,13 +53,13 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             {canUpdateFilterAutoCompleteShow !== undefined &&
               canUpdateFilterAutoCompleteShow !== open &&
               changeShowFilterComboboxStatus(open)}
-            <div>
+            <div className="">
               <div
                 className={`${
                   isHomePage
                     ? 'bg-gray-50 rounded-full md:rounded-lg'
                     : 'bg-white rounded-lg'
-                } flex py-3.5 px-2 gap-2 items-center border border-gray-300 shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
+                } flex py-2 md:py-2.5 px-3 gap-2 items-center border border-gray-300 shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
               >
                 {isHomePage && (
                   <div className="flex items-center">
@@ -169,11 +169,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           )}
                           <span
                             className={`${
-                              location.type === 'state' &&
-                              'text-black font-bold'
+                              location.type === 'state' && 'text-black'
                             } ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-gray-100 text-base block truncate p-2 cursor-pointer`}
+                            } hover:bg-gray-100 font-bold text-base block truncate p-2 cursor-pointer`}
                           >
                             {location.title}
                           </span>
