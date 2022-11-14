@@ -1329,7 +1329,7 @@ const Nav: React.FC = () => {
           focus
           className={`${
             !isFilterPage && 'md:hidden'
-          } absolute top-0 right-0 transform transition w-10/12 md:w-3/12 h-screen`}
+          } fixed h-full top-0 right-0 transform transition w-10/12 md:w-3/12`}
         >
           <div className="bg-black opacity-50 right-0 w-screen absolute h-full z-10 pointer-events-none" />
           <div className="rounded-lg bg-white shadow-2xl h-full flex flex-col justify-between relative z-20">
@@ -1454,7 +1454,7 @@ const Nav: React.FC = () => {
                 </Popover>
               </div>
             </div>
-            <div className="px-5 border w-full flex justify-center gap-5 fixed bottom-5">
+            <div className="px-5 w-full flex justify-center gap-5 mb-5">
               {socialLinks.map((link) => (
                 <Link href={link.href} key={Math.random()}>
                   <button
