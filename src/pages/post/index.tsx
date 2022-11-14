@@ -1,9 +1,13 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 
-import Carousel from 'components/Carousel'
 import isImage from 'utils/isImage'
+
+const DynamicCarousel = dynamic(() => import('components/Carousel'), {
+  suspense: true
+})
 
 const post = {
   id: 0,
@@ -132,11 +136,13 @@ const Posts: NextPage = () => {
           </div>
         </div>
         <div>
-          <Carousel
-            media={post.media}
-            open={showCarousel}
-            setOpen={setShowCarousel}
-          />
+          <Suspense fallback="Loading...">
+            <DynamicCarousel
+              media={post.media}
+              open={showCarousel}
+              setOpen={setShowCarousel}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

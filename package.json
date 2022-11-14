@@ -14,7 +14,8 @@
     "test:lighthouse": "bash scripts/lighthouse.sh",
     "test:unit": "jest --watch",
     "test:unit:ci": "jest --ci",
-    "test:e2e": "cypress open"
+    "test:e2e": "cypress open",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.3",
@@ -33,6 +34,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@next/bundle-analyzer": "^13.0.2",
     "@next/eslint-plugin-next": "^12.3.1",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/cypress": "^1.1.3",

@@ -21,7 +21,7 @@ const PackageCard: React.FC<{ styleRow?: boolean }> = ({ styleRow }) => {
         />
         <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
         <button
-          type="button"
+          type="submit"
           className="absolute w-full h-full text-white text-lg flex items-center justify-center"
           onClick={() => setOpenModal(true)}
         >

@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment, useEffect, Suspense } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -9,9 +9,16 @@ import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 import CTA from './CTA'
-import FilterAutoComplete from './FilterAutoComplete'
+
+const DynamicFilterAutoComplete = dynamic(
+  () => import('components/FilterAutoComplete'),
+  {
+    suspense: true
+  }
+)
 
 const realEstate = [
   {
@@ -1169,12 +1176,15 @@ const Nav: React.FC = () => {
           } w-full flex items-center justify-between md:space-x-10 rounded-lg md:border-0`}
         >
           {isFilterPage && (
-            <FilterAutoComplete
-              locations={locations}
-              purposes={purposes}
-              propertyTypes={propertyTypes}
-              handleIsLocationDropDownOpen={setIsLocationDropDownOpen}
-            />
+            <Suspense fallback="Loading...">
+              <DynamicFilterAutoComplete
+                locations={locations}
+                purposes={purposes}
+                propertyTypes={propertyTypes}
+                isfilterComboboxOpen={isLocationDropDownOpen}
+                handleIsfilterComboboxOpen={setIsLocationDropDownOpen}
+              />
+            </Suspense>
           )}
           {!isFilterPage && (
             <div className="hidden md:flex w-3/12">
@@ -1215,7 +1225,7 @@ const Nav: React.FC = () => {
                           <div className="bg-white w-48">
                             {realEstate.map((item, index) => (
                               <button
-                                type="button"
+                                type="submit"
                                 key={item.title}
                                 className="rounded-lg w-full p-3"
                                 onClick={() => handleShowSubRealState(index)}
@@ -1256,7 +1266,7 @@ const Nav: React.FC = () => {
               </Popover>
               {navItems.map((item) => (
                 <button
-                  type="button"
+                  type="submit"
                   onClick={() => handleNavChange(item)}
                   className={`${
                     activeItem === item.title
@@ -1351,7 +1361,7 @@ const Nav: React.FC = () => {
                 {mobileNavItems.map((item) => (
                   <Link href={item.href} key={item.title}>
                     <button
-                      type="button"
+                      type="submit"
                       onClick={() => handleMobileNavChange(item)}
                       className={`${
                         activeItemOnMobile === item.title && 'bg-blue-100'
@@ -1406,7 +1416,7 @@ const Nav: React.FC = () => {
                             <div className="bg-white w-full">
                               {realEstate.map((item, index) => (
                                 <button
-                                  type="button"
+                                  type="submit"
                                   key={item.title}
                                   className="rounded-lg w-full p-3"
                                   onClick={() => handleShowSubRealState(index)}
@@ -1453,7 +1463,7 @@ const Nav: React.FC = () => {
               {socialLinks.map((link) => (
                 <Link href={link.href} key={Math.random()}>
                   <button
-                    type="button"
+                    type="submit"
                     className="px-3 py-2 flex items-center bg-gray-100 rounded-lg cursor-pointer"
                   >
                     <Image

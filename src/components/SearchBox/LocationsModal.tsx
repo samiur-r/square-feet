@@ -73,7 +73,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
       </div>
       <div className="bg-white">
         <button
-          type="button"
+          type="submit"
           className="flex w-full justify-end px-4 py-2 m-0 hover:bg-gray-100 text-black font-bold"
           onClick={() => {
             resetLocation()
@@ -84,7 +84,7 @@ const LocationsModal: React.FC<LocationsModalProps> = ({
         </button>
         {filteredLocations.map((location) => (
           <button
-            type="button"
+            type="submit"
             key={location.id}
             className={`${
               location.type === 'state' && 'text-black font-bold'

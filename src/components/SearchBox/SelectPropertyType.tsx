@@ -41,10 +41,10 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
   }
 
   return (
-    <>
+    <div className="relative z-20">
       {/* eslint-disable-next-line */}
       <div
-        className="flex justify-between relative z-10 md:w-60 py-4 h-14 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm"
+        className="flex justify-between relative w-full md:w-60 py-4 h-14 cursor-text px-5 border border-gray-400 text-gray-600 md:bg-stone-100 focus:outline-none font-medium rounded-full md:rounded-lg text-sm"
         onClick={togglePropertyTypeDropDown}
       >
         <div>
@@ -106,15 +106,15 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
         ref={propertyTypeRef}
         className={`${
           showPropertyTypeDropdown ? 'block' : 'hidden'
-        } z-10 w-80 md:w-60 mt-4 bg-white rounded-md divide-y divide-gray-100 drop-shadow-[0px_0px_3px_rgb(156,163,175)] absolute`}
+        } z-10 w-full md:w-60 mt-4 bg-white rounded-md divide-y divide-gray-100 drop-shadow-[0px_0px_3px_rgb(156,163,175)] absolute`}
       >
-        <ul
-          className="m-0 p-0 text-md font-bold text-[#6E9ECE] tracking-wider bg-white cursor-pointer rounded-md"
+        <div
+          className="m-0 p-0 text-md font-bold text-primary tracking-wider bg-white cursor-pointer rounded-md"
           aria-labelledby="dropdownDefault"
         >
           {propertyTypes.map((type) => (
             <button
-              type="button"
+              type="submit"
               key={type.id}
               className={`${
                 propertyTypeSelected.title === type.title && 'bg-gray-200'
@@ -124,9 +124,9 @@ const SelectPropertyType: React.FC<SelectPropertyTypeProps> = ({
               {type.title}
             </button>
           ))}
-        </ul>
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -49,14 +49,14 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
       <div className="mt-8">
         {type === 'register' ? (
           <button
-            type="button"
+            type="submit"
             className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
           >
             تسجيل
           </button>
         ) : (
           <button
-            type="button"
+            type="submit"
             className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 rounded-lg"
           >
             دخول
