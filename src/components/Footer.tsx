@@ -138,7 +138,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <div className="bg-gray-100 py-12 relative w-full">
+    <div className="bg-gray-50 py-12 relative w-full">
       <div className="container max-w-6xl grid grid-cols-2 md:grid-cols-4 md:gap-auto">
         {items.map((item) => (
           <div
@@ -164,7 +164,7 @@ const Footer = () => {
         {socialLinks.map((link) => (
           <Link href={link.href} key={Math.random()}>
             <button
-              type="button"
+              type="submit"
               className="px-3 py-2 flex items-center bg-white rounded-lg cursor-pointer"
             >
               <Image
@@ -179,7 +179,7 @@ const Footer = () => {
       </div>
       <div className="mt-10 flex justify-center gap-5">
         <Link href="https://apps.apple.com/kw/app/%D8%A8%D9%88%D8%B4%D9%85%D9%84%D8%A7%D9%86-%D8%B9%D9%82%D8%A7%D8%B1-%D9%84%D9%84%D8%A7%D9%8A%D8%AC%D8%A7%D8%B1-%D9%88-%D9%84%D9%84%D8%A8%D9%8A%D8%B9/id1185405864?mt=8">
-          <button type="button">
+          <button type="submit">
             <Image
               src="/images/apple-store.svg"
               width={119}
@@ -189,7 +189,7 @@ const Footer = () => {
           </button>
         </Link>
         <Link href="https://play.google.com/store/apps/details?id=com.q8villa.product">
-          <button type="button">
+          <button type="submit">
             <Image
               src="/images/google-play.svg"
               width={119}

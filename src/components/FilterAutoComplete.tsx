@@ -1,28 +1,69 @@
-import { Fragment, useState, SetStateAction, Dispatch } from 'react'
+import {
+  Fragment,
+  useState,
+  useRef,
+  SetStateAction,
+  Dispatch,
+  useEffect,
+  Suspense
+} from 'react'
 import { Combobox, Transition } from '@headlessui/react'
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
+import {
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ChevronRightIcon
+} from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
 import { LocationType } from 'intefaces'
 import { PRICE_RANGES } from 'constant'
-import FilterModal from 'components/SearchBox/FilterModal'
+
+const DynamicFilterModal = dynamic(
+  () => import('components/SearchBox/FilterModal'),
+  {
+    suspense: true
+  }
+)
 
 interface FilterAutoCompleteProps {
   locations: LocationType[]
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
-  handleIsLocationDropDownOpen: Dispatch<SetStateAction<boolean>>
+  isfilterComboboxOpen: boolean
+  handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
+  showOptions?: boolean
 }
 
 const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
   purposes,
   propertyTypes,
-  handleIsLocationDropDownOpen
+  isfilterComboboxOpen,
+  handleIsfilterComboboxOpen,
+  showOptions
 }) => {
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
+  const [showFilterModal, setShowFilterModal] = useState(false)
+
+  const isOpenRef = useRef<HTMLInputElement>(null)
+  const comboBtn = useRef<HTMLButtonElement>(null)
+
+  const handleInputFocus = () => comboBtn.current?.click()
+
+  useEffect(() => {
+    if (showOptions) handleInputFocus()
+  }, [showOptions])
+
+  // TODO: optimize the func
+  const changeOpenStatus = () => {
+    const isOpen = isOpenRef?.current?.value
+    setTimeout(() => {
+      handleIsfilterComboboxOpen(isOpen === 'true')
+    })
+  }
 
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
@@ -36,7 +77,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     PRICE_RANGES.min,
     PRICE_RANGES.max
   ])
-  const [showFilterModal, setShowFilterModal] = useState(false)
 
   const filteredLocations =
     query === ''
@@ -52,35 +92,23 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     <div className="dir-rtl w-full">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
-          <div className="relative">
-            {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
-            <>
-              {open
-                ? handleIsLocationDropDownOpen(true)
-                : handleIsLocationDropDownOpen(false)}
-              <div className="flex py-3 px-2 gap-2 items-center relative w-full h-full cursor-default overflow-hidden rounded-lg bg-white text-left md:shadow-md outline-none">
-                <Combobox.Button className="hidden md:flex items-center">
-                  {open ? (
-                    <ChevronUpIcon
-                      className="h-7 w-7 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <ChevronDownIcon
-                      className="h-7 w-7 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  )}
-                </Combobox.Button>
-                <Combobox.Button className="w-full h-8" as="div">
-                  <Combobox.Input
-                    className="w-full h-full text-base leading-5 text-gray-900 outline-none"
-                    // @ts-ignore
-                    displayValue={(location) => location?.title}
-                    onChange={(event) => setQuery(event.target.value)}
+          <>
+            {isfilterComboboxOpen !== undefined &&
+              isfilterComboboxOpen !== open &&
+              changeOpenStatus()}
+            <input ref={isOpenRef} type="hidden" value={`${open}`} />
+            {showOptions && (
+              <>
+                <div className="flex md:hidden items-center absolute z-10 right-3 top-3">
+                  <ChevronRightIcon
+                    className="h-10 w-10 text-gray-900"
+                    aria-hidden="true"
                   />
-                </Combobox.Button>
-                <div>
+                </div>
+                <Combobox.Button
+                  className="absolute top-5 left-7 z-10"
+                  type="submit"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -96,19 +124,85 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
                     />
                   </svg>
-                </div>
-                <div className="md:hidden">
-                  <Link href="/">
-                    <a className="flex items-center">
-                      <Image
-                        width={40}
-                        height={40}
-                        src="/images/mobile-search-logo.svg"
-                        alt="logo"
-                      />
-                    </a>
-                  </Link>
-                </div>
+                </Combobox.Button>
+              </>
+            )}
+            <div className="relative">
+              <div className="flex py-3 px-2 gap-2 items-center relative w-full h-full cursor-default overflow-hidden rounded-lg bg-white text-left md:shadow-md outline-none">
+                <Combobox.Button
+                  className="hidden md:flex items-center"
+                  type="submit"
+                  aria-label="dropdown"
+                >
+                  {open ? (
+                    <ChevronUpIcon
+                      className="h-7 w-7 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ChevronDownIcon
+                      className="h-7 w-7 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  )}
+                </Combobox.Button>
+                <Combobox.Button
+                  className="hidden"
+                  ref={comboBtn}
+                  type="submit"
+                />
+                <Combobox.Button className="w-full h-8" as="div" aria-hidden>
+                  <Combobox.Input
+                    // @ts-ignore
+                    key={open}
+                    className={`${
+                      showOptions ? 'px-7' : 'px-2'
+                    } w-full h-full text-base leading-5 text-gray-900 outline-none`}
+                    placeholder="اكتب المنطقه للبحث"
+                    displayValue={(location) => {
+                      if (open) {
+                        return ''
+                      }
+                      // @ts-ignore
+                      return location?.title
+                    }}
+                    onChange={(event) => setQuery(event.target.value)}
+                  />
+                </Combobox.Button>
+
+                {!showOptions && (
+                  <>
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="blue"
+                        className="w-6 h-6 cursor-pointer"
+                        onClick={() => setShowFilterModal(true)}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
+                        />
+                      </svg>
+                    </div>
+                    <div className="md:hidden">
+                      <Link href="/">
+                        <a className="flex items-center">
+                          <Image
+                            width={40}
+                            height={40}
+                            src="/images/mobile-search-logo.svg"
+                            alt="logo"
+                          />
+                        </a>
+                      </Link>
+                    </div>
+                  </>
+                )}
               </div>
               <Transition
                 as={Fragment}
@@ -117,7 +211,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                 leaveTo="opacity-0"
                 afterLeave={() => setQuery('')}
               >
-                <Combobox.Options className="fixed md:absolute pr-2 overflow-y-scroll mt-5 md:mt-1 left-0 h-screen w-screen md:max-h-80 md:w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Combobox.Options className="fixed md:absolute pr-2 overflow-y-scroll mt-1 left-0 h-screen w-screen md:max-h-80 md:w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {filteredLocations.length === 0 && query !== '' ? (
                     <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                       لا توجد منطقه بهذا الاسم
@@ -128,7 +222,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                         className="relative cursor-default select-none"
                         value="all"
                       >
-                        <span className="block text-base truncate hover:bg-gray-100 text-black font-bold p-2 cursor-pointer">
+                        <span className="block text-base truncate hover:bg-gray-100 text-black font-bold py-2 px-4 cursor-pointer">
                           {' '}
                           كل مناطق الكويت
                         </span>
@@ -146,11 +240,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           )}
                           <span
                             className={`${
-                              location.type === 'state' &&
-                              'text-black font-bold'
+                              location.type === 'state' && 'text-black'
                             } ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-gray-100 text-base block truncate p-2 cursor-pointer`}
+                            } hover:bg-gray-100 font-bold text-base block truncate py-2 pr-4 cursor-pointer`}
                           >
                             {location.title}
                           </span>
@@ -160,22 +253,24 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                   )}
                 </Combobox.Options>
               </Transition>
-            </>
-          </div>
+            </div>
+          </>
         )}
       </Combobox>
-      <FilterModal
-        purposes={purposes}
-        propertyTypes={propertyTypes}
-        selectedPurpose={purpose}
-        selectedPropertyType={propertyType}
-        selectedPriceRange={priceRange}
-        showFilterModal={showFilterModal}
-        setPurpose={setPurpose}
-        setPropertyType={setPropertyType}
-        setPriceRange={setPriceRange}
-        setShowFilterModal={setShowFilterModal}
-      />
+      <Suspense fallback="Loading...">
+        <DynamicFilterModal
+          purposes={purposes}
+          propertyTypes={propertyTypes}
+          selectedPurpose={purpose}
+          selectedPropertyType={propertyType}
+          selectedPriceRange={priceRange}
+          showFilterModal={showFilterModal}
+          setPurpose={setPurpose}
+          setPropertyType={setPropertyType}
+          setPriceRange={setPriceRange}
+          setShowFilterModal={setShowFilterModal}
+        />
+      </Suspense>
     </div>
   )
 }

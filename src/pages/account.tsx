@@ -32,11 +32,52 @@ const posts = [
   }
 ]
 
+const balanceItems = [
+  {
+    title: 'مجاني',
+    value: 0
+  },
+  {
+    title: 'اضافي',
+    value: 9
+  },
+  {
+    title: 'مميز',
+    value: 0
+  }
+]
+
+const agencyItems = [
+  {
+    title: 'عدد الإعلانات',
+    value: 15
+  },
+  {
+    title: 'تاريخ الإنتهاء',
+    value: '13-01-2023'
+  },
+  {
+    title: 'وقت الإنتهاء',
+    value: '03:48 م'
+  }
+]
+
 const Account: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-4xl py-10 px-5 flex flex-col gap-10 items-center">
-      <BalanceCard />
-      <div className="flex justify-center gap-2 pb-5">
+    <div className="dir-rtl container max-w-6xl py-10 px-8 md:px-5 flex flex-col gap-5 items-center bg-gray-50 md:bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <BalanceCard
+          headline="رصيدك من الاعلانات"
+          items={balanceItems}
+          ctaList={['اشحن الرصيد']}
+        />
+        <BalanceCard
+          headline="رصيد اشتراك المكتب"
+          items={agencyItems}
+          ctaList={['بياناتي', 'صفحتي']}
+        />
+      </div>
+      <div className="flex justify-center text-sm md:text-base gap-2 pb-5">
         <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
           <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
         </Link>
@@ -46,10 +87,19 @@ const Account: NextPage = () => {
         </Link>
         <p>للمساعده</p>
       </div>
-      <div className="w-full">
-        <h3 className="text-xl font-bold tracking-widest">إعلاناتي</h3>
+      <div className="md:max-w-3xl md:container">
+        <div className="flex gap-3 items-center">
+          <h3 className="text-base md:text-xl font-bold tracking-wider">
+            إعلاناتي
+          </h3>
+          <Link href="/">
+            <a className="hover:underline cursor-pointer text-primary ">
+              (الاعلانات المنتهيه)
+            </a>
+          </Link>
+        </div>
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} showActions />
         ))}
       </div>
     </div>

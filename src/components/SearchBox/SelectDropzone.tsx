@@ -201,7 +201,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
             >
               {location.title}
               <button
-                type="button"
+                type="submit"
                 className="bg-transparent hover focus:outline-none"
                 onClick={() => removeLocation(location.id)}
               >
@@ -235,7 +235,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
           aria-labelledby="dropdownDefault"
         >
           <button
-            type="button"
+            type="submit"
             className="flex w-full justify-end px-4 py-2 m-0 hover:bg-gray-100 text-black font-bold"
             onClick={resetLocation}
           >
@@ -243,7 +243,7 @@ const SelectDropZone: React.FC<SelectDropZoneProps> = ({
           </button>
           {filteredLocations.map((location) => (
             <button
-              type="button"
+              type="submit"
               key={location.id}
               className={`${
                 location.type === 'state' && 'text-black font-bold'

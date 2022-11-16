@@ -25,7 +25,7 @@ const Filter = () => {
       {!showFull && (
         <div>
           <button
-            type="button"
+            type="submit"
             className="underline text-primary"
             onClick={() => setShowFull(true)}
           >

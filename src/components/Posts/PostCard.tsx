@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Actions from './Actions'
 
 interface PostCardType {
   id: number
@@ -16,33 +17,39 @@ interface PostCardType {
 
 interface PostCardProps {
   post: PostCardType
+  showActions?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
   return (
     <div
       className={`${
         post.isSticky
           ? `
-							border-rose-300 bg-red-50 after:absolute after:content-["مميز"] after:bg-rose-500 after:top-1 after:right-3 after:text-white 
-							after:px-3 after:py-2 before:absolute before:top-7 before:right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
-							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-rose-500 before:p-1`
+							border-rose-300 bg-red-50 after:absolute after:content-["مميز"] after:text-xs after:md:text-sm after:bg-rose-500 after:top-1 after:right-3 after:text-white 
+							after:px-2 after:md:px-3 after:py-1 after:md:py-2 before:absolute before:top-3 before:md:top-6 before:right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
+							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-rose-600 before:p-1`
           : 'shadow-md'
       } rounded-lg border cursor-pointer mt-5 py-3 px-5 relative
 					`}
     >
-      <div className={`flex gap-5 `}>
-        <div className="flex-grow-0 rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center relative ">
-          <Image
-            src={post.thumbnail}
-            width={100}
-            height={100}
-            objectFit="cover"
-            alt="property_image"
-          />
+      <div className="flex gap-5">
+        <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center">
+          <div className="w-16 h-12 md:w-24 md:h-24 relative">
+            <Image
+              src={post.thumbnail}
+              // width={100}
+              // height={100}
+              layout="fill"
+              objectFit="cover"
+              alt="property_image"
+            />
+          </div>
         </div>
-        <div className="flex-grow">
-          <div className="font-bold">{post.title}</div>
+        <div className="">
+          <div className="font-bold text-sm md:text:base line-clamp-1">
+            {post.title}
+          </div>
           <div className="flex gap-3 md:gap-5 mt-3">
             <div className="text-primary md:text-base text-xs font-bold ">
               {post.price} دك
@@ -78,6 +85,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       <div className="md:hidden mt-3 text-xs text-gray-500 line-clamp-2">
         {post.description}
       </div>
+      {showActions && (
+        <div className="mt-5 md:mt-3 w-full grid place-items-center md:absolute md:top-0 md:place-items-end md:pl-10">
+          <Actions />
+        </div>
+      )}
     </div>
   )
 }

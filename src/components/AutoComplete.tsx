@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
@@ -7,11 +7,15 @@ import { LocationType } from 'intefaces'
 interface AutoCompleteProps {
   locations: LocationType[]
   isHomePage?: boolean
+  canUpdateFilterAutoCompleteShow?: boolean
+  handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
   locations,
-  isHomePage
+  isHomePage,
+  canUpdateFilterAutoCompleteShow,
+  handleCanUpdateFilterAutoCompleteShow
 }) => {
   const [selected, setSelected] = useState(
     isHomePage
@@ -22,6 +26,14 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   )
 
   const [query, setQuery] = useState('')
+
+  // TODO: optimize the func
+  const changeShowFilterComboboxStatus = (open: boolean) => {
+    setTimeout(() => {
+      // @ts-ignore
+      handleCanUpdateFilterAutoCompleteShow(open)
+    })
+  }
 
   const filteredLocations =
     query === ''
@@ -34,16 +46,20 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full relative mt-10">
+    <div className="dir-rtl w-full relative">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
-          <div>
-            {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
-            <>
+          <>
+            {canUpdateFilterAutoCompleteShow !== undefined &&
+              canUpdateFilterAutoCompleteShow !== open &&
+              changeShowFilterComboboxStatus(open)}
+            <div className="">
               <div
                 className={`${
-                  isHomePage ? 'bg-gray-100' : 'bg-white'
-                } flex py-3 px-2 gap-2 items-center border border-gray-300 w-full h-full cursor-default overflow-hidden rounded-lg text-left outline-none`}
+                  isHomePage
+                    ? 'bg-gray-50 rounded-full md:rounded-lg'
+                    : 'bg-white rounded-lg'
+                } flex py-2 md:py-2.5 px-3 gap-2 items-center border border-gray-300 shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
               >
                 {isHomePage && (
                   <div className="flex items-center">
@@ -63,13 +79,18 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     </svg>
                   </div>
                 )}
-                <Combobox.Button className="w-full h-8" as="div">
+                <Combobox.Button className="w-full h-full" as="div">
                   <Combobox.Input
                     id="location"
                     className="peer w-full bg-inherit h-full text-base leading-5 text-gray-500 outline-none"
-                    placeholder=" "
-                    // @ts-ignore
-                    displayValue={(location) => location?.title}
+                    placeholder={`${isHomePage ? 'اكتب المنطقه للبحث' : ' '}`}
+                    displayValue={(location) => {
+                      if (open) {
+                        return ''
+                      }
+                      // @ts-ignore
+                      return location?.title
+                    }}
                     onChange={(event) => setQuery(event.target.value)}
                   />
                   {!isHomePage && (
@@ -81,7 +102,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     </label>
                   )}
                 </Combobox.Button>
-                <Combobox.Button className="flex items-center">
+                <Combobox.Button
+                  className="flex items-center"
+                  type="submit"
+                  aria-label="dropdown"
+                >
                   {open ? (
                     <ChevronUpIcon
                       className="h-7 w-7 text-gray-400"
@@ -97,12 +122,19 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
               </div>
               <Transition
                 as={Fragment}
+                enter="transition ease-in duration-100"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
                 leave="transition ease-in duration-100"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
                 afterLeave={() => setQuery('')}
               >
-                <Combobox.Options className="z-20 bg-white absolute pr-2 overflow-y-scroll mt-5 md:mt-1 left-0 max-h-80 w-full rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <Combobox.Options
+                  className={`${
+                    isHomePage && 'hidden md:block'
+                  } z-20 bg-white absolute pr-2 overflow-y-scroll mt-3 left-0 max-h-80 w-full rounded-lg text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm`}
+                >
                   {filteredLocations.length === 0 && query !== '' ? (
                     <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                       لا توجد منطقه بهذا الاسم
@@ -137,11 +169,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           )}
                           <span
                             className={`${
-                              location.type === 'state' &&
-                              'text-black font-bold'
+                              location.type === 'state' && 'text-black'
                             } ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-gray-100 text-base block truncate p-2 cursor-pointer`}
+                            } hover:bg-gray-100 font-bold text-base block truncate p-2 cursor-pointer`}
                           >
                             {location.title}
                           </span>
@@ -151,8 +182,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   )}
                 </Combobox.Options>
               </Transition>
-            </>
-          </div>
+            </div>
+          </>
         )}
       </Combobox>
     </div>

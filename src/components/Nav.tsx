@@ -1,17 +1,24 @@
-import React, { useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment, useEffect, Suspense } from 'react'
 import { Popover, Transition } from '@headlessui/react'
+import { XMarkIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import {
   Bars3Icon,
-  XMarkIcon,
-  PlusCircleIcon
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+  ChevronDownIcon,
+  ChevronRightIcon
+} from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
 import CTA from './CTA'
-import FilterAutoComplete from './FilterAutoComplete'
+
+const DynamicFilterAutoComplete = dynamic(
+  () => import('components/FilterAutoComplete'),
+  {
+    suspense: true
+  }
+)
 
 const realEstate = [
   {
@@ -1161,7 +1168,7 @@ const Nav: React.FC = () => {
   }, [pathname])
 
   return (
-    <Popover className="fixed top-0 bg-white shadow-sm w-full z-20 h-24">
+    <Popover className="fixed top-0 bg-white shadow-md md:shadow-sm w-full z-20 h-20 md:h-24">
       <div className="container max-w-6xl h-full items-center flex">
         <div
           className={`${
@@ -1169,12 +1176,15 @@ const Nav: React.FC = () => {
           } w-full flex items-center justify-between md:space-x-10 rounded-lg md:border-0`}
         >
           {isFilterPage && (
-            <FilterAutoComplete
-              locations={locations}
-              purposes={purposes}
-              propertyTypes={propertyTypes}
-              handleIsLocationDropDownOpen={setIsLocationDropDownOpen}
-            />
+            <Suspense fallback="Loading...">
+              <DynamicFilterAutoComplete
+                locations={locations}
+                purposes={purposes}
+                propertyTypes={propertyTypes}
+                isfilterComboboxOpen={isLocationDropDownOpen}
+                handleIsfilterComboboxOpen={setIsLocationDropDownOpen}
+              />
+            </Suspense>
           )}
           {!isFilterPage && (
             <div className="hidden md:flex w-3/12">
@@ -1215,7 +1225,7 @@ const Nav: React.FC = () => {
                           <div className="bg-white w-48">
                             {realEstate.map((item, index) => (
                               <button
-                                type="button"
+                                type="submit"
                                 key={item.title}
                                 className="rounded-lg w-full p-3"
                                 onClick={() => handleShowSubRealState(index)}
@@ -1256,7 +1266,7 @@ const Nav: React.FC = () => {
               </Popover>
               {navItems.map((item) => (
                 <button
-                  type="button"
+                  type="submit"
                   onClick={() => handleNavChange(item)}
                   className={`${
                     activeItem === item.title
@@ -1273,17 +1283,12 @@ const Nav: React.FC = () => {
           <div
             className={`${
               isFilterPage && 'hidden'
-            } flex md:flex justify-center items-center pl-5 md:pl-0 w-full md:w-2/12`}
+            } flex justify-center items-center pl-10 md:pl-0 w-full md:w-2/12`}
           >
             <span className="sr-only">Company Logo</span>
             <Link href="/">
-              <a>
-                <Image
-                  width={150}
-                  height={47}
-                  src="/images/logo.png"
-                  alt="logo"
-                />
+              <a className="block relative w-36 h-11">
+                <Image layout="fill" src="/images/logo.svg" alt="logo" />
               </a>
             </Link>
           </div>
@@ -1304,7 +1309,7 @@ const Nav: React.FC = () => {
               } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none`}
             >
               <span className="sr-only">Open menu</span>
-              <Bars3Icon className="h-9 w-9" aria-hidden="true" />
+              <Bars3Icon className="h-9 w-9 font-bold" aria-hidden="true" />
             </Popover.Button>
           </div>
         </div>
@@ -1324,9 +1329,10 @@ const Nav: React.FC = () => {
           focus
           className={`${
             !isFilterPage && 'md:hidden'
-          } absolute top-0 right-0 transform transition w-10/12 md:w-3/12 h-screen`}
+          } fixed h-full top-0 right-0 transform transition w-10/12 md:w-3/12`}
         >
-          <div className="rounded-lg bg-white shadow-2xl h-full flex flex-col justify-between">
+          <div className="bg-black opacity-50 right-0 w-screen absolute h-full z-10 pointer-events-none" />
+          <div className="rounded-lg bg-white shadow-2xl h-full flex flex-col justify-between relative z-20">
             <div>
               <div className="flex items-center justify-between px-4 pt-5 pb-3">
                 <div>
@@ -1335,13 +1341,12 @@ const Nav: React.FC = () => {
                     <XMarkIcon className="h-7 w-7" aria-hidden="true" />
                   </Popover.Button>
                 </div>
-                <div>
-                  <Image
-                    width={150}
-                    height={47}
-                    src="/images/logo.png"
-                    alt="logo"
-                  />
+                <div className="relative w-36 h-11">
+                  <Link href="/">
+                    <a>
+                      <Image layout="fill" src="/images/logo.svg" alt="logo" />
+                    </a>
+                  </Link>
                 </div>
               </div>
               <hr className="h-px bg-gray-400 border-0" />
@@ -1351,7 +1356,7 @@ const Nav: React.FC = () => {
                 {mobileNavItems.map((item) => (
                   <Link href={item.href} key={item.title}>
                     <button
-                      type="button"
+                      type="submit"
                       onClick={() => handleMobileNavChange(item)}
                       className={`${
                         activeItemOnMobile === item.title && 'bg-blue-100'
@@ -1360,7 +1365,7 @@ const Nav: React.FC = () => {
                       <p
                         className={`${
                           item.title === 'إعلان مجانًا' && 'text-secondary'
-                        } font-semibold`}
+                        } font-bold`}
                       >
                         {item.title}
                       </p>
@@ -1406,7 +1411,7 @@ const Nav: React.FC = () => {
                             <div className="bg-white w-full">
                               {realEstate.map((item, index) => (
                                 <button
-                                  type="button"
+                                  type="submit"
                                   key={item.title}
                                   className="rounded-lg w-full p-3"
                                   onClick={() => handleShowSubRealState(index)}
@@ -1449,11 +1454,11 @@ const Nav: React.FC = () => {
                 </Popover>
               </div>
             </div>
-            <div className="mb-5 px-5 flex justify-center gap-5">
+            <div className="px-5 w-full flex justify-center gap-5 mb-5">
               {socialLinks.map((link) => (
                 <Link href={link.href} key={Math.random()}>
                   <button
-                    type="button"
+                    type="submit"
                     className="px-3 py-2 flex items-center bg-gray-100 rounded-lg cursor-pointer"
                   >
                     <Image

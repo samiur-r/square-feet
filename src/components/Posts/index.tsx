@@ -60,8 +60,10 @@ const posts = [
 
 const Posts = () => {
   return (
-    <div className="dir-rtl container max-w-3xl py-12">
-      <div className="font-semibold text-2xl mb-10">أحدث الإعلانات</div>
+    <div className="dir-rtl container max-w-3xl pt-5 md:pt-0 pb-10">
+      <div className="font-bold text-base tracking-wider md:text-xl mb-5">
+        أحدث الإعلانات
+      </div>
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}

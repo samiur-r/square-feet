@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-import SelectBox from 'components/SearchBox'
+import SearchBox from 'components/SearchBox'
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
 import Guide from 'components/Articles/Guide'
@@ -11,16 +11,16 @@ import Posts from 'components/Posts'
 
 const Home: NextPage = () => {
   return (
-    <>
+    <div className="bg-gray-50 md:bg-white">
       <Hero />
-      <SelectBox />
+      <SearchBox />
       <Banner />
       <Posts />
       <Guide />
       <Cards />
       <ApartmentRent />
       <Faq bgPrimary />
-    </>
+    </div>
   )
 }
 

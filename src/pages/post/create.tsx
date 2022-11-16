@@ -1,6 +1,7 @@
-import AutoComplete from 'components/AutoComplete'
-import Select from 'components/Select'
 import type { NextPage } from 'next'
+
+import AutoComplete from 'components/AutoComplete'
+import ListBox from 'components/ListBox'
 
 const locations = [
   {
@@ -965,36 +966,56 @@ const purposes = [
 
 const CreatePost: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-5 items-center tracking-wider">
-      <h1 className="text-xl font-bold">إضافة إعلان</h1>
-      <p className="text-gray-500">أدخل البيانات التالية لإضافة اعلان</p>
-      <form className="w-full max-w-lg">
-        <div className="relative mt-10">
+    <div className="dir-rtl container max-w-6xl px-8 py-10 flex flex-col gap-3 items-center tracking-wider">
+      <h1 className="text-base md:text-xl md:text-center w-full font-bold">
+        إضافة إعلان
+      </h1>
+      <p className="text-sm md:text-base text-gray-500 w-full md:text-center">
+        أدخل البيانات التالية لإضافة اعلان
+      </p>
+      <form className="w-full max-w-lg mt-8 md:mt-10">
+        <div className="relative">
           <input
             type="number"
             name="phone"
             id="phone"
-            className="block bg-gray-50 px-2.5 py-4 w-full text-base text-gray-400 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block bg-gray-50 px-2.5 py-3 md:py-3.5 w-full text-base text-gray-400 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=""
             value="65432165"
             disabled
           />
           <label
             htmlFor="phone"
-            className="absolute cursor-text text-md text-gray-500 duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-1"
+            className="absolute cursor-text text-md text-gray-500 duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-0"
           >
             رقم الموبايل{' '}
           </label>
         </div>
-        <AutoComplete locations={locations} />
-        <Select options={propertyTypes} placeholder="نوع العقار" />
-        <Select options={purposes} placeholder="الغرض" />
-        <div className="relative mt-10">
+        <div className="mt-8 md:mt-10">
+          <AutoComplete locations={locations} />
+        </div>
+        <div className="mt-8 md:mt-10">
+          <ListBox
+            selectedOpt={undefined}
+            options={propertyTypes}
+            placeholder="نوع العقار"
+            isFloatingLabel
+          />
+        </div>
+        <div className="mt-8 md:mt-10">
+          <ListBox
+            selectedOpt={undefined}
+            options={purposes}
+            placeholder="الغرض"
+            isFloatingLabel
+          />
+        </div>
+        <div className="relative mt-8 md:mt-10">
           <input
             type="number"
             name="price"
             id="price"
-            className="block px-2.5 py-4 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block px-2.5 py-3 md:py-3.5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
           />
           <label
@@ -1004,10 +1025,10 @@ const CreatePost: NextPage = () => {
             السعر (اختياري)
           </label>
         </div>
-        <div className="relative mt-10">
+        <div className="relative mt-8 md:mt-10">
           <textarea
             name="description"
-            rows={5}
+            rows={7}
             className="block px-2.5 py-3 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
           />
@@ -1018,10 +1039,10 @@ const CreatePost: NextPage = () => {
             اكتب تفاصيل الاعلان هنا{' '}
           </label>
         </div>
-        <div className="flex justify-center items-center w-full mt-10">
+        <div className="flex justify-center items-center w-full mt-8 md:mt-10">
           <label
             htmlFor="dropzone-file"
-            className="flex flex-col justify-center items-center w-full h-64 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex flex-col justify-center items-center w-full h-52 rounded-lg border border-gray-300 cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
           >
             <div className="flex flex-col justify-center items-center pt-5 pb-6">
               <svg
@@ -1030,7 +1051,7 @@ const CreatePost: NextPage = () => {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-12 h-12 text-primary"
+                className="w-14 h-14 text-primary"
               >
                 <path
                   strokeLinecap="round"
@@ -1039,14 +1060,14 @@ const CreatePost: NextPage = () => {
                 />
               </svg>
 
-              <p className="mb-2 mt-2 text-sm text-gray-500 dark:text-gray-400 flex flex-col items-center">
-                إضافة الصور<span className="block">(اختياري)</span>
+              <p className="mb-2 mt-2 text-base text-primary dark:text-gray-400 flex flex-col items-center">
+                إضافة الصور<span className="block text-black">(اختياري)</span>
               </p>
             </div>
             <input id="dropzone-file" type="file" className="hidden" />
           </label>
         </div>
-        <div className="flex items-baseline gap-3 mt-10">
+        <div className="flex items-center gap-3 mt-8 md:mt-10">
           <input
             id="checked-checkbox"
             type="checkbox"
@@ -1055,18 +1076,18 @@ const CreatePost: NextPage = () => {
           />
           <label htmlFor="checked-checkbox" className="font-medium">
             <a className="hover:underline flex gap-3 cursor-pointer">
-              <p className="text-primary text-base">
+              <p className="text-primary text-xs md:text-sm">
                 إجعل إعلاني مميزًا مقابل 12 دك
               </p>
-              <p className="text-secondary text-base whitespace-nowrap">
+              <p className="text-secondary text-xs md:text-sm whitespace-nowrap">
                 (لمعرفة المزيد)
               </p>
             </a>
           </label>
         </div>
-        <div className="mt-10">
+        <div className="mt-3 md:mt-5">
           <button
-            type="button"
+            type="submit"
             className="bg-secondary text-white rounded-lg w-full mt-8 py-4 opacity-80 hover:opacity-100"
           >
             إضافة الإعلان{' '}
