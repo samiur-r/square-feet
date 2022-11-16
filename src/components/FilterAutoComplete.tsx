@@ -4,8 +4,7 @@ import {
   useRef,
   SetStateAction,
   Dispatch,
-  useEffect,
-  Suspense
+  useEffect
 } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import {
@@ -15,17 +14,10 @@ import {
 } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 
 import { LocationType } from 'intefaces'
 import { PRICE_RANGES } from 'constant'
-
-const DynamicFilterModal = dynamic(
-  () => import('components/SearchBox/FilterModal'),
-  {
-    suspense: true
-  }
-)
+import FilterModal from 'components/SearchBox/FilterModal'
 
 interface FilterAutoCompleteProps {
   locations: LocationType[]
@@ -257,20 +249,18 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
           </>
         )}
       </Combobox>
-      <Suspense fallback="Loading...">
-        <DynamicFilterModal
-          purposes={purposes}
-          propertyTypes={propertyTypes}
-          selectedPurpose={purpose}
-          selectedPropertyType={propertyType}
-          selectedPriceRange={priceRange}
-          showFilterModal={showFilterModal}
-          setPurpose={setPurpose}
-          setPropertyType={setPropertyType}
-          setPriceRange={setPriceRange}
-          setShowFilterModal={setShowFilterModal}
-        />
-      </Suspense>
+      <FilterModal
+        purposes={purposes}
+        propertyTypes={propertyTypes}
+        selectedPurpose={purpose}
+        selectedPropertyType={propertyType}
+        selectedPriceRange={priceRange}
+        showFilterModal={showFilterModal}
+        setPurpose={setPurpose}
+        setPropertyType={setPropertyType}
+        setPriceRange={setPriceRange}
+        setShowFilterModal={setShowFilterModal}
+      />
     </div>
   )
 }

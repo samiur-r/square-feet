@@ -1,16 +1,9 @@
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
-
-const DynamicFilterAutoComplete = dynamic(
-  () => import('components/FilterAutoComplete'),
-  {
-    suspense: true
-  }
-)
+import FilterAutoComplete from 'components/FilterAutoComplete'
 
 const propertyTypes = [
   {
@@ -1063,16 +1056,14 @@ const SearchBox = () => {
       </div>
       {showFilterCombobox && (
         <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
-          <Suspense fallback="Loading...">
-            <DynamicFilterAutoComplete
-              locations={locations}
-              purposes={purposes}
-              propertyTypes={propertyTypes}
-              isfilterComboboxOpen={isfilterComboboxOpen}
-              handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
-              showOptions
-            />
-          </Suspense>
+          <FilterAutoComplete
+            locations={locations}
+            purposes={purposes}
+            propertyTypes={propertyTypes}
+            isfilterComboboxOpen={isfilterComboboxOpen}
+            handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
+            showOptions
+          />
         </div>
       )}
     </>
