@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import SearchBox from 'components/SearchBox'
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
@@ -14,7 +13,7 @@ const Home: NextPage = () => {
   return (
     <div className="bg-gray-50 md:bg-white">
       <Hero />
-      {/* <SearchBox /> */}
+      <SearchBox />
       <Banner />
       <Posts />
       <Guide />
