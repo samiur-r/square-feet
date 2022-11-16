@@ -2,19 +2,21 @@ import type { NextPage } from 'next'
 
 const PasswordReset: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-md grid place-items-center py-10 md:py-16 px-5">
-      <h1 className="font-semibold text-xl">تغيير كلمة السر</h1>
-      <p className="text-md text-gray-600 text-center mt-5 tracking-wider">
+    <div className="dir-rtl container max-w-md grid place-items-center py-10 md:py-16 px-8">
+      <h1 className="font-semibold text-lg md:text-xl w-full md:w-auto">
+        تغيير كلمة السر
+      </h1>
+      <p className="text-sm md:text-base text-gray-600 text-start md:text-center mt-5 tracking-wider">
         سنرسل لك رسالة نصية SMS وفيها رقم تفعيل OTP للتأكد من أن رقم موبايلك
         صحيح
       </p>
-      <form className="mt-10 w-full">
+      <form className="mt-8 w-full">
         <div className="relative">
           <input
             type="number"
             name="phone"
             id="phone"
-            className="block px-2.5 py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block px-3 py-4 md:py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
           />
           <label
@@ -27,7 +29,7 @@ const PasswordReset: NextPage = () => {
         <div className="mt-8">
           <button
             type="submit"
-            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 rounded-lg"
+            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white py-4 px-10 rounded-lg"
           >
             أرسل لي رقم التفعيل SMS
           </button>

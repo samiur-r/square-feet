@@ -12,11 +12,13 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
         type="submit"
         className="box-border appearance-none cursor-pointer focus:outline-none flex items-center justify-between"
       >
-        <p className="inline-block text-base font-semibold text-start light">
+        <p className="inline-block text-sm md:text-base text-start light">
           {title}
         </p>
       </button>
-      <div className="overflow-hidden text-start text-base">{content}</div>
+      <div className="overflow-hidden text-start text-sm md:text-base">
+        {content}
+      </div>
     </div>
   )
 }

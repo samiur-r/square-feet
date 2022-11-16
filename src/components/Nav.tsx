@@ -1365,7 +1365,7 @@ const Nav: React.FC = () => {
                       <p
                         className={`${
                           item.title === 'إعلان مجانًا' && 'text-secondary'
-                        } font-semibold`}
+                        } font-bold`}
                       >
                         {item.title}
                       </p>

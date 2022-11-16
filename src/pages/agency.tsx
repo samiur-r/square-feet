@@ -61,8 +61,8 @@ const posts = [
 const Agency: NextPage = () => {
   return (
     <div className="dir-rtl pb-12">
-      <div className="bg-primary flex flex-col md:flex-row gap-10 justify-center items-center text-white px-3 py-20">
-        <div className="w-40 h-40 rounded-lg overflow-hidden relative border">
+      <div className="bg-primary flex flex-col md:flex-row gap-5 md:gap-10 justify-center items-center text-white px-5 py-5 md:py-10">
+        <div className="w-40 h-32 md:w-46 md:h-32 rounded-lg overflow-hidden relative border">
           <Image
             src="/images/nopic-ar.jpg"
             layout="fill"
@@ -70,22 +70,24 @@ const Agency: NextPage = () => {
             alt="no_pic"
           />
         </div>
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl font-bold tracking-widest mb-5">
+        <div className="flex flex-col items-center text-center">
+          <h3 className="text-lg md:text-xl font-bold tracking-wider mb-3 md:mb-5">
             شركة العتيقي العقارية
           </h3>
-          <p>القبلة، شارع فهد السالم، مجمع الدولية، الميزانين، مكتب رقم ١٦٨</p>
+          <p className="text-xs md:text-base">
+            القبلة، شارع فهد السالم، مجمع الدولية، الميزانين، مكتب رقم ١٦٨
+          </p>
           <p className="mt-2">instagram: @alateeqire</p>
           <a
             href="tel:+96599491575"
-            className="bg-green-600 hover:bg-green-700 w-40 flex items-center justify-center gap-2 text-center text-white py-5 mt-10 rounded-md"
+            className="bg-green-600 font-bold hover:bg-green-700 w-40 flex items-center justify-center gap-2 text-center text-white py-5 mt-8 rounded-md"
           >
             99491575{' '}
             <Image
               src="/images/call-white.svg"
-              height={16}
-              width={16}
-              className="text-white"
+              height={17}
+              width={17}
+              className="text-white font-bold"
               alt="phone_icon"
             />
           </a>

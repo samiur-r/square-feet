@@ -10,13 +10,13 @@ interface AuthFormProps {
 
 const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   return (
-    <form className="w-full mt-10 dir-rtl">
+    <form className="w-full mt-10 px-3 md:px-auto dir-rtl">
       <div className="relative">
         <input
           type="number"
           name="phone"
           id="phone"
-          className="block px-2.5 py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          className="block px-2.5 py-3 md:py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
         />
         <label
@@ -31,7 +31,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           type="password"
           name="password"
           id="password"
-          className="block px-2.5 py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          className="block px-2.5 py-3 md:py-5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=" "
         />
         <label

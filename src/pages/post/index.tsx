@@ -34,10 +34,12 @@ const Posts: NextPage = () => {
   const [showCarousel, setShowCarousel] = useState(false)
   return (
     <div className="dir-rtl grid gap-12 pb-12">
-      <div className="bg-primary flex flex-col gap-7 justify-center items-center text-white px-5 py-8 md:py-16">
-        <h1 className="font-bold text-4xl text-center">{post.title}</h1>
-        <div className="font-bold text-2xl ">{post.price} دك</div>
-        <div className="flex gap-5 dir-ltr">
+      <div className="bg-primary flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-16">
+        <h1 className="font-bold text-2xl md:text-4xl text-center">
+          {post.title}
+        </h1>
+        <div className="font-bold text-lg md:text-2xl">{post.price} دك</div>
+        <div className="flex gap-5 dir-ltr mt-5 md:mt-0">
           <div className="flex items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
             <Image
               src="/images/share.svg"
@@ -47,7 +49,7 @@ const Posts: NextPage = () => {
             />
           </div>
           <div className="flex flex-nowrap gap-2 items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
-            <div className="md:text-base text-xs">{post.views}</div>
+            <div className="md:text-base text-sm">{post.views}</div>
             <Image
               src="/images/eye-white.svg"
               width={19}
@@ -56,7 +58,7 @@ const Posts: NextPage = () => {
             />
           </div>
           <div className="flex flex-nowrap gap-2 items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
-            <div className="dir-rtl md:text-base text-xs">{post.createdAt}</div>
+            <div className="dir-rtl md:text-base text-sm">{post.createdAt}</div>
             <Image
               src="/images/time-white.svg"
               width={17}
@@ -67,9 +69,9 @@ const Posts: NextPage = () => {
         </div>
       </div>
       <div className="container max-w-6xl px-5 text-center">
-        <div className="">{post.description}</div>
-        <div className="flex gap-5 justify-center mt-16">
-          <div className="flex flex-nowrap gap-2 items-center justify-center bg-green-600 px-4 py-2 rounded-lg">
+        <div className="text-sm md:text-lg">{post.description}</div>
+        <div className="flex gap-5 justify-center mt-10">
+          <div className="flex flex-nowrap gap-2 items-center justify-center bg-green-500 px-4 py-2 rounded-lg">
             <div className="text-lg text-white font-semibold">{post.phone}</div>
             <Image
               src="/images/call-white.svg"

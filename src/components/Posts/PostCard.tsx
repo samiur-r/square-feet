@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Actions from './Actions'
 
 interface PostCardType {
   id: number
@@ -16,9 +17,10 @@ interface PostCardType {
 
 interface PostCardProps {
   post: PostCardType
+  showActions?: boolean
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post }) => {
+const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
   return (
     <div
       className={`${
@@ -83,6 +85,11 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       <div className="md:hidden mt-3 text-xs text-gray-500 line-clamp-2">
         {post.description}
       </div>
+      {showActions && (
+        <div className="mt-5 md:mt-3 w-full grid place-items-center md:absolute md:top-0 md:place-items-end md:pl-10">
+          <Actions />
+        </div>
+      )}
     </div>
   )
 }

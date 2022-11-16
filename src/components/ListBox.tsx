@@ -34,18 +34,18 @@ const List: React.FC<ListProps> = ({
             <span
               className={`${(open || selected) && '-top-2 mx-4 text-sm'} ${
                 bgGray ? 'bg-gray-50' : 'bg-white'
-              } text-base pointer-events-none transition-all duration-300 text-gray-500 absolute z-10 mx-2 top-4`}
+              } text-base pointer-events-none transition-all duration-300 text-gray-500 absolute z-10 mx-2 top-3`}
             >
               {placeholder}
             </span>
           )}
           <Listbox.Button
-            type="submit"
+            type="button"
             className={`${
               bgGray
                 ? 'bg-gray-50 rounded-full md:rounded-lg'
                 : 'bg-white rounded-lg'
-            } flex justify-between items-center py-2 md:py-3 px-3 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
+            } flex justify-between items-center py-2.5 md:py-3 px-3 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
           >
             <span className="flex gap-3 items-center w-full">
               <span className={`${!showFilterIcon && 'hidden'}`}>
