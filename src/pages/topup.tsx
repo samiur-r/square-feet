@@ -5,10 +5,9 @@ import Image from 'next/image'
 
 const Topup: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl px-3 py-10 md:py-16">
-      <h1 className="text-2xl font-bold">اشحن رصيد</h1>
-      <ul className="list-disc mt-5 mr-5 text-base tracking-wider">
-        <li>لا يوجد لديك عضوية مكتب</li>
+    <div className="dir-rtl container max-w-6xl px-3 pt-6 md:py-10 bg-gray-50 md:bg-white">
+      <h1 className="text-lg md:text-2xl font-bold">اشحن رصيد</h1>
+      <ul className="list-disc mt-5 mr-5 text-sm md:text-base">
         <li>اختر الباقة المناسبة واضغط على الزر البرتقالي للشراء</li>
         <li>
           <div className="flex gap-2">
@@ -19,12 +18,12 @@ const Topup: NextPage = () => {
           </div>
         </li>
       </ul>
-      <div className="flex flex-col md:flex-row gap-10 justify-center mt-10">
-        <PackageCard />
-        <PackageCard />
-        <PackageCard />
+      <div className="flex flex-col md:flex-row gap-5 justify-center mt-5">
+        <PackageCard styleRow />
+        <PackageCard styleRow />
+        <PackageCard styleRow />
       </div>
-      <div className="flex gap-5 mt-10 items-center">
+      <div className="flex md:gap-5 mt-10 items-start md:items-center">
         <div className="w-20 h-20 md:w-auto md:h-auto">
           <Image
             src="/images/checkmark_circle.svg"
@@ -33,7 +32,7 @@ const Topup: NextPage = () => {
             alt="check_icon"
           />
         </div>
-        <div className="text-xl font-semibold text-green-800">
+        <div className="text-xs md:text-xl font-semibold text-green-800">
           كل وسائل الدفع الإلكترونية في بوشملان معتمدة وموثوقة 100% من البنوك
           المحلية
         </div>

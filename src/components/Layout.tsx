@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       </Head>
       <Nav />
-      <div className="h-24" />
+      <div className="h-20 md:h-24" />
       {/* <Breadcrumbs /> */}
       <main>{children}</main>
       <Footer />

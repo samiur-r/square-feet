@@ -240,11 +240,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           )}
                           <span
                             className={`${
-                              location.type === 'state' &&
-                              'text-black font-bold'
+                              location.type === 'state' && 'text-black'
                             } ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-gray-100 text-base block truncate py-2 pr-4 cursor-pointer`}
+                            } hover:bg-gray-100 font-bold text-base block truncate py-2 pr-4 cursor-pointer`}
                           >
                             {location.title}
                           </span>

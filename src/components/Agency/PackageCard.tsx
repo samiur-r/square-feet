@@ -3,41 +3,51 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PackageModal from './PackageModal'
 
-const PackageCard: React.FC<{ styleRow?: boolean }> = ({ styleRow }) => {
+const PackageCard: React.FC<{
+  styleRow?: boolean
+  thumbnailSmall?: boolean
+}> = ({ thumbnailSmall, styleRow }) => {
   const [openModal, setOpenModal] = useState(false)
 
   return (
     <div
       className={`${
-        styleRow && 'md:flex-row'
-      } flex flex-col items-center md:max-w-max gap-5 bg-white p-5 rounded-lg border border-gray-300 shadow-sm`}
+        styleRow ? 'md:grid-cols-1' : 'md:grid-cols-2'
+      }  grid grid-cols-2 w-full md:w-auto place-items-center gap-5 bg-white p-2 md:p-4 rounded-lg border border-gray-300 shadow-md`}
     >
-      <div className="rounded-lg h-52 w-52 overflow-hidden relative">
-        <Image
-          src="/images/subscribe.png"
-          layout="fill"
-          objectFit="contain"
-          alt="package"
-        />
-        <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
-        <button
-          type="submit"
-          className="absolute w-full h-full text-white text-lg flex items-center justify-center"
-          onClick={() => setOpenModal(true)}
+      <div>
+        <div
+          className={`${
+            thumbnailSmall ? 'md:h-48 md:w-48' : 'md:h-80 md:w-80'
+          } rounded-lg h-36 w-36 overflow-hidden relative`}
         >
-          اضغط هنا للتفاصيل
-        </button>
+          <Image
+            src="/images/subscribe.png"
+            layout="fill"
+            objectFit="contain"
+            alt="package"
+          />
+          <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
+          <button
+            type="submit"
+            className="absolute w-full h-full text-white text-lg flex items-center justify-center"
+            onClick={() => setOpenModal(true)}
+          >
+            اضغط هنا للتفاصيل
+          </button>
+        </div>
       </div>
-      <div className="flex flex-col gap-5 justify-center items-center">
-        <h6 className="text-sm font-semibold tracking-widest">باقة المكاتب</h6>
-        <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2 md:gap-5 justify-center items-center w-full">
+        <h6 className="text-base md:text-lg tracking-wider">باقة المكاتب</h6>
+        <div className="grid gap-3 md:w-full">
           <Link href="https://www.kpay.com">
-            <a className="bg-secondary opacity-80 text-white px-20 py-4 rounded-md hover:opacity-100">
+            <a className="bg-secondary opacity-80 text-white text-sm md:text-base text-center px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-100">
               2 أشهر 100 دك
             </a>
           </Link>
+
           <Link href="https://www.kpay.com">
-            <a className="bg-secondary opacity-80 text-white px-20 py-4 rounded-md hover:opacity-100">
+            <a className="bg-secondary opacity-80 text-white text-center text-sm md:text-base px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-100">
               6 أشهر 270 دك
             </a>
           </Link>

@@ -11,7 +11,7 @@ import Posts from 'components/Posts'
 
 const Home: NextPage = () => {
   return (
-    <>
+    <div className="bg-gray-50 md:bg-white">
       <Hero />
       <SearchBox />
       <Banner />
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <Cards />
       <ApartmentRent />
       <Faq bgPrimary />
-    </>
+    </div>
   )
 }
 

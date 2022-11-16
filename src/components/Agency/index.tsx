@@ -5,11 +5,14 @@ import { AgencyType } from 'intefaces'
 import PackageCard from './PackageCard'
 import AgencyCard from './AgencyCard'
 
-const Agency: React.FC<{ agencyList: AgencyType[] }> = ({ agencyList }) => {
+const Agency: React.FC<{
+  agencyList: AgencyType[]
+  thumbnailSmall?: boolean
+}> = ({ agencyList, thumbnailSmall }) => {
   return (
     <div className="flex flex-col gap-5 w-full">
-      <div className="flex justify-center">
-        <PackageCard styleRow />
+      <div className="flex w-full justify-center">
+        <PackageCard thumbnailSmall={thumbnailSmall} />
       </div>
       <div className="flex justify-center gap-2 pb-5">
         <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
@@ -21,7 +24,7 @@ const Agency: React.FC<{ agencyList: AgencyType[] }> = ({ agencyList }) => {
         </Link>
         <p>للمساعده</p>
       </div>
-      <h1 className="text-3xl font-bold tracking-widest flex justify-center">
+      <h1 className="text-3xl font-bold tracking-wider flex justify-center">
         قائمة المكاتب
       </h1>
       <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-5">

@@ -33,7 +33,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
 }) => {
   return (
     <Transition.Root show={showFilterModal} as={Fragment}>
-      <Dialog as="div" className="relative z-30" onClose={setShowFilterModal}>
+      <Dialog as="div" className="fixed z-30" onClose={setShowFilterModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-500"
@@ -59,7 +59,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white pt-5 pb-4 shadow-xl transition-all h-screen md:h-auto md:my-8 w-full md:max-w-lg">
                 <div className="px-4">
-                  <div className="grid grid-cols-3 md:grid-cols-2 items-center border-b pb-5">
+                  <div className="grid grid-cols-3 md:grid-cols-2 items-center pb-5">
                     <div>
                       <button
                         type="submit"
@@ -94,7 +94,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       </svg>
                     </div>
                   </div>
-                  <div className="border-b py-5">
+                  <div className="py-5">
                     <div className="text-end">الغرض</div>
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
                       {purposes.map((purpose) => (
@@ -115,7 +115,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       ))}
                     </div>
                   </div>
-                  <div className="border-b py-5">
+                  <div className="py-5">
                     <div className="text-end">نوع العقار</div>
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
                       {propertyTypes.map((type) => (
@@ -136,7 +136,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       ))}
                     </div>
                   </div>
-                  <div className="border-b py-5">
+                  <div className="py-5">
                     <div className="text-end">السعر</div>
                     <div className="flex flex-wrap justify-center mt-16 px-5">
                       <Range
@@ -220,7 +220,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       />
                     </div>
                   </div>
-                  <div className="border-b py-5">
+                  <div className="py-5">
                     <div className="text-end">البحث بالكلمه</div>
                     <div className="mt-5 relative">
                       <input
