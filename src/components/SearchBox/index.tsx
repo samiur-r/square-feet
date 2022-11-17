@@ -4,7 +4,7 @@ import Link from 'next/link'
 // import dynamic from 'next/dynamic'
 
 import ListBox from 'components/ListBox'
-import AutoComplete from 'components/AutoComplete'
+// import AutoComplete from 'components/AutoComplete'
 
 // const DynamicFilterAutoComplete = dynamic(
 //   () => import('components/FilterAutoComplete'),
@@ -1051,7 +1051,7 @@ const SearchBox = () => {
             showFilterIcon
           />
         </div>
-        <div className="md:w-4/12 order-2 md:order-4">
+        {/* <div className="md:w-4/12 order-2 md:order-4">
           <AutoComplete
             locations={locations}
             isHomePage
@@ -1060,7 +1060,7 @@ const SearchBox = () => {
               setCanUpdateFilterAutoCompleteShow
             }
           />
-        </div>
+        </div> */}
       </div>
       {showFilterCombobox && (
         <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
