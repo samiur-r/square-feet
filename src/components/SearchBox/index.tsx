@@ -1070,7 +1070,7 @@ const SearchBox = () => {
               purposes={purposes}
               propertyTypes={propertyTypes}
               isfilterComboboxOpen={isfilterComboboxOpen}
-              handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
+              // handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
               showOptions
             />
           </Suspense>

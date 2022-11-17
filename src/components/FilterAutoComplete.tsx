@@ -32,7 +32,7 @@ interface FilterAutoCompleteProps {
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
   isfilterComboboxOpen: boolean
-  handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
+  handleIsfilterComboboxOpen?: Dispatch<SetStateAction<boolean>>
   showOptions?: boolean
 }
 
