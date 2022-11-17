@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
+// import dynamic from 'next/dynamic'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
 
-const DynamicFilterAutoComplete = dynamic(
-  () => import('components/FilterAutoComplete'),
-  {
-    suspense: true
-  }
-)
+// const DynamicFilterAutoComplete = dynamic(
+//   () => import('components/FilterAutoComplete'),
+//   {
+//     suspense: true
+//   }
+// )
 
 const propertyTypes = [
   {
@@ -1063,7 +1064,7 @@ const SearchBox = () => {
       </div>
       {showFilterCombobox && (
         <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
-          <Suspense fallback="Loading...">
+          {/* <Suspense fallback="Loading...">
             <DynamicFilterAutoComplete
               locations={locations}
               purposes={purposes}
@@ -1072,7 +1073,7 @@ const SearchBox = () => {
               handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
               showOptions
             />
-          </Suspense>
+          </Suspense> */}
         </div>
       )}
     </>
