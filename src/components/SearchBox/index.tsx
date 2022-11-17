@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
@@ -979,17 +978,17 @@ const SearchBox = () => {
     title: purposes[2].title
   })
   const [isfilterComboboxOpen, setIsfilterComboboxOpen] = useState(false)
-  // const [canUpdateFilterAutoCompleteShow, setCanUpdateFilterAutoCompleteShow] =
-  //   useState(false)
+  const [canUpdateFilterAutoCompleteShow, setCanUpdateFilterAutoCompleteShow] =
+    useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
 
-  // useEffect(() => {
-  //   if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
-  // }, [canUpdateFilterAutoCompleteShow])
+  useEffect(() => {
+    if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
+  }, [canUpdateFilterAutoCompleteShow])
 
-  // useEffect(() => {
-  //   setShowFilterCombobox(isfilterComboboxOpen)
-  // }, [isfilterComboboxOpen])
+  useEffect(() => {
+    setShowFilterCombobox(isfilterComboboxOpen)
+  }, [isfilterComboboxOpen])
 
   return (
     <>
@@ -1051,7 +1050,7 @@ const SearchBox = () => {
             showFilterIcon
           />
         </div>
-        {/* <div className="md:w-4/12 order-2 md:order-4">
+        <div className="md:w-4/12 order-2 md:order-4">
           <AutoComplete
             locations={locations}
             isHomePage
@@ -1060,7 +1059,7 @@ const SearchBox = () => {
               setCanUpdateFilterAutoCompleteShow
             }
           />
-        </div> */}
+        </div>
       </div>
       {showFilterCombobox && (
         <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
@@ -1070,7 +1069,7 @@ const SearchBox = () => {
               purposes={purposes}
               propertyTypes={propertyTypes}
               isfilterComboboxOpen={isfilterComboboxOpen}
-              // handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
+              handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
               showOptions
             />
           </Suspense>

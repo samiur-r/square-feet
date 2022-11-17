@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Fragment,
   useState,
@@ -33,7 +32,7 @@ interface FilterAutoCompleteProps {
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
   isfilterComboboxOpen: boolean
-  handleIsfilterComboboxOpen?: Dispatch<SetStateAction<boolean>>
+  handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   showOptions?: boolean
 }
 
@@ -59,12 +58,12 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   }, [showOptions])
 
   // TODO: optimize the func
-  // const changeOpenStatus = () => {
-  //   const isOpen = isOpenRef?.current?.value
-  //   setTimeout(() => {
-  //     handleIsfilterComboboxOpen(isOpen === 'true')
-  //   })
-  // }
+  const changeOpenStatus = () => {
+    const isOpen = isOpenRef?.current?.value
+    setTimeout(() => {
+      handleIsfilterComboboxOpen(isOpen === 'true')
+    })
+  }
 
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
@@ -94,9 +93,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
-            {/* {isfilterComboboxOpen !== undefined &&
+            {isfilterComboboxOpen !== undefined &&
               isfilterComboboxOpen !== open &&
-              changeOpenStatus()} */}
+              changeOpenStatus()}
             <input ref={isOpenRef} type="hidden" value={`${open}`} />
             {showOptions && (
               <>
