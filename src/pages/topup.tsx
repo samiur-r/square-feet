@@ -2,11 +2,12 @@ import type { NextPage } from 'next'
 
 import PackageCard from 'components/Agency/PackageCard'
 import Image from 'next/image'
+import Title from 'components/Title'
 
 const Topup: NextPage = () => {
   return (
     <div className="dir-rtl container max-w-6xl px-3 pt-6 md:py-10 bg-gray-50 md:bg-white">
-      <h1 className="text-lg md:text-2xl font-bold">اشحن رصيد</h1>
+      <Title value="اشحن رصيد" />
       <ul className="list-disc mt-5 mr-5 text-sm md:text-base">
         <li>اختر الباقة المناسبة واضغط على الزر البرتقالي للشراء</li>
         <li>

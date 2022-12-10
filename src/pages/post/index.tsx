@@ -4,6 +4,7 @@ import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
 import isImage from 'utils/isImage'
+import Title from 'components/Title'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
@@ -35,9 +36,7 @@ const Posts: NextPage = () => {
   return (
     <div className="dir-rtl grid gap-12 pb-12">
       <div className="bg-primary flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-16">
-        <h1 className="font-bold text-2xl md:text-4xl text-center">
-          {post.title}
-        </h1>
+        <Title value={post.title} light />
         <div className="font-bold text-lg md:text-2xl">{post.price} دك</div>
         <div className="flex gap-5 dir-ltr mt-5 md:mt-0">
           <div className="flex items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
@@ -71,25 +70,29 @@ const Posts: NextPage = () => {
       <div className="container max-w-6xl px-5 text-center">
         <div className="text-sm md:text-lg">{post.description}</div>
         <div className="flex gap-5 justify-center mt-10">
-          <div className="flex flex-nowrap gap-2 items-center justify-center bg-green-500 px-4 py-2 rounded-lg">
-            <div className="text-lg text-white font-semibold">{post.phone}</div>
+          <a
+            href="tel:+96599491575"
+            className="bg-green-600 font-bold hover:bg-green-700 w-36 flex items-center justify-center gap-2 text-center text-white py-3 md:py-5 rounded-md"
+          >
+            {post.phone}
             <Image
               src="/images/call-white.svg"
-              width={32}
-              height={32}
-              alt="whatsapp"
+              height={24}
+              width={24}
+              className="text-white font-bold"
+              alt="phone_icon"
             />
-          </div>
-          <div className="shadow-md rounded-lg py-3 px-5 flex items-center justify-center">
+          </a>
+          <div className="shadow-md rounded-md py-3 md:py-5 px-5 flex items-center justify-center">
             <Image
               src="/images/whatsapp-logo-green.svg"
-              width={32}
-              height={32}
+              width={24}
+              height={24}
               alt="whatsapp"
             />
           </div>
         </div>
-        <div className="mt-16 relative flex flex-col items-center">
+        <div className="mt-10 relative flex flex-col items-center">
           <div className="relative">
             {isImage(post.media[0]) ? (
               <Image

@@ -1,12 +1,13 @@
+import Title from 'components/Title'
 import Link from 'next/link'
 import React from 'react'
 
 const Guide = () => {
   return (
     <div className="bg-primary py-10 w-full">
-      <div className="container max-w-6xl">
-        <div className="dir-rtl mb-3 text-white text-2xl font-semibold">
-          بو شملان دليل عقارات الكويت
+      <div className="dir-rtl container max-w-6xl">
+        <div className="mb-3">
+          <Title value="بو شملان دليل عقارات الكويت" light />
         </div>
         <div className="text-white text-sm md:text-lg dir-rtl">
           <div>

@@ -1,3 +1,4 @@
+import Title from 'components/Title'
 import React from 'react'
 
 interface HeaderProps {
@@ -8,7 +9,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ headline, description }) => {
   return (
     <div className="dir-rtl flex flex-col gap-5 items-start md:items-center w-full">
-      <h1 className="text-lg font-bold">{headline}</h1>
+      <Title value={headline} />
       <p className="md:text-center text-gray-400">{description}</p>
     </div>
   )

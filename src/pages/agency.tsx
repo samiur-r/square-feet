@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import PostCard from 'components/Posts/PostCard'
+import Title from 'components/Title'
 
 const posts = [
   {
@@ -71,22 +72,22 @@ const Agency: NextPage = () => {
           />
         </div>
         <div className="flex flex-col items-center text-center">
-          <h3 className="text-lg md:text-xl font-bold tracking-wider mb-3 md:mb-5">
-            شركة العتيقي العقارية
-          </h3>
+          <div className="tracking-wider mb-3 md:mb-5">
+            <Title value="شركة العتيقي العقارية" />
+          </div>
           <p className="text-xs md:text-base">
             القبلة، شارع فهد السالم، مجمع الدولية، الميزانين، مكتب رقم ١٦٨
           </p>
           <p className="mt-2">instagram: @alateeqire</p>
           <a
             href="tel:+96599491575"
-            className="bg-green-600 font-bold hover:bg-green-700 w-40 flex items-center justify-center gap-2 text-center text-white py-5 mt-8 rounded-md"
+            className="bg-green-600 font-bold hover:bg-green-700 w-36 flex items-center justify-center gap-2 text-center text-white py-3 md:py-5 mt-8 rounded-md"
           >
             99491575{' '}
             <Image
               src="/images/call-white.svg"
-              height={17}
-              width={17}
+              height={24}
+              width={24}
               className="text-white font-bold"
               alt="phone_icon"
             />
@@ -106,7 +107,7 @@ const Agency: NextPage = () => {
         </div>
       </div>
       <div className="container max-w-4xl mt-10">
-        <h3 className="text-xl font-bold">اعلانات المكتب</h3>
+        <Title value="اعلانات المكتب" />
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}

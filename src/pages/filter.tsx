@@ -4,6 +4,7 @@ import Link from 'next/link'
 
 import PostCard from 'components/Posts/PostCard'
 import FilterArticle from 'components/Articles/Filter'
+import Title from 'components/Title'
 
 const posts = [
   {
@@ -84,12 +85,9 @@ const Filter: NextPage = () => {
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col">
       <div className="flex flex-col gap-5">
         <FilterArticle />
-        <h3
-          ref={scroll as LegacyRef<HTMLHeadingElement>}
-          className="font-semibold text-xl"
-        >
-          قد تهمك نتائج بحث مشابهة
-        </h3>
+        <div ref={scroll as LegacyRef<HTMLDivElement>}>
+          <Title value="قد تهمك نتائج بحث مشابهة" />
+        </div>
         <div>
           <Link href="/">
             <a className="text-primary underline">عقارات للبيع في الكويت</a>
@@ -97,9 +95,9 @@ const Filter: NextPage = () => {
         </div>
       </div>
       <div className="max-w-4xl flex flex-col gap-5 mt-5 items-end p-2 md:p-5 self-end">
-        <h1 className="font-semibold text-2xl self-start">
-          شاليهات للبيع في الكويت (100 إعلان)
-        </h1>
+        <div className="self-start">
+          <Title value="شاليهات للبيع في الكويت (100 إعلان)" />
+        </div>
         <div className="w-full">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} />

@@ -10,7 +10,7 @@ interface AuthFormProps {
 
 const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   return (
-    <form className="w-full mt-10 px-3 md:px-auto dir-rtl">
+    <form className="w-full mt-10 md:px-auto dir-rtl">
       <div className="relative">
         <input
           type="number"
@@ -50,14 +50,14 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
         {type === 'register' ? (
           <button
             type="submit"
-            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 md:rounded-lg rounded-full"
+            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-8 rounded-lg"
           >
             تسجيل
           </button>
         ) : (
           <button
             type="submit"
-            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-10 rounded-lg"
+            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white font-bold py-4 px-8 rounded-lg"
           >
             دخول
           </button>

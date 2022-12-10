@@ -1,4 +1,5 @@
 import Accordion from 'components/Accordion'
+import Title from 'components/Title'
 import React from 'react'
 
 const faqs = [
@@ -46,12 +47,15 @@ const faqs = [
 
 const Faq: React.FC<{ bgPrimary: boolean }> = ({ bgPrimary }) => {
   return (
-    <div className={`${bgPrimary && 'bg-primary text-white'} py-10`}>
-      <div className="container max-w-6xl">
-        <h3 className="dir-rtl mb-3 text-2xl font-semibold">
-          الأسئلة الشائعة عن العقارات المعروضة للايجار او للبيع في الكويت
-        </h3>
-        <div className="text-sm md:text-lg dir-rtl grid gap-5">
+    <div className={`${bgPrimary && 'bg-primary text-white'}`}>
+      <div className="dir-rtl container max-w-6xl">
+        <div className="mb-3">
+          <Title
+            value="الأسئلة الشائعة عن العقارات المعروضة للايجار او للبيع في الكويت"
+            light
+          />
+        </div>
+        <div className="text-sm md:text-lg grid gap-5">
           {faqs.map((faq) => (
             <Accordion key={faq.id} title={faq.question} content={faq.answer} />
           ))}

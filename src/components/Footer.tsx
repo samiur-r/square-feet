@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
+import Title from './Title'
 
 const items = [
   {
@@ -145,8 +146,8 @@ const Footer = () => {
             key={Math.random()}
             className="flex flex-col items-center mb-16 md:mb-auto"
           >
-            <div className="font-semibold text-lg mb-5 text-center">
-              {item.headline}
+            <div className="mb-5 text-center">
+              <Title value={item.headline} />
             </div>
             <ul className="flex flex-col items-center gap-3 text-gray-500">
               {item.links.map((link) => (

@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 
 import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
+import Title from 'components/Title'
 
 const locations = [
   {
@@ -967,9 +968,9 @@ const purposes = [
 const CreatePost: NextPage = () => {
   return (
     <div className="dir-rtl container max-w-6xl px-8 py-10 flex flex-col gap-3 items-center tracking-wider">
-      <h1 className="text-base md:text-xl md:text-center w-full font-bold">
-        إضافة إعلان
-      </h1>
+      <div className="md:text-center w-full">
+        <Title value="إضافة إعلان" />
+      </div>
       <p className="text-sm md:text-base text-gray-500 w-full md:text-center">
         أدخل البيانات التالية لإضافة اعلان
       </p>

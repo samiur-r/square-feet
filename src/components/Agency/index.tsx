@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 
 import { AgencyType } from 'intefaces'
+import Title from 'components/Title'
 import PackageCard from './PackageCard'
 import AgencyCard from './AgencyCard'
 
@@ -24,9 +25,9 @@ const Agency: React.FC<{
         </Link>
         <p>للمساعده</p>
       </div>
-      <h1 className="text-3xl font-bold tracking-wider flex justify-center">
-        قائمة المكاتب
-      </h1>
+      <div className="tracking-wider flex justify-center">
+        <Title value="قائمة المكاتب" />
+      </div>
       <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-5">
         {agencyList.map((agency) => (
           <Link key={agency.id} href="/agency">

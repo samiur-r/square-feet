@@ -5,6 +5,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Range, getTrackBackground } from 'react-range'
 
 import { PRICE_RANGES } from 'constant'
+import CTA from 'components/CTA'
 
 interface FilterModalProps {
   purposes: Array<{ id: number; title: string }>
@@ -57,7 +58,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white pt-5 pb-4 shadow-xl transition-all h-screen md:h-auto md:my-8 w-full md:max-w-lg">
+              <Dialog.Panel className="relative px-5 transform overflow-hidden rounded-lg bg-white pt-5 pb-4 shadow-xl transition-all h-screen md:h-auto md:my-8 w-full md:max-w-lg">
                 <div className="px-4">
                   <div className="grid grid-cols-3 md:grid-cols-2 items-center pb-5">
                     <div>
@@ -250,12 +251,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     </div>
                   </div>
                   <div className="py-5 mt-3">
-                    <button
-                      type="submit"
-                      className="bg-secondary w-full md:w-auto rounded-full opacity-80 text-white py-3 px-5"
-                    >
-                      عرض النتائج
-                    </button>
+                    <CTA title="عرض النتائج" backgroundColor="secondary" />
                   </div>
                 </div>
               </Dialog.Panel>

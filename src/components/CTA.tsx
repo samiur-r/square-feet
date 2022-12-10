@@ -4,23 +4,22 @@ interface CTAProps {
   title: string
   backgroundColor: string
   Icon?: JSX.Element
-  fullWidth?: boolean
+  handleClick?: () => void
 }
 
 const CTA: React.FC<CTAProps> = ({
   title,
   backgroundColor,
   Icon,
-  fullWidth
+  handleClick
 }) => {
   return (
     <button
       type="submit"
       className={`${
         backgroundColor === 'primary' ? 'bg-primary' : 'bg-secondary'
-      } ${
-        fullWidth && 'w-full md:w-auto mx-10 md:mx-auto'
-      } text-white font-medium py-3.5 px-8 md:rounded-lg rounded-full flex justify-center items-center opacity-80`}
+      } max-w-xs w-full md:w-auto flex justify-center items-center py-4 px-8 text-white md:rounded-lg rounded-full opacity-80 hover:opacity-70 transition-opacity duration-500`}
+      onClick={handleClick}
     >
       <span>{title}</span>
       {Icon && Icon}

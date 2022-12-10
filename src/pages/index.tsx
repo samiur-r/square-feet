@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-// import dynamic from 'next/dynamic'
 
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
@@ -8,26 +7,21 @@ import Cards from 'components/Home/Cards'
 import ApartmentRent from 'components/Articles/ApartmentRent'
 import Faq from 'components/Articles/Faq'
 import Posts from 'components/Posts'
-import DynamicSearchBox from 'components/SearchBox'
-// import { Suspense } from 'react'
-
-// const DynamicSearchBox = dynamic(() => import('components/SearchBox'), {
-//   suspense: true
-// })
+import SearchBox from 'components/SearchBox'
 
 const Home: NextPage = () => {
   return (
     <div className="bg-gray-50 md:bg-white">
       <Hero />
-      {/* <Suspense fallback="Loading..."> */}
-      <DynamicSearchBox />
-      {/* </Suspense> */}
+      <SearchBox />
       <Banner />
       <Posts />
       <Guide />
       <Cards />
-      <ApartmentRent />
-      <Faq bgPrimary />
+      <div className="bg-primary grid gap-10 py-10">
+        <ApartmentRent />
+        <Faq bgPrimary />
+      </div>
     </div>
   )
 }

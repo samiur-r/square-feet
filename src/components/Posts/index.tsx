@@ -2,6 +2,7 @@ import React from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
 
 import CTA from 'components/CTA'
+import Title from 'components/Title'
 import PostCard from './PostCard'
 
 const posts = [
@@ -61,9 +62,7 @@ const posts = [
 const Posts = () => {
   return (
     <div className="dir-rtl container max-w-3xl pt-5 md:pt-0 pb-10">
-      <div className="font-bold text-base tracking-wider md:text-xl mb-5">
-        أحدث الإعلانات
-      </div>
+      <Title value="أحدث الإعلانات" />
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
@@ -72,7 +71,6 @@ const Posts = () => {
           title="المزيد"
           backgroundColor="secondary"
           Icon={<PlusCircleIcon className="h-6 w-6 mr-3" />}
-          fullWidth
         />
       </div>
     </div>

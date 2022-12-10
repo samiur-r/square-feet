@@ -1,14 +1,15 @@
+import Title from 'components/Title'
 import Link from 'next/link'
 import React from 'react'
 
 const ApartmentRent = () => {
   return (
-    <div className="bg-primary py-10">
-      <div className="container max-w-6xl px-5">
-        <div className="dir-rtl mb-3 text-white text-2xl font-semibold">
-          شقق للايجار في الكويت
+    <div>
+      <div className="dir-rtl container max-w-6xl px-5">
+        <div className="mb-3">
+          <Title value="شقق للايجار في الكويت" light />
         </div>
-        <div className="text-white text-sm md:text-lg dir-rtl">
+        <div className="text-white text-sm md:text-lg">
           <div>
             من خلال بو شملان يمكنك البحث في آلاف الشقق والعقارات المعروضه{' '}
             <Link href="/للايجار">

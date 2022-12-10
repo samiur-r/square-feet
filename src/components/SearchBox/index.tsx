@@ -6,6 +6,7 @@ import Link from 'next/link'
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
 import DynamicFilterAutoComplete from 'components/FilterAutoComplete'
+import CTA from 'components/CTA'
 
 // const DynamicFilterAutoComplete = dynamic(
 //   () => import('components/FilterAutoComplete'),
@@ -996,12 +997,9 @@ const SearchBox = () => {
     <>
       <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-10 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-gray-50 md:bg-white">
         <Link href="/filter">
-          <button
-            type="submit"
-            className="md:w-2/12 py-3 bg-secondary whitespace-nowrap order-4 md:order-1 opacity-80 hover:opacity-100 text-white font-bold flex justify-center items-center md:rounded-lg rounded-full"
-          >
-            إبحث الآن
-          </button>
+          <div className="grid place-items-center md:w-2/12 w-full order-4 md:order-1">
+            <CTA title="إبحث الآن" backgroundColor="secondary" />
+          </div>
         </Link>
         <div className="md:hidden cursor-pointer grid grid-cols-3 rounded-full border">
           {purposes.map((purposeItem, index) => (
