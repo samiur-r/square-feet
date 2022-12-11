@@ -995,7 +995,7 @@ const SearchBox = () => {
 
   return (
     <>
-      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-10 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-gray-50 md:bg-white">
+      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-gray-50 md:bg-white">
         <Link href="/filter">
           <div className="grid place-items-center md:w-2/12 w-full order-4 md:order-1">
             <CTA title="إبحث الآن" backgroundColor="secondary" />

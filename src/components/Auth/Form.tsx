@@ -31,7 +31,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           type="password"
           name="password"
           id="password"
-          className="block p-4 w-fullshadow-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+          className="block p-4 w-full shadow-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
         />
         <label

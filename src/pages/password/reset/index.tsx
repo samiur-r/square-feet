@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 
 const PasswordReset: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-md grid place-items-center py-10 md:py-16 px-8">
+    <div className="dir-rtl container max-w-md grid place-items-center py-10 md:py-16">
       <h1 className="font-semibold text-lg md:text-xl w-full md:w-auto">
         تغيير كلمة السر
       </h1>

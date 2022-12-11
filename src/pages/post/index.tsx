@@ -67,7 +67,7 @@ const Posts: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="container max-w-6xl px-5 text-center">
+      <div className="container max-w-6xl text-center">
         <div className="text-sm md:text-lg">{post.description}</div>
         <div className="flex gap-5 justify-center mt-10">
           <a
