@@ -32,9 +32,11 @@ const List: React.FC<ListProps> = ({
         <div className="relative dir-rtl">
           {isFloatingLabel && (
             <span
-              className={`${(open || selected) && '-top-2 mx-4 text-sm'} ${
+              className={`${(open || selected) && '-top-2.5 mx-3 text-xs px-1'} 
+							${open ? 'text-primary' : 'text-gray-500'}
+							${
                 bgGray ? 'bg-gray-50' : 'bg-white'
-              } text-base pointer-events-none transition-all duration-300 text-gray-500 absolute z-10 mx-2 top-3`}
+              } pointer-events-none transition-all duration-300 absolute z-10 mx-4 top-4`}
             >
               {placeholder}
             </span>
@@ -45,7 +47,7 @@ const List: React.FC<ListProps> = ({
               bgGray
                 ? 'bg-gray-50 rounded-full md:rounded-lg'
                 : 'bg-white rounded-lg'
-            } flex justify-between items-center py-2.5 md:py-3 px-3 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
+            } flex justify-between items-center py-3 md:py-3.5 px-4 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
           >
             <span className="flex gap-3 items-center w-full">
               <span className={`${!showFilterIcon && 'hidden'}`}>

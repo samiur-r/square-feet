@@ -1010,7 +1010,7 @@ const SearchBox = () => {
                 purposeItem.id === purpose.id && 'bg-primary text-white'
               } ${
                 index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
-              } flex justify-center items-center px-3 py-2 text-lg border-r`}
+              } flex justify-center items-center px-3 py-3 text-lg border-r`}
               onClick={() =>
                 setPurpose({ id: purposeItem.id, title: purposeItem.title })
               }

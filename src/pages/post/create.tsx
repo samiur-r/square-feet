@@ -980,14 +980,14 @@ const CreatePost: NextPage = () => {
             type="number"
             name="phone"
             id="phone"
-            className="block bg-gray-50 px-2.5 py-3 md:py-3.5 w-full text-base text-gray-400 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block bg-gray-50 p-4 w-full text-gray-400 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=""
             value="65432165"
             disabled
           />
           <label
             htmlFor="phone"
-            className="absolute cursor-text text-md text-gray-500 duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-0"
+            className="absolute cursor-text text-md text-gray-500 duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-0"
           >
             رقم الموبايل{' '}
           </label>
@@ -1016,12 +1016,12 @@ const CreatePost: NextPage = () => {
             type="number"
             name="price"
             id="price"
-            className="block px-2.5 py-3 md:py-3.5 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block p-4 shadow-sm w-full text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
             htmlFor="price"
-            className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-1"
+            className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 -right-1 peer-focus:-right-1 peer-placeholder-shown:right-0"
           >
             السعر (اختياري)
           </label>
@@ -1030,12 +1030,12 @@ const CreatePost: NextPage = () => {
           <textarea
             name="description"
             rows={7}
-            className="block px-2.5 py-3 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block p-4 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
             htmlFor="description"
-            className="absolute pointer-events-none cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-1 peer-focus:-right-3"
+            className="absolute pointer-events-none cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-0 peer-focus:-right-3"
           >
             اكتب تفاصيل الاعلان هنا{' '}
           </label>
