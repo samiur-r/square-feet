@@ -45,19 +45,27 @@ const faqs = [
   }
 ]
 
-const Faq: React.FC<{ bgPrimary: boolean }> = ({ bgPrimary }) => {
+const Faq: React.FC<{ bgPrimary: boolean; textDark?: boolean }> = ({
+  bgPrimary,
+  textDark
+}) => {
   return (
     <div className={`${bgPrimary && 'bg-primary text-white'}`}>
       <div className="dir-rtl container max-w-6xl">
         <div className="mb-3">
           <Title
             value="الأسئلة الشائعة عن العقارات المعروضة للايجار او للبيع في الكويت"
-            light
+            light={!textDark}
           />
         </div>
         <div className="text-sm md:text-lg grid gap-5">
           {faqs.map((faq) => (
-            <Accordion key={faq.id} title={faq.question} content={faq.answer} />
+            <Accordion
+              key={faq.id}
+              title={faq.question}
+              content={faq.answer}
+              textDark={textDark}
+            />
           ))}
         </div>
       </div>

@@ -1,3 +1,4 @@
+import Description from 'components/Description'
 import type { NextPage } from 'next'
 
 const PasswordReset: NextPage = () => {
@@ -6,10 +7,12 @@ const PasswordReset: NextPage = () => {
       <h1 className="font-semibold text-lg md:text-xl w-full md:w-auto">
         تغيير كلمة السر
       </h1>
-      <p className="text-sm md:text-base text-gray-600 text-start md:text-center mt-5 tracking-wider">
-        سنرسل لك رسالة نصية SMS وفيها رقم تفعيل OTP للتأكد من أن رقم موبايلك
-        صحيح
-      </p>
+      <div className="text-start md:text-center mt-5 tracking-wider">
+        <Description
+          value="سنرسل لك رسالة نصية SMS وفيها رقم تفعيل OTP للتأكد من أن رقم موبايلك
+        صحيح"
+        />
+      </div>
       <form className="mt-8 w-full">
         <div className="relative">
           <input

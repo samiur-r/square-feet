@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import PackageCard from 'components/Agency/PackageCard'
 import Image from 'next/image'
 import Title from 'components/Title'
+import Description from 'components/Description'
 
 const Topup: NextPage = () => {
   return (
@@ -11,12 +12,14 @@ const Topup: NextPage = () => {
       <ul className="list-disc mt-5 mr-5 text-sm md:text-base">
         <li>اختر الباقة المناسبة واضغط على الزر البرتقالي للشراء</li>
         <li>
-          <div className="flex gap-2">
-            <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
-            <p>او</p>
-            <a className="text-primary hover:underline"> اتصل بنا</a>
-            <p>للمساعده</p>
-          </div>
+          <Description textBlack>
+            <span className="flex gap-2">
+              <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
+              <span>او</span>
+              <a className="text-primary hover:underline"> اتصل بنا</a>
+              <span>للمساعده</span>
+            </span>
+          </Description>
         </li>
       </ul>
       <div className="flex flex-col md:flex-row gap-5 justify-center mt-5">

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import Title from './Title'
+import Description from './Description'
 
 const items = [
   {
@@ -149,11 +150,11 @@ const Footer = () => {
             <div className="mb-5 text-center">
               <Title value={item.headline} />
             </div>
-            <ul className="flex flex-col items-center gap-3 text-gray-500">
+            <ul className="flex flex-col items-center gap-3">
               {item.links.map((link) => (
                 <Link key={link.title} href={link.href}>
                   <li className="cursor-pointer hover:underline">
-                    {link.title}
+                    <Description value={link.title} />
                   </li>
                 </Link>
               ))}

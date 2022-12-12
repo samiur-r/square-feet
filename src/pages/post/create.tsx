@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
+import Description from 'components/Description'
 
 const locations = [
   {
@@ -971,9 +972,9 @@ const CreatePost: NextPage = () => {
       <div className="md:text-center w-full">
         <Title value="إضافة إعلان" />
       </div>
-      <p className="text-sm md:text-base text-gray-500 w-full md:text-center">
-        أدخل البيانات التالية لإضافة اعلان
-      </p>
+      <div className="w-full md:text-center">
+        <Description value="أدخل البيانات التالية لإضافة اعلان" />
+      </div>
       <form className="w-full max-w-lg mt-8 md:mt-10">
         <div className="relative">
           <input

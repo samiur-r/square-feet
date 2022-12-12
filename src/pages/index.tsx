@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <Cards />
       <div className="bg-primary grid gap-10 py-10">
         <ApartmentRent />
-        <Faq bgPrimary />
+        <Faq bgPrimary textDark={false} />
       </div>
     </div>
   )

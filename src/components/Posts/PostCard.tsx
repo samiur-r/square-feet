@@ -38,8 +38,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
           <div className="w-16 h-12 md:w-24 md:h-24 relative">
             <Image
               src={post.thumbnail}
-              // width={100}
-              // height={100}
               layout="fill"
               objectFit="cover"
               alt="property_image"

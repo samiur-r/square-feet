@@ -1,3 +1,4 @@
+import Description from 'components/Description'
 import React from 'react'
 
 interface BalanceCardProps {
@@ -23,7 +24,9 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
             <p className="text-xs md:text-xl text-primary font-bold">
               {item.value}
             </p>
-            <p className="text-xs md:text-xl text-gray-600 ">{item.title}</p>
+            <span className="overflow-hidden whitespace-nowrap">
+              <Description value={item.title} />
+            </span>
           </div>
         ))}
       </div>
