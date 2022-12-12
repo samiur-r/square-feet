@@ -35,11 +35,11 @@ const Posts: NextPage = () => {
   const [showCarousel, setShowCarousel] = useState(false)
   return (
     <div className="dir-rtl grid gap-12 pb-12">
-      <div className="bg-primary flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-16">
+      <div className="bg-primary-light flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-16">
         <Title value={post.title} light />
         <div className="font-bold text-lg md:text-2xl">{post.price} دك</div>
         <div className="flex gap-5 dir-ltr mt-5 md:mt-0">
-          <div className="flex items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
+          <div className="flex items-center bg-primary-dark px-4 py-2 rounded-lg">
             <Image
               src="/images/share.svg"
               width={17}
@@ -47,7 +47,7 @@ const Posts: NextPage = () => {
               alt="share_icon"
             />
           </div>
-          <div className="flex flex-nowrap gap-2 items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
+          <div className="flex flex-nowrap gap-2 items-center bg-primary-dark px-4 py-2 rounded-lg">
             <div className="md:text-base text-sm">{post.views}</div>
             <Image
               src="/images/eye-white.svg"
@@ -56,7 +56,7 @@ const Posts: NextPage = () => {
               alt="icon"
             />
           </div>
-          <div className="flex flex-nowrap gap-2 items-center bg-primaryGlassEffect px-4 py-2 rounded-lg">
+          <div className="flex flex-nowrap gap-2 items-center bg-primary-dark px-4 py-2 rounded-lg">
             <div className="dir-rtl md:text-base text-sm">{post.createdAt}</div>
             <Image
               src="/images/time-white.svg"
@@ -72,7 +72,7 @@ const Posts: NextPage = () => {
         <div className="flex gap-5 justify-center mt-10">
           <a
             href="tel:+96599491575"
-            className="bg-green-600 font-bold hover:bg-green-700 w-36 flex items-center justify-center gap-2 text-center text-white py-3 md:py-5 rounded-md"
+            className="bg-custom-green font-bold hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white py-3 md:py-5 rounded-md"
           >
             {post.phone}
             <Image

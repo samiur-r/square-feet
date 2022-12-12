@@ -61,7 +61,7 @@ const posts = [
 
 const Posts = () => {
   return (
-    <div className="dir-rtl container max-w-3xl pt-5 md:pt-0 pb-10">
+    <div className="dir-rtl container max-w-3xl pt-5 md:pt-0 pb-10 bg-custom-white-light md:bg-white">
       <Title value="أحدث الإعلانات" />
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />

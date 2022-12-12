@@ -8,6 +8,10 @@
   font-display: swap;
 }
 
+html {
+  @apply text-black
+}
+
 body {
   scrollbar-width: thin;
 }

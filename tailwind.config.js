@@ -11,11 +11,34 @@ module.exports = {
       center: true,
       padding: '1rem'
     },
+    colors: {
+      transparent: 'transparent',
+      current: 'currentColor',
+      black: '#242424',
+      white: colors.white,
+      gray: colors.gray,
+      emerald: colors.emerald,
+      indigo: colors.indigo,
+      yellow: colors.yellow
+    },
     extend: {
       colors: {
         primary: '#6598CB',
-        secondary: '#F66F4A',
-        primaryGlassEffect: '#608fbf'
+        'primary-lighter': '#E8F0F7',
+        'primary-light': '#83ACD5',
+        'primary-dark': '#608FBF',
+        secondary: '#F88C6E',
+        'custom-green': '#4CAF50',
+        'custom-red': '#E54B66',
+        'custom-red-light': '#EBA2AE',
+        'custom-red-lighter': '#FCF2F2',
+        'custom-white-lighter': '#FDFEFF',
+        'custom-white-light': '#F9FAFB',
+        'custom-gray': '#8996A6',
+        'custom-gray-1': '#7d8b9b',
+				'custom-gray-2': '#EFF3F7',
+				'custom-gray-3': '#f9f9f9',
+        'custom-gray-border': '#DCDCDC'
       },
       fontFamily: {
         sans: ['Droid Arabic Kufi', 'sans-serif']

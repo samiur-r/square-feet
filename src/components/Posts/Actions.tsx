@@ -10,16 +10,16 @@ import Image from 'next/image'
 const Actions = () => {
   return (
     <div className="flex flex-row-reverse gap-3">
-      <div className="p-1 bg-gray-200 rounded-md">
-        <TrashIcon className="w-5 h-5 text-gray-400" />
+      <div className="p-1 bg-[#BBBFC8] rounded-md">
+        <TrashIcon className="w-5 h-5 text-[#909CAB]" />
       </div>
-      <div className="p-1 bg-orange-100 rounded-md">
-        <PencilIcon className="w-5 h-5 text-orange-500" />
+      <div className="p-1 bg-[#FBE4DB] rounded-md">
+        <PencilIcon className="w-5 h-5 text-[#EE772A]" />
       </div>
-      <div className="p-1 bg-red-100 rounded-md">
-        <RocketLaunchIcon className="w-5 h-5 text-red-500" />
+      <div className="p-1 bg-[#F8D8D7] rounded-md">
+        <RocketLaunchIcon className="w-5 h-5 text-[#D2110C]" />
       </div>
-      <div className="p-1 bg-emerald-100 rounded-md">
+      <div className="p-1 bg-[#E0E9E5] rounded-md">
         <ArrowPathIcon className="w-5 h-5 text-emerald-800" />
       </div>
       <div className="w-7 h-7 relative">

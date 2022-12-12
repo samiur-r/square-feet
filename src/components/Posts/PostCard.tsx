@@ -26,10 +26,10 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
       className={`${
         post.isSticky
           ? `
-							border-rose-300 bg-red-50 after:absolute after:content-["مميز"] after:text-xs after:md:text-sm after:bg-rose-500 after:top-1 after:right-3 after:text-white 
+							border-custom-red-light bg-custom-red-lighter after:absolute after:content-["مميز"] after:text-xs after:md:text-sm after:bg-custom-red after:top-1 after:right-3 after:text-white 
 							after:px-2 after:md:px-3 after:py-1 after:md:py-2 before:absolute before:top-3 before:md:top-6 before:right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
-							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-rose-600 before:p-1`
-          : 'shadow-md'
+							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-custom-red before:p-1`
+          : 'shadow-md bg-white'
       } rounded-lg border cursor-pointer mt-5 py-3 px-5 relative
 					`}
     >
@@ -59,7 +59,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
                 height={17}
                 alt="clock_icon"
               />
-              <div className="text-gray-500 md:text-base text-xs">
+              <div className="text-custom-gray md:text-base text-xs">
                 {post.createdAt}
               </div>
             </div>
@@ -70,17 +70,17 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
                 height={14}
                 alt="views_icon"
               />
-              <div className="text-gray-500 md:text-base text-xs">
+              <div className="text-custom-gray md:text-base text-xs">
                 {post.views}
               </div>
             </div>
           </div>
-          <div className="hidden md:block mt-3 text-sm text-gray-500 md:line-clamp-2">
+          <div className="hidden md:block mt-3 text-sm text-custom-gray-1 md:line-clamp-2">
             {post.description}
           </div>
         </div>
       </div>
-      <div className="md:hidden mt-3 text-xs text-gray-500 line-clamp-2">
+      <div className="md:hidden mt-3 text-xs text-custom-gray-1 line-clamp-2">
         {post.description}
       </div>
       {showActions && (

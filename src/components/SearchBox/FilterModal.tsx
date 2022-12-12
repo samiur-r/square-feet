@@ -44,7 +44,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          <div className="fixed inset-0 bg-custom-gray bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-20 overflow-y-auto">
@@ -105,7 +105,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                           className={`${
                             selectedPurpose.id === purpose.id
                               ? 'bg-primary text-white'
-                              : 'bg-gray-200 text-gray-500 '
+                              : 'bg-custom-gray-3 text-custom-gray'
                           } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
                           onClick={() =>
                             setPurpose({ id: purpose.id, title: purpose.title })
@@ -126,7 +126,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                           className={`${
                             selectedPropertyType.id === type.id
                               ? 'bg-primary text-white'
-                              : 'bg-gray-200 text-gray-500 '
+                              : 'bg-custom-gray-3 text-custom-gray'
                           } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
                           onClick={() =>
                             setPropertyType({ id: type.id, title: type.title })
@@ -227,7 +227,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       <input
                         type="search"
                         id="search"
-                        className="outline-none block p-4 pr-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 text-end"
+                        className="outline-none block p-4 pr-10 w-full text-sm text-custom-gray rounded-full border border-custom-gray-border text-end"
                         placeholder="البحث بالكلمه"
                         required
                       />

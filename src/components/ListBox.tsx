@@ -33,9 +33,9 @@ const List: React.FC<ListProps> = ({
           {isFloatingLabel && (
             <span
               className={`${(open || selected) && '-top-2.5 mx-3 text-xs px-1'} 
-							${open ? 'text-primary' : 'text-gray-500'}
+							${open ? 'text-primary' : 'text-custom-gray'}
 							${
-                bgGray ? 'bg-gray-50' : 'bg-white'
+                bgGray ? 'bg-custom-gray' : 'bg-white'
               } pointer-events-none transition-all duration-300 absolute z-10 mx-4 top-4`}
             >
               {placeholder}
@@ -44,10 +44,10 @@ const List: React.FC<ListProps> = ({
           <Listbox.Button
             type="button"
             className={`${
-              bgGray
-                ? 'bg-gray-50 rounded-full md:rounded-lg'
-                : 'bg-white rounded-lg'
-            } flex justify-between items-center py-3 md:py-3.5 px-4 relative w-full cursor-text border border-gray-300 shadow-sm focus:border-primary focus:outline-none text-base text-gray-500`}
+              bgGray ? ' rounded-full md:rounded-lg' : ' rounded-lg'
+            } ${
+              open ? 'border-primary' : 'border-custom-gray-border'
+            } bg-white flex justify-between items-center py-3 md:py-3.5 px-4 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-custom-gray`}
           >
             <span className="flex gap-3 items-center w-full">
               <span className={`${!showFilterIcon && 'hidden'}`}>
@@ -71,12 +71,12 @@ const List: React.FC<ListProps> = ({
             <span className="pointer-events-none flex items-center pr-2">
               {open ? (
                 <ChevronUpIcon
-                  className="h-7 w-7 text-gray-400"
+                  className="h-7 w-7 text-custom-gray"
                   aria-hidden="true"
                 />
               ) : (
                 <ChevronDownIcon
-                  className="h-7 w-7 text-gray-400"
+                  className="h-7 w-7 text-custom-gray"
                   aria-hidden="true"
                 />
               )}
@@ -94,8 +94,8 @@ const List: React.FC<ListProps> = ({
                 <Listbox.Option
                   key={option.id}
                   className={`${
-                    selected?.id === option.id && 'bg-gray-200'
-                  } relative cursor-pointer hover:bg-gray-100 transition-all duration-500 select-none py-2 px-3`}
+                    selected?.id === option.id && 'bg-primary-lighter'
+                  } relative cursor-pointer hover:bg-primary-lighter transition-all duration-500 select-none py-2 px-3`}
                   value={option}
                 >
                   <span className="block text-base truncate font-bold text-primary">

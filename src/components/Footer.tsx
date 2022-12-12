@@ -140,7 +140,7 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <div className="bg-gray-50 py-12 relative w-full">
+    <div className="bg-custom-gray-2 py-12 relative w-full">
       <div className="container max-w-6xl grid grid-cols-2 md:grid-cols-4 md:gap-auto">
         {items.map((item) => (
           <div

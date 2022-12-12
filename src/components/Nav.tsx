@@ -1359,8 +1359,9 @@ const Nav: React.FC = () => {
                       type="submit"
                       onClick={() => handleMobileNavChange(item)}
                       className={`${
-                        activeItemOnMobile === item.title && 'bg-blue-100'
-                      } flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl hover:bg-blue-100 cursor-pointer transition-colors ease-in-out duration-500`}
+                        activeItemOnMobile === item.title &&
+                        'bg-primary-lighter'
+                      } flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                     >
                       <p
                         className={`${
@@ -1459,7 +1460,7 @@ const Nav: React.FC = () => {
                 <Link href={link.href} key={Math.random()}>
                   <button
                     type="submit"
-                    className="px-3 py-2 flex items-center bg-gray-100 rounded-lg cursor-pointer"
+                    className="px-3 py-2 flex items-center bg-custom-gray-3 rounded-lg cursor-pointer"
                   >
                     <Image
                       src={link.imagePath}

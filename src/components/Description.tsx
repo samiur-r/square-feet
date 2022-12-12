@@ -8,9 +8,8 @@ const Description: React.FC<{
 }> = ({ value, light, textBlack, children }) => {
   return (
     <p
-      className={`${light ? 'text-white' : 'text-gray-500'} ${
-        textBlack && 'text-black'
-      } text-sm md:text-lg tracking-wide`}
+      // eslint-disable-next-line prettier/prettier, no-nested-ternary
+      className={`${light ? 'text-white' : (textBlack ? 'text-black' : 'text-custom-gray')} text-sm md:text-lg tracking-wide`}
     >
       {value || children}
     </p>

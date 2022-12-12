@@ -56,10 +56,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             <div className="">
               <div
                 className={`${
-                  isHomePage
-                    ? 'bg-gray-50 rounded-full md:rounded-lg'
-                    : 'bg-white rounded-lg'
-                } flex py-3 px-4 gap-2 items-center border border-gray-300 shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
+                  isHomePage ? 'rounded-full md:rounded-lg' : 'rounded-lg'
+                } ${
+                  open ? 'border-primary ' : 'border-custom-gray-border'
+                } bg-white flex py-3 px-4 gap-2 items-center border shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
               >
                 {isHomePage && (
                   <div className="flex items-center">
@@ -82,7 +82,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                 <Combobox.Button className="w-full h-full" as="div">
                   <Combobox.Input
                     id="location"
-                    className="peer w-full bg-inherit h-full text-base leading-5 text-gray-500 outline-none"
+                    className="peer w-full h-full text-base leading-5 text-custom-gray outline-none"
                     placeholder={`${isHomePage ? 'اكتب المنطقه للبحث' : ' '}`}
                     displayValue={(location) => {
                       if (open) {
@@ -96,7 +96,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   {!isHomePage && (
                     <label
                       htmlFor="location"
-                      className="absolute cursor-text text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-1 peer-focus:right-1 peer-placeholder-shown:right-0"
+                      className="absolute cursor-text text-custom-gray duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-1 peer-focus:right-1 peer-placeholder-shown:right-0"
                     >
                       المنطقه
                     </label>
@@ -109,12 +109,12 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                 >
                   {open ? (
                     <ChevronUpIcon
-                      className="h-7 w-7 text-gray-400"
+                      className="h-7 w-7 text-custom-gray"
                       aria-hidden="true"
                     />
                   ) : (
                     <ChevronDownIcon
-                      className="h-7 w-7 text-gray-400"
+                      className="h-7 w-7 text-custom-gray"
                       aria-hidden="true"
                     />
                   )}
@@ -136,7 +136,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   } z-20 bg-white absolute pr-2 overflow-y-scroll mt-3 left-0 max-h-80 w-full rounded-lg text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm`}
                 >
                   {filteredLocations.length === 0 && query !== '' ? (
-                    <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                    <div className="relative cursor-default select-none py-2 px-4 text-custom-gray">
                       لا توجد منطقه بهذا الاسم
                     </div>
                   ) : (
@@ -146,7 +146,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           className="relative cursor-default select-none"
                           value="all"
                         >
-                          <span className="block text-base truncate hover:bg-gray-100 text-black font-bold p-2 cursor-pointer">
+                          <span className="block text-base truncate hover:bg-primary-lighter text-black font-bold p-2 cursor-pointer">
                             {' '}
                             كل مناطق الكويت
                           </span>
@@ -172,7 +172,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                               location.type === 'state' && 'text-black'
                             } ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-gray-100 font-bold text-base block truncate p-2 cursor-pointer`}
+                            } hover:bg-primary-lighter font-bold text-base block truncate p-2 cursor-pointer`}
                           >
                             {location.title}
                           </span>

@@ -1,19 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-// import dynamic from 'next/dynamic'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
-import DynamicFilterAutoComplete from 'components/FilterAutoComplete'
+import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
-
-// const DynamicFilterAutoComplete = dynamic(
-//   () => import('components/FilterAutoComplete'),
-//   {
-//     suspense: true
-//   }
-// )
 
 const propertyTypes = [
   {
@@ -995,7 +986,7 @@ const SearchBox = () => {
 
   return (
     <>
-      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-gray-50 md:bg-white">
+      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
         <Link href="/filter">
           <div className="grid place-items-center md:w-2/12 w-full order-4 md:order-1">
             <CTA title="إبحث الآن" backgroundColor="secondary" />
@@ -1032,7 +1023,7 @@ const SearchBox = () => {
                   type="radio"
                   value=""
                   name="default-radio"
-                  className="w-4 h-4 ml-2 accent-orange-600/50"
+                  className="w-4 h-4 ml-2 accent-orange-600"
                   defaultChecked={purposeItem.id === purpose.id}
                   onClick={() =>
                     setPurpose({ id: purposeItem.id, title: purposeItem.title })
@@ -1046,8 +1037,8 @@ const SearchBox = () => {
           <ListBox
             selectedOpt={propertyTypes[0]}
             options={propertyTypes}
-            bgGray
             showFilterIcon
+            bgGray
           />
         </div>
         <div className="md:w-4/12 order-2 md:order-4">
@@ -1063,8 +1054,7 @@ const SearchBox = () => {
       </div>
       {showFilterCombobox && (
         <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
-          {/* <Suspense fallback="Loading..."> */}
-          <DynamicFilterAutoComplete
+          <FilterAutoComplete
             locations={locations}
             purposes={purposes}
             propertyTypes={propertyTypes}
@@ -1072,7 +1062,6 @@ const SearchBox = () => {
             handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
             showOptions
           />
-          {/* </Suspense> */}
         </div>
       )}
     </>

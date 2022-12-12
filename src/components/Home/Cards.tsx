@@ -28,8 +28,8 @@ const Cards = () => {
     <div className="container max-w-3xl pt-20 pb-10 md:pt-32 md:pb-28 grid grid-cols-3 gap-5 md:gap-20 place-items-center">
       {items.map((item) => (
         <Link key={Math.random()} href={item.href}>
-          <div className="shadow-md rounded-lg md:px-12 bg-stone-100 cursor-pointer">
-            <div className="bg-blue-100 p-3 md:p-5 rounded-full -mt-10">
+          <div className="shadow-md rounded-lg md:px-12 bg-custom-gray-3 cursor-pointer">
+            <div className="bg-primary-lighter p-3 md:p-5 rounded-full -mt-10">
               <div className="w-16 h-14 relative">
                 <Image
                   src={item.icon}

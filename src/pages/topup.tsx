@@ -36,7 +36,7 @@ const Topup: NextPage = () => {
             alt="check_icon"
           />
         </div>
-        <div className="text-xs md:text-xl font-semibold text-green-800">
+        <div className="text-xs md:text-xl font-semibold text-custom-green">
           كل وسائل الدفع الإلكترونية في بوشملان معتمدة وموثوقة 100% من البنوك
           المحلية
         </div>

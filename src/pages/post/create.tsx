@@ -981,14 +981,14 @@ const CreatePost: NextPage = () => {
             type="number"
             name="phone"
             id="phone"
-            className="block bg-gray-50 p-4 w-full text-gray-400 rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block bg-custom-gray-3 p-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=""
             value="65432165"
             disabled
           />
           <label
             htmlFor="phone"
-            className="absolute cursor-text text-md text-gray-500 duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-0"
+            className="absolute cursor-text text-md text-custom-gray duration-300 top-2 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 right-0"
           >
             رقم الموبايل{' '}
           </label>
@@ -1017,12 +1017,12 @@ const CreatePost: NextPage = () => {
             type="number"
             name="price"
             id="price"
-            className="block p-4 shadow-sm w-full text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block p-4 shadow-sm w-full text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
             htmlFor="price"
-            className="absolute cursor-text text-md text-gray-500 duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 -right-1 peer-focus:-right-1 peer-placeholder-shown:right-0"
+            className="absolute cursor-text text-md text-custom-gray duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 -right-1 peer-focus:-right-1 peer-placeholder-shown:right-0"
           >
             السعر (اختياري)
           </label>
@@ -1031,12 +1031,12 @@ const CreatePost: NextPage = () => {
           <textarea
             name="description"
             rows={7}
-            className="block p-4 w-full text-base text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block p-4 w-full text-base text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
             htmlFor="description"
-            className="absolute pointer-events-none cursor-text text-md text-gray-500 duration-300 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-0 peer-focus:-right-3"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-0 peer-focus:-right-3"
           >
             اكتب تفاصيل الاعلان هنا{' '}
           </label>
@@ -1044,7 +1044,7 @@ const CreatePost: NextPage = () => {
         <div className="flex justify-center items-center w-full mt-8 md:mt-10">
           <label
             htmlFor="dropzone-file"
-            className="flex flex-col justify-center items-center w-full h-52 rounded-lg border border-gray-300 cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            className="flex flex-col justify-center items-center w-full h-52 rounded-lg border border-custom-gray-border cursor-pointer"
           >
             <div className="flex flex-col justify-center items-center pt-5 pb-6">
               <svg
@@ -1074,7 +1074,7 @@ const CreatePost: NextPage = () => {
             id="checked-checkbox"
             type="checkbox"
             value=""
-            className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            className="w-4 h-4 text-blue-600 bg-custom-gray rounded border-custom-gray-border focus:ring-blue-500 focus:ring-2"
           />
           <label htmlFor="checked-checkbox" className="font-medium">
             <a className="hover:underline flex gap-3 cursor-pointer">

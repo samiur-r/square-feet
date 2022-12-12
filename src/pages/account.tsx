@@ -64,7 +64,7 @@ const agencyItems = [
 
 const Account: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-5 items-center bg-gray-50 md:bg-white">
+    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-5 items-center bg-custom-white-light md:bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:w-auto">
         <BalanceCard
           headline="رصيدك من الاعلانات"
