@@ -32,11 +32,13 @@ const List: React.FC<ListProps> = ({
         <div className="relative dir-rtl">
           {isFloatingLabel && (
             <span
-              className={`${(open || selected) && '-top-2.5 mx-3 text-xs px-1'} 
+              className={`${
+                open || selected ? '-top-2.5 mx-3 text-xs px-1' : 'top-4'
+              } 
 							${open ? 'text-primary' : 'text-custom-gray'}
 							${
                 bgGray ? 'bg-custom-gray' : 'bg-white'
-              } pointer-events-none transition-all duration-300 absolute z-10 mx-4 top-4`}
+              } pointer-events-none transition-all duration-300 absolute z-10 mx-4`}
             >
               {placeholder}
             </span>
