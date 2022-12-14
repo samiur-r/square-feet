@@ -17,7 +17,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           type="number"
           name="phone"
           id="phone"
-          className="block px-4 py-2.5 md:py-4 w-full shadow-sm text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+          className="block px-4 py-3 md:py-4 w-full shadow-sm text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
         />
         <label
@@ -32,7 +32,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           type="password"
           name="password"
           id="password"
-          className="block px-4 py-2.5 md:py-4 w-full shadow-sm text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+          className="block px-4 py-3 md:py-4 w-full shadow-sm text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
         />
         <label

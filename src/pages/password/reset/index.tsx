@@ -19,7 +19,7 @@ const PasswordReset: NextPage = () => {
             type="number"
             name="phone"
             id="phone"
-            className="block px-4 py-2.5 md:py-4 w-full text-custom-gray bg-transparent rounded-lg shadow-sm border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block px-4 py-3 md:py-4 w-full text-custom-gray bg-transparent rounded-lg shadow-sm border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
