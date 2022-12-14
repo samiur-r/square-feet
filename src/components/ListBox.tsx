@@ -33,8 +33,7 @@ const List: React.FC<ListProps> = ({
           {isFloatingLabel && (
             <span
               className={`${
-                (open || selected) &&
-                '-top-3.5 md:-top-3.5 mt-1 mx-3 text-xs px-1'
+                (open || selected) && '-top-3 md:-top-3.5 mx-3 text-xs px-1'
               } 
 							${open ? 'text-primary' : 'text-custom-gray'}
 							${
