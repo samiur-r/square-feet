@@ -36,7 +36,7 @@ const List: React.FC<ListProps> = ({
 							${open ? 'text-primary' : 'text-custom-gray'}
 							${
                 bgGray ? 'bg-custom-gray' : 'bg-white'
-              } pointer-events-none transition-all duration-300 absolute z-10 mx-4 top-4`}
+              } pointer-events-none transition-all duration-300 absolute z-10 mx-4 top-3 md:top-4`}
             >
               {placeholder}
             </span>
@@ -47,7 +47,7 @@ const List: React.FC<ListProps> = ({
               bgGray ? ' rounded-full md:rounded-lg' : ' rounded-lg'
             } ${
               open ? 'border-primary' : 'border-custom-gray-border'
-            } bg-white flex justify-between items-center py-3 md:py-3.5 px-4 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-custom-gray`}
+            } bg-white flex justify-between items-center py-2.5 md:py-3.5 px-4 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-custom-gray`}
           >
             <span className="flex gap-3 items-center w-full">
               <span className={`${!showFilterIcon && 'hidden'}`}>

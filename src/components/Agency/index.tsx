@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { AgencyType } from 'intefaces'
 import Title from 'components/Title'
+import Description from 'components/Description'
 import PackageCard from './PackageCard'
 import AgencyCard from './AgencyCard'
 
@@ -15,16 +16,18 @@ const Agency: React.FC<{
       <div className="flex w-full justify-center">
         <PackageCard thumbnailSmall={thumbnailSmall} />
       </div>
-      <div className="flex justify-center gap-2 pb-5">
-        <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
-          <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
-        </Link>
-        <p>او</p>
-        <Link href="tel:+96560444900">
-          <a className="text-primary hover:underline">اتصل بنا</a>
-        </Link>
-        <p>للمساعده</p>
-      </div>
+      <Description textBlack>
+        <span className="flex justify-center gap-2 pb-5 text-sm md:text-lg tracking-wide">
+          <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
+            <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
+          </Link>
+          <span>او</span>
+          <Link href="tel:+96560444900">
+            <a className="text-primary hover:underline">اتصل بنا</a>
+          </Link>
+          <span>للمساعده</span>
+        </span>
+      </Description>
       <div className="tracking-wider flex justify-center">
         <Title value="قائمة المكاتب" />
       </div>

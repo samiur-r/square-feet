@@ -59,7 +59,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   isHomePage ? 'rounded-full md:rounded-lg' : 'rounded-lg'
                 } ${
                   open ? 'border-primary ' : 'border-custom-gray-border'
-                } bg-white flex py-3 px-4 gap-2 items-center border shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
+                } bg-white flex py-2 md:py-3 px-4 gap-2 items-center border shadow-sm w-full h-full cursor-default overflow-hidden text-left outline-none`}
               >
                 {isHomePage && (
                   <div className="flex items-center">

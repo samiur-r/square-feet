@@ -201,7 +201,7 @@ const Footer = () => {
           </button>
         </Link>
       </div>
-      <div className="mt-10 text-center text-lg italic text-gray-500">
+      <div className="mt-10 text-center text-lg italic text-custom-gray">
         2022 ©boshamlan.com
       </div>
     </div>

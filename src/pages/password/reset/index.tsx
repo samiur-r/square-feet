@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 
 const PasswordReset: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-md grid place-items-center py-10 md:py-16">
+    <div className="dir-rtl container max-w-md grid place-items-center py-10">
       <h1 className="font-semibold text-lg md:text-xl w-full md:w-auto">
         تغيير كلمة السر
       </h1>
@@ -19,7 +19,7 @@ const PasswordReset: NextPage = () => {
             type="number"
             name="phone"
             id="phone"
-            className="block p-4 md:py-5 w-full text-custom-gray bg-transparent rounded-lg shadow-sm border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block px-4 py-3 md:py-4 md:py-5 w-full text-custom-gray bg-transparent rounded-lg shadow-sm border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
@@ -32,7 +32,7 @@ const PasswordReset: NextPage = () => {
         <div className="mt-8">
           <button
             type="submit"
-            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white py-4 px-8 rounded-lg"
+            className="bg-secondary w-full opacity-80 hover:opacity-100 text-white py-3 md:py-4 px-8 rounded-lg"
           >
             أرسل لي رقم التفعيل SMS
           </button>

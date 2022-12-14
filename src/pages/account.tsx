@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import BalanceCard from 'components/Account/BalanceCard'
 import PostCard from 'components/Posts/PostCard'
+import Description from 'components/Description'
 
 const posts = [
   {
@@ -77,16 +78,18 @@ const Account: NextPage = () => {
           ctaList={['بياناتي', 'صفحتي']}
         />
       </div>
-      <div className="flex justify-center text-sm md:text-base gap-2 pb-5">
-        <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
-          <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
-        </Link>
-        <p>او</p>
-        <Link href="tel:+96560444900">
-          <a className="text-primary hover:underline">اتصل بنا</a>
-        </Link>
-        <p>للمساعده</p>
-      </div>
+      <Description textBlack>
+        <span className="flex justify-center text-sm md:text-base gap-2 pb-5">
+          <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
+            <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
+          </Link>
+          <span>او</span>
+          <Link href="tel:+96560444900">
+            <a className="text-primary hover:underline">اتصل بنا</a>
+          </Link>
+          <span>للمساعده</span>
+        </span>
+      </Description>
       <div className="md:max-w-3xl md:container">
         <div className="flex gap-3 items-center">
           <h3 className="text-base md:text-xl font-bold tracking-wider">

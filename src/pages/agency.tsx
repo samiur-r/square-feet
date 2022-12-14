@@ -61,8 +61,8 @@ const posts = [
 
 const Agency: NextPage = () => {
   return (
-    <div className="dir-rtl pb-12">
-      <div className="bg-primary-light flex flex-col md:flex-row gap-5 md:gap-10 justify-center items-center text-white px-5 py-5 md:py-10">
+    <div className="dir-rtl pb-10">
+      <div className="bg-primary-light flex flex-col md:flex-row gap-5 md:gap-10 justify-center items-center text-white px-5 py-8">
         <div className="w-40 h-32 md:w-46 md:h-32 rounded-lg overflow-hidden relative border">
           <Image
             src="/images/nopic-ar.jpg"
@@ -81,7 +81,7 @@ const Agency: NextPage = () => {
           <p className="mt-2">instagram: @alateeqire</p>
           <a
             href="tel:+96599491575"
-            className="bg-custom-green font-bold hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white py-3 md:py-5 mt-8 rounded-md"
+            className="bg-custom-green font-bold hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white py-3 mt-4 rounded-md"
           >
             99491575{' '}
             <Image
@@ -92,7 +92,7 @@ const Agency: NextPage = () => {
               alt="phone_icon"
             />
           </a>
-          <div className="flex gap-3 justify-center mt-5">
+          <div className="flex gap-3 justify-center mt-4">
             <Link href="/">
               <a className="p-2 rounded-full bg-primary-dark flex items-center ">
                 <Image

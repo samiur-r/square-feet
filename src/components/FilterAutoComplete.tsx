@@ -89,7 +89,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full">
+    <div className="dir-rtl w-full pt-2">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
@@ -99,14 +99,14 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
             <input ref={isOpenRef} type="hidden" value={`${open}`} />
             {showOptions && (
               <>
-                <div className="flex md:hidden items-center absolute z-10 right-3 top-3">
+                <div className="flex md:hidden items-center absolute z-10 right-3 top-5">
                   <ChevronRightIcon
                     className="h-10 w-10 text-gray-900"
                     aria-hidden="true"
                   />
                 </div>
                 <Combobox.Button
-                  className="absolute top-5 left-7 z-10"
+                  className="absolute top-7 left-7 z-10"
                   type="submit"
                 >
                   <svg
@@ -234,7 +234,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           value={location}
                         >
                           {location.type === 'city' && (
-                            <span className="absolute left-5">
+                            <span className="absolute left-5 text-primary font-bold">
                               ({location.count})
                             </span>
                           )}

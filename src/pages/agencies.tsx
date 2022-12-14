@@ -153,7 +153,7 @@ const agencyList = [
 const Agencies: NextPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 pt-5">
-      <div className="dir-rtl container max-w-6xl py-10 flex flex-col items-center gap-5">
+      <div className="dir-rtl container max-w-6xl pt-5 pb-10 flex flex-col items-center gap-5">
         <Agency agencyList={agencyList} thumbnailSmall />
       </div>
       <AgencyArticle />

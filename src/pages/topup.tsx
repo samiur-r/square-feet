@@ -7,7 +7,7 @@ import Description from 'components/Description'
 
 const Topup: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl px-3 pt-6 md:py-10 bg-gray-50 md:bg-white">
+    <div className="dir-rtl container max-w-6xl px-3 pt-10 pb-0 md:pb-10 bg-gray-50 md:bg-white">
       <Title value="اشحن رصيد" />
       <ul className="list-disc mt-5 mr-5 text-sm md:text-base">
         <li>اختر الباقة المناسبة واضغط على الزر البرتقالي للشراء</li>
@@ -28,7 +28,7 @@ const Topup: NextPage = () => {
         <PackageCard styleRow />
       </div>
       <div className="flex md:gap-5 mt-10 items-start md:items-center">
-        <div className="w-20 h-20 md:w-auto md:h-auto">
+        <div className="w-20 h-20 md:w-auto md:h-auto flex items-start md:items-center">
           <Image
             src="/images/checkmark_circle.svg"
             height={42}

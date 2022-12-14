@@ -38,7 +38,7 @@ const PackageCard: React.FC<{
         </div>
       </div>
       <div className="flex flex-col gap-2 md:gap-5 justify-center items-center w-full">
-        <h6 className="text-base md:text-lg tracking-wider">باقة المكاتب</h6>
+        <h3 className="text-lg md:text-xl tracking-wide">باقة المكاتب</h3>
         <div className="grid gap-3 md:w-full">
           <Link href="https://www.kpay.com">
             <a className="bg-secondary opacity-80 text-white text-sm md:text-base text-center px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-100">

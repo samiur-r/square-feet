@@ -38,6 +38,7 @@ module.exports = {
         'custom-gray-1': '#7d8b9b',
 				'custom-gray-2': '#EFF3F7',
 				'custom-gray-3': '#f9f9f9',
+				'custom-gray-4': '#9C9C9C',
         'custom-gray-border': '#DCDCDC'
       },
       fontFamily: {

@@ -1205,7 +1205,7 @@ const Nav: React.FC = () => {
                   <>
                     <Popover.Button className="group inline-flex mt-1 items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none">
                       <ChevronDownIcon
-                        className="text-base mr-2 h-5 w-5 group-hover:text-gray-500"
+                        className="text-base mr-2 h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
                         aria-hidden="true"
                       />
                       <span>عقارات الكویت</span>
@@ -1232,10 +1232,10 @@ const Nav: React.FC = () => {
                               >
                                 <div className="flex items-center justify-between">
                                   <ChevronDownIcon
-                                    className="mr-2 h-5 w-5 group-hover:text-gray-500 text-base"
+                                    className="mr-2 h-5 w-5 group-hover:text-gray-500 text-custom-gray-4 text-base"
                                     aria-hidden="true"
                                   />
-                                  <p className="text-base font-medium text-gray-900">
+                                  <p className="text-base font-medium">
                                     {item.title}
                                   </p>
                                 </div>
@@ -1299,7 +1299,7 @@ const Nav: React.FC = () => {
               }`}
             >
               <ChevronRightIcon
-                className="h-9 w-9 text-gray-600"
+                className="h-9 w-9 mt-2 text-gray-600"
                 aria-hidden="true"
               />
             </div>
@@ -1309,7 +1309,10 @@ const Nav: React.FC = () => {
               } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none`}
             >
               <span className="sr-only">Open menu</span>
-              <Bars3Icon className="h-9 w-9 font-bold" aria-hidden="true" />
+              <Bars3Icon
+                className="h-7 w-7 mt-1 font-bold"
+                aria-hidden="true"
+              />
             </Popover.Button>
           </div>
         </div>
@@ -1332,11 +1335,11 @@ const Nav: React.FC = () => {
           } fixed h-full top-0 right-0 transform transition w-10/12 md:w-3/12`}
         >
           <div className="bg-black opacity-50 right-0 w-screen absolute h-full z-10 pointer-events-none" />
-          <div className="rounded-lg bg-white shadow-2xl h-full flex flex-col justify-between relative z-20">
+          <div className="bg-white shadow-2xl h-full flex flex-col justify-between relative z-20">
             <div>
               <div className="flex items-center justify-between px-4 pt-5 pb-3">
                 <div>
-                  <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-black hover:bg-gray-100 focus:outline-none">
+                  <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-black hover:bg-custom-gray focus:outline-none">
                     <span className="sr-only">Close menu</span>
                     <XMarkIcon className="h-7 w-7" aria-hidden="true" />
                   </Popover.Button>
@@ -1349,7 +1352,7 @@ const Nav: React.FC = () => {
                   </Link>
                 </div>
               </div>
-              <hr className="h-px bg-gray-400 border-0" />
+              <hr className="h-px bg-custom-gray border-0" />
 
               {/* nav items */}
               <div className="mt-6 flex flex-col gap-3">
@@ -1370,12 +1373,29 @@ const Nav: React.FC = () => {
                       >
                         {item.title}
                       </p>
-                      <Image
-                        src={item.icon}
-                        height={30}
-                        width={30}
-                        alt="nav_item"
-                      />
+                      {item.title === 'إعلان مجانًا' ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          className="w-8 h-8 text-secondary"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      ) : (
+                        <Image
+                          src={item.icon}
+                          height={30}
+                          width={30}
+                          alt="nav_item"
+                        />
+                      )}
                     </button>
                   </Link>
                 ))}
@@ -1384,7 +1404,7 @@ const Nav: React.FC = () => {
                     <>
                       <Popover.Button className="group py-1 inline-flex mt-1 pl-5 items-center justify-between w-full rounded-l-2xl bg-white text-base font-medium hover:bg-blue-100 transition-colors ease-in-out duration-500 focus:outline-none">
                         <ChevronDownIcon
-                          className="text-base h-5 w-5 group-hover:text-gray-500"
+                          className="text-base h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
                           aria-hidden="true"
                         />
                         <div className="flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl cursor-pointer">
@@ -1419,10 +1439,10 @@ const Nav: React.FC = () => {
                                 >
                                   <div className="flex items-center justify-between">
                                     <ChevronDownIcon
-                                      className="ml-2 h-5 w-5 group-hover:text-gray-500 text-base"
+                                      className="ml-2 h-5 w-5 group-hover:text-custom-gray text-custom-gray-4 text-base"
                                       aria-hidden="true"
                                     />
-                                    <p className="text-base font-medium text-gray-900">
+                                    <p className="text-base font-medium">
                                       {item.title}
                                     </p>
                                   </div>

@@ -9,7 +9,7 @@ const AgencyCard = React.forwardRef(
   ({ thumbnail, title, phone, socialLinks }: AgencyType, ref) => {
     return (
       <div className="grid grid-cols-2 w-full md:grid-cols-1 place-items-center gap-5 bg-white p-2 rounded-lg border border-gray-300 shadow-sm cursor-pointer">
-        <div className="w-40 h-40 rounded-lg overflow-hidden relative border">
+        <div className="w-36 h-36 rounded-lg overflow-hidden relative border">
           <Image src={thumbnail} layout="fill" objectFit="cover" alt="agency" />
         </div>
         <div>
