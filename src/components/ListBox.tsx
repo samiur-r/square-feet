@@ -34,7 +34,7 @@ const List: React.FC<ListProps> = ({
             <span
               className={`${
                 (open || selected) &&
-                '-top-3 md:-top-3.5 mt-1 mx-3 text-xs px-1'
+                '-top-3.5 md:-top-3.5 mt-1 mx-3 text-xs px-1'
               } 
 							${open ? 'text-primary' : 'text-custom-gray'}
 							${
