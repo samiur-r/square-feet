@@ -18,7 +18,7 @@ const CTA: React.FC<CTAProps> = ({
       type="submit"
       className={`${
         backgroundColor === 'primary' ? 'bg-primary' : 'bg-secondary'
-      } max-w-xs w-full md:w-auto flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg rounded-full hover:opacity-70 transition-opacity duration-500`}
+      } w-full md:w-auto flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg rounded-full hover:opacity-70 transition-opacity duration-500`}
       onClick={handleClick}
     >
       <span>{title}</span>
