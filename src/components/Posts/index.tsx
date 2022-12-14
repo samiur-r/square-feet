@@ -66,7 +66,7 @@ const Posts = () => {
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
-      <div className="mt-10 max-w-xs m-auto flex items-center justify-center">
+      <div className="mt-10 max-w-xs px-10 m-auto flex items-center justify-center">
         <CTA
           title="المزيد"
           backgroundColor="secondary"
