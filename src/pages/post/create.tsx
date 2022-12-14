@@ -981,7 +981,7 @@ const CreatePost: NextPage = () => {
             type="number"
             name="phone"
             id="phone"
-            className="block bg-custom-gray-3 px-4 py-3 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=""
             value="65432165"
             disabled
