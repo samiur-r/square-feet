@@ -975,6 +975,13 @@ const SearchBox = () => {
   const [canUpdateFilterAutoCompleteShow, setCanUpdateFilterAutoCompleteShow] =
     useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
+  const [locationSelected, setLocationSelected] = useState<
+    { id: number; title: string; type: string } | undefined
+  >()
+
+  const handleLocationChanged = (id: number, title: string, type: string) => {
+    setLocationSelected({ id, title, type })
+  }
 
   useEffect(() => {
     if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
@@ -988,7 +995,7 @@ const SearchBox = () => {
     <>
       <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
         <Link href="/filter">
-          <div className="grid place-items-center md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
+          <div className="grid h-max md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
             <CTA title="إبحث الآن" backgroundColor="secondary" />
           </div>
         </Link>
@@ -1010,7 +1017,7 @@ const SearchBox = () => {
             </button>
           ))}
         </div>
-        <div className="md:w-3/12 hidden md:flex gap-5 justify-center order-1 md:order-2">
+        <div className="md:w-3/12 hidden md:flex gap-5 h-14 justify-center order-1 md:order-2">
           {purposes.map((purposeItem, index) => (
             <div className="flex items-center w-max" key={purposeItem.id}>
               <label
@@ -1049,6 +1056,7 @@ const SearchBox = () => {
             handleCanUpdateFilterAutoCompleteShow={
               setCanUpdateFilterAutoCompleteShow
             }
+            selectedLocation={locationSelected}
           />
         </div>
       </div>
@@ -1061,6 +1069,7 @@ const SearchBox = () => {
             isfilterComboboxOpen={isfilterComboboxOpen}
             handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
             showOptions
+            handleLocationChanged={handleLocationChanged}
           />
         </div>
       )}

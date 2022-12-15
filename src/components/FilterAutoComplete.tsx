@@ -33,6 +33,7 @@ interface FilterAutoCompleteProps {
   propertyTypes: Array<{ id: number; title: string }>
   isfilterComboboxOpen: boolean
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
+  handleLocationChanged: (id: number, title: string, type: string) => void
   showOptions?: boolean
 }
 
@@ -42,6 +43,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   propertyTypes,
   isfilterComboboxOpen,
   handleIsfilterComboboxOpen,
+  handleLocationChanged,
   showOptions
 }) => {
   const [selected, setSelected] = useState(locations[0])
@@ -232,6 +234,13 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           key={location.id}
                           className="relative cursor-default select-none"
                           value={location}
+                          onClick={() =>
+                            handleLocationChanged(
+                              location.id,
+                              location.title,
+                              location.type
+                            )
+                          }
                         >
                           {location.type === 'city' && (
                             <span className="absolute left-5 text-primary font-bold">
