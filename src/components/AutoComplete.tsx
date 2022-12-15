@@ -6,7 +6,7 @@ import { LocationType } from 'intefaces'
 
 interface AutoCompleteProps {
   locations: LocationType[]
-  selectedLocation: LocationType | undefined
+  selectedLocation?: LocationType | undefined
   isHomePage?: boolean
   canUpdateFilterAutoCompleteShow?: boolean
   handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
