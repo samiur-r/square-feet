@@ -22,6 +22,9 @@ module.exports = {
       yellow: colors.yellow
     },
     extend: {
+			 minHeight: (theme) => ({
+        ...theme('spacing'),
+      }),
       colors: {
         primary: '#6598CB',
         'primary-lighter': '#E8F0F7',

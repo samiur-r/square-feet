@@ -33,7 +33,7 @@ interface FilterAutoCompleteProps {
   propertyTypes: Array<{ id: number; title: string }>
   isfilterComboboxOpen: boolean
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
-  handleLocationChanged: (id: number, title: string, type: string) => void
+  handleLocationChanged?: (id: number, title: string, type: string) => void
   showOptions?: boolean
 }
 
@@ -52,6 +52,30 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
+
+  const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
+
+  const removeLocation = (id: number) => {
+    setLocationsSelected(
+      locationsSelected.filter((location: { id: number }) => location.id !== id)
+    )
+  }
+
+  const handleChangeLocation = (id: number, title: string, type: string) => {
+    if (type === 'state') setLocationsSelected([{ id, title, type }])
+    else {
+      const isExists = locationsSelected.find(
+        (location: { id: number }) => location.id === id
+      )
+
+      if (isExists) return
+
+      const onlyCities = locationsSelected.filter(
+        (location: { type: string }) => location.type === 'city'
+      )
+      setLocationsSelected([...onlyCities, { id, title, type }])
+    }
+  }
 
   const handleInputFocus = () => comboBtn.current?.click()
 
@@ -91,7 +115,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full pt-2">
+    <div className="dir-rtl w-full">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
@@ -101,14 +125,14 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
             <input ref={isOpenRef} type="hidden" value={`${open}`} />
             {showOptions && (
               <>
-                <div className="flex md:hidden items-center absolute z-10 right-3 top-5">
+                <div className="flex md:hidden items-center absolute z-10 right-3 top-3 ">
                   <ChevronRightIcon
                     className="h-10 w-10 text-gray-900"
                     aria-hidden="true"
                   />
                 </div>
                 <Combobox.Button
-                  className="absolute top-7 left-7 z-10"
+                  className="absolute top-5 left-7 z-10"
                   type="submit"
                 >
                   <svg
@@ -130,81 +154,117 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
               </>
             )}
             <div className="relative">
-              <div className="flex py-3 px-2 gap-2 items-center relative w-full h-full cursor-default overflow-hidden rounded-lg bg-white text-left md:shadow-md outline-none">
-                <Combobox.Button
-                  className="hidden md:flex items-center"
-                  type="submit"
-                  aria-label="dropdown"
-                >
-                  {open ? (
-                    <ChevronUpIcon
-                      className="h-7 w-7 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <ChevronDownIcon
-                      className="h-7 w-7 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  )}
-                </Combobox.Button>
-                <Combobox.Button
-                  className="hidden"
-                  ref={comboBtn}
-                  type="submit"
-                />
-                <Combobox.Button className="w-full h-8" as="div" aria-hidden>
-                  <Combobox.Input
-                    // @ts-ignore
-                    key={open}
-                    className={`${
-                      showOptions ? 'px-7' : 'px-2'
-                    } w-full h-full text-base leading-5 text-gray-900 outline-none`}
-                    placeholder="اكتب المنطقه للبحث"
-                    displayValue={(location) => {
-                      if (open) {
-                        return ''
-                      }
-                      // @ts-ignore
-                      return location?.title
-                    }}
-                    onChange={(event) => setQuery(event.target.value)}
+              <div className="flex flex-col py-3 px-2 gap-2 relative cursor-default overflow-hidden rounded-lg text-left md:shadow-md outline-none">
+                <div className="flex gap-2 items-center relative">
+                  <Combobox.Button
+                    className="hidden md:flex items-center"
+                    type="submit"
+                    aria-label="dropdown"
+                  >
+                    {open ? (
+                      <ChevronUpIcon
+                        className="h-7 w-7 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <ChevronDownIcon
+                        className="h-7 w-7 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    )}
+                  </Combobox.Button>
+                  <Combobox.Button
+                    className="hidden"
+                    ref={comboBtn}
+                    type="submit"
                   />
-                </Combobox.Button>
+                  <Combobox.Button className="w-full h-8" as="div" aria-hidden>
+                    <Combobox.Input
+                      // @ts-ignore
+                      key={open}
+                      className={`${
+                        showOptions ? 'px-7' : 'px-2'
+                      } w-full h-full text-base leading-5 text-custom-gray outline-none`}
+                      placeholder="اكتب المنطقه للبحث"
+                      displayValue={(location) => {
+                        if (open) {
+                          return ''
+                        }
+                        // @ts-ignore
+                        return location?.title
+                      }}
+                      onChange={(event) => setQuery(event.target.value)}
+                    />
+                  </Combobox.Button>
 
-                {!showOptions && (
-                  <>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="blue"
-                        className="w-6 h-6 cursor-pointer"
-                        onClick={() => setShowFilterModal(true)}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
-                        />
-                      </svg>
-                    </div>
-                    <div className="md:hidden">
-                      <Link href="/">
-                        <a className="flex items-center">
-                          <Image
-                            width={40}
-                            height={40}
-                            src="/images/mobile-search-logo.svg"
-                            alt="logo"
+                  {!showOptions && (
+                    <>
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="blue"
+                          className="w-6 h-6 cursor-pointer"
+                          onClick={() => setShowFilterModal(true)}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"
                           />
-                        </a>
-                      </Link>
+                        </svg>
+                      </div>
+                      <div className="md:hidden">
+                        <Link href="/">
+                          <a className="flex items-center">
+                            <Image
+                              width={40}
+                              height={40}
+                              src="/images/mobile-search-logo.svg"
+                              alt="logo"
+                            />
+                          </a>
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div
+                  className={`${
+                    locationsSelected.length ? 'my-1' : 'm-0 hidden'
+                  } flex flex-wrap justify-start`}
+                >
+                  {locationsSelected.map((location: LocationType) => (
+                    <div
+                      key={location.id}
+                      className="rounded-lg mt-2 ml-2 py-1 px-2 border border-primary text-primary bg-primary-lighter text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease"
+                    >
+                      {location.title}
+                      <button
+                        type="submit"
+                        className="bg-transparent hover focus:outline-none"
+                        onClick={() => removeLocation(location.id)}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-4 h-4 ml-1"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
                     </div>
-                  </>
-                )}
+                  ))}
+                </div>
               </div>
               <Transition
                 as={Fragment}
@@ -235,11 +295,17 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           className="relative cursor-default select-none"
                           value={location}
                           onClick={() =>
-                            handleLocationChanged(
-                              location.id,
-                              location.title,
-                              location.type
-                            )
+                            handleLocationChanged
+                              ? handleLocationChanged(
+                                  location.id,
+                                  location.title,
+                                  location.type
+                                )
+                              : handleChangeLocation(
+                                  location.id,
+                                  location.title,
+                                  location.type
+                                )
                           }
                         >
                           {location.type === 'city' && (

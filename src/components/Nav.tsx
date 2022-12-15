@@ -1168,7 +1168,7 @@ const Nav: React.FC = () => {
   }, [pathname])
 
   return (
-    <Popover className="fixed top-0 bg-white shadow-md md:shadow-sm w-full z-20 h-20 md:h-24">
+    <Popover className="fixed top-0 bg-white shadow-md md:shadow-sm w-full z-20 flex items-center min-h-20 md:min-h-24">
       <div className="container max-w-6xl h-full items-center flex">
         <div
           className={`${
@@ -1299,7 +1299,7 @@ const Nav: React.FC = () => {
               }`}
             >
               <ChevronRightIcon
-                className="h-9 w-9 mt-2 text-gray-600"
+                className="h-9 w-9 mt-px text-gray-600"
                 aria-hidden="true"
               />
             </div>
@@ -1310,7 +1310,7 @@ const Nav: React.FC = () => {
             >
               <span className="sr-only">Open menu</span>
               <Bars3Icon
-                className="h-7 w-7 mt-1 font-bold"
+                className="h-7 w-7 mt-px font-bold"
                 aria-hidden="true"
               />
             </Popover.Button>

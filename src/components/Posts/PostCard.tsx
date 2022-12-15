@@ -10,6 +10,7 @@ interface PostCardType {
   price: number
   description: string
   isSticky: boolean
+  isArchieve?: boolean
   mobile: string
   thumbnail: string
   media: string[]
@@ -24,12 +25,13 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
   return (
     <div
       className={`${
-        post.isSticky
-          ? `
+        post.isSticky &&
+        `
 							border-custom-red-light bg-custom-red-lighter after:absolute after:content-["مميز"] after:text-xs after:md:text-sm after:bg-custom-red after:top-1 after:right-3 after:text-white 
 							after:px-2 after:md:px-3 after:py-1 after:md:py-2 before:absolute before:top-3 before:md:top-6 before:right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
 							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-custom-red before:p-1`
-          : 'shadow-md bg-white'
+      } ${
+        post.isArchieve ? 'bg-custom-white-light' : 'shadow-md bg-white'
       } rounded-lg border cursor-pointer mt-5 py-3 px-5 relative
 					`}
     >
@@ -85,7 +87,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
       </div>
       {showActions && (
         <div className="mt-5 md:mt-3 w-full grid place-items-center md:absolute md:top-0 md:place-items-end md:pl-10">
-          <Actions />
+          <Actions isArchieve={post.isArchieve} />
         </div>
       )}
     </div>
