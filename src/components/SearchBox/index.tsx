@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
-// import FilterAutoComplete from 'components/FilterAutoComplete'
+import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
-
-const FilterAutoComplete = dynamic(
-  () => import('components/FilterAutoComplete'),
-  {
-    suspense: true
-  }
-)
 
 const propertyTypes = [
   {
