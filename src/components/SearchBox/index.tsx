@@ -951,20 +951,20 @@ const propertyTypes = [
 //   }
 // ]
 
-// const purposes = [
-//   {
-//     id: 0,
-//     title: 'للبدل'
-//   },
-//   {
-//     id: 1,
-//     title: 'للبيع'
-//   },
-//   {
-//     id: 2,
-//     title: 'للايجار'
-//   }
-// ]
+const purposes = [
+  {
+    id: 0,
+    title: 'للبدل'
+  },
+  {
+    id: 1,
+    title: 'للبيع'
+  },
+  {
+    id: 2,
+    title: 'للايجار'
+  }
+]
 
 const SearchBox = () => {
   const [purpose, setPurpose] = useState({
