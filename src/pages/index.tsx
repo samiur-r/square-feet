@@ -7,13 +7,13 @@ import Cards from 'components/Home/Cards'
 import ApartmentRent from 'components/Articles/ApartmentRent'
 import Faq from 'components/Articles/Faq'
 import Posts from 'components/Posts'
-// import SearchBox from 'components/SearchBox'
+import SearchBox from 'components/SearchBox'
 
 const Home: NextPage = () => {
   return (
     <div className="bg-gray-50 md:bg-white">
       <Hero />
-      {/* <SearchBox /> */}
+      <SearchBox />
       <Banner />
       <Posts />
       <Guide />
