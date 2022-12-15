@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import ListBox from 'components/ListBox'
-import AutoComplete from 'components/AutoComplete'
-import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
 
 const propertyTypes = [
@@ -992,88 +990,62 @@ const SearchBox = () => {
   }, [isfilterComboboxOpen])
 
   return (
-    <>
-      <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
-        <Link href="/filter">
-          <div className="grid h-max md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
-            <CTA title="إبحث الآن" backgroundColor="secondary" />
-          </div>
-        </Link>
-        <div className="md:hidden cursor-pointer grid grid-cols-3 rounded-full border">
-          {purposes.map((purposeItem, index) => (
-            <button
-              key={purposeItem.id}
-              type="submit"
-              className={`${
-                purposeItem.id === purpose.id && 'bg-primary text-white'
-              } ${
-                index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
-              } flex justify-center items-center px-3 py-2.5 border-r`}
-              onClick={() =>
-                setPurpose({ id: purposeItem.id, title: purposeItem.title })
-              }
+    <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
+      <Link href="/filter">
+        <div className="grid h-max md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
+          <CTA title="إبحث الآن" backgroundColor="secondary" />
+        </div>
+      </Link>
+      <div className="md:hidden cursor-pointer grid grid-cols-3 rounded-full border">
+        {purposes.map((purposeItem, index) => (
+          <button
+            key={purposeItem.id}
+            type="submit"
+            className={`${
+              purposeItem.id === purpose.id && 'bg-primary text-white'
+            } ${
+              index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
+            } flex justify-center items-center px-3 py-2.5 border-r`}
+            onClick={() =>
+              setPurpose({ id: purposeItem.id, title: purposeItem.title })
+            }
+          >
+            {purposeItem.title}
+          </button>
+        ))}
+      </div>
+      <div className="md:w-3/12 hidden md:flex gap-5 h-14 justify-center order-1 md:order-2">
+        {purposes.map((purposeItem, index) => (
+          <div className="flex items-center w-max" key={purposeItem.id}>
+            <label
+              htmlFor={`default-radio-${index + 1}`}
+              className="text-base font-medium text-gray-900"
             >
               {purposeItem.title}
-            </button>
-          ))}
-        </div>
-        <div className="md:w-3/12 hidden md:flex gap-5 h-14 justify-center order-1 md:order-2">
-          {purposes.map((purposeItem, index) => (
-            <div className="flex items-center w-max" key={purposeItem.id}>
-              <label
-                htmlFor={`default-radio-${index + 1}`}
-                className="text-base font-medium text-gray-900"
-              >
-                {purposeItem.title}
-                <input
-                  id={`default-radio-${index + 1}`}
-                  type="radio"
-                  value=""
-                  name="default-radio"
-                  className="w-4 h-4 ml-2 accent-orange-600"
-                  defaultChecked={purposeItem.id === purpose.id}
-                  onClick={() =>
-                    setPurpose({ id: purposeItem.id, title: purposeItem.title })
-                  }
-                />
-              </label>
-            </div>
-          ))}
-        </div>
-        <div className="md:w-3/12 order-3 place-items-center">
-          <ListBox
-            selectedOpt={propertyTypes[0]}
-            options={propertyTypes}
-            showFilterIcon
-            bgGray
-          />
-        </div>
-        <div className="md:w-4/12 order-2 md:order-4">
-          <AutoComplete
-            locations={locations}
-            isHomePage
-            canUpdateFilterAutoCompleteShow={canUpdateFilterAutoCompleteShow}
-            handleCanUpdateFilterAutoCompleteShow={
-              setCanUpdateFilterAutoCompleteShow
-            }
-            selectedLocation={locationSelected}
-          />
-        </div>
+              <input
+                id={`default-radio-${index + 1}`}
+                type="radio"
+                value=""
+                name="default-radio"
+                className="w-4 h-4 ml-2 accent-orange-600"
+                defaultChecked={purposeItem.id === purpose.id}
+                onClick={() =>
+                  setPurpose({ id: purposeItem.id, title: purposeItem.title })
+                }
+              />
+            </label>
+          </div>
+        ))}
       </div>
-      {showFilterCombobox && (
-        <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
-          <FilterAutoComplete
-            locations={locations}
-            purposes={purposes}
-            propertyTypes={propertyTypes}
-            isfilterComboboxOpen={isfilterComboboxOpen}
-            handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
-            showOptions
-            handleLocationChanged={handleLocationChanged}
-          />
-        </div>
-      )}
-    </>
+      <div className="md:w-3/12 order-3 place-items-center">
+        <ListBox
+          selectedOpt={propertyTypes[0]}
+          options={propertyTypes}
+          showFilterIcon
+          bgGray
+        />
+      </div>
+    </div>
   )
 }
 
