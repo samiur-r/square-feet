@@ -39,7 +39,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
               index === 1
                 ? 'bg-white text-secondary shadow-md border'
                 : 'bg-secondary'
-            } text-white rounded-lg mt-4 md:mt-8 py-2 md:py-4 w-full max-w-xs opacity-80`}
+            } text-white rounded-lg mt-4 md:mt-8 py-2 md:py-4 w-full max-w-xs hover:opacity-90 transition-opacity duration-300`}
           >
             {cta}
           </button>

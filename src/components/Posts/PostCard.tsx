@@ -27,15 +27,15 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
       className={`${
         post.isSticky &&
         `
-							border-custom-red-light bg-custom-red-lighter after:absolute after:content-["مميز"] after:text-xs after:md:text-sm after:bg-custom-red after:top-1 after:right-3 after:text-white 
-							after:px-2 after:md:px-3 after:py-1 after:md:py-2 before:absolute before:top-3 before:md:top-6 before:right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
+							border-custom-red-light bg-custom-red-lighter after:absolute after:content-["مميز"] after:text-xs after:md:text-sm after:bg-custom-red after:top-1 after:right-1 after:text-white 
+							after:px-2 after:md:px-3 after:py-1 after:md:py-2 before:absolute before:top-3 before:md:top-6 before:-right-1 before:content-[""] before:border-t-8 before:border-t-transparent 
 							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-custom-red before:p-1`
       } ${
-        post.isArchieve ? 'bg-custom-white-light' : 'shadow-md bg-white'
-      } rounded-lg border cursor-pointer mt-5 py-3 px-5 relative
+        post.isArchieve ? 'bg-custom-gray-3' : 'shadow-md bg-white'
+      } rounded-lg border cursor-pointer mt-3 py-3 px-3 relative
 					`}
     >
-      <div className="flex gap-5">
+      <div className="flex gap-2">
         <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center">
           <div className="w-16 h-12 md:w-24 md:h-24 relative">
             <Image

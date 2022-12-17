@@ -104,7 +104,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                           className={`${
                             selectedPurpose.id === purpose.id
                               ? 'bg-primary text-white'
-                              : 'bg-custom-gray-3 text-custom-gray'
+                              : 'bg-custom-gray-3 text-custom-gray border-custom-gray-border border'
                           } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
                           onClick={() =>
                             setPurpose({ id: purpose.id, title: purpose.title })
@@ -125,7 +125,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                           className={`${
                             selectedPropertyType.id === type.id
                               ? 'bg-primary text-white'
-                              : 'bg-custom-gray-3 text-custom-gray'
+                              : 'bg-custom-gray-3 text-custom-gray border-custom-gray-border border'
                           } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
                           onClick={() =>
                             setPropertyType({ id: type.id, title: type.title })
@@ -186,7 +186,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                               height: '15px',
                               width: '15px',
                               borderRadius: '50%',
-                              backgroundColor: '#548BF4',
+                              backgroundColor: '#6598CB',
                               display: 'flex',
                               justifyContent: 'center',
                               alignItems: 'center',
@@ -251,7 +251,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   <div className="flex justify-center mt-8 mb-4">
                     <button
                       type="submit"
-                      className="bg-secondary w-full flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg rounded-full hover:opacity-70 transition-opacity duration-500"
+                      className="bg-secondary w-full flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg rounded-full hover:opacity-90 transition-opacity duration-300"
                     >
                       عرض النتائج
                     </button>

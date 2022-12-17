@@ -41,13 +41,13 @@ const PackageCard: React.FC<{
         <h3 className="text-lg md:text-xl tracking-wide">باقة المكاتب</h3>
         <div className="grid gap-3 md:w-full">
           <Link href="https://www.kpay.com">
-            <a className="bg-secondary opacity-80 text-white text-sm md:text-base text-center px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-100">
+            <a className="bg-secondary text-white text-sm md:text-base text-center px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-90 transition-opacity duration-300">
               2 أشهر 100 دك
             </a>
           </Link>
 
           <Link href="https://www.kpay.com">
-            <a className="bg-secondary opacity-80 text-white text-center text-sm md:text-base px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-100">
+            <a className="bg-secondary text-white text-center text-sm md:text-base px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-90 transition-opacity duration-300">
               6 أشهر 270 دك
             </a>
           </Link>

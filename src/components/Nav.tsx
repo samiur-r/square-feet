@@ -133,22 +133,26 @@ const mobileNavItems = [
   {
     title: 'الرئيسية / بحث',
     href: '/',
-    icon: '/images/home_search.svg'
+    icon: '/images/mobile_nav_icons/home_search.svg',
+    primaryIcon: '/images/mobile_nav_icons/home_search_primary.svg'
   },
   {
     title: 'دخول / تسجيل',
     href: '/',
-    icon: '/images/sign_in.svg'
+    icon: '/images/mobile_nav_icons/sign_in.svg',
+    primaryIcon: '/images/mobile_nav_icons/sign_in_primary.svg'
   },
   {
     title: 'إعلان مجانًا',
     href: '/',
-    icon: '/images/add_circle_outlined.png'
+    icon: '/images/mobile_nav_icons/add_circle_outlined.svg',
+    primaryIcon: '/images/mobile_nav_icons/add_circle_outlined_primary.svg'
   },
   {
     title: 'المكاتب',
     href: '/',
-    icon: '/images/briefcase_outlined.svg'
+    icon: '/images/mobile_nav_icons/briefcase_outlined.svg',
+    primaryIcon: '/images/mobile_nav_icons/briefcase_outlined_primary.svg'
   }
 ]
 
@@ -1355,7 +1359,7 @@ const Nav: React.FC = () => {
               <hr className="h-px bg-custom-gray border-0" />
 
               {/* nav items */}
-              <div className="mt-6 flex flex-col gap-3">
+              <div className="mt-2 flex flex-col gap-3">
                 {mobileNavItems.map((item) => (
                   <Link href={item.href} key={item.title}>
                     <button
@@ -1363,8 +1367,8 @@ const Nav: React.FC = () => {
                       onClick={() => handleMobileNavChange(item)}
                       className={`${
                         activeItemOnMobile === item.title &&
-                        'bg-primary-lighter'
-                      } flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                        'bg-primary-lighter text-primary'
+                      } flex items-center gap-4 justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                     >
                       <p
                         className={`${
@@ -1390,7 +1394,11 @@ const Nav: React.FC = () => {
                         </svg>
                       ) : (
                         <Image
-                          src={item.icon}
+                          src={
+                            activeItemOnMobile === item.title
+                              ? item.primaryIcon
+                              : item.icon
+                          }
                           height={30}
                           width={30}
                           alt="nav_item"
@@ -1480,7 +1488,7 @@ const Nav: React.FC = () => {
                 <Link href={link.href} key={Math.random()}>
                   <button
                     type="submit"
-                    className="px-3 py-2 flex items-center bg-custom-gray-3 rounded-lg cursor-pointer"
+                    className="px-3 py-2 flex items-center bg-custom-gray-2 rounded-lg cursor-pointer"
                   >
                     <Image
                       src={link.imagePath}

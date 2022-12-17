@@ -984,7 +984,7 @@ const CreatePost: NextPage = () => {
             className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=""
             value="65432165"
-            disabled
+            readOnly
           />
           <label
             htmlFor="phone"
@@ -1063,7 +1063,8 @@ const CreatePost: NextPage = () => {
               </svg>
 
               <p className="mb-2 mt-2 text-base text-primary dark:text-gray-400 flex flex-col items-center">
-                إضافة الصور<span className="block text-black">(اختياري)</span>
+                إضافة الصور
+                <span className="block text-custom-gray">(اختياري)</span>
               </p>
             </div>
             <input id="dropzone-file" type="file" className="hidden" />
@@ -1090,7 +1091,7 @@ const CreatePost: NextPage = () => {
         <div className="mt-3 md:mt-5">
           <button
             type="submit"
-            className="bg-secondary text-white rounded-lg w-full mt-8 py-3 md:py-4 opacity-80 hover:opacity-100"
+            className="bg-secondary text-white rounded-lg w-full mt-8 py-3 md:py-4 hover:opacity-90 transition-opacity duration-300"
           >
             إضافة الإعلان{' '}
           </button>

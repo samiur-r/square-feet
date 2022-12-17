@@ -92,7 +92,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
               <div
                 className={`${
                   open ? 'border-primary ' : 'border-custom-gray-border'
-                } rounded-lg bg-white flex flex-col py-2 md:py-3 px-4 gap-2 border shadow-sm w-full h-full cursor-default overflow-hidden outline-none`}
+                } ${
+                  isHomePage && !locationsSelected.length
+                    ? 'rounded-full md:rounded-lg'
+                    : 'rounded-lg'
+                } bg-white flex flex-col py-2 md:py-3 px-4 gap-2 border shadow-sm w-full h-full cursor-default overflow-hidden outline-none`}
               >
                 <div className="flex items-center text-left gap-2 w-full">
                   {isHomePage && (
@@ -101,9 +105,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="blue"
-                        className="w-5 h-5 opacity-70"
+                        strokeWidth="2.5"
+                        stroke="#6598CB"
+                        className="w-5 h-5"
                       >
                         <path
                           strokeLinecap="round"
@@ -202,7 +206,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                 <Combobox.Options
                   className={`${
                     isHomePage && 'hidden md:block'
-                  } z-20 bg-white absolute pr-2 overflow-y-scroll mt-3 left-0 max-h-80 w-full rounded-lg text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm`}
+                  } z-20 bg-white absolute p-2 overflow-y-scroll mt-3 left-0 max-h-80 w-full rounded-lg text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm`}
                 >
                   {filteredLocations.length === 0 && query !== '' ? (
                     <div className="relative cursor-default select-none py-2 px-4 text-custom-gray">
@@ -212,7 +216,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     <>
                       {isHomePage && (
                         <Combobox.Option
-                          className="relative cursor-default select-none"
+                          className="relative cursor-default select-none rounded-lg"
                           value="all"
                         >
                           <span className="block text-base truncate hover:bg-primary-lighter text-black font-bold p-2 cursor-pointer">
@@ -239,7 +243,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           }
                         >
                           {isHomePage && location.type === 'city' && (
-                            <span className="absolute left-5">
+                            <span className="absolute top-3 left-5">
                               ({location.count})
                             </span>
                           )}

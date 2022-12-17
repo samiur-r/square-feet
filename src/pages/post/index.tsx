@@ -72,7 +72,7 @@ const Posts: NextPage = () => {
         <div className="flex gap-5 justify-center mt-5">
           <a
             href="tel:+96599491575"
-            className="bg-custom-green font-bold hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white py-3 md:py-5 rounded-md"
+            className="bg-custom-green py-3 font-bold hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white rounded-md"
           >
             {post.phone}
             <Image
@@ -83,7 +83,7 @@ const Posts: NextPage = () => {
               alt="phone_icon"
             />
           </a>
-          <div className="shadow-md rounded-md py-3 md:py-5 px-5 flex items-center justify-center">
+          <div className="shadow-md rounded-md p-3 flex items-center justify-center">
             <Image
               src="/images/whatsapp-logo-green.svg"
               width={24}

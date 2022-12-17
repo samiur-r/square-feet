@@ -18,7 +18,7 @@ const Home: NextPage = () => {
       <Posts />
       <Guide />
       <Cards />
-      <div className="bg-primary grid gap-10 py-10">
+      <div className="bg-primary grid gap-8 py-8">
         <ApartmentRent />
         <Faq bgPrimary textDark={false} />
       </div>

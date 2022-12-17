@@ -4,6 +4,7 @@ interface CTAProps {
   title: string
   backgroundColor: string
   Icon?: JSX.Element
+  notFullRounded?: boolean
   handleClick?: () => void
 }
 
@@ -11,6 +12,7 @@ const CTA: React.FC<CTAProps> = ({
   title,
   backgroundColor,
   Icon,
+  notFullRounded,
   handleClick
 }) => {
   return (
@@ -18,7 +20,9 @@ const CTA: React.FC<CTAProps> = ({
       type="submit"
       className={`${
         backgroundColor === 'primary' ? 'bg-primary' : 'bg-secondary'
-      } w-full md:w-auto flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg rounded-full hover:opacity-70 transition-opacity duration-500`}
+      } ${
+        notFullRounded ? 'rounded-lg' : 'rounded-full'
+      } w-full md:w-auto flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300`}
       onClick={handleClick}
     >
       <span>{title}</span>

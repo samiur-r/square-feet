@@ -43,6 +43,7 @@ module.exports = {
 				'custom-gray-3': '#f9f9f9',
 				'custom-gray-4': '#9C9C9C',
         'custom-gray-border': '#DCDCDC'
+				
       },
       fontFamily: {
         sans: ['Droid Arabic Kufi', 'sans-serif']

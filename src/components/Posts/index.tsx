@@ -71,6 +71,7 @@ const Posts = () => {
           title="المزيد"
           backgroundColor="secondary"
           Icon={<PlusCircleIcon className="h-6 w-6 mr-3" />}
+          notFullRounded
         />
       </div>
     </div>
