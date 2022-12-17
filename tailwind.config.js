@@ -46,7 +46,6 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Droid Arabic Kufi Regular',
           'Droid Arabic Kufi Bold',
           'sans-serif'
         ]
