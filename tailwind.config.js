@@ -49,7 +49,6 @@ module.exports = {
         DroidArabicKufiBold: ['Droid Arabic Kufi Bold', 'sans-serif'],
         sans: [
           'Droid Arabic Kufi Regular',
-          'Droid Arabic Kufi Bold',
           'sans-serif'
         ]
       },
