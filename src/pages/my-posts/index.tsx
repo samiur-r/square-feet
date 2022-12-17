@@ -92,9 +92,7 @@ const MyPosts: NextPage = () => {
       </Description>
       <div className="md:max-w-3xl md:container">
         <div className="flex gap-3 items-center">
-          <h3 className="text-base md:text-xl font-bold tracking-wider">
-            إعلاناتي
-          </h3>
+          <h3 className="text-base md:text-xl font-bold">إعلاناتي</h3>
           <Link href="/">
             <a className="hover:underline cursor-pointer text-primary ">
               (الاعلانات المنتهيه)

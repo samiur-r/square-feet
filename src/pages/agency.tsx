@@ -72,7 +72,7 @@ const Agency: NextPage = () => {
           />
         </div>
         <div className="flex flex-col items-center text-center">
-          <div className="tracking-wider mb-3 md:mb-5">
+          <div className="mb-3 md:mb-5">
             <Title value="شركة العتيقي العقارية" />
           </div>
           <p className="text-xs md:text-base">

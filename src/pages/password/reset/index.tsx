@@ -7,7 +7,7 @@ const PasswordReset: NextPage = () => {
       <h1 className="font-semibold text-lg md:text-xl w-full md:w-auto">
         تغيير كلمة السر
       </h1>
-      <div className="text-start md:text-center mt-5 tracking-wider">
+      <div className="text-start md:text-center mt-5">
         <Description
           value="سنرسل لك رسالة نصية SMS وفيها رقم تفعيل OTP للتأكد من أن رقم موبايلك
         صحيح"

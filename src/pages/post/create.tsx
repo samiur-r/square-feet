@@ -968,7 +968,7 @@ const purposes = [
 
 const CreatePost: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center tracking-wider">
+    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
       <div className="md:text-center w-full">
         <Title value="إضافة إعلان" />
       </div>

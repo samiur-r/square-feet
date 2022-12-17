@@ -18,7 +18,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
         <link
           rel="preload"
-          href="fonts/DroidKufi.woff"
+          href="fonts/DroidKufi-Regular.woff2"
+          as="font"
+          crossOrigin=""
+        />
+        <link
+          rel="preload"
+          href="fonts/DroidKufi-Bold.woff2"
           as="font"
           crossOrigin=""
         />

@@ -17,7 +17,7 @@ const Agency: React.FC<{
         <PackageCard thumbnailSmall={thumbnailSmall} />
       </div>
       <Description textBlack>
-        <span className="flex justify-center gap-2 pb-5 text-sm md:text-lg tracking-wide">
+        <span className="flex justify-center gap-2 pb-5 text-sm md:text-lg">
           <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
             <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
           </Link>
@@ -28,7 +28,7 @@ const Agency: React.FC<{
           <span>للمساعده</span>
         </span>
       </Description>
-      <div className="tracking-wider flex justify-center">
+      <div className="flex justify-center">
         <Title value="قائمة المكاتب" />
       </div>
       <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-5">

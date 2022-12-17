@@ -22,8 +22,8 @@ module.exports = {
       yellow: colors.yellow
     },
     extend: {
-			 minHeight: (theme) => ({
-        ...theme('spacing'),
+      minHeight: (theme) => ({
+        ...theme('spacing')
       }),
       colors: {
         primary: '#6598CB',
@@ -39,14 +39,17 @@ module.exports = {
         'custom-white-light': '#F9FAFB',
         'custom-gray': '#8996A6',
         'custom-gray-1': '#7d8b9b',
-				'custom-gray-2': '#EFF3F7',
-				'custom-gray-3': '#f9f9f9',
-				'custom-gray-4': '#9C9C9C',
+        'custom-gray-2': '#EFF3F7',
+        'custom-gray-3': '#f9f9f9',
+        'custom-gray-4': '#9C9C9C',
         'custom-gray-border': '#DCDCDC'
-				
       },
       fontFamily: {
-        sans: ['Droid Arabic Kufi', 'sans-serif']
+        sans: [
+          'Droid Arabic Kufi Regular',
+          'Droid Arabic Kufi Bold',
+          'sans-serif'
+        ]
       },
       maxHeight: {
         128: '32rem',

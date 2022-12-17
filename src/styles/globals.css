@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Droid Arabic Kufi';
-  src: url('/fonts/DroidKufi.woff') format('woff');
+  font-family: 'Droid Arabic Kufi Regular';
+  src: url('/fonts/DroidKufi-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Droid Arabic Kufi Bold';
+  src: url('/fonts/DroidKufi-Bold.woff2') format('woff2');
   font-display: swap;
 }
 
