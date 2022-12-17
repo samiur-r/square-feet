@@ -5,7 +5,9 @@ const Title: React.FC<{ value: string; light?: boolean }> = ({
   light
 }) => {
   return (
-    <h3 className={`${light && 'text-white'} text-lg md:text-xl`}>{value}</h3>
+    <h3 className={`${light && 'text-white'} font-bold text-lg md:text-xl`}>
+      {value}
+    </h3>
   )
 }
 
