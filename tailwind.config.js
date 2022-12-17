@@ -45,6 +45,8 @@ module.exports = {
         'custom-gray-border': '#DCDCDC'
       },
       fontFamily: {
+        DroidArabicKufiRegular: ['Droid Arabic Kufi Regular', 'sans-serif'],
+        DroidArabicKufiBold: ['Droid Arabic Kufi Bold', 'sans-serif'],
         sans: [
           'Droid Arabic Kufi Regular',
           'Droid Arabic Kufi Bold',
