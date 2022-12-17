@@ -14,7 +14,7 @@ const AgencyCard = React.forwardRef(
         </div>
         <div className="col-span-2 place-items-center">
           <div className="w-full text-center">
-            <a className="font-bold text-sm md:text-base hover:text-primary hover:underline cursor-pointer">
+            <a className="font-bold font-DroidArabicKufiBold text-sm md:text-base hover:text-primary hover:underline cursor-pointer">
               {title}
             </a>
           </div>

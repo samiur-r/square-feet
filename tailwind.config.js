@@ -46,11 +46,7 @@ module.exports = {
       },
       fontFamily: {
         DroidArabicKufiRegular: ['Droid Arabic Kufi Regular', 'sans-serif'],
-        DroidArabicKufiBold: ['Droid Arabic Kufi Bold', 'sans-serif'],
-        sans: [
-          'Droid Arabic Kufi Regular',
-          'sans-serif'
-        ]
+        DroidArabicKufiBold: ['Droid Arabic Kufi Bold', 'sans-serif']
       },
       maxHeight: {
         128: '32rem',

@@ -88,7 +88,7 @@ const Agency: NextPage = () => {
               src="/images/call-white.svg"
               height={24}
               width={24}
-              className="text-white font-bold"
+              className="text-white font-bold font-DroidArabicKufiBold"
               alt="phone_icon"
             />
           </a>

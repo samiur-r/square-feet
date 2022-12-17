@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: Droid Arabic Kufi Regular, sans-serif;
+  }
+}
+
 @font-face {
   font-family: 'Droid Arabic Kufi Regular';
   src: url('/fonts/DroidKufi-Regular.woff2') format('woff2');

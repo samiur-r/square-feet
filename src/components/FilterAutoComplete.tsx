@@ -266,7 +266,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                         className="relative cursor-default select-none"
                         value="all"
                       >
-                        <span className="block text-base truncate hover:bg-gray-100 text-black font-bold py-2 px-4 cursor-pointer">
+                        <span className="block text-base truncate hover:bg-gray-100 text-black font-DroidArabicKufiBold font-bold py-2 px-4 cursor-pointer">
                           {' '}
                           كل مناطق الكويت
                         </span>
@@ -291,7 +291,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           }
                         >
                           {location.type === 'city' && (
-                            <span className="absolute left-5 top-1 text-primary font-bold">
+                            <span className="absolute left-5 top-1 text-primary font-DroidArabicKufiBold font-bold">
                               ({location.count})
                             </span>
                           )}
@@ -300,7 +300,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                               location.type === 'state' && 'text-black'
                             } ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-gray-100 font-bold text-base block truncate py-2 pr-4 cursor-pointer`}
+                            } hover:bg-gray-100 font-DroidArabicKufiBold font-bold text-base block truncate py-2 pr-4 cursor-pointer`}
                           >
                             {location.title}
                           </span>

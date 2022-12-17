@@ -1274,7 +1274,7 @@ const Nav: React.FC = () => {
                   onClick={() => handleNavChange(item)}
                   className={`${
                     activeItem === item.title
-                      ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-bold after:absolute after:-bottom-4 after:w-full after:left-0"
+                      ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:font-bold after:absolute after:-bottom-4 after:w-full after:left-0"
                       : 'text-base'
                   } font-medium hover:text-primary relative`}
                   key={item.title}
@@ -1314,7 +1314,7 @@ const Nav: React.FC = () => {
             >
               <span className="sr-only">Open menu</span>
               <Bars3Icon
-                className="h-7 w-7 mt-px font-bold"
+                className="h-7 w-7 mt-px font-DroidArabicKufiBold font-bold"
                 aria-hidden="true"
               />
             </Popover.Button>

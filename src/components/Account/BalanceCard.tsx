@@ -21,7 +21,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
             key={Math.random()}
             className="flex flex-col justify-center items-center gap-1"
           >
-            <p className="text-xs md:text-xl text-primary font-bold">
+            <p className="text-xs md:text-xl text-primary font-DroidArabicKufiBold font-bold">
               {item.value}
             </p>
             <span className="overflow-hidden whitespace-nowrap">
