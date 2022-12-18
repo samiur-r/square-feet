@@ -1,6 +1,7 @@
 import { Dispatch, Fragment, SetStateAction } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
 import { Range, getTrackBackground } from 'react-range'
 
@@ -73,25 +74,15 @@ const FilterModal: React.FC<FilterModalProps> = ({
                         />
                       </button>
                     </div>
-                    <div className="text-center md:text-end font-bold font-DroidArabicKufiBold text-lg">
+                    <div className="text-center md:text-end  font-DroidArabicKufiBold text-lg">
                       فلتر
                     </div>
                     <div className="flex justify-end md:hidden">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="w-6 h-6"
+                      <ChevronRightIcon
+                        className="h-9 w-9 text-gray-900"
+                        aria-hidden="true"
                         onClick={() => setShowFilterModal(false)}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                        />
-                      </svg>
+                      />
                     </div>
                   </div>
                   <div className="py-5">

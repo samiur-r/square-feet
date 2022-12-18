@@ -52,11 +52,11 @@ const List: React.FC<ListProps> = ({
               open ? 'border-primary' : 'border-custom-gray-border'
             } bg-white flex justify-between items-center py-2.5 md:py-3.5 px-4 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-custom-gray`}
           >
-            <span className="flex gap-3 items-center w-full">
+            <span className="flex gap-2 items-center w-full">
               <span
                 className={`${!showFilterIcon && 'hidden'} flex items-center`}
               >
-                <Image src="/images/filter-icon.png" width={17} height={18} />
+                <Image src="/images/filter-icon.svg" width={24} height={24} />
               </span>
               <span className="truncate">{selected?.title}</span>
             </span>

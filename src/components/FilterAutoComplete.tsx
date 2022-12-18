@@ -126,20 +126,20 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
             <input ref={isOpenRef} type="hidden" value={`${open}`} />
             {showOptions && (
               <>
-                <div className="flex md:hidden items-center absolute z-10 right-3 top-3 ">
+                <div className="flex md:hidden items-center absolute z-10 right-3 top-3.5">
                   <ChevronRightIcon
-                    className="h-10 w-10 text-gray-900"
+                    className="h-9 w-9 text-gray-900"
                     aria-hidden="true"
                   />
                 </div>
                 <Combobox.Button
-                  className="absolute top-6 left-7 z-10"
+                  className="absolute top-5 left-7 z-10"
                   type="submit"
                 >
                   <Image
-                    src="/images/filter-icon.png"
-                    width={17}
-                    height={18}
+                    src="/images/filter-icon-black.svg"
+                    width={24}
+                    height={24}
                     onClick={() => setShowFilterModal(true)}
                   />
                 </Combobox.Button>
@@ -191,9 +191,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
                   {!showOptions && (
                     <>
-                      <div className="ml-1 md:flex md:items-center w-7 h-5 md:w-5 md:h-5 relative">
+                      <div className="md:flex md:items-center w-9 h-9 md:w-7 md:h-7 relative">
                         <Image
-                          src="/images/filter-icon.png"
+                          src="/images/filter-icon-black.svg"
                           layout="fill"
                           onClick={() => setShowFilterModal(true)}
                         />
