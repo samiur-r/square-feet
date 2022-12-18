@@ -119,6 +119,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   )}
                   <Combobox.Button className="w-full h-full" as="div">
                     <Combobox.Input
+                      role="presentation"
+                      type="text"
                       id="location"
                       className="peer w-full h-full text-base leading-5 text-custom-gray outline-none"
                       placeholder={`${isHomePage ? 'اكتب المنطقه للبحث' : ' '}`}
