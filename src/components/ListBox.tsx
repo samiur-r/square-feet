@@ -56,7 +56,12 @@ const List: React.FC<ListProps> = ({
               <span
                 className={`${!showFilterIcon && 'hidden'} flex items-center`}
               >
-                <Image src="/images/filter-icon.svg" width={24} height={24} />
+                <Image
+                  src="/images/filter-icon.svg"
+                  width={24}
+                  height={24}
+                  alt="filter"
+                />
               </span>
               <span className="truncate">{selected?.title}</span>
             </span>

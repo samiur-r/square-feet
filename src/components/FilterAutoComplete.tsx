@@ -141,6 +141,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                     width={24}
                     height={24}
                     onClick={() => setShowFilterModal(true)}
+                    alt="filter"
                   />
                 </Combobox.Button>
               </>
@@ -196,6 +197,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           src="/images/filter-icon-black.svg"
                           layout="fill"
                           onClick={() => setShowFilterModal(true)}
+                          alt="filter"
                         />
                       </div>
                       <div className="md:hidden">

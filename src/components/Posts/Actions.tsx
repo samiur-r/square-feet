@@ -29,10 +29,14 @@ const Actions: React.FC<{ isArchieve?: boolean | undefined }> = ({
       {!isArchieve && (
         <>
           <div className="w-7 h-7 relative">
-            <Image src="/images/twitter.png" layout="fill" />
+            <Image src="/images/twitter.png" alt="twitter-icon" layout="fill" />
           </div>
           <div className="w-7 h-7 relative">
-            <Image src="/images/chat-bubble.png" layout="fill" />
+            <Image
+              src="/images/chat-bubble.png"
+              alt="chat-icon"
+              layout="fill"
+            />
           </div>
         </>
       )}
