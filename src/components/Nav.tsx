@@ -1207,7 +1207,7 @@ const Nav: React.FC = () => {
               <Popover className="relative">
                 {() => (
                   <>
-                    <Popover.Button className="group inline-flex mt-1 items-center rounded-md bg-white text-base font-medium hover:text-gray-900 focus:outline-none">
+                    <Popover.Button className="group inline-flex mt-1 items-center rounded-md bg-white text-base font-medium focus:outline-none">
                       <ChevronDownIcon
                         className="text-base mr-2 h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
                         aria-hidden="true"
@@ -1236,7 +1236,7 @@ const Nav: React.FC = () => {
                               >
                                 <div className="flex items-center justify-between">
                                   <ChevronDownIcon
-                                    className="mr-2 h-5 w-5 group-hover:text-gray-500 text-custom-gray-4 text-base"
+                                    className="mr-2 h-5 w-5 text-custom-gray-4 text-base"
                                     aria-hidden="true"
                                   />
                                   <p className="text-base font-medium">
@@ -1303,14 +1303,14 @@ const Nav: React.FC = () => {
               }`}
             >
               <ChevronRightIcon
-                className="h-9 w-9 mt-px text-gray-600"
+                className="h-9 w-9 text-black"
                 aria-hidden="true"
               />
             </div>
             <Popover.Button
               className={`${
                 isLocationDropDownOpen && 'hidden md:inline-flex'
-              } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 hover:text-gray-500 focus:outline-none`}
+              } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 focus:outline-none`}
             >
               <span className="sr-only">Open menu</span>
               <Bars3Icon

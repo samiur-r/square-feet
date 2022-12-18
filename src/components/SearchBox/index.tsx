@@ -1022,7 +1022,7 @@ const SearchBox = () => {
             <div className="flex items-center w-max" key={purposeItem.id}>
               <label
                 htmlFor={`default-radio-${index + 1}`}
-                className="text-base font-medium text-gray-900"
+                className="text-base font-medium text-black"
               >
                 {purposeItem.title}
                 <input

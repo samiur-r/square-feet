@@ -128,7 +128,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
               <>
                 <div className="flex md:hidden items-center absolute z-10 right-3 top-3.5">
                   <ChevronRightIcon
-                    className="h-9 w-9 text-gray-900"
+                    className="h-9 w-9 text-black"
                     aria-hidden="true"
                   />
                 </div>
@@ -155,12 +155,12 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                   >
                     {open ? (
                       <ChevronUpIcon
-                        className="h-7 w-7 text-gray-400"
+                        className="h-7 w-7 text-custom-gray"
                         aria-hidden="true"
                       />
                     ) : (
                       <ChevronDownIcon
-                        className="h-7 w-7 text-gray-400"
+                        className="h-7 w-7 text-custom-gray"
                         aria-hidden="true"
                       />
                     )}
@@ -257,7 +257,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
               >
                 <Combobox.Options className="fixed md:absolute pr-2 overflow-y-scroll mt-1 left-0 h-screen w-screen md:max-h-80 md:w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {filteredLocations.length === 0 && query !== '' ? (
-                    <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                    <div className="relative cursor-default select-none py-2 px-4 text-custom-gray">
                       لا توجد منطقه بهذا الاسم
                     </div>
                   ) : (

@@ -64,7 +64,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     <div>
                       <button
                         type="submit"
-                        className="rounded-md hidden md:block bg-white text-gray-400 hover:text-gray-500 focus:outline-none"
+                        className="rounded-md hidden md:block bg-white text-custom-gray focus:outline-none"
                         onClick={() => setShowFilterModal(false)}
                       >
                         <span className="sr-only">Close</span>
@@ -79,7 +79,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     </div>
                     <div className="flex justify-end md:hidden">
                       <ChevronRightIcon
-                        className="h-9 w-9 text-gray-900"
+                        className="h-9 w-9 text-black"
                         aria-hidden="true"
                         onClick={() => setShowFilterModal(false)}
                       />
@@ -223,7 +223,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       <div className="flex absolute inset-y-0 right-5 items-center pl-2 pointer-events-none">
                         <svg
                           aria-hidden="true"
-                          className="w-5 h-5 text-gray-500"
+                          className="w-5 h-5 text-custom-gray"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"

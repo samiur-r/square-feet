@@ -1062,7 +1062,7 @@ const CreatePost: NextPage = () => {
                 />
               </svg>
 
-              <p className="mb-2 mt-2 text-base text-primary dark:text-gray-400 flex flex-col items-center">
+              <p className="mb-2 mt-2 text-base text-primary flex flex-col items-center">
                 إضافة الصور
                 <span className="block text-custom-gray">(اختياري)</span>
               </p>
