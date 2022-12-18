@@ -1368,7 +1368,7 @@ const Nav: React.FC = () => {
                       className={`${
                         activeItemOnMobile === item.title &&
                         'bg-primary-lighter text-primary'
-                      } flex items-center gap-4 justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                      } flex font-bold font-DroidArabicKufiBold items-center gap-4 justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                     >
                       <p
                         className={`${
