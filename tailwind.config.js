@@ -19,7 +19,8 @@ module.exports = {
       gray: colors.gray,
       emerald: colors.emerald,
       indigo: colors.indigo,
-      yellow: colors.yellow
+      yellow: colors.yellow,
+      orange: colors.orange
     },
     extend: {
       minHeight: (theme) => ({
