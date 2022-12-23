@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { AgencyType } from 'intefaces'
+import { AgencyType } from 'interfaces'
 
 const AgencyCard = React.forwardRef(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

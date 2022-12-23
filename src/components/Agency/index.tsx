@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { AgencyType } from 'intefaces'
+import { AgencyType } from 'interfaces'
 import Title from 'components/Title'
 import Description from 'components/Description'
 import PackageCard from './PackageCard'

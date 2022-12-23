@@ -1,8 +1,15 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
-import { LocationType } from 'intefaces'
+import { LocationType } from 'interfaces'
 
 interface AutoCompleteProps {
   locations: LocationType[]
@@ -29,6 +36,13 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
   const [query, setQuery] = useState('')
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
+  const [isFocused, setIsFocused] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [inputPlaceHolder, setInputPlaceHolder] = useState(' ')
+
+  useEffect(() => {
+    if (selected?.title) setInputPlaceHolder(selected.title)
+  }, [selected])
 
   const removeLocation = (id: number) => {
     setLocationsSelected(
@@ -80,6 +94,15 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     }
   }, [selectedLocation])
 
+  useEffect(() => {
+    if (inputRef.current && isHomePage) {
+      inputRef.current.focus()
+    }
+  }, [])
+
+  const onInputFocus = () => setIsFocused(true)
+  const onInputBlur = () => setIsFocused(false)
+
   return (
     <div className="dir-rtl w-full relative">
       <Combobox value={selected} onChange={setSelected}>
@@ -91,7 +114,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             <div>
               <div
                 className={`${
-                  open ? 'border-primary ' : 'border-custom-gray-border'
+                  open || isFocused
+                    ? 'border-primary border-2 '
+                    : 'border-custom-gray-border'
                 } ${
                   isHomePage && !locationsSelected.length
                     ? 'rounded-full md:rounded-lg'
@@ -119,22 +144,26 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   )}
                   <Combobox.Button className="w-full h-full">
                     <Combobox.Input
+                      ref={inputRef}
                       id="location"
                       className="peer w-full h-full text-base leading-5 text-custom-gray outline-none"
-                      placeholder={`${isHomePage ? 'اكتب المنطقه للبحث' : ' '}`}
-                      displayValue={(location) => {
-                        if (open) {
-                          return ''
-                        }
-                        // @ts-ignore
-                        return location?.title
-                      }}
+                      placeholder={`${
+                        isHomePage ? 'اكتب المنطقه للبحث' : inputPlaceHolder
+                      }`}
                       onChange={(event) => setQuery(event.target.value)}
+                      onFocus={onInputFocus}
+                      onBlur={onInputBlur}
                     />
                     {!isHomePage && (
                       <label
                         htmlFor="location"
-                        className="absolute cursor-text text-custom-gray duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-1 peer-focus:right-1 peer-placeholder-shown:right-0"
+                        className={`${
+                          open ? 'text-primary' : 'text-custom-gray'
+                        } ${
+                          inputPlaceHolder !== ' ' || open
+                            ? '-top-2 px-1 right-3 text-xs'
+                            : 'top-3 right-4'
+                        } absolute cursor-text duration-300 z-10 bg-white`}
                       >
                         المنطقه
                       </label>
@@ -160,37 +189,40 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                 </div>
                 <div
                   className={`${
-                    locationsSelected.length ? 'my-1' : 'm-0 hidden'
+                    locationsSelected.length && isHomePage
+                      ? 'my-1'
+                      : 'm-0 hidden'
                   } flex flex-wrap justify-start`}
                 >
-                  {locationsSelected.map((location: LocationType) => (
-                    <div
-                      key={location.id}
-                      className="rounded-lg mt-2 ml-2 py-1 px-2 text-white bg-[#6598CB] text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease"
-                    >
-                      {location.title}
-                      <button
-                        type="submit"
-                        className="bg-transparent hover focus:outline-none"
-                        onClick={() => removeLocation(location.id)}
+                  {isHomePage &&
+                    locationsSelected.map((location: LocationType) => (
+                      <div
+                        key={location.id}
+                        className="rounded-lg mt-2 ml-2 py-1 px-2 text-white bg-[#6598CB] text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-4 h-4 ml-1"
+                        {location.title}
+                        <button
+                          type="submit"
+                          className="bg-transparent hover focus:outline-none"
+                          onClick={() => removeLocation(location.id)}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  ))}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-4 h-4 ml-1"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
                 </div>
               </div>
               <Transition

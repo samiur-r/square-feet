@@ -15,18 +15,10 @@ import {
 } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import Link from 'next/link'
-// import dynamic from 'next/dynamic'
 
-import { LocationType } from 'intefaces'
+import { LocationType } from 'interfaces'
 import { PRICE_RANGES } from 'constant'
-import DynamicFilterModal from 'components/SearchBox/FilterModal'
-
-// const DynamicFilterModal = dynamic(
-//   () => import('components/SearchBox/FilterModal'),
-//   {
-//     suspense: true
-//   }
-// )
+import FilterModal from 'components/SearchBox/FilterModal'
 
 interface FilterAutoCompleteProps {
   locations: LocationType[]
@@ -179,13 +171,13 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                         showOptions ? 'px-7' : 'px-2'
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
-                      displayValue={(location) => {
-                        if (open) {
-                          return ''
-                        }
-                        // @ts-ignore
-                        return location?.title
-                      }}
+                      // displayValue={(location) => {
+                      //   if (open) {
+                      //     return ''
+                      //   }
+                      //   // @ts-ignore
+                      //   return location?.title
+                      // }}
                       onChange={(event) => setQuery(event.target.value)}
                     />
                   </Combobox.Button>
@@ -317,7 +309,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )}
       </Combobox>
       <Suspense fallback="Loading...">
-        <DynamicFilterModal
+        <FilterModal
           purposes={purposes}
           propertyTypes={propertyTypes}
           selectedPurpose={purpose}

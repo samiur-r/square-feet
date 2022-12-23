@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { WindowSize } from 'intefaces'
+import { WindowSize } from 'interfaces'
 
 export default function useWindowSize(): WindowSize {
   // Initialize state with undefined width/height so server and client renders match
