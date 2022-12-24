@@ -44,6 +44,11 @@ body {
   height: 80px;
 }
 
+.listBox::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
 .dir-rtl {
   direction: rtl;
 }
