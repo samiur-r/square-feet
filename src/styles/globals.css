@@ -25,7 +25,8 @@ html {
 }
 
 body {
-  scrollbar-width: thin;
+  /* scrollbar-width: thin; */
+  -webkit-overflow-scrolling: auto
 }
 
   /* !important is needed sometimes */
