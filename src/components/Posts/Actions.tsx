@@ -23,8 +23,8 @@ const Actions: React.FC<{ isArchieve?: boolean | undefined }> = ({
       <div className="p-1 bg-[#F8D8D7] rounded-md">
         <RocketLaunchIcon className="w-5 h-5 text-[#D2110C]" />
       </div>
-      <div className="p-1 bg-[#E0E9E5] rounded-md">
-        <ArrowPathIcon className="w-5 h-5 text-emerald-800" />
+      <div className="p-1 bg-[#E3F4F1] rounded-md">
+        <ArrowPathIcon className="w-5 h-5 text-[#2BAA90]" />
       </div>
       {!isArchieve && (
         <>

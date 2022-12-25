@@ -4,6 +4,7 @@ import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
+import { useRef } from 'react'
 
 const locations = [
   {
@@ -967,12 +968,16 @@ const purposes = [
 ]
 
 const CreatePost: NextPage = () => {
+  const autocompleteRef = useRef<HTMLDivElement>(null)
+
+  const scrollToAutocomplete = () => autocompleteRef?.current?.scrollIntoView()
+
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
       <div className="md:text-center w-full">
         <Title value="إضافة إعلان" />
       </div>
-      <div className="w-full md:text-center">
+      <div className="w-full md:text-center" ref={autocompleteRef}>
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
       <form className="w-full max-w-lg mt-8 md:mt-10">
@@ -993,7 +998,7 @@ const CreatePost: NextPage = () => {
             رقم الموبايل{' '}
           </label>
         </div>
-        <div className="mt-8 md:mt-10">
+        <div className="mt-8 md:mt-10" onClick={scrollToAutocomplete}>
           <AutoComplete locations={locations} />
         </div>
         <div className="mt-8 md:mt-10">

@@ -65,7 +65,7 @@ const agencyItems = [
 
 const MyPosts: NextPage = () => {
   return (
-    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-5 items-center bg-custom-white-light md:bg-white">
+    <div className="dir-rtl container max-w-6xl pt-10 pb-8 flex flex-col gap-5 items-center bg-custom-white-light md:bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:w-auto">
         <BalanceCard
           headline="رصيدك من الاعلانات"
@@ -104,6 +104,9 @@ const MyPosts: NextPage = () => {
         {posts.map((post) => (
           <PostCard key={post.id} post={post} showActions />
         ))}
+        <p className="text-center text-secondary font-bold font-DroidArabicKufiBold text-sm md:text-lg mt-8">
+          انتهت نتائج البحث ولا يوجد المزيد من النتائج
+        </p>
       </div>
     </div>
   )

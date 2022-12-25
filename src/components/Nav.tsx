@@ -1356,7 +1356,7 @@ const Nav: React.FC = () => {
                   </Link>
                 </div>
               </div>
-              <hr className="h-px bg-custom-gray border-0" />
+              <hr className="h-px bg-[#DCDCDC] border-0" />
 
               {/* nav items */}
               <div className="mt-2 flex flex-col gap-3">
@@ -1416,7 +1416,9 @@ const Nav: React.FC = () => {
                           aria-hidden="true"
                         />
                         <div className="flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl cursor-pointer">
-                          <p className="font-semibold">عقارات الكویت</p>
+                          <p className="font-bold font-DroidArabicKufiBold">
+                            عقارات الكویت
+                          </p>
                           <Image
                             src="/images/building-solid.svg"
                             height={25}

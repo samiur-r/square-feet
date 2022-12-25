@@ -61,7 +61,7 @@ const posts = [
 
 const Agency: NextPage = () => {
   return (
-    <div className="dir-rtl pb-10">
+    <div className="dir-rtl pb-8">
       <div className="bg-primary-light flex flex-col md:flex-row gap-5 md:gap-10 justify-center items-center text-white px-5 py-8 rounded-b-lg md:rounded-none">
         <div className="w-40 h-32 md:w-46 md:h-32 rounded-lg overflow-hidden relative border">
           <Image
@@ -106,12 +106,15 @@ const Agency: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="container max-w-4xl mt-10">
+      <div className="container max-w-4xl mt-8">
         <Title value="اعلانات المكتب" />
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>
+      <p className="text-center text-secondary font-bold font-DroidArabicKufiBold text-sm md:text-lg mt-8">
+        انتهت نتائج البحث ولا يوجد المزيد من النتائج
+      </p>
     </div>
   )
 }

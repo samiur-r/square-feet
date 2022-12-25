@@ -49,7 +49,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           </Link>
         </Description>
       </div>
-      <div className="mt-5">
+      <div className="mt-8">
         {type === 'register' ? (
           <button
             type="submit"
@@ -66,7 +66,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           </button>
         )}
       </div>
-      <div className="mt-5">
+      <div className="mt-8">
         <Description textBlack>
           <span className="flex gap-3 justify-center">
             {type === 'login' ? (
