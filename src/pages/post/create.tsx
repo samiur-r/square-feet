@@ -977,7 +977,7 @@ const CreatePost: NextPage = () => {
       <div className="md:text-center w-full">
         <Title value="إضافة إعلان" />
       </div>
-      <div className="w-full md:text-center">
+      <div className="w-full md:text-center" ref={autocompleteRef}>
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
       <form className="w-full max-w-lg mt-8 md:mt-10">
@@ -998,11 +998,7 @@ const CreatePost: NextPage = () => {
             رقم الموبايل{' '}
           </label>
         </div>
-        <div
-          className="mt-8 md:mt-10"
-          onClick={scrollToAutocomplete}
-          ref={autocompleteRef}
-        >
+        <div className="mt-8 md:mt-10" onClick={scrollToAutocomplete}>
           <AutoComplete locations={locations} />
         </div>
         <div className="mt-8 md:mt-10">
