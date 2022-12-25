@@ -281,8 +281,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           )}
                           <span
                             className={`${
-                              location.type === 'state' && 'text-black'
-                            } ${
+                              location.type === 'state' &&
+                              !isHomePage &&
+                              'hidden'
+                            } ${location.type === 'state' && 'text-black'} ${
                               location.type === 'city' && 'text-primary'
                             } hover:bg-primary-lighter font-DroidArabicKufiBold font-bold text-base block truncate p-2 cursor-pointer`}
                           >
