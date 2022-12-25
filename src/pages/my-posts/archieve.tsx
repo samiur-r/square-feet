@@ -107,8 +107,8 @@ const ArchievePosts: NextPage = () => {
           <PostCard key={post.id} post={post} showActions />
         ))}
         <p className="text-center text-secondary font-bold font-DroidArabicKufiBold text-sm md:text-lg mt-8">
-        انتهت نتائج البحث ولا يوجد المزيد من النتائج
-      </p>
+          انتهت نتائج البحث ولا يوجد المزيد من النتائج
+        </p>
       </div>
     </div>
   )
