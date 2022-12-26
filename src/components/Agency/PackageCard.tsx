@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import PackageModal from './PackageModal'
 import Title from 'components/Title'
+import PackageModal from './PackageModal'
 
 const PackageCard: React.FC<{
   styleRow?: boolean
