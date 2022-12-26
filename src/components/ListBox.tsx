@@ -95,7 +95,7 @@ const List: React.FC<ListProps> = ({
                   } relative cursor-pointer hover:bg-primary-lighter rounded-lg transition-all duration-500 select-none py-2 px-3`}
                   value={option}
                 >
-                  <span className="block text-base truncate font-DroidArabicKufiBold font-bold text-primary">
+                  <span className="block text-base truncate font-DroidArabicKufiBold text-primary">
                     {option.title}
                   </span>
                 </Listbox.Option>

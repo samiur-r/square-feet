@@ -74,7 +74,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                         />
                       </button>
                     </div>
-                    <div className="text-center md:text-end font-bold  font-DroidArabicKufiBold text-lg">
+                    <div className="text-center md:text-end font-DroidArabicKufiBold text-lg">
                       فلتر
                     </div>
                     <div className="flex justify-end md:hidden">

@@ -89,7 +89,7 @@ const Agency: NextPage = () => {
                 src="/images/call-white.svg"
                 height={24}
                 width={24}
-                className="text-white font-bold font-DroidArabicKufiBold"
+                className="text-white font-DroidArabicKufiBold"
                 alt="phone_icon"
               />
             </a>
@@ -122,7 +122,7 @@ const Agency: NextPage = () => {
           <PostCard key={post.id} post={post} />
         ))}
       </div>
-      <p className="text-center text-secondary font-bold font-DroidArabicKufiBold text-sm md:text-lg mt-8">
+      <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
         انتهت نتائج البحث ولا يوجد المزيد من النتائج
       </p>
     </div>

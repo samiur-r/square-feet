@@ -47,11 +47,11 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
           </div>
         </div>
         <div className="">
-          <div className="font-bold font-DroidArabicKufiBold text-sm md:text:base line-clamp-1">
+          <div className="font-DroidArabicKufiBold text-sm md:text:base line-clamp-1">
             {post.title}
           </div>
           <div className="flex gap-3 md:gap-5 mt-3">
-            <div className="text-primary md:text-base text-xs font-bold font-DroidArabicKufiBold">
+            <div className="text-primary md:text-base text-xs font-DroidArabicKufiBold">
               {post.price} دك
             </div>
             <div className="flex flex-nowrap gap-2 items-center">

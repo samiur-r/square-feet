@@ -92,7 +92,7 @@ const MyPosts: NextPage = () => {
       </Description>
       <div className="md:max-w-3xl md:container">
         <div className="flex gap-3 items-center">
-          <h3 className="text-base md:text-xl font-bold font-DroidArabicKufiBold">
+          <h3 className="text-base md:text-xl font-DroidArabicKufiBold">
             إعلاناتي
           </h3>
           <Link href="/">
@@ -104,7 +104,7 @@ const MyPosts: NextPage = () => {
         {posts.map((post) => (
           <PostCard key={post.id} post={post} showActions />
         ))}
-        <p className="text-center text-secondary font-bold font-DroidArabicKufiBold text-sm md:text-lg mt-8">
+        <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
           انتهت نتائج البحث ولا يوجد المزيد من النتائج
         </p>
       </div>

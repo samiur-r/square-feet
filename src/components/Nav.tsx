@@ -1274,7 +1274,7 @@ const Nav: React.FC = () => {
                   onClick={() => handleNavChange(item)}
                   className={`${
                     activeItem === item.title
-                      ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:font-bold after:absolute after:-bottom-4 after:w-full after:left-0"
+                      ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
                       : 'text-base'
                   } font-medium hover:text-primary relative`}
                   key={item.title}
@@ -1314,7 +1314,7 @@ const Nav: React.FC = () => {
             >
               <span className="sr-only">Open menu</span>
               <Bars3Icon
-                className="h-7 w-7 mt-px font-DroidArabicKufiBold font-bold"
+                className="h-7 w-7 mt-px font-DroidArabicKufiBold"
                 aria-hidden="true"
               />
             </Popover.Button>
@@ -1368,12 +1368,12 @@ const Nav: React.FC = () => {
                       className={`${
                         activeItemOnMobile === item.title &&
                         'bg-primary-lighter text-primary'
-                      } flex font-bold font-DroidArabicKufiBold items-center gap-4 justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                      } flex font-DroidArabicKufiBold items-center gap-4 justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                     >
                       <p
                         className={`${
                           item.title === 'إعلان مجانًا' && 'text-secondary'
-                        } font-bold font-DroidArabicKufiBold`}
+                        } font-DroidArabicKufiBold`}
                       >
                         {item.title}
                       </p>
@@ -1416,7 +1416,7 @@ const Nav: React.FC = () => {
                           aria-hidden="true"
                         />
                         <div className="flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl cursor-pointer">
-                          <p className="font-bold font-DroidArabicKufiBold">
+                          <p className="font-DroidArabicKufiBold">
                             عقارات الكویت
                           </p>
                           <Image

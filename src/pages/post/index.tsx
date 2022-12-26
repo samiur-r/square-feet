@@ -37,7 +37,7 @@ const Posts: NextPage = () => {
     <div className="dir-rtl grid gap-8 pb-10">
       <div className="bg-primary-light flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-10 rounded-b-lg md:rounded-none">
         <Title value={post.title} light />
-        <div className="font-bold font-DroidArabicKufiBold text-lg md:text-2xl">
+        <div className="font-DroidArabicKufiBold text-lg md:text-2xl">
           {post.price} دك
         </div>
         <div className="flex gap-3 dir-ltr mt-5 md:mt-0">
@@ -81,7 +81,7 @@ const Posts: NextPage = () => {
               src="/images/call-white.svg"
               height={24}
               width={24}
-              className="text-white font-bold font-DroidArabicKufiBold"
+              className="text-white font-DroidArabicKufiBold"
               alt="phone_icon"
             />
           </a>

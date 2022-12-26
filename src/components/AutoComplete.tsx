@@ -251,7 +251,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           className="relative cursor-default select-none rounded-lg"
                           value="all"
                         >
-                          <span className="block text-base truncate hover:bg-primary-lighter text-black font-DroidArabicKufiBold  font-bold p-2 cursor-pointer">
+                          <span className="block text-base truncate hover:bg-primary-lighter text-black font-DroidArabicKufiBold p-2 cursor-pointer">
                             {' '}
                             كل مناطق الكويت
                           </span>
@@ -286,7 +286,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                               'hidden'
                             } ${location.type === 'state' && 'text-black'} ${
                               location.type === 'city' && 'text-primary'
-                            } hover:bg-primary-lighter font-DroidArabicKufiBold font-bold text-base block truncate p-2 cursor-pointer`}
+                            } hover:bg-primary-lighter font-DroidArabicKufiBold text-base block truncate p-2 cursor-pointer`}
                           >
                             {location.title}
                           </span>

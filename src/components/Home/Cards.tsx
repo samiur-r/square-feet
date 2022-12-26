@@ -39,7 +39,7 @@ const Cards = () => {
                 />
               </div>
             </div>
-            <div className="font-bold font-DroidArabicKufiBold text-base md:text-2xl flex flex-col justify-center items-center my-5 md:mb-8 md:mt-5">
+            <div className="font-DroidArabicKufiBold text-base md:text-2xl flex flex-col justify-center items-center my-5 md:mb-8 md:mt-5">
               <span>{item.row1}</span>
               <span>{item.row2}</span>
             </div>
