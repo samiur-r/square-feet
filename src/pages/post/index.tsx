@@ -71,10 +71,10 @@ const Posts: NextPage = () => {
       </div>
       <div className="container max-w-6xl text-center">
         <div className="text-sm md:text-lg">{post.description}</div>
-        <div className="flex gap-5 justify-center mt-5">
+        <div className="flex gap-3 justify-center mt-5">
           <a
             href="tel:+96599491575"
-            className="bg-custom-green py-3 font-bold font-DroidArabicKufiBold hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white rounded-md"
+            className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-2 text-center text-white rounded-md"
           >
             {post.phone}
             <Image

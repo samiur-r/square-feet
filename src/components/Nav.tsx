@@ -1291,7 +1291,7 @@ const Nav: React.FC = () => {
           >
             <span className="sr-only">Company Logo</span>
             <Link href="/">
-              <a className="block relative w-36 h-11">
+              <a className="block relative w-40 h-12">
                 <Image layout="fill" src="/images/logo.svg" alt="logo" />
               </a>
             </Link>
@@ -1373,7 +1373,7 @@ const Nav: React.FC = () => {
                       <p
                         className={`${
                           item.title === 'إعلان مجانًا' && 'text-secondary'
-                        } font-bold`}
+                        } font-bold font-DroidArabicKufiBold`}
                       >
                         {item.title}
                       </p>

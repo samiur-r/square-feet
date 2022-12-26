@@ -18,8 +18,8 @@ const AgencyCard = React.forwardRef(
               {title}
             </a>
           </div>
-          <div className="w-full flex justify-center">
-            <div className="w-32 md:w-full mt-2">
+          <div className="mt-2 w-full flex items-center justify-center gap-2">
+            <div className="w-28">
               <a
                 href="tel:+96599491575"
                 className="bg-primary text-sm flex items-center justify-center gap-2 text-center text-white w-full py-2 rounded-md"
@@ -33,6 +33,14 @@ const AgencyCard = React.forwardRef(
                   alt="phone_icon"
                 />
               </a>
+            </div>
+            <div className="shadow-md rounded-md p-2 flex items-center justify-center">
+              <Image
+                src="/images/whatsapp-logo-blue.svg"
+                width={20}
+                height={20}
+                alt="whatsapp"
+              />
             </div>
           </div>
           <div className="flex w-full mt-3 gap-2 justify-center">

@@ -184,9 +184,17 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
                   {!showOptions && (
                     <>
-                      <div className="md:flex md:items-center w-9 h-9 md:w-7 md:h-7 relative">
+                      <div className="hidden md:flex md:items-center md:w-7 md:h-7 relative cursor-pointer">
                         <Image
                           src="/images/filter-icon-black.svg"
+                          layout="fill"
+                          onClick={() => setShowFilterModal(true)}
+                          alt="filter"
+                        />
+                      </div>
+                      <div className="md:hidden w-10 h-10  relative">
+                        <Image
+                          src="/images/filter-icon-grey.svg"
                           layout="fill"
                           onClick={() => setShowFilterModal(true)}
                           alt="filter"
@@ -285,7 +293,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           }
                         >
                           {location.type === 'city' && (
-                            <span className="absolute left-5 top-1 text-primary font-DroidArabicKufiBold font-bold">
+                            <span className="absolute left-5 top-1 text-primary">
                               ({location.count})
                             </span>
                           )}

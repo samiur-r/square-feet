@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import PackageModal from './PackageModal'
+import Title from 'components/Title'
 
 const PackageCard: React.FC<{
   styleRow?: boolean
@@ -30,15 +31,15 @@ const PackageCard: React.FC<{
           <div className="absolute w-full h-full  bg-gray-900 opacity-40" />
           <button
             type="submit"
-            className="absolute w-full h-full text-white text-lg flex items-center justify-center"
+            className="absolute w-full h-full flex items-center justify-center"
             onClick={() => setOpenModal(true)}
           >
-            اضغط هنا للتفاصيل
+            <Title value="اضغط هنا للتفاصيل" light />
           </button>
         </div>
       </div>
       <div className="flex flex-col gap-2 md:gap-5 justify-center items-center w-full">
-        <h3 className="text-lg md:text-xl">باقة المكاتب</h3>
+        <Title value="باقة المكاتب" />
         <div className="grid gap-3 md:w-full">
           <Link href="https://www.kpay.com">
             <a className="bg-secondary text-white text-sm md:text-base text-center px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-90 transition-opacity duration-300">

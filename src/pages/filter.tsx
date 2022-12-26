@@ -95,8 +95,9 @@ const Filter: NextPage = () => {
         </div>
       </div>
       <div className="max-w-4xl flex flex-col gap-2 mt-5 items-end p-0 md:p-5 self-center">
-        <div className="self-start">
-          <Title value="شاليهات للبيع في الكويت (100 إعلان)" />
+        <div className="self-start flex gap-2 items-center">
+          <Title value="شاليهات للبيع في الكويت" />
+          <p className="text-lg md:text-xl">(100 إعلان)</p>
         </div>
         <div className="w-full">
           {posts.map((post) => (

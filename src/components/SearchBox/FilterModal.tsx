@@ -74,7 +74,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                         />
                       </button>
                     </div>
-                    <div className="text-center md:text-end  font-DroidArabicKufiBold text-lg">
+                    <div className="text-center md:text-end font-bold  font-DroidArabicKufiBold text-lg">
                       فلتر
                     </div>
                     <div className="flex justify-end md:hidden">
@@ -157,7 +157,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                                 borderRadius: '4px',
                                 background: getTrackBackground({
                                   values: priceRange,
-                                  colors: ['#ccc', '#548BF4', '#ccc'],
+                                  colors: ['#ccc', '#6598CB', '#ccc'],
                                   min: PRICE_RANGES.min,
                                   max: PRICE_RANGES.max
                                 }),
@@ -181,7 +181,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                               display: 'flex',
                               justifyContent: 'center',
                               alignItems: 'center',
-                              boxShadow: '0px 2px 6px #AAA',
+                              boxShadow: '0px 2px 6px #DFE9F3',
                               outline: 'none'
                             }}
                           >
@@ -195,10 +195,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
                                 padding: '8px',
                                 borderRadius: '4px',
                                 backgroundColor: '#E8F0F7',
-                                color: '#548BF4',
+                                color: '#72A1CF',
                                 display: 'flex',
                                 gap: 10,
-                                border: '1px solid #548BF4',
+                                border: '1px solid #6D9DCE',
                                 left: index === 0 ? '0px' : 'auto',
                                 right: index === 1 ? '0px' : 'auto'
                               }}

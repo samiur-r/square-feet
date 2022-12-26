@@ -79,19 +79,29 @@ const Agency: NextPage = () => {
             القبلة، شارع فهد السالم، مجمع الدولية، الميزانين، مكتب رقم ١٦٨
           </p>
           <p className="mt-2">instagram: @alateeqire</p>
-          <a
-            href="tel:+96599491575"
-            className="bg-custom-green hover:opacity-90 transition-opacity duration-300 w-36 flex items-center justify-center gap-2 text-center text-white py-3 mt-4 rounded-md"
-          >
-            99491575{' '}
-            <Image
-              src="/images/call-white.svg"
-              height={24}
-              width={24}
-              className="text-white font-bold font-DroidArabicKufiBold"
-              alt="phone_icon"
-            />
-          </a>
+          <div className="flex gap-3 justify-center mt-5">
+            <a
+              href="tel:+96599491575"
+              className="bg-custom-green hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-2 text-center text-white py-3 rounded-md"
+            >
+              99491575{' '}
+              <Image
+                src="/images/call-white.svg"
+                height={24}
+                width={24}
+                className="text-white font-bold font-DroidArabicKufiBold"
+                alt="phone_icon"
+              />
+            </a>
+            <div className="shadow-md bg-white rounded-md p-3 flex items-center justify-center">
+              <Image
+                src="/images/whatsapp-logo-green.svg"
+                width={24}
+                height={24}
+                alt="whatsapp"
+              />
+            </div>
+          </div>
           <div className="flex gap-3 justify-center mt-4">
             <Link href="/">
               <a className="p-2 rounded-full bg-primary-dark flex items-center ">
