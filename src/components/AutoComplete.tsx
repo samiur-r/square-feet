@@ -101,8 +101,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   }, [])
 
   const inputFocusOrBlur = (open: boolean) => {
-    if (open) inputRef.current?.focus()
-    else inputRef.current?.blur()
+    setTimeout(() => {
+      if (open) inputRef.current?.focus()
+      else inputRef.current?.blur()
+    })
   }
 
   const onInputFocus = () => setIsFocused(true)
