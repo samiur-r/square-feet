@@ -38,7 +38,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [inputPlaceHolder, setInputPlaceHolder] = useState(' ')
+  const [inputPlaceHolder, setInputPlaceHolder] = useState('')
 
   useEffect(() => {
     if (selected?.title) setInputPlaceHolder(selected.title)
@@ -144,15 +144,15 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   )}
                   <Combobox.Button className="w-full h-full">
                     <Combobox.Input
-                      // ref={inputRef}
+                      ref={inputRef}
                       id="location"
                       className="peer w-full h-full text-base leading-5 text-custom-gray outline-none"
                       placeholder={`${
                         isHomePage ? 'اكتب المنطقه للبحث' : inputPlaceHolder
                       }`}
                       onChange={(event) => setQuery(event.target.value)}
-                      // onFocus={onInputFocus}
-                      // onBlur={onInputBlur}
+                      onFocus={onInputFocus}
+                      onBlur={onInputBlur}
                     />
                     {!isHomePage && (
                       <label
