@@ -162,7 +162,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                         } ${
                           inputPlaceHolder !== ' ' || open
                             ? '-top-2 px-1 right-3 text-xs'
-                            : 'top-3 right-4'
+                            : 'top-3 md:top-4 right-4'
                         } absolute cursor-text duration-300 z-10 bg-white`}
                       >
                         المنطقه
