@@ -100,6 +100,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     }
   }, [])
 
+  const inputFocusOrBlur = (open: boolean) => {
+    if (open) inputRef.current?.focus()
+    else inputRef.current?.blur()
+  }
+
   const onInputFocus = () => setIsFocused(true)
   const onInputBlur = () => setIsFocused(false)
 
@@ -111,6 +116,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             {canUpdateFilterAutoCompleteShow !== undefined &&
               canUpdateFilterAutoCompleteShow !== open &&
               changeShowFilterComboboxStatus(open)}
+            {inputFocusOrBlur(open)}
             <div>
               <div
                 className={`${
