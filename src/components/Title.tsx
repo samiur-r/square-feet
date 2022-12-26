@@ -8,7 +8,7 @@ const Title: React.FC<{ value: string; light?: boolean }> = ({
     <h3
       className={`${
         light && 'text-white'
-      } font-DroidArabicKufiBold font-bold text-lg md:text-xl`}
+      } font-DroidArabicKufiBold text-lg md:text-xl`}
     >
       {value}
     </h3>
