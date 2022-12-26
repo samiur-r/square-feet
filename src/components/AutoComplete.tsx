@@ -116,7 +116,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             {canUpdateFilterAutoCompleteShow !== undefined &&
               canUpdateFilterAutoCompleteShow !== open &&
               changeShowFilterComboboxStatus(open)}
-            {inputFocusOrBlur(open)}
+            {!isHomePage && inputFocusOrBlur(open)}
             <div>
               <div
                 className={`${
