@@ -38,7 +38,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [inputPlaceHolder, setInputPlaceHolder] = useState('')
+  const [inputPlaceHolder, setInputPlaceHolder] = useState(' ')
 
   useEffect(() => {
     if (selected?.title) setInputPlaceHolder(selected.title)
