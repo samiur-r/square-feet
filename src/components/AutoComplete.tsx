@@ -38,7 +38,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [inputPlaceHolder, setInputPlaceHolder] = useState(' ')
+  const [inputPlaceHolder, setInputPlaceHolder] = useState('')
 
   useEffect(() => {
     if (selected?.title) setInputPlaceHolder(selected.title)
@@ -160,7 +160,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                         className={`${
                           open ? 'text-primary' : 'text-custom-gray'
                         } ${
-                          inputPlaceHolder !== ' ' || open
+                          inputPlaceHolder !== '' || open
                             ? '-top-2 px-1 right-3 text-xs'
                             : 'top-3 md:top-4 right-4'
                         } absolute cursor-text duration-300 z-10 bg-white`}
