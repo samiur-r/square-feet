@@ -28,6 +28,13 @@ body {
   scrollbar-width: thin;
 }
 
+html,
+body {
+    -webkit-overflow-scrolling : touch;
+    overflow: auto;
+    height: 100%;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
