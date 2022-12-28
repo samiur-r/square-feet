@@ -91,21 +91,23 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
       } | null
     ) => {
       if (node !== null && showOptions) {
-        window.scrollTo({
-          top: node.getBoundingClientRect().top,
-          behavior: 'smooth'
+        setTimeout(() => {
+          window.scrollTo({
+            top: node.getBoundingClientRect().top,
+            behavior: 'smooth'
+          })
         })
       }
     },
     []
   )
 
-  const onInputFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
-    if (canSetInputBlur) {
-      event.target.blur()
-      setCanSetInputBlur(false)
-    }
-  }
+  // const onInputFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
+  //   if (canSetInputBlur) {
+  //     event.target.blur()
+  //     setCanSetInputBlur(false)
+  //   }
+  // }
 
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
@@ -207,7 +209,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       onChange={(event) => setQuery(event.target.value)}
                       onClick={() => setIsOpen(!isOpen)}
                       onBlur={() => setIsOpen(false)}
-                      onFocus={(event) => onInputFocus(event)}
+                      // onFocus={(event) => onInputFocus(event)}
                     />
                   </Combobox.Button>
 
