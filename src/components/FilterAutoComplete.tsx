@@ -72,11 +72,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
   const handleInputFocus = () => comboBtn.current?.click()
 
-  const onInputFocus = () => {
-    window.scrollTo(0, 0)
-    document.body.scrollTop = 0
-  }
-
   useEffect(() => {
     if (showOptions) handleInputFocus()
   }, [showOptions])
@@ -145,7 +140,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
             )}
             <div className="relative">
               <div className="flex flex-col py-3 px-2 gap-2 relative cursor-default overflow-hidden rounded-lg text-left md:shadow-md outline-none">
-                <div className="flex gap-2 items-center relative">
+                <div className="flex flex-1 gap-2 items-center relative">
                   <Combobox.Button
                     className="hidden md:flex items-center"
                     type="submit"
@@ -177,7 +172,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
-                      onFocus={onInputFocus}
                     />
                   </Combobox.Button>
 
