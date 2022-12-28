@@ -42,11 +42,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
-  const [inputFocusFlag, setInputFocusFlag] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
 
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
 
@@ -172,7 +170,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                   />
                   <Combobox.Button className="w-full h-8" as="div" aria-hidden>
                     <Combobox.Input
-                      ref={inputRef}
                       // @ts-ignore
                       key={open}
                       className={`${
