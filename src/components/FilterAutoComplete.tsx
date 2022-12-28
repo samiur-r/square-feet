@@ -85,7 +85,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   }
 
   const onInputClick = () => {
-    // console.log(focusInput)
+    console.log(focusInput)
     // if (focusInput) {
     //   handleInputFocus()
     //   setFocusInput(false)
