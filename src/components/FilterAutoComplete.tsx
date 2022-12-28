@@ -85,10 +85,11 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   }
 
   const onInputClick = () => {
-    if (focusInput) {
-      handleInputFocus()
-      setFocusInput(false)
-    }
+    // console.log(focusInput)
+    // if (focusInput) {
+    //   handleInputFocus()
+    //   setFocusInput(false)
+    // }
   }
 
   const [propertyType, setPropertyType] = useState({
