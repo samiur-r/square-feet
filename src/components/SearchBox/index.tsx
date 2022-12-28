@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Transition } from '@headlessui/react'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
@@ -1056,16 +1055,7 @@ const SearchBox = () => {
           />
         </div>
       </div>
-      {/* {showFilterCombobox && ( */}
-      <Transition
-        show={showFilterCombobox}
-        enter="transition-opacity duration-150"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-150"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
+      {showFilterCombobox && (
         <div className="absolute md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
@@ -1076,8 +1066,7 @@ const SearchBox = () => {
             handleLocationChanged={handleLocationChanged}
           />
         </div>
-      </Transition>
-      {/* )} */}
+      )}
     </>
   )
 }
