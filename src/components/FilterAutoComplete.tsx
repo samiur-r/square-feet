@@ -101,13 +101,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     []
   )
 
-  // const onInputFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
-  //   if (canSetInputBlur) {
-  //     event.target.blur()
-  //     setCanSetInputBlur(false)
-  //   }
-  // }
-
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
     title: propertyTypes[0].title
@@ -208,7 +201,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       onChange={(event) => setQuery(event.target.value)}
                       onClick={() => setIsOpen(!isOpen)}
                       onBlur={() => setIsOpen(false)}
-                      // onFocus={(event) => onInputFocus(event)}
                     />
                   </Combobox.Button>
 
