@@ -108,7 +108,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full">
+    <div className="dir-rtl w-full relative">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
