@@ -1061,7 +1061,11 @@ const SearchBox = () => {
         </div>
       </div>
       {showFilterCombobox && (
-        <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
+        <div
+          className={`${
+            isfilterComboboxOpen ? 'absolute' : 'fixed'
+          } md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0`}
+        >
           <FilterAutoComplete
             locations={locations}
             purposes={purposes}
