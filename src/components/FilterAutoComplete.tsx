@@ -73,8 +73,12 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const handleInputFocus = () => comboBtn.current?.click()
 
   const onInputFocus = (event: { target: { blur: () => void } }) => {
-    event.target.blur()
+    //event.target.blur()
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   useEffect(() => {
     if (showOptions) handleInputFocus()
