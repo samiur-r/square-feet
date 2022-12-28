@@ -81,9 +81,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     setInputFocusFlag(false)
   }
 
-  // useEffect(() => {
-  //   if (!inputFocusFlag) inputRef.current?.focus()
-  // }, [inputFocusFlag])
+  useEffect(() => {
+    if (!inputFocusFlag) inputRef.current?.focus()
+  }, [inputFocusFlag])
 
   useEffect(() => {
     if (showOptions) handleInputFocus()
