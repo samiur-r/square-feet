@@ -1185,7 +1185,6 @@ const Nav: React.FC = () => {
                 locations={locations}
                 purposes={purposes}
                 propertyTypes={propertyTypes}
-                isfilterComboboxOpen={isLocationDropDownOpen}
                 handleIsfilterComboboxOpen={setIsLocationDropDownOpen}
               />
             </Suspense>

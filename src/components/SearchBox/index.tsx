@@ -971,7 +971,6 @@ const SearchBox = () => {
     id: purposes[2].id,
     title: purposes[2].title
   })
-  const [isfilterComboboxOpen, setIsfilterComboboxOpen] = useState(false)
   const [canUpdateFilterAutoCompleteShow, setCanUpdateFilterAutoCompleteShow] =
     useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
@@ -1062,7 +1061,6 @@ const SearchBox = () => {
             locations={locations}
             purposes={purposes}
             propertyTypes={propertyTypes}
-            isfilterComboboxOpen={isfilterComboboxOpen}
             handleIsfilterComboboxOpen={setShowFilterCombobox}
             showOptions
             handleLocationChanged={handleLocationChanged}

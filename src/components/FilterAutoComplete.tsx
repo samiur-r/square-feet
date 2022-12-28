@@ -25,7 +25,6 @@ interface FilterAutoCompleteProps {
   locations: LocationType[]
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
-  isfilterComboboxOpen?: boolean
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   handleLocationChanged?: (id: number, title: string, type: string) => void
   showOptions?: boolean
@@ -35,7 +34,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
   purposes,
   propertyTypes,
-  isfilterComboboxOpen,
   handleIsfilterComboboxOpen,
   handleLocationChanged,
   showOptions
@@ -44,6 +42,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [blurInput, setBlurInput] = useState(true)
+  const [focusInput, setFocusInput] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
@@ -82,7 +81,14 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     if (blurInput) {
       e.target.blur()
       setBlurInput(false)
-    } else handleInputFocus()
+    }
+  }
+
+  const onInputClick = () => {
+    if (focusInput) {
+      handleInputFocus()
+      setFocusInput(false)
+    }
   }
 
   const [propertyType, setPropertyType] = useState({
@@ -179,6 +185,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
                       onFocus={(e) => onInputFocus(e)}
+                      onClick={onInputClick}
                     />
                   </Combobox.Button>
 
