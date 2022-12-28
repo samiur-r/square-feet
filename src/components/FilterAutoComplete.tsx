@@ -72,9 +72,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
   const handleInputFocus = () => comboBtn.current?.click()
 
-  // useEffect(() => {
-  //   if (showOptions) handleInputFocus()
-  // }, [showOptions])
+  useEffect(() => {
+    if (showOptions) handleInputFocus()
+  }, [showOptions])
 
   // TODO: optimize the func
   const changeOpenStatus = () => {
