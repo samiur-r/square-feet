@@ -42,8 +42,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
-  // const [blurInput, setBlurInput] = useState(true)
-  // const [focusInput, setFocusInput] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
@@ -78,20 +76,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     if (showOptions) handleInputFocus()
   }, [showOptions])
 
-  // const onInputFocus = () => {
-  //   // if (blurInput) {
-  //   //   e.target.blur()
-  //   //   setBlurInput(false)
-  //   // }
-  // }
-
-  // const onInputClick = () => {
-  //   // if (focusInput) {
-  //   //   handleInputFocus()
-  //   //   setFocusInput(false)
-  //   // }
-  // }
-
   const scroll = useCallback(
     (
       node: {
@@ -102,7 +86,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         }
       } | null
     ) => {
-      if (node !== null) {
+      if (node !== null && showOptions) {
         window.scrollTo({
           top: node.getBoundingClientRect().top,
           behavior: 'smooth'
