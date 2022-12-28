@@ -1056,16 +1056,17 @@ const SearchBox = () => {
           />
         </div>
       </div>
+      {/* {showFilterCombobox && ( */}
       <Transition
         show={showFilterCombobox}
-        enter="transition-opacity duration-100"
+        enter="transition-opacity duration-150"
         enterFrom="opacity-0"
         enterTo="opacity-100"
-        leave="transition-opacity duration-100"
+        leave="transition-opacity duration-150"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
+        <div className="absolute md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
             purposes={purposes}
@@ -1076,6 +1077,7 @@ const SearchBox = () => {
           />
         </div>
       </Transition>
+      {/* )} */}
     </>
   )
 }
