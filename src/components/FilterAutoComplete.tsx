@@ -72,6 +72,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
   const handleInputFocus = () => comboBtn.current?.click()
 
+  const onInputFocus = (event: { target: { blur: () => void } }) => {
+    event.target.blur()
+  }
+
   useEffect(() => {
     if (showOptions) handleInputFocus()
   }, [showOptions])
@@ -172,7 +176,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
-                      disabled
+                      onFocus={onInputFocus}
                     />
                   </Combobox.Button>
 
