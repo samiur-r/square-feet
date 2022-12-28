@@ -1058,10 +1058,10 @@ const SearchBox = () => {
       </div>
       <Transition
         show={showFilterCombobox}
-        enter="transition-opacity duration-100"
+        enter="transition-opacity duration-50"
         enterFrom="opacity-0"
         enterTo="opacity-100"
-        leave="transition-opacity duration-100"
+        leave="transition-opacity duration-50"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >

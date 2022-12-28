@@ -93,7 +93,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
             top: node.getBoundingClientRect().top,
             behavior: 'smooth'
           })
-        }, 100)
+        }, 50)
       }
     },
     []
