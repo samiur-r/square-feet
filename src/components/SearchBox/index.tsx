@@ -1065,7 +1065,7 @@ const SearchBox = () => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div className="absolute md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
+        <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
             purposes={purposes}
