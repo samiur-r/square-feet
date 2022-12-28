@@ -77,7 +77,8 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   }, [showOptions])
 
   const onInputFocus = (e: FocusEvent<HTMLInputElement, Element>) => {
-    if(blurInput) e.target.blur()
+    if (blurInput) e.target.blur()
+    else handleInputFocus()
     setBlurInput(false)
   }
 
