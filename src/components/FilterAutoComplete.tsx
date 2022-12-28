@@ -7,7 +7,8 @@ import {
   useEffect,
   Suspense,
   LegacyRef,
-  useCallback
+  useCallback,
+  FocusEvent
 } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import {
@@ -99,7 +100,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     []
   )
 
-  const onInputFocus = (event) => {
+  const onInputFocus = (event: FocusEvent<HTMLInputElement, Element>) => {
     if (canSetInputBlur) {
       event.target.blur()
       setCanSetInputBlur(false)
