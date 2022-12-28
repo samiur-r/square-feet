@@ -25,6 +25,7 @@ interface FilterAutoCompleteProps {
   locations: LocationType[]
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
+  isfilterComboboxOpen?: boolean
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   handleLocationChanged?: (id: number, title: string, type: string) => void
   showOptions?: boolean
@@ -34,6 +35,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
   purposes,
   propertyTypes,
+  isfilterComboboxOpen,
   handleIsfilterComboboxOpen,
   handleLocationChanged,
   showOptions
@@ -77,9 +79,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   }, [showOptions])
 
   const onInputFocus = (e: FocusEvent<HTMLInputElement, Element>) => {
-    if (blurInput) e.target.blur()
-    else handleInputFocus()
-    setBlurInput(false)
+    if (blurInput) {
+      e.target.blur()
+      setBlurInput(false)
+    } else handleInputFocus()
   }
 
   const [propertyType, setPropertyType] = useState({
