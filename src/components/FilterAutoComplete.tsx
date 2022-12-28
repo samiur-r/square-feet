@@ -6,7 +6,8 @@ import {
   Dispatch,
   useEffect,
   Suspense,
-  FocusEvent
+  LegacyRef,
+  useCallback
 } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import {
@@ -41,7 +42,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
-  const [blurInput, setBlurInput] = useState(true)
+  // const [blurInput, setBlurInput] = useState(true)
   // const [focusInput, setFocusInput] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
@@ -77,20 +78,39 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     if (showOptions) handleInputFocus()
   }, [showOptions])
 
-  const onInputFocus = (e: FocusEvent<HTMLInputElement, Element>) => {
-    if (blurInput) {
-      e.target.blur()
-      setBlurInput(false)
-    }
-  }
+  // const onInputFocus = () => {
+  //   // if (blurInput) {
+  //   //   e.target.blur()
+  //   //   setBlurInput(false)
+  //   // }
+  // }
 
-  const onInputClick = () => {
-    console.log('clicked')
-    // if (focusInput) {
-    //   handleInputFocus()
-    //   setFocusInput(false)
-    // }
-  }
+  // const onInputClick = () => {
+  //   // if (focusInput) {
+  //   //   handleInputFocus()
+  //   //   setFocusInput(false)
+  //   // }
+  // }
+
+  const scroll = useCallback(
+    (
+      node: {
+        getBoundingClientRect: () => {
+          (): unknown
+          new (): unknown
+          top: number | undefined
+        }
+      } | null
+    ) => {
+      if (node !== null) {
+        window.scrollTo({
+          top: node.getBoundingClientRect().top,
+          behavior: 'smooth'
+        })
+      }
+    },
+    []
+  )
 
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
@@ -123,7 +143,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full">
+    <div className="dir-rtl w-full" ref={scroll as LegacyRef<HTMLDivElement>}>
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
@@ -185,8 +205,8 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
-                      onFocus={(e) => onInputFocus(e)}
-                      onClick={onInputClick}
+                      // onFocus={(e) => onInputFocus(e)}
+                      // onClick={onInputClick}
                     />
                   </Combobox.Button>
 
