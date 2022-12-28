@@ -7,8 +7,7 @@ import {
   useEffect,
   Suspense,
   LegacyRef,
-  useCallback,
-  FocusEvent
+  useCallback
 } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import {
@@ -44,7 +43,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [canSetInputBlur, setCanSetInputBlur] = useState(true)
+  // const [canSetInputBlur, setCanSetInputBlur] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
