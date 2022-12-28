@@ -992,7 +992,7 @@ const SearchBox = () => {
   }, [isfilterComboboxOpen])
 
   return (
-    <>
+    <div className="relative">
       <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
         <Link href="/filter">
           <div className="grid h-max md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
@@ -1073,7 +1073,7 @@ const SearchBox = () => {
           />
         </div>
       )}
-    </>
+    </div>
   )
 }
 

@@ -75,8 +75,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const onInputFocus = (event: {
     target: { blur: () => void; focus: () => void }
   }) => {
-    event.target.blur()
-    event.target.focus()
+    // event.target.blur()
+    // event.target.focus()
+    console.log(event.target)
   }
 
   useEffect(() => {
