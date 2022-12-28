@@ -42,7 +42,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [blurInput, setBlurInput] = useState(true)
-  const [focusInput, setFocusInput] = useState(true)
+  // const [focusInput, setFocusInput] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
@@ -85,7 +85,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   }
 
   const onInputClick = () => {
-    console.log(focusInput)
+    console.log('clicked')
     // if (focusInput) {
     //   handleInputFocus()
     //   setFocusInput(false)
