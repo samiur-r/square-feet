@@ -5,7 +5,8 @@ import {
   SetStateAction,
   Dispatch,
   useEffect,
-  Suspense
+  Suspense,
+  FocusEvent
 } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import {
@@ -24,7 +25,6 @@ interface FilterAutoCompleteProps {
   locations: LocationType[]
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
-  isfilterComboboxOpen: boolean
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   handleLocationChanged?: (id: number, title: string, type: string) => void
   showOptions?: boolean
@@ -34,7 +34,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
   purposes,
   propertyTypes,
-  isfilterComboboxOpen,
   handleIsfilterComboboxOpen,
   handleLocationChanged,
   showOptions
@@ -42,6 +41,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
+  const [blurInput, setBlurInput] = useState(true)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
@@ -76,12 +76,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     if (showOptions) handleInputFocus()
   }, [showOptions])
 
-  // TODO: optimize the func
-  const changeOpenStatus = () => {
-    const isOpen = isOpenRef?.current?.value
-    setTimeout(() => {
-      handleIsfilterComboboxOpen(isOpen === 'true')
-    })
+  const onInputFocus = (e: FocusEvent<HTMLInputElement, Element>) => {
+    if(blurInput) e.target.blur()
+    setBlurInput(false)
   }
 
   const [propertyType, setPropertyType] = useState({
@@ -96,6 +93,13 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     PRICE_RANGES.min,
     PRICE_RANGES.max
   ])
+
+  const handleLocationChoosed = (location: LocationType) => {
+    handleIsfilterComboboxOpen(false)
+    if (handleLocationChanged)
+      handleLocationChanged(location.id, location.title, location.type)
+    else handleChangeLocation(location.id, location.title, location.type)
+  }
 
   const filteredLocations =
     query === ''
@@ -112,9 +116,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
-            {isfilterComboboxOpen !== undefined &&
-              isfilterComboboxOpen !== open &&
-              changeOpenStatus()}
             <input ref={isOpenRef} type="hidden" value={`${open}`} />
             {showOptions && (
               <>
@@ -122,6 +123,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                   <ChevronRightIcon
                     className="h-9 w-9 text-black"
                     aria-hidden="true"
+                    onClick={() => handleIsfilterComboboxOpen(false)}
                   />
                 </div>
                 <Combobox.Button
@@ -172,6 +174,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
+                      onFocus={(e) => onInputFocus(e)}
                     />
                   </Combobox.Button>
 
@@ -260,6 +263,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       <Combobox.Option
                         className="relative cursor-default select-none"
                         value="all"
+                        onClick={() => handleIsfilterComboboxOpen(false)}
                       >
                         <span className="block text-base truncate hover:bg-gray-100 text-black font-DroidArabicKufiBold py-2 px-4 cursor-pointer">
                           {' '}
@@ -271,19 +275,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           key={location.id}
                           className="relative cursor-default select-none"
                           value={location}
-                          onClick={() =>
-                            handleLocationChanged
-                              ? handleLocationChanged(
-                                  location.id,
-                                  location.title,
-                                  location.type
-                                )
-                              : handleChangeLocation(
-                                  location.id,
-                                  location.title,
-                                  location.type
-                                )
-                          }
+                          onClick={() => handleLocationChoosed(location)}
                         >
                           {location.type === 'city' && (
                             <span className="absolute left-5 top-1 text-primary">
@@ -321,6 +313,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
           setPropertyType={setPropertyType}
           setPriceRange={setPriceRange}
           setShowFilterModal={setShowFilterModal}
+          handleIsfilterComboboxOpen={handleIsfilterComboboxOpen}
         />
       </Suspense>
     </div>

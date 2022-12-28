@@ -18,6 +18,7 @@ interface FilterModalProps {
   setPropertyType: Dispatch<SetStateAction<{ id: number; title: string }>>
   setPriceRange: Dispatch<SetStateAction<number[]>>
   setShowFilterModal: Dispatch<SetStateAction<boolean>>
+  handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({
@@ -30,7 +31,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
   setPurpose,
   setPropertyType,
   setPriceRange,
-  setShowFilterModal
+  setShowFilterModal,
+  handleIsfilterComboboxOpen
 }) => {
   return (
     <Transition.Root show={showFilterModal} as={Fragment}>
@@ -58,7 +60,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white pt-5 pb-4 shadow-xl transition-all h-screen md:h-auto md:my-8 w-full md:max-w-lg">
+              <Dialog.Panel className="relative transform overflow-hidden md:rounded-lg bg-white pt-5 pb-4 shadow-xl transition-all h-screen md:h-auto md:my-8 w-full md:max-w-lg">
                 <div className="px-4">
                   <div className="grid grid-cols-3 md:grid-cols-2 items-center pb-5">
                     <div>
@@ -81,7 +83,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       <ChevronRightIcon
                         className="h-9 w-9 text-black"
                         aria-hidden="true"
-                        onClick={() => setShowFilterModal(false)}
+                        onClick={() => {
+                          setShowFilterModal(false)
+                          handleIsfilterComboboxOpen(false)
+                        }}
                       />
                     </div>
                   </div>

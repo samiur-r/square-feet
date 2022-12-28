@@ -987,10 +987,6 @@ const SearchBox = () => {
     if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
   }, [canUpdateFilterAutoCompleteShow])
 
-  useEffect(() => {
-    setShowFilterCombobox(isfilterComboboxOpen)
-  }, [isfilterComboboxOpen])
-
   return (
     <>
       <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
@@ -1061,17 +1057,13 @@ const SearchBox = () => {
         </div>
       </div>
       {showFilterCombobox && (
-        <div
-          className={`${
-            isfilterComboboxOpen ? 'absolute' : 'fixed'
-          } md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0`}
-        >
+        <div className="fixed md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
             purposes={purposes}
             propertyTypes={propertyTypes}
             isfilterComboboxOpen={isfilterComboboxOpen}
-            handleIsfilterComboboxOpen={setIsfilterComboboxOpen}
+            handleIsfilterComboboxOpen={setShowFilterCombobox}
             showOptions
             handleLocationChanged={handleLocationChanged}
           />
