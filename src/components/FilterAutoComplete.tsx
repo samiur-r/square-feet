@@ -42,6 +42,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [selected, setSelected] = useState(locations[0])
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
@@ -116,6 +117,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     else handleChangeLocation(location.id, location.title, location.type)
   }
 
+  useEffect(() => {
+    if (!showOptions) handleIsfilterComboboxOpen(isOpen)
+  }, [isOpen])
+
   const filteredLocations =
     query === ''
       ? locations
@@ -189,6 +194,8 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
+                      onClick={() => setIsOpen(!isOpen)}
+                      onBlur={() => setIsOpen(false)}
                     />
                   </Combobox.Button>
 
