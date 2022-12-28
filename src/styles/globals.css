@@ -22,10 +22,12 @@
 
 html {
   @apply text-black;
+  position: relative;
 }
 
 body {
   scrollbar-width: thin;
+  position: relative;
 }
 
 ::-webkit-scrollbar {
