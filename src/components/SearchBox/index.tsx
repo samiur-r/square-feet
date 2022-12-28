@@ -1056,7 +1056,6 @@ const SearchBox = () => {
           />
         </div>
       </div>
-      {/* {showFilterCombobox && ( */}
       <Transition
         show={showFilterCombobox}
         enter="transition-opacity duration-100"
@@ -1077,7 +1076,6 @@ const SearchBox = () => {
           />
         </div>
       </Transition>
-      {/* )} */}
     </>
   )
 }

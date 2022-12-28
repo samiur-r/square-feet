@@ -195,7 +195,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       // @ts-ignore
                       key={open}
                       className={`${
-                        showOptions ? 'px-7' : 'px-2'
+                        showOptions ? 'px-7' : 'px-7'
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
