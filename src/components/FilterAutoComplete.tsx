@@ -85,7 +85,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     if (!inputFocusFlag)
       setTimeout(() => {
         inputRef.current?.focus()
-      })
+      }, 500)
   }, [inputFocusFlag])
 
   useEffect(() => {
