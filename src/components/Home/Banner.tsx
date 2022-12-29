@@ -10,7 +10,7 @@ const Banner = () => {
         height={758}
         objectFit="cover"
         alt="boshamlan_banner"
-        className="opacity-90"
+        className="opacity-90 md:opacity-20"
       />
     </div>
   )

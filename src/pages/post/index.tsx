@@ -74,7 +74,7 @@ const Posts: NextPage = () => {
         <div className="flex gap-3 justify-center mt-5">
           <a
             href="tel:+96599491575"
-            className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-2 text-center text-white rounded-md"
+            className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-1 text-center text-white rounded-md"
           >
             {post.phone}
             <Image
