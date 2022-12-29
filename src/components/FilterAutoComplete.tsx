@@ -134,7 +134,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full" ref={scroll as LegacyRef<HTMLDivElement>}>
+    <div className="dir-rtl w-full">
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
