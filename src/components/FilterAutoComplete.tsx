@@ -187,8 +187,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                   />
                   <Combobox.Button className="w-full h-8" as="div" aria-hidden>
                     <Combobox.Input
-                      // @ts-ignore
-                      key={open}
                       className={`${
                         showOptions ? 'px-7' : 'px-2'
                       } w-full h-full text-base leading-5 text-custom-gray outline-none`}
