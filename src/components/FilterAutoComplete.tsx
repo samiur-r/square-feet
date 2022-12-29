@@ -5,9 +5,9 @@ import {
   SetStateAction,
   Dispatch,
   useEffect,
-  Suspense
-  // LegacyRef,
-  // useCallback
+  Suspense,
+  LegacyRef,
+  useCallback
 } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import {
@@ -74,30 +74,30 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const handleInputFocus = () => comboBtn.current?.click()
 
   useEffect(() => {
-    if (showOptions) handleInputFocus()
+    if (!showOptions) handleInputFocus()
   }, [showOptions])
 
-  // const scroll = useCallback(
-  //   (
-  //     node: {
-  //       getBoundingClientRect: () => {
-  //         (): unknown
-  //         new (): unknown
-  //         top: number | undefined
-  //       }
-  //     } | null
-  //   ) => {
-  //     if (node !== null && showOptions) {
-  //       setTimeout(() => {
-  //         window.scrollTo({
-  //           top: node.getBoundingClientRect().top,
-  //           behavior: 'smooth'
-  //         })
-  //       }, 100)
-  //     }
-  //   },
-  //   []
-  // )
+  const scroll = useCallback(
+    (
+      node: {
+        getBoundingClientRect: () => {
+          (): unknown
+          new (): unknown
+          top: number | undefined
+        }
+      } | null
+    ) => {
+      if (node !== null && showOptions) {
+        setTimeout(() => {
+          window.scrollTo({
+            top: node.getBoundingClientRect().top,
+            behavior: 'smooth'
+          })
+        }, 100)
+      }
+    },
+    []
+  )
 
   const [propertyType, setPropertyType] = useState({
     id: propertyTypes[0].id,
@@ -134,7 +134,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         )
 
   return (
-    <div className="dir-rtl w-full">
+    <div className="dir-rtl w-full" ref={scroll as LegacyRef<HTMLDivElement>}>
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
