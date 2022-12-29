@@ -44,7 +44,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
-  const isOpenRef = useRef<HTMLInputElement>(null)
   const comboBtn = useRef<HTMLButtonElement>(null)
 
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
@@ -74,7 +73,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const handleInputFocus = () => comboBtn.current?.click()
 
   useEffect(() => {
-    if (!showOptions) handleInputFocus()
+    if (showOptions) handleInputFocus()
   }, [showOptions])
 
   const scroll = useCallback(
@@ -138,7 +137,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
       <Combobox value={selected} onChange={setSelected}>
         {({ open }) => (
           <>
-            <input ref={isOpenRef} type="hidden" value={`${open}`} />
             {showOptions && (
               <>
                 <div className="flex md:hidden items-center absolute z-10 right-3 top-3.5">
@@ -198,7 +196,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       onChange={(event) => setQuery(event.target.value)}
                       onClick={() => setIsOpen(!isOpen)}
                       onBlur={() => setIsOpen(false)}
-                      // onFocus={() => console.log('focus')}
                     />
                   </Combobox.Button>
 
