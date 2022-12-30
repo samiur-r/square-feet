@@ -12,9 +12,11 @@ import SearchBox from 'components/SearchBox'
 const Home: NextPage = () => {
   return (
     <div className="bg-gray-50 md:bg-white">
-      <Hero />
-      <SearchBox />
-      <Banner />
+      <div className="md:h-[calc(100vh_-_6rem)] md:mb-10 overflow-hidden">
+        <Hero />
+        <SearchBox />
+        <Banner />
+      </div>
       <Posts />
       <Guide />
       <Cards />

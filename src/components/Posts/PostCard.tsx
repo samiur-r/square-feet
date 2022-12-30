@@ -36,7 +36,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
 					`}
     >
       <div className="flex gap-2">
-        <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center">
+        <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center border">
           <div className="w-16 h-12 md:w-24 md:h-24 relative">
             <Image
               src={post.thumbnail}
