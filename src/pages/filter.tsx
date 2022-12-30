@@ -13,7 +13,8 @@ const posts = [
     views: 5,
     createdAt: '1 دقيقة',
     price: 1000,
-    description: 'سعد العبد الله للبيع بيت شارع واحد وارتداد مراجعه ٣١٠',
+    description:
+      'للبيع شاله في مرحله الرابعه A مساحه 450 متر تشطيب ممتاز 3 ادوار ونص بطن وظهر يمنع الوسطاء مراجعه 550 الف',
     isSticky: true,
     mobile: '1234',
     thumbnail: '/images/posts/post.jpeg',
@@ -94,7 +95,7 @@ const Filter: NextPage = () => {
           </Link>
         </div>
       </div>
-      <div className="max-w-4xl flex flex-col gap-2 mt-5 items-end p-0 md:p-5 self-center">
+      <div className="max-w-5xl flex flex-col gap-2 mt-5 items-end p-0 self-end">
         <div className="self-start flex gap-2 items-center">
           <Title value="شاليهات للبيع في الكويت" />
           <p className="text-lg md:text-xl">(100 إعلان)</p>

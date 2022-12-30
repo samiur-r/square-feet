@@ -19,7 +19,7 @@ const PackageCard: React.FC<{
       <div>
         <div
           className={`${
-            thumbnailSmall ? 'md:h-48 md:w-48' : 'md:h-80 md:w-80'
+            thumbnailSmall ? 'md:h-48 md:w-48' : 'md:h-64 md:w-64'
           } rounded-lg h-36 w-36 overflow-hidden relative`}
         >
           <Image

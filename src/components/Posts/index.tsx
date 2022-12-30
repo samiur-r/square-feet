@@ -12,7 +12,8 @@ const posts = [
     views: 5,
     createdAt: '1 دقيقة',
     price: 1000,
-    description: 'سعد العبد الله للبيع بيت شارع واحد وارتداد مراجعه ٣١٠',
+    description:
+      'للبيع شاله في مرحله الرابعه A مساحه 450 متر تشطيب ممتاز 3 ادوار ونص بطن وظهر يمنع الوسطاء مراجعه 550 الف',
     isSticky: true,
     mobile: '1234',
     thumbnail: '/images/posts/post.jpeg',

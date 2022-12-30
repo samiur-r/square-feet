@@ -980,7 +980,7 @@ const CreatePost: NextPage = () => {
       <div className="w-full md:text-center">
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
-      <form className="w-full max-w-lg mt-8 md:mt-10">
+      <form className="w-full max-w-md mt-8 md:mt-10">
         <div className="relative" ref={autocompleteRef}>
           <input
             type="number"

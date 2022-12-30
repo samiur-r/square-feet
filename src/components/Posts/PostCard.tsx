@@ -35,9 +35,9 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
       } rounded-lg border cursor-pointer mt-3 py-2.5 px-2.5 relative
 					`}
     >
-      <div className="flex gap-2">
+      <div className="flex md:items-center gap-2 md:gap-3">
         <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center border">
-          <div className="w-16 h-12 md:w-24 md:h-24 relative">
+          <div className="w-16 h-12 md:w-28 md:h-28 relative">
             <Image
               src={post.thumbnail}
               layout="fill"
@@ -46,12 +46,12 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
             />
           </div>
         </div>
-        <div className="">
+        <div>
           <div className="font-DroidArabicKufiBold text-sm md:text:base line-clamp-1">
             {post.title}
           </div>
           <div className="flex gap-3 md:gap-5 mt-3">
-            <div className="text-primary md:text-base text-xs font-DroidArabicKufiBold">
+            <div className="text-primary md:text-base text-xs font-bold font-DroidArabicKufiBold">
               {post.price} دك
             </div>
             <div className="flex flex-nowrap gap-2 items-center">

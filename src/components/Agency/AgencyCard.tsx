@@ -8,7 +8,7 @@ const AgencyCard = React.forwardRef(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ({ thumbnail, title, phone, socialLinks }: AgencyType, ref) => {
     return (
-      <div className="grid grid-cols-3 w-full md:grid-cols-1 gap-2 bg-white p-2 rounded-lg border border-gray-300 shadow-sm cursor-pointer">
+      <div className="grid grid-cols-3 place-items-center w-full md:grid-cols-1 gap-2 bg-white p-2 rounded-lg border border-gray-300 shadow-sm cursor-pointer">
         <div className="w-28 h-28 rounded-lg overflow-hidden relative">
           <Image src={thumbnail} layout="fill" objectFit="cover" alt="agency" />
         </div>
