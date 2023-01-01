@@ -973,8 +973,11 @@ const CreatePost: NextPage = () => {
   const scrollToAutocomplete = () => autocompleteRef?.current?.scrollIntoView()
 
   return (
-    <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
-      <div className="md:text-center w-full" ref={autocompleteRef}>
+    <div
+      className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center"
+      ref={autocompleteRef}
+    >
+      <div className="md:text-center w-full">
         <Title value="إضافة إعلان" />
       </div>
       <div className="w-full md:text-center">
