@@ -12,7 +12,7 @@ import SearchBox from 'components/SearchBox'
 const Home: NextPage = () => {
   return (
     <div className="bg-gray-50 md:bg-white">
-      <div className="h-[calc(100vh_-_5rem)] md:h-[calc(100vh_-_6rem)] md:mb-10 overflow-hidden flex flex-col justify-between bg-custom-white-lighter">
+      <div className="h-[calc(100vh_-_6rem)] md:h-[calc(100vh_-_6rem)] md:mb-10 overflow-hidden flex flex-col justify-between bg-custom-white-lighter">
         <div>
           <Hero />
           <SearchBox />
