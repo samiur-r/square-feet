@@ -4,7 +4,7 @@ import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const locations = [
   {
@@ -969,15 +969,29 @@ const purposes = [
 
 const CreatePost: NextPage = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null)
+  const [scrollToTop, setScrollToTop] = useState(false)
 
   const scrollToAutocomplete = () => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    })
+    // window.scrollTo({
+    //   top: 0,
+    //   left: 0,
+    //   behavior: 'smooth'
+    // })
     // autocompleteRef?.current?.scrollIntoView()
+    setScrollToTop(true)
   }
+
+  useEffect(() => {
+    if (scrollToTop) {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      })
+      setScrollToTop(false)
+      autocompleteRef?.current?.scrollIntoView()
+    }
+  }, [scrollToTop])
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
@@ -1008,9 +1022,10 @@ const CreatePost: NextPage = () => {
         <div ref={autocompleteRef} />
         <div
           className="mt-8 md:mt-10"
-          onClick={() => {
-            if (window?.innerWidth < 768) scrollToAutocomplete()
-          }}
+          // onClick={() => {
+          //   if (window?.innerWidth < 768) scrollToAutocomplete()
+          // }}
+          onClick={scrollToAutocomplete}
         >
           <AutoComplete locations={locations} />
         </div>
