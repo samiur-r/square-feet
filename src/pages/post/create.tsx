@@ -971,7 +971,11 @@ const CreatePost: NextPage = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null)
 
   const scrollToAutocomplete = () => {
-    window.scrollTo(0, 0)
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
     autocompleteRef?.current?.scrollIntoView()
   }
 
