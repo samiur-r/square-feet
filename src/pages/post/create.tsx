@@ -1003,11 +1003,10 @@ const CreatePost: NextPage = () => {
           onClick={() => {
             if (window?.innerWidth < 768) scrollToAutocomplete()
           }}
-          ref={autocompleteRef}
         >
           <AutoComplete locations={locations} />
         </div>
-        <div className="mt-8 md:mt-10">
+        <div className="mt-8 md:mt-10" ref={autocompleteRef}>
           <ListBox
             selectedOpt={undefined}
             options={propertyTypes}
