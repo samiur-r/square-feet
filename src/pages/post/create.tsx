@@ -976,7 +976,7 @@ const CreatePost: NextPage = () => {
       left: 0,
       behavior: 'smooth'
     })
-    //autocompleteRef?.current?.scrollIntoView()
+    // autocompleteRef?.current?.scrollIntoView()
   }
 
   return (
