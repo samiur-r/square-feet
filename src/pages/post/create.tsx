@@ -974,10 +974,10 @@ const CreatePost: NextPage = () => {
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
-      <div className="md:text-center w-full">
+      <div className="md:text-center w-full" ref={autocompleteRef}>
         <Title value="إضافة إعلان" />
       </div>
-      <div className="w-full md:text-center" ref={autocompleteRef}>
+      <div className="w-full md:text-center">
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
       <form className="w-full max-w-md mt-8 md:mt-10">
