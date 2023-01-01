@@ -970,12 +970,7 @@ const purposes = [
 const CreatePost: NextPage = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null)
 
-  const scrollToAutocomplete = () =>
-    autocompleteRef?.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-      inline: 'nearest'
-    })
+  const scrollToAutocomplete = () => autocompleteRef?.current?.scrollIntoView()
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
@@ -1003,6 +998,7 @@ const CreatePost: NextPage = () => {
             رقم الموبايل{' '}
           </label>
         </div>
+        <div ref={autocompleteRef} />
         <div
           className="mt-8 md:mt-10"
           onClick={() => {
@@ -1011,7 +1007,7 @@ const CreatePost: NextPage = () => {
         >
           <AutoComplete locations={locations} />
         </div>
-        <div className="mt-8 md:mt-10" ref={autocompleteRef}>
+        <div className="mt-8 md:mt-10">
           <ListBox
             selectedOpt={undefined}
             options={propertyTypes}
