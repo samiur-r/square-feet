@@ -970,7 +970,10 @@ const purposes = [
 const CreatePost: NextPage = () => {
   const autocompleteRef = useRef<HTMLDivElement>(null)
 
-  const scrollToAutocomplete = () => autocompleteRef?.current?.scrollIntoView()
+  const scrollToAutocomplete = () => {
+    window.scroll(0, 0)
+    autocompleteRef?.current?.scrollIntoView()
+  }
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
