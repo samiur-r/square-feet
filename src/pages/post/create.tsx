@@ -4,7 +4,7 @@ import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const locations = [
   {
@@ -968,16 +968,9 @@ const purposes = [
 ]
 
 const CreatePost: NextPage = () => {
-  const autocompleteRef = useRef<HTMLDivElement>(null)
   const [scrollToTop, setScrollToTop] = useState(false)
 
   const scrollToAutocomplete = () => {
-    // window.scrollTo({
-    //   top: 0,
-    //   left: 0,
-    //   behavior: 'smooth'
-    // })
-    // autocompleteRef?.current?.scrollIntoView()
     setScrollToTop(true)
   }
 
@@ -1018,13 +1011,11 @@ const CreatePost: NextPage = () => {
             رقم الموبايل{' '}
           </label>
         </div>
-        <div ref={autocompleteRef} />
         <div
           className="mt-8 md:mt-10"
-          // onClick={() => {
-          //   if (window?.innerWidth < 768) scrollToAutocomplete()
-          // }}
-          onClick={scrollToAutocomplete}
+          onClick={() => {
+            if (window?.innerWidth < 768) scrollToAutocomplete()
+          }}
         >
           <AutoComplete locations={locations} />
         </div>
