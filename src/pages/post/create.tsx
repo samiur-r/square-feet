@@ -998,7 +998,12 @@ const CreatePost: NextPage = () => {
             رقم الموبايل{' '}
           </label>
         </div>
-        <div className="mt-8 md:mt-10" onClick={scrollToAutocomplete}>
+        <div
+          className="mt-8 md:mt-10"
+          onClick={() => {
+            if (window?.innerWidth < 768) scrollToAutocomplete()
+          }}
+        >
           <AutoComplete locations={locations} />
         </div>
         <div className="mt-8 md:mt-10">
