@@ -152,7 +152,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     <Combobox.Input
                       ref={inputRef}
                       id="location"
-                      className="peer w-full h-full text-base leading-5 text-custom-gray outline-none"
+                      className={`${
+                        !isHomePage && 'placeholder-black'
+                      } peer w-full h-full text-base leading-5 text-black outline-none`}
                       placeholder={`${
                         isHomePage ? 'اكتب المنطقه للبحث' : inputPlaceHolder
                       }`}

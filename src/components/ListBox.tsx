@@ -52,7 +52,7 @@ const List: React.FC<ListProps> = ({
               bgGray ? ' rounded-full md:rounded-lg' : ' rounded-lg'
             } ${
               open ? 'border-primary' : 'border-custom-gray-border'
-            } bg-white flex justify-between items-center py-2.5 md:py-3.5 px-3.5 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-custom-gray`}
+            } bg-white flex justify-between items-center py-2.5 md:py-3.5 px-3.5 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-black`}
           >
             <span className="flex gap-1 items-center w-full">
               <span

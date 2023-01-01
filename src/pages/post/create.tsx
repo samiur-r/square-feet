@@ -1022,7 +1022,7 @@ const CreatePost: NextPage = () => {
             type="number"
             name="price"
             id="price"
-            className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label
@@ -1036,7 +1036,7 @@ const CreatePost: NextPage = () => {
           <textarea
             name="description"
             rows={7}
-            className="block p-4 w-full text-base text-custom-gray bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className="block p-4 w-full text-base text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
           />
           <label

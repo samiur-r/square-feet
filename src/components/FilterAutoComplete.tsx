@@ -189,7 +189,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                     <Combobox.Input
                       className={`${
                         showOptions ? 'px-7' : 'px-2'
-                      } w-full h-full text-base leading-5 text-custom-gray outline-none`}
+                      } w-full h-full text-base leading-5 text-black outline-none`}
                       placeholder="اكتب المنطقه للبحث"
                       onChange={(event) => setQuery(event.target.value)}
                       onClick={() => setIsOpen(!isOpen)}
