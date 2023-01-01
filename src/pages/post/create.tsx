@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
+import { useEffect, useState } from 'react'
+import { Popover } from '@headlessui/react'
 
 import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import { useEffect, useState } from 'react'
 
 const locations = [
   {
@@ -998,23 +999,30 @@ const CreatePost: NextPage = () => {
       <div className="w-full md:text-center">
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
-      <form className="w-full max-w-md mt-8 md:mt-10">
+      <form className="w-full max-w-md px-3 md:px-0 mt-8 md:mt-10">
         <div className="relative">
-          <input
-            type="number"
-            name="phone"
-            id="phone"
-            className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-            placeholder=""
-            value="65432165"
-            readOnly
-          />
-          <label
-            htmlFor="phone"
-            className="absolute cursor-text text-md text-custom-gray duration-300 top-2 transform -translate-y-5 scale-75 z-10 bg-white px-1 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-0"
-          >
-            رقم الموبايل{' '}
-          </label>
+          <Popover className="relative">
+            <Popover.Panel className="absolute z-10 -top-14 right-2 text-secondary bg-custom-white-light shadow-md p-2 rounded-md">
+              Hey! You can not edit this field
+            </Popover.Panel>
+            <Popover.Button className="w-full">
+              <input
+                type="number"
+                name="phone"
+                id="phone"
+                className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=""
+                value="65432165"
+                readOnly
+              />
+            </Popover.Button>
+            <label
+              htmlFor="phone"
+              className="absolute cursor-text text-md text-custom-gray duration-300 top-2 transform -translate-y-5 scale-75 z-10 bg-white px-1 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-0"
+            >
+              رقم الموبايل{' '}
+            </label>
+          </Popover>
         </div>
         <div
           className="mt-8 md:mt-10"

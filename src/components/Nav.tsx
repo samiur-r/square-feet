@@ -1414,7 +1414,7 @@ const Nav: React.FC = () => {
                           className="text-base h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
                           aria-hidden="true"
                         />
-                        <div className="flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl cursor-pointer">
+                        <div className="flex items-center gap-5 justify-end pr-6 py-2 ml-5 rounded-l-2xl cursor-pointer">
                           <p className="font-DroidArabicKufiBold">
                             عقارات الكویت
                           </p>

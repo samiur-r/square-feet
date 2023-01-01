@@ -283,7 +283,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           }
                         >
                           {isHomePage && location.type === 'city' && (
-                            <span className="absolute top-3 left-5 font-bold text-primary font-DroidArabicKufiBold">
+                            <span className="absolute top-3 left-5 text-primary">
                               ({location.count})
                             </span>
                           )}
