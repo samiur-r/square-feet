@@ -985,11 +985,10 @@ const CreatePost: NextPage = () => {
     if (scrollToTop) {
       window.scrollTo({
         top: 0,
-        left: 0,
+        left: 300,
         behavior: 'smooth'
       })
       setScrollToTop(false)
-      autocompleteRef?.current?.scrollIntoView()
     }
   }, [scrollToTop])
 
