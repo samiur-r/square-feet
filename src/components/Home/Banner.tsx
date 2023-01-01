@@ -4,7 +4,7 @@ import React from 'react'
 const Banner = () => {
   return (
     <div className="flex justify-center -mt-10 bg-custom-white-lighter md:bg-white">
-      <div className="hidden md:block opacity-20 flex-grow-1 relative md:h-[calc(100vh_-_23rem)] w-full bg-[url('/images/banner.svg')] bg-no-repeat bg-center bg-contain" />
+      <div className="hidden md:block opacity-20 flex-grow-1 relative md:h-[calc(100vh_-_23rem)] w-full bg-[url('/images/banner.svg')] bg-no-repeat bg-center bg-contain scale-105 2xl:scale-125 3xl:bg-cover 3xl:scale-100 4xl:bg-contain" />
       <div className="md:hidden">
         <Image
           src="/images/banner.svg"

@@ -56,7 +56,11 @@ module.exports = {
       },
       transitionDuration: {
         2000: '2000ms'
-      }
+      },
+      screens: {
+        '3xl': '2000px',
+        '4xl': '2600px',
+      },
     }
   },
   plugins: [require('@tailwindcss/line-clamp')]
