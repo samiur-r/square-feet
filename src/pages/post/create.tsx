@@ -983,7 +983,7 @@ const CreatePost: NextPage = () => {
         behavior: 'smooth'
       })
       window.scrollTo({
-        top: 200,
+        top: 150,
         left: 0,
         behavior: 'smooth'
       })
