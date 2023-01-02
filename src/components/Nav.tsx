@@ -1175,7 +1175,7 @@ const Nav: React.FC = () => {
     <Popover className="fixed top-0 bg-white shadow-md md:shadow-sm w-full z-20 flex items-center min-h-20 md:min-h-24">
       <div
         className={`${
-          isFilterPage ? 'max-w-4xl' : 'max-w-6xl'
+          isFilterPage ? 'max-w-[860px]' : 'max-w-6xl'
         } container h-full items-center flex`}
       >
         <div

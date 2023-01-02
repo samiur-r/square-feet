@@ -95,7 +95,7 @@ const Filter: NextPage = () => {
           </Link>
         </div>
       </div>
-      <div className="max-w-[calc(768px_+_10px)] flex flex-col gap-2 mt-5 md:mr-20 md:pr-1 items-end p-0 self-center">
+      <div className="container max-w-[736px] flex flex-col gap-2 mt-5 ml-[85px] p-0">
         <div className="self-start flex gap-2 items-center">
           <Title value="شاليهات للبيع في الكويت" />
           <p className="text-lg md:text-xl">(100 إعلان)</p>
