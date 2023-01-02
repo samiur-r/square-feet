@@ -14,7 +14,7 @@ const PasswordReset: NextPage = () => {
         صحيح"
         />
       </div>
-      <form className="mt-8 w-full">
+      <form className="mt-8 px-3 md:px-0 w-full">
         <div className="relative">
           <input
             type="number"

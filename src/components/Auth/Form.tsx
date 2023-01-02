@@ -11,7 +11,7 @@ interface AuthFormProps {
 
 const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   return (
-    <form className="w-full mt-10 md:px-auto dir-rtl">
+    <form className="w-full mt-10 px-3 md:px-auto dir-rtl">
       <div className="relative">
         <input
           type="number"

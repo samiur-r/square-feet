@@ -54,7 +54,7 @@ const List: React.FC<ListProps> = ({
               open ? 'border-primary' : 'border-custom-gray-border'
             } bg-white flex justify-between items-center py-2.5 md:py-3.5 px-3.5 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-black`}
           >
-            <span className="flex gap-1 items-center w-full">
+            <span className="flex gap-1.5 items-center w-full">
               <span
                 className={`${!showFilterIcon && 'hidden'} flex items-center`}
               >
@@ -65,7 +65,13 @@ const List: React.FC<ListProps> = ({
                   alt="filter"
                 />
               </span>
-              <span className="truncate">{selected?.title}</span>
+              {selected ? (
+                <span className="truncate">{selected.title}</span>
+              ) : (
+                bgGray && (
+                  <span className="truncate text-custom-gray">الكل</span>
+                )
+              )}
             </span>
             <span className="pointer-events-none flex items-center pr-2">
               {open ? (

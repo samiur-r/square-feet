@@ -1037,7 +1037,7 @@ const SearchBox = () => {
         </div>
         <div className="md:w-3/12 order-3 place-items-center">
           <ListBox
-            selectedOpt={propertyTypes[0]}
+            selectedOpt={undefined}
             options={propertyTypes}
             showFilterIcon
             bgGray
