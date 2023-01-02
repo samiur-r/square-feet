@@ -117,7 +117,7 @@ const Agency: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="container max-w-4xl mt-8">
+      <div className="container max-w-3xl mt-8">
         <Title value="اعلانات المكتب" />
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />

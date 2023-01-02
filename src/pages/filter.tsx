@@ -83,7 +83,7 @@ const Filter: NextPage = () => {
   )
 
   return (
-    <div className="dir-rtl container max-w-5xl py-10 flex flex-col md:pr-7">
+    <div className="dir-rtl container max-w-5xl py-10 flex flex-col">
       <div className="flex flex-col gap-5">
         <FilterArticle />
         <div ref={scroll as LegacyRef<HTMLDivElement>}>
@@ -95,7 +95,7 @@ const Filter: NextPage = () => {
           </Link>
         </div>
       </div>
-      <div className="max-w-[calc(896px_+_10px)] flex flex-col gap-2 mt-5 items-end p-0 self-end">
+      <div className="max-w-[calc(768px_+_10px)] flex flex-col gap-2 mt-5 md:mr-20 md:pr-1 items-end p-0 self-center">
         <div className="self-start flex gap-2 items-center">
           <Title value="شاليهات للبيع في الكويت" />
           <p className="text-lg md:text-xl">(100 إعلان)</p>
