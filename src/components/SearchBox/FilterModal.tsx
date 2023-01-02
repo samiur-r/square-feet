@@ -221,7 +221,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                       <input
                         type="search"
                         id="search"
-                        className="outline-none block px-4 py-3 md:py-4 pr-10 w-full text-sm text-black rounded-full border border-custom-gray-border text-end"
+                        className="outline-none text-base block px-4 py-3 md:py-4 pr-10 w-full text-black rounded-full border border-custom-gray-border text-end"
                         placeholder="البحث بالكلمه"
                       />
                       <div className="flex absolute inset-y-0 right-5 items-center pl-2 pointer-events-none">
