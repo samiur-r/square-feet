@@ -1,5 +1,8 @@
-import Description from 'components/Description'
 import Link from 'next/link'
+import { MouseEvent, useState } from 'react'
+import axios from 'axios'
+
+import Description from 'components/Description'
 
 interface AuthFormProps {
   type: string
@@ -10,6 +13,25 @@ interface AuthFormProps {
 }
 
 const Form: React.FC<AuthFormProps> = ({ type, link }) => {
+  const [phone, setPhone] = useState<number | undefined>(undefined)
+  const [password, setPassword] = useState('')
+
+  const handleRegister = () => {}
+
+  const handleLogin = async (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+
+    axios.defaults.withCredentials = true
+
+    const data = await axios({
+      method: 'POST',
+      url: 'http://localhost:5000/api/v1/user/login',
+      data: { phone, password }
+    })
+
+    console.log(data)
+  }
+
   return (
     <form className="w-full mt-10 px-3 md:px-auto dir-rtl">
       <div className="relative">
@@ -19,6 +41,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           id="phone"
           className="block px-4 py-2.5 md:py-4 w-full shadow-sm text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
+          onChange={(e) => setPhone(parseInt(e.target.value, 10))}
         />
         <label
           htmlFor="phone"
@@ -34,6 +57,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           id="password"
           className="block px-4 py-2.5 md:py-4 w-full shadow-sm text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
+          onChange={(e) => setPassword(e.target.value)}
         />
         <label
           htmlFor="password"
@@ -54,6 +78,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           <button
             type="submit"
             className="bg-secondary w-full hover:opacity-90 transition-opacity duration-300 text-white font-DroidArabicKufiBold py-3.5 md:py-4 px-8 rounded-lg"
+            onClick={handleRegister}
           >
             تسجيل
           </button>
@@ -61,6 +86,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           <button
             type="submit"
             className="bg-secondary w-full hover:opacity-90 transition-opacity duration-300 text-white font-DroidArabicKufiBold py-3.5 md:py-4 px-8 rounded-lg"
+            onClick={(e) => handleLogin(e)}
           >
             دخول
           </button>
