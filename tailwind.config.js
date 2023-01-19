@@ -20,7 +20,10 @@ module.exports = {
       emerald: colors.emerald,
       indigo: colors.indigo,
       yellow: colors.yellow,
-      orange: colors.orange
+      orange: colors.orange,
+      green: colors.green,
+      red: colors.red,
+      rose: colors.rose
     },
     extend: {
       minHeight: (theme) => ({
@@ -59,8 +62,8 @@ module.exports = {
       },
       screens: {
         '3xl': '2000px',
-        '4xl': '2600px',
-      },
+        '4xl': '2600px'
+      }
     }
   },
   plugins: [require('@tailwindcss/line-clamp')]
