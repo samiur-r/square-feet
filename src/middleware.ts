@@ -11,7 +11,8 @@ export default async function middleware(req: NextRequest) {
 
   if (
     (token && pathname.startsWith('/login')) ||
-    pathname.startsWith('/register')
+    (token && pathname.startsWith('/register')) ||
+    (token && pathname.startsWith('/password-reset'))
   ) {
     req.nextUrl.pathname = '/my-posts'
     return NextResponse.redirect(req.nextUrl)

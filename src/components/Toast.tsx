@@ -24,7 +24,7 @@ const Toast: React.FC<ToastProps> = ({
       setTimeout(() => {
         setShow(false)
         handleSetShowToast(false)
-      }, 40000)
+      }, 4000)
     }
   }, [show])
 
