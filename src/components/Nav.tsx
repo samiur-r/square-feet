@@ -1195,11 +1195,15 @@ const Nav: React.FC = () => {
           )}
           {!isFilterPage && (
             <div className="hidden md:flex w-3/12">
-              <CTA
-                title="إضافة إعلان"
-                backgroundColor="primary"
-                Icon={<PlusCircleIcon className="h-6 w-6 ml-3" />}
-              />
+              <Link href="/post/create">
+                <a>
+                  <CTA
+                    title="إضافة إعلان"
+                    backgroundColor="primary"
+                    Icon={<PlusCircleIcon className="h-6 w-6 ml-3 z-10" />}
+                  />
+                </a>
+              </Link>
             </div>
           )}
           {!isFilterPage && (

@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import * as cookie from 'cookie'
 
 import BalanceCard from 'components/Account/BalanceCard'
 import PostCard from 'components/Posts/PostCard'
@@ -134,3 +135,9 @@ const MyPosts: NextPage = () => {
 }
 
 export default MyPosts
+
+export const getServerSideProps = async ({ req }) => {
+  const parsedCookie = cookie.parse(req.headers.cookie)
+  console.log(parsedCookie.token)
+  return { props: {} }
+}
