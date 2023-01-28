@@ -1,9 +1,13 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { verifyJwt } from 'utils/jwtUtils'
+
+import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 export default async function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')
+  const parsedCookie = req.cookies.get('token')
   const { pathname } = req.nextUrl
+  let token
+
+  if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (pathname.startsWith('/my-posts') || pathname.startsWith('/post/create')) {
     if (token) {
