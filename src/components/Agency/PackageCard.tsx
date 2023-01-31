@@ -20,14 +20,14 @@ const PackageCard: React.FC<{
     // const termResourceKey = '813866S8FN4AFKQB'
 
     const paramData = {
-      // currencycode: '414',
-      // id: transportalId,
-      // password: 'KreNJP49',
-      // action: '1',
-      // langid: 'AR',
-      // amt: 20,
-      // trackid: 753337239,
-      // udf3: 1744935905,
+      currencycode: '414',
+      id: transportalId,
+      password: 'KreNJP49',
+      action: '1',
+      langid: 'AR',
+      amt: 20,
+      trackid: 753337239,
+      udf3: 1744935905,
       tranportalId: transportalId,
       responseURL: responseUrl,
       errorURL: errorUrl
