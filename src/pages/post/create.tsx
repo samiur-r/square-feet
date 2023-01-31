@@ -6,7 +6,7 @@ import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import { useAppStore } from 'store'
+// import { useAppStore } from 'store'
 
 const locations = [
   {
@@ -971,7 +971,7 @@ const purposes = [
 
 const CreatePost: NextPage = () => {
   const [scrollToTop, setScrollToTop] = useState(false)
-  const { user } = useAppStore()
+  // const { user } = useAppStore()
   const [cityError, setCityError] = useState(false)
   const [propertyTypeError, setPropertyTypeError] = useState(false)
   const [purposeError, setPurposeError] = useState(false)
@@ -1057,7 +1057,7 @@ const CreatePost: NextPage = () => {
                 id="phone"
                 className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=""
-                value={user?.phone}
+                // value={user?.phone}
                 readOnly
               />
             </Popover.Button>
