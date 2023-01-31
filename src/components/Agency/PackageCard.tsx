@@ -25,16 +25,16 @@ const PackageCard: React.FC<{
   }
 
   const handlePayment = async () => {
-    const transportalId = 322701
-    const responseUrl = '/topup'
-    const errorUrl = '/topup'
+    const tranportalId = 322701
+    const responseUrl = 'https://boshamlan-ui.vercel.app/api/response'
+    const errorUrl = 'https://boshamlan-ui.vercel.app/api/error'
     const termResourceKey = '813866S8FN4AFKQB'
 
     const paramData = {
-      currencycode: '414',
-      id: transportalId,
+      currencycode: 414,
+      id: tranportalId,
       password: 'KreNJP49',
-      action: '1',
+      action: 1,
       langid: 'AR',
       amt: 20,
       responseURL: responseUrl,
@@ -51,7 +51,7 @@ const PackageCard: React.FC<{
 
     const encryptedParams = aesEncrypt(params, termResourceKey)
 
-    params = `${encryptedParams}&tranportalId=${transportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
+    params = `${encryptedParams}&tranportalId=${tranportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
 
     const url = `https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=${params}`
 
