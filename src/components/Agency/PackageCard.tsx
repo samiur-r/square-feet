@@ -50,7 +50,7 @@ const PackageCard: React.FC<{
     })
 
     const encryptedParams = aesEncrypt(params, termResourceKey)
-    
+
     params = `${encryptedParams}&tranportalId=${transportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
 
     const url = `https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=${params}`
