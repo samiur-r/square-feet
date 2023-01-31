@@ -53,7 +53,7 @@ const PackageCard: React.FC<{
 
     params = `${encryptedParams}&tranportalId=${transportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
 
-    const url = `https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=${params}`
+    const url = `https://www.kpaytest.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=${params}`
 
     Router.push(url)
 
