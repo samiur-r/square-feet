@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import CryptoJS from 'crypto-js'
+
 import Title from 'components/Title'
 import Router from 'next/router'
 import PackageModal from './PackageModal'
@@ -13,11 +15,20 @@ const PackageCard: React.FC<{
 }> = ({ thumbnailSmall, styleRow }) => {
   const [openModal, setOpenModal] = useState(false)
 
+  const aesEncrypt = (content: string, key: string) => {
+    const parsedKey = CryptoJS.enc.Utf8.parse(key)
+    const encrypted = CryptoJS.AES.encrypt(content, parsedKey, {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    })
+    return encrypted.toString()
+  }
+
   const handlePayment = async () => {
     const transportalId = 322701
     const responseUrl = 'https://boshamlan-ui.vercel.app/'
     const errorUrl = 'https://boshamlan-ui.vercel.app/'
-    // const termResourceKey = '813866S8FN4AFKQB'
+    const termResourceKey = '813866S8FN4AFKQB'
 
     const paramData = {
       currencycode: '414',
@@ -26,11 +37,10 @@ const PackageCard: React.FC<{
       action: '1',
       langid: 'AR',
       amt: 20,
-      trackid: 753337239,
-      udf3: 1744935905,
-      tranportalId: transportalId,
       responseURL: responseUrl,
-      errorURL: errorUrl
+      errorURL: errorUrl,
+      trackid: 753337239,
+      udf3: 1744935905
     }
 
     let params = ''
@@ -38,6 +48,10 @@ const PackageCard: React.FC<{
     Object.keys(paramData).forEach((key) => {
       params += `${key}=${paramData[key as keyof typeof paramData]}&`
     })
+
+    const encryptedParams = aesEncrypt(params, termResourceKey)
+
+    params = `${encryptedParams}&tranportalId=${transportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
 
     const url = `https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=${params}`
 

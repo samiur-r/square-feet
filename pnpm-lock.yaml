@@ -11,6 +11,7 @@ specifiers:
   '@tailwindcss/line-clamp': ^0.4.2
   '@tanstack/react-query': ^4.10.1
   '@tanstack/react-query-devtools': ^4.10.2
+  '@types/crypto-js': ^4.1.1
   '@types/jsonwebtoken': ^9.0.1
   '@types/node': 18.8.2
   '@types/react': 18.0.21
@@ -21,6 +22,7 @@ specifiers:
   autoprefixer: ^10.4.12
   axios: ^1.2.2
   cookie: ^0.5.0
+  crypto-js: ^4.1.1
   cypress: ^10.10.0
   eslint: ^8.2.0
   eslint-config-airbnb: 19.0.4
@@ -57,6 +59,7 @@ dependencies:
   '@tanstack/react-query-devtools': 4.24.4_pkeil6ml7pq7xvil3imldjs2sa
   axios: 1.2.6
   cookie: 0.5.0
+  crypto-js: 4.1.1
   jose: 4.11.2
   next: 12.3.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -73,6 +76,7 @@ devDependencies:
   '@next/bundle-analyzer': 13.1.6
   '@next/eslint-plugin-next': 12.3.4
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
+  '@types/crypto-js': 4.1.1
   '@types/jsonwebtoken': 9.0.1
   '@types/node': 18.8.2
   '@types/react': 18.0.21
@@ -2131,6 +2135,10 @@ packages:
     resolution: {integrity: sha512-XTIieEY+gvJ39ChLcB4If5zHtPxt3Syj5rgZR+e1ctpmK8NjPf0zFqsz4JpLJT0xla9GFDKjy8Cpu331nrmE1Q==}
     dev: true
 
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
+    dev: true
+
   /@types/istanbul-lib-coverage/2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
     dev: true
@@ -3101,6 +3109,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css-select/4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
