@@ -6,7 +6,7 @@ import PostCard from 'components/Posts/PostCard'
 import Description from 'components/Description'
 import ApiClient from 'utils/ApiClient'
 import Router from 'next/router'
-import { useAppStore } from 'store'
+// import { useAppStore } from 'store'
 
 const posts = [
   {
@@ -68,7 +68,7 @@ const agencyItems = [
 ]
 
 const MyPosts: NextPage = () => {
-  const { removeUser } = useAppStore()
+  // const { removeUser } = useAppStore()
 
   const logout = async () => {
     try {
@@ -76,7 +76,7 @@ const MyPosts: NextPage = () => {
         method: 'GET',
         url: `/user/logout`
       })
-      removeUser()
+      // removeUser()
       Router.push('/login')
       // eslint-disable-next-line no-empty
     } catch (err) {}
