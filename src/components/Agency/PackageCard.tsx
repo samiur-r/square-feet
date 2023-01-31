@@ -25,15 +25,15 @@ const PackageCard: React.FC<{
   }
 
   const handlePayment = async () => {
-    const tranportalId = 322701
+    const tranportalId = 268901
     const responseUrl = 'https://boshamlan-ui.vercel.app/api/response'
     const errorUrl = 'https://boshamlan-ui.vercel.app/api/error'
-    const termResourceKey = '813866S8FN4AFKQB'
+    const termResourceKey = 'CAPMV61B247E6Q17'
 
     const paramData = {
       currencycode: 414,
       id: tranportalId,
-      password: 'KreNJP49',
+      password: '268901pg',
       action: 1,
       langid: 'AR',
       amt: 20,
