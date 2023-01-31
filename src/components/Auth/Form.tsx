@@ -6,6 +6,7 @@ import { passwordSchema, phoneSchema } from 'validations/UserValidation'
 import ApiClient from 'utils/ApiClient'
 import Description from 'components/Description'
 import Toast from 'components/Toast'
+import { useAppStore } from 'store'
 import Otp from './Otp'
 
 interface AuthFormProps {
@@ -30,6 +31,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   const [isCallingApi, setIsCallingApi] = useState(false)
 
   const [userId, setUserId] = useState<number | undefined>(undefined)
+  const { addUser } = useAppStore()
 
   const handleSetPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) setPhone(parseInt(e.target.value, 10))
@@ -98,6 +100,8 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
         setIsOtpModalOpen(true)
         return
       }
+      setIsCallingApi(false)
+      addUser(data.success)
       Router.push('/my-posts')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

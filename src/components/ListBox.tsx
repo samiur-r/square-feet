@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
@@ -15,6 +15,7 @@ interface ListProps {
   isFloatingLabel?: boolean
   showFilterIcon?: boolean
   bgGray?: boolean
+  handleSetItem?: Dispatch<SetStateAction<number | undefined>>
 }
 
 const List: React.FC<ListProps> = ({
@@ -23,9 +24,14 @@ const List: React.FC<ListProps> = ({
   options,
   isFloatingLabel,
   showFilterIcon,
-  bgGray
+  bgGray,
+  handleSetItem
 }) => {
   const [selected, setSelected] = useState<OptType | undefined>(selectedOpt)
+
+  useEffect(() => {
+    if (selected && handleSetItem) handleSetItem(selected.id)
+  }, [selected])
 
   return (
     <Listbox value={selected} onChange={setSelected}>

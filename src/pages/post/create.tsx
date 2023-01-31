@@ -6,6 +6,7 @@ import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
+import { useAppStore } from 'store'
 
 const locations = [
   {
@@ -970,6 +971,49 @@ const purposes = [
 
 const CreatePost: NextPage = () => {
   const [scrollToTop, setScrollToTop] = useState(false)
+  const { user } = useAppStore()
+  const [cityError, setCityError] = useState(false)
+  const [propertyTypeError, setPropertyTypeError] = useState(false)
+  const [purposeError, setPurposeError] = useState(false)
+  const [isValidationDone, setIsValidationDone] = useState(false)
+
+  const [selectedCity, setSelectedCity] = useState<number | undefined>(
+    undefined
+  )
+  const [selectedPropertyType, setSelectedPropertyType] = useState<
+    number | undefined
+  >(undefined)
+  const [selectedPurpose, setSelectedPurpose] = useState<number | undefined>(
+    undefined
+  )
+  const [price, setPrice] = useState<number | undefined>(undefined)
+  const [description, setDescription] = useState<string | undefined>(undefined)
+
+  const validateInputs = () => {
+    if (selectedCity !== undefined) setCityError(false)
+    else setCityError(true)
+
+    if (selectedPropertyType !== undefined) setPropertyTypeError(false)
+    else setPropertyTypeError(true)
+
+    if (selectedPurpose !== undefined) setPurposeError(false)
+    else setPurposeError(true)
+    setIsValidationDone(true)
+  }
+
+  const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    setIsValidationDone(false)
+    validateInputs()
+  }
+
+  const createOrEditPost = async () => {
+    console.log('here')
+  }
+
+  useEffect(() => {
+    if (isValidationDone) createOrEditPost()
+  }, [isValidationDone])
 
   const scrollToAutocomplete = () => {
     setScrollToTop(true)
@@ -1012,7 +1056,7 @@ const CreatePost: NextPage = () => {
                 id="phone"
                 className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=""
-                value="65432165"
+                value={user?.phone}
                 readOnly
               />
             </Popover.Button>
@@ -1030,7 +1074,13 @@ const CreatePost: NextPage = () => {
             if (window?.innerWidth < 768) scrollToAutocomplete()
           }}
         >
-          <AutoComplete locations={locations} />
+          <AutoComplete
+            locations={locations}
+            handleSetSelectedLocation={setSelectedCity}
+          />
+          {cityError && (
+            <div className="mt-3 text-custom-red text-sm">المدينة مطلوبة</div>
+          )}
         </div>
         <div className="mt-8 md:mt-10">
           <ListBox
@@ -1038,7 +1088,13 @@ const CreatePost: NextPage = () => {
             options={propertyTypes}
             placeholder="نوع العقار"
             isFloatingLabel
+            handleSetItem={setSelectedPropertyType}
           />
+          {propertyTypeError && (
+            <div className="mt-3 text-custom-red text-sm">
+              نوع الخاصية مطلوب
+            </div>
+          )}
         </div>
         <div className="mt-8 md:mt-10">
           <ListBox
@@ -1046,7 +1102,11 @@ const CreatePost: NextPage = () => {
             options={purposes}
             placeholder="الغرض"
             isFloatingLabel
+            handleSetItem={setSelectedPurpose}
           />
+          {purposeError && (
+            <div className="mt-3 text-custom-red text-sm">الغرض مطلوب</div>
+          )}
         </div>
         <div className="relative mt-8 md:mt-10">
           <input
@@ -1055,6 +1115,7 @@ const CreatePost: NextPage = () => {
             id="price"
             className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            onChange={(e) => setPrice(parseInt(e.target.value, 10))}
           />
           <label
             htmlFor="price"
@@ -1069,6 +1130,7 @@ const CreatePost: NextPage = () => {
             rows={7}
             className="block p-4 w-full text-base text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            onChange={(e) => setDescription(e.target.value)}
           />
           <label
             htmlFor="description"
@@ -1128,6 +1190,7 @@ const CreatePost: NextPage = () => {
           <button
             type="submit"
             className="bg-secondary text-white rounded-lg w-full mt-8 py-3 md:py-4 hover:opacity-90 transition-opacity duration-300"
+            onClick={(e) => handleSubmit(e)}
           >
             إضافة الإعلان{' '}
           </button>

@@ -17,6 +17,7 @@ interface AutoCompleteProps {
   isHomePage?: boolean
   canUpdateFilterAutoCompleteShow?: boolean
   handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
+  handleSetSelectedLocation?: Dispatch<SetStateAction<number | undefined>>
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -24,15 +25,21 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   selectedLocation,
   isHomePage,
   canUpdateFilterAutoCompleteShow,
-  handleCanUpdateFilterAutoCompleteShow
+  handleCanUpdateFilterAutoCompleteShow,
+  handleSetSelectedLocation
 }) => {
-  const [selected, setSelected] = useState(
+  const [selected, setSelected] = useState<LocationType | undefined>(
     isHomePage
       ? {
           title: 'اكتب-المنطقه للبحث'
         }
       : undefined
   )
+
+  useEffect(() => {
+    if (selected?.id && handleSetSelectedLocation)
+      handleSetSelectedLocation(selected?.id)
+  }, [selected])
 
   const [query, setQuery] = useState('')
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
