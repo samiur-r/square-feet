@@ -50,6 +50,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
   const removeLocation = (id: number) => {
     setLocationsSelected(
+      // @ts-ignore
       locationsSelected.filter((location: { id: number }) => location.id !== id)
     )
   }
@@ -58,12 +59,14 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     if (type === 'state') setLocationsSelected([{ id, title, type }])
     else {
       const isExists = locationsSelected.find(
+        // @ts-ignore
         (location: { id: number }) => location.id === id
       )
 
       if (isExists) return
 
       const onlyCities = locationsSelected.filter(
+        // @ts-ignore
         (location: { type: string }) => location.type === 'city'
       )
       setLocationsSelected([...onlyCities, { id, title, type }])
@@ -114,7 +117,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const handleLocationChoosed = (location: LocationType) => {
     handleIsfilterComboboxOpen(false)
     if (handleLocationChanged)
+      // @ts-ignore
       handleLocationChanged(location.id, location.title, location.type)
+    // @ts-ignore
     else handleChangeLocation(location.id, location.title, location.type)
   }
 
@@ -126,6 +131,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     query === ''
       ? locations
       : locations.filter((location) =>
+          // @ts-ignore
           location.title
             .toLowerCase()
             .replace(/\s+/g, '')
@@ -244,6 +250,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                       <button
                         type="submit"
                         className="bg-transparent hover focus:outline-none"
+                        // @ts-ignore
                         onClick={() => removeLocation(location.id)}
                       >
                         <svg

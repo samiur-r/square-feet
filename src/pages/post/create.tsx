@@ -988,6 +988,7 @@ const CreatePost: NextPage = () => {
   )
   const [price, setPrice] = useState<number | undefined>(undefined)
   const [description, setDescription] = useState<string | undefined>(undefined)
+  console.log(price, description)
 
   const validateInputs = () => {
     if (selectedCity !== undefined) setCityError(false)

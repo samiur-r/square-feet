@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Title from 'components/Title'
-import PackageModal from './PackageModal'
-import ApiClient from 'utils/ApiClient'
-import axios from 'axios'
 import Router from 'next/router'
+import PackageModal from './PackageModal'
+// import ApiClient from 'utils/ApiClient'
+// import axios from 'axios'
 
 const PackageCard: React.FC<{
   styleRow?: boolean
@@ -17,7 +17,7 @@ const PackageCard: React.FC<{
     const transportalId = 322701
     const responseUrl = 'https://boshamlan-ui.vercel.app/'
     const errorUrl = 'https://boshamlan-ui.vercel.app/'
-    const termResourceKey = '813866S8FN4AFKQB'
+    // const termResourceKey = '813866S8FN4AFKQB'
 
     const paramData = {
       // currencycode: '414',
