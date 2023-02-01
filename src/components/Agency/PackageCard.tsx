@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import CryptoJS from 'crypto-js'
 
+import config from 'config'
 import Title from 'components/Title'
 import Router from 'next/router'
+import aesEncrypt from 'utils/aesEncrypt'
 import PackageModal from './PackageModal'
-// import ApiClient from 'utils/ApiClient'
-// import axios from 'axios'
 
 const PackageCard: React.FC<{
   styleRow?: boolean
@@ -15,26 +14,15 @@ const PackageCard: React.FC<{
 }> = ({ thumbnailSmall, styleRow }) => {
   const [openModal, setOpenModal] = useState(false)
 
-  const aesEncrypt = (content: string, key: string) => {
-    const parsedKey = CryptoJS.enc.Utf8.parse(key)
-    const encrypted = CryptoJS.AES.encrypt(content, parsedKey, {
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-    })
-    return encrypted.toString()
-  }
-
   const handlePayment = async () => {
-    const tranportalId = 268901
     const responseUrl = 'https://boshamlan-ui.vercel.app/api/response'
     const errorUrl = 'https://boshamlan-ui.vercel.app/api/error'
-    const termResourceKey = 'CAPMV61B247E6Q17'
 
     const paramData = {
-      currencycode: 414,
-      id: tranportalId,
-      password: '268901pg',
-      action: 1,
+      currencycode: '414',
+      id: config.tranportalId,
+      password: config.tranportalPassword,
+      action: '1',
       langid: 'AR',
       amt: 20,
       responseURL: responseUrl,
@@ -49,11 +37,14 @@ const PackageCard: React.FC<{
       params += `${key}=${paramData[key as keyof typeof paramData]}&`
     })
 
-    const encryptedParams = aesEncrypt(params, termResourceKey)
+    const encryptedParams = aesEncrypt(params, config.termResourceKey)
 
-    params = `${encryptedParams}&tranportalId=${tranportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
+    params = `${encryptedParams}&tranportalId=${config.tranportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
 
-    const url = `https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=${params}`
+    const url = `${config.kpayUrl}?param=paymentInit&trandata=${params}`
+
+    // const kpayUrl =
+    //   'https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=89276834b6f2e8f81346d4149fb59decb7d091a044602310588136f32ecf904011db3ce14347ba441af1d46a2a4d5484e3623076378620171511bd8f5a63c4f673e1dd624ff07538fd701ce8609665d2fbf58b072c291aafaf25caf1bd4376a8e8406899a593cbbf56ba70d9bc9384f9cfd0ee989fa695fdb183821e5a906c3067248fc0249e538ac04196e4f07794591879998d9efdc248b0441d72d10886f966cc1564fa673a292f2825f2fc5a426518437da8c72a4fe937b5f6f76140998c00a5841cecb6a313deab2b992bcfa5d012d6487b8c2e3b7726a34df19cf54477&tranportalId=322701&responseURL=https://boshamlan-ui.vercel.app/api/response&errorURL=https://boshamlan-ui.vercel.app/api/error'
 
     Router.push(url)
   }

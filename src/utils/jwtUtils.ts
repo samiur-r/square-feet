@@ -1,9 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import * as jose from 'jose'
+
+import config from 'config'
 import getPositionOfChar from './getPositionOfChar'
 
 const verifyJwt = async (token: string) => {
-  const secret = new TextEncoder().encode(process.env.JWT_SECRET)
+  const secret = new TextEncoder().encode(config.jwtSecret)
   const response = await jose.jwtVerify(token, secret)
   return response
 }
