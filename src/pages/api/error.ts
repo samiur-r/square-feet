@@ -1,5 +1,5 @@
 const handler = (req: any, res: any) => {
-  console.log(req.body)
+  console.log(req)
   res.status(200).json({ success: false })
 }
 
