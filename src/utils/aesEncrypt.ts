@@ -17,7 +17,7 @@ const aesEncrypt = (text: string, key: string) => {
   } catch (err) {
     /* empty */
   }
-  return false
+  return 0
 }
 
 export default aesEncrypt
