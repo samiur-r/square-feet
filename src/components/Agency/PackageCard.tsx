@@ -43,9 +43,6 @@ const PackageCard: React.FC<{
 
     const url = `${config.kpayUrl}?param=paymentInit&trandata=${params}`
 
-    // const kpayUrl =
-    //   'https://www.kpay.com.kw/kpg/PaymentHTTP.htm?param=paymentInit&trandata=89276834b6f2e8f81346d4149fb59decb7d091a044602310588136f32ecf904011db3ce14347ba441af1d46a2a4d5484e3623076378620171511bd8f5a63c4f673e1dd624ff07538fd701ce8609665d2fbf58b072c291aafaf25caf1bd4376a8e8406899a593cbbf56ba70d9bc9384f9cfd0ee989fa695fdb183821e5a906c3067248fc0249e538ac04196e4f07794591879998d9efdc248b0441d72d10886f966cc1564fa673a292f2825f2fc5a426518437da8c72a4fe937b5f6f76140998c00a5841cecb6a313deab2b992bcfa5d012d6487b8c2e3b7726a34df19cf54477&tranportalId=322701&responseURL=https://boshamlan-ui.vercel.app/api/response&errorURL=https://boshamlan-ui.vercel.app/api/error'
-
     Router.push(url)
   }
 
