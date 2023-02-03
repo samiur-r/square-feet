@@ -5,7 +5,7 @@ import config from 'config'
 
 const key = config.termResourceKey
 
-const decrypt = (text: string) => {
+const aesDecrypt = (text: string) => {
   const AES_METHOD = 'aes-128-cbc'
   const decipher = crypto.createDecipheriv(
     AES_METHOD,
@@ -20,4 +20,4 @@ const decrypt = (text: string) => {
   return decrypted.toString()
 }
 
-export default decrypt
+export default aesDecrypt

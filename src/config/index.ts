@@ -7,6 +7,12 @@ const config = {
   kpayUrl:
     process.env.NEXT_PUBLIC_KNET_URL ??
     'https://www.kpay.com.kw/kpg/PaymentHTTP.htm',
+  kpayResponseUrl:
+    process.env.NEXT_PUBLIC_KNET_RESPONSE_URL ??
+    'https://boshamlan-ui.vercel.app/api/response',
+  kpayErrorUrl:
+    process.env.NEXT_PUBLIC_KNET_ERROR_URL ??
+    'https://boshamlan-ui.vercel.app/api/error',
   tranportalId: process.env.NEXT_PUBLIC_TRANPORTAL_ID ?? '',
   tranportalPassword: process.env.NEXT_PUBLIC_TRANPORTAL_PASSWORD ?? '',
   termResourceKey: process.env.NEXT_PUBLIC_TERM_RESOURCE_KEY ?? ''

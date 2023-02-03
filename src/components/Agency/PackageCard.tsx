@@ -15,8 +15,8 @@ const PackageCard: React.FC<{
   const [openModal, setOpenModal] = useState(false)
 
   const handlePayment = async () => {
-    const responseUrl = 'https://boshamlan-ui.vercel.app/api/response'
-    const errorUrl = 'https://boshamlan-ui.vercel.app/api/error'
+    const responseUrl = config.kpayResponseUrl
+    const errorUrl = config.kpayErrorUrl
 
     const paramData = {
       currencycode: '414',

@@ -3,14 +3,18 @@
         "AFKQB",
         "boshamlan",
         "commitlint",
+        "currencycode",
         "headlessui",
         "heroicons",
         "KNET",
         "kpay",
+        "langid",
         "majoron",
         "svgr",
         "tailwindcss",
         "tanstack",
+        "trackid",
+        "trandata",
         "TRANPORTAL",
         "zustand"
     ]
