@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useLayoutEffect } from 'react'
-import { create, StoreApi, UseBoundStore } from 'zustand'
+import { create, UseBoundStore } from 'zustand'
 import createContext from 'zustand/context'
+import { persist } from 'zustand/middleware'
 
 import { createUserSlice, UserSliceType } from './slices/userSlice'
 
 export type StoreState = UserSliceType
 
-let store: UseBoundStore<StoreApi<StoreState>>
+let store: any
 
+type InitialState = StoreState
 type UseStoreState = typeof initializeStore extends (
   ...args: never
 ) => UseBoundStore<infer T>
@@ -18,14 +21,20 @@ const zustandContext = createContext<UseStoreState>()
 export const { Provider } = zustandContext
 export const { useStore } = zustandContext
 
-export const initializeStore = (preloadedState = {}) => {
-  return create<StoreState>((...a) => ({
-    ...preloadedState,
-    ...createUserSlice(...a)
-  }))
+export const initializeStore = (preloadedState: unknown = {}) => {
+  return create(
+    persist(
+      (...a: any) => ({
+        ...(preloadedState as object),
+        // @ts-ignore
+        ...createUserSlice(...a)
+      }),
+      { name: 'store' }
+    )
+  )
 }
 
-export const useCreateStore = (serverInitialState: StoreState) => {
+export const useCreateStore = (serverInitialState: InitialState) => {
   // For SSR & SSG, always use a new store.
   if (typeof window === 'undefined') {
     return () => initializeStore(serverInitialState)

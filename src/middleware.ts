@@ -9,7 +9,11 @@ export default async function middleware(req: NextRequest) {
 
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
-  if (pathname.startsWith('/my-posts') || pathname.startsWith('/post/create')) {
+  if (
+    pathname.startsWith('/my-posts') ||
+    pathname.startsWith('/post/create') ||
+    pathname.startsWith('/topup')
+  ) {
     if (token) {
       try {
         await verifyJwt(token)

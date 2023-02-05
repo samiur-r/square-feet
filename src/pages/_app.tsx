@@ -10,7 +10,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import '../styles/globals.css'
 import Layout from 'components/Layout'
-import { useCreateStore, Provider as ZustandProvider, StoreState } from 'store'
+import { useCreateStore, Provider, StoreState } from 'store'
 
 const MyApp = ({
   Component,
@@ -25,12 +25,12 @@ const MyApp = ({
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <ZustandProvider createStore={createStore}>
+        <Provider createStore={createStore}>
           <Layout>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <Component {...pageProps} />
           </Layout>
-        </ZustandProvider>
+        </Provider>
       </Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

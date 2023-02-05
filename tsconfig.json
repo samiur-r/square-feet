@@ -17,6 +17,6 @@
     "baseUrl": "./src",
     "types": ["node", "@types/testing-library__jest-dom"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/store/index.js", "src/components/SearchBox"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/store/index.ts", "src/components/SearchBox"],
   "exclude": ["node_modules", "cypress"]
 }
