@@ -5,9 +5,14 @@ import Image from 'next/image'
 interface PackageModalProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  thumbnail: string
 }
 
-const PackageModal: React.FC<PackageModalProps> = ({ open, setOpen }) => {
+const PackageModal: React.FC<PackageModalProps> = ({
+  open,
+  setOpen,
+  thumbnail
+}) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-20" onClose={setOpen}>
@@ -37,7 +42,7 @@ const PackageModal: React.FC<PackageModalProps> = ({ open, setOpen }) => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
                 <div>
                   <Image
-                    src="/images/subscribe.png"
+                    src={`/images/${thumbnail}`}
                     width={600}
                     height={600}
                     alt="package"

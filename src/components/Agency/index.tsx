@@ -4,8 +4,29 @@ import Link from 'next/link'
 import { AgencyType } from 'interfaces'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import PackageCard from './PackageCard'
+import PackageCard from '../Package/PackageCard'
 import AgencyCard from './AgencyCard'
+
+const packages = [
+  {
+    thumbnail: 'topup-agent.png',
+    title: 'باقة المكاتب',
+    list: [
+      {
+        title: 'agent1',
+        cost: 100,
+        numOfCredits: 30,
+        description: '2 أشهر 100 دك'
+      },
+      {
+        title: 'agent2',
+        cost: 270,
+        numOfCredits: 90,
+        description: '6 أشهر 270 دك'
+      }
+    ]
+  }
+]
 
 const Agency: React.FC<{
   agencyList: AgencyType[]
@@ -14,7 +35,14 @@ const Agency: React.FC<{
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex w-full justify-center">
-        <PackageCard thumbnailSmall={thumbnailSmall} />
+        {packages &&
+          packages.map((item) => (
+            <PackageCard
+              key={Math.random()}
+              packageItem={item}
+              thumbnailSmall={thumbnailSmall}
+            />
+          ))}
       </div>
       <Description textBlack>
         <span className="flex justify-center gap-2 pb-5 text-sm md:text-lg">

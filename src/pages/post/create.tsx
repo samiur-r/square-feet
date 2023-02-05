@@ -6,7 +6,7 @@ import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import { useAppStore } from 'store'
+import { useStore } from 'store'
 
 const locations = [
   {
@@ -971,7 +971,7 @@ const purposes = [
 
 const CreatePost: NextPage = () => {
   const [scrollToTop, setScrollToTop] = useState(false)
-  const { user } = useAppStore()
+  const { user } = useStore()
   const [cityError, setCityError] = useState(false)
   const [propertyTypeError, setPropertyTypeError] = useState(false)
   const [purposeError, setPurposeError] = useState(false)

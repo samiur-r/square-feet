@@ -10,22 +10,27 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import '../styles/globals.css'
 import Layout from 'components/Layout'
+import { useCreateStore, Provider as ZustandProvider, StoreState } from 'store'
 
 const MyApp = ({
   Component,
   pageProps
 }: AppProps<{
+  initialZustandState: StoreState
   dehydratedState: DehydratedState
 }>) => {
   const [queryClient] = React.useState(() => new QueryClient())
+  const createStore = useCreateStore(pageProps.initialZustandState)
 
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Layout>
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Component {...pageProps} />
-        </Layout>
+        <ZustandProvider createStore={createStore}>
+          <Layout>
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <Component {...pageProps} />
+          </Layout>
+        </ZustandProvider>
       </Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

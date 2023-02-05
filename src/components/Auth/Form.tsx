@@ -6,7 +6,7 @@ import { passwordSchema, phoneSchema } from 'validations/UserValidation'
 import ApiClient from 'utils/ApiClient'
 import Description from 'components/Description'
 import Toast from 'components/Toast'
-import { useAppStore } from 'store'
+import { useStore } from 'store'
 import Otp from './Otp'
 
 interface AuthFormProps {
@@ -31,7 +31,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   const [isCallingApi, setIsCallingApi] = useState(false)
 
   const [userId, setUserId] = useState<number | undefined>(undefined)
-  const { addUser } = useAppStore()
+  const { addUser } = useStore()
 
   const handleSetPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) setPhone(parseInt(e.target.value, 10))
