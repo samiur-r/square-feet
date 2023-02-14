@@ -7,13 +7,14 @@ import Router from 'next/router'
 import aesEncrypt from 'utils/aesEncrypt'
 import Toast from 'components/Toast'
 import ApiClient from 'utils/ApiClient'
-import PackageModal from './PackageModal'
 import { useStore } from 'store'
+import PackageModal from './PackageModal'
 
 interface PackageType {
   thumbnail: string
   title: string
   list: Array<{
+    packageId: number
     title: string
     cost: number
     numOfCredits: number
@@ -43,18 +44,21 @@ const PackageCard: React.FC<PackageCardType> = ({
   const handlePayment = async (
     e: React.MouseEvent<HTMLElement>,
     {
+      packageId,
       title,
       cost,
       numOfCredits
     }: {
+      packageId: number
       title: string
       cost: number
       numOfCredits: number
     }
   ) => {
     e.preventDefault()
-    setIsCallingApi(true)
+    if (!user) return Router.push('/login')
 
+    setIsCallingApi(true)
     const responseUrl = config.kpayResponseUrl
     const errorUrl = config.kpayErrorUrl
     const trackId = new Date().valueOf()
@@ -69,9 +73,9 @@ const PackageCard: React.FC<PackageCardType> = ({
       responseURL: responseUrl,
       errorURL: errorUrl,
       trackid: trackId,
+      udf1: numOfCredits,
       udf3: user?.phone
     }
-    console.log(user)
 
     let params = ''
 
@@ -87,26 +91,27 @@ const PackageCard: React.FC<PackageCardType> = ({
 
     const payload = {
       trackId,
+      packageId,
       amount: cost,
       packageTitle: title,
-      numOfCredits,
       status: 'created'
     }
 
-    // try {
-    //   await ApiClient({
-    //     url: '/transaction',
-    //     method: 'POST',
-    //     data: { payload }
-    //   })
-
-    //   Router.push(url)
-    //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // } catch (err: any) {
-    //   setIsCallingApi(false)
-    //   setToastMsg(`Error: ${err.response.data}`)
-    //   setShowToast(true)
-    // }
+    try {
+      await ApiClient({
+        url: '/transaction',
+        method: 'POST',
+        data: { payload }
+      })
+      setIsCallingApi(false)
+      Router.push(url)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setIsCallingApi(false)
+      setToastMsg(`Error: ${err.message}`)
+      setShowToast(true)
+    }
+    return 0
   }
 
   return (
@@ -168,7 +173,7 @@ const PackageCard: React.FC<PackageCardType> = ({
           {packageItem &&
             packageItem.list.map((item) => (
               <a
-                key={item.title}
+                key={item.packageId}
                 onClick={(e) => handlePayment(e, item)}
                 className="bg-secondary text-white text-sm md:text-base text-center px-5 md:px-auto py-2 md:py-4 rounded-md hover:opacity-90 transition-opacity duration-300"
               >

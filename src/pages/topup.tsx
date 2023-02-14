@@ -1,9 +1,12 @@
 import type { NextPage } from 'next'
+import Router, { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 import PackageCard from 'components/Package/PackageCard'
-import Image from 'next/image'
 import Title from 'components/Title'
 import Description from 'components/Description'
+import Toast from 'components/Toast'
 
 const packages = [
   {
@@ -11,12 +14,14 @@ const packages = [
     title: 'رصيد اعلانات اضافي',
     list: [
       {
+        packageId: 1,
         title: 'regular1',
         cost: 12,
         numOfCredits: 3,
         description: '3 اعلان 12 دك'
       },
       {
+        packageId: 2,
         title: 'regular2',
         cost: 23,
         numOfCredits: 6,
@@ -29,12 +34,14 @@ const packages = [
     title: 'إعلان مميز',
     list: [
       {
+        packageId: 5,
         title: 'sticky1',
         cost: 12,
         numOfCredits: 1,
         description: '1 اعلان مميز 12 دك'
       },
       {
+        packageId: 6,
         title: 'sticky2',
         cost: 55,
         numOfCredits: 5,
@@ -47,12 +54,14 @@ const packages = [
     title: 'باقة المكاتب',
     list: [
       {
+        packageId: 3,
         title: 'agent1',
         cost: 100,
         numOfCredits: 30,
         description: '2 أشهر 100 دك'
       },
       {
+        packageId: 4,
         title: 'agent2',
         cost: 270,
         numOfCredits: 90,
@@ -63,8 +72,36 @@ const packages = [
 ]
 
 const Topup: NextPage = () => {
+  const router = useRouter()
+  const [showToast, setShowToast] = useState(false)
+  const [isToastStatusError, setIsToastStatusError] = useState(true)
+  const [toastMsg, setToastMsg] = useState('')
+
+  useEffect(() => {
+    if (!router.isReady) return
+
+    const { query } = router
+
+    if (query && query.redirect === 'true') Router.push('/agent/edit')
+    else if (query && query.success === 'true') {
+      setIsToastStatusError(false)
+      setToastMsg('Your payment was successful')
+      setShowToast(true)
+    } else if (query && query.success === 'false') {
+      setIsToastStatusError(true)
+      setToastMsg('Your payment failed')
+      setShowToast(true)
+    }
+  }, [router.isReady, router.query])
+
   return (
     <div className="dir-rtl container max-w-6xl px-3 pt-10 pb-0 md:pb-10 bg-gray-50 md:bg-white">
+      <Toast
+        msg={toastMsg}
+        showToast={showToast}
+        isError={isToastStatusError}
+        handleSetShowToast={setShowToast}
+      />
       <Title value="اشحن رصيد" />
       <ul className="list-disc mt-5 mr-5 text-sm md:text-base">
         <li>اختر الباقة المناسبة واضغط على الزر البرتقالي للشراء</li>

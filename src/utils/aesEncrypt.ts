@@ -7,8 +7,7 @@ const aesEncrypt = (text: string, key: string) => {
   const content = pkcs5Pad(text)
 
   try {
-    // eslint-disable-next-line no-buffer-constructor
-    const cipher = crypto.createCipheriv(AES_METHOD, new Buffer(key), key)
+    const cipher = crypto.createCipheriv(AES_METHOD, Buffer.from(key), key)
     let encrypted = cipher.update(content)
 
     encrypted = Buffer.concat([encrypted, cipher.final()])

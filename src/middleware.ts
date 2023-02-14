@@ -12,7 +12,7 @@ export default async function middleware(req: NextRequest) {
   if (
     pathname.startsWith('/my-posts') ||
     pathname.startsWith('/post/create') ||
-    pathname.startsWith('/topup')
+    pathname.startsWith('/agent/edit')
   ) {
     if (token) {
       try {

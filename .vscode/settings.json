@@ -10,12 +10,14 @@
         "kpay",
         "langid",
         "majoron",
+        "paymentid",
         "svgr",
         "tailwindcss",
         "tanstack",
         "topup",
         "trackid",
         "trandata",
+        "tranid",
         "TRANPORTAL",
         "zustand"
     ]
