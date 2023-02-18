@@ -991,10 +991,6 @@ const CreatePost: NextPage = () => {
   const [description, setDescription] = useState<string | undefined>(undefined)
   const [mediaList, setMediaList] = useState<Array<File>>([])
 
-  useEffect(() => {
-    console.log(mediaList)
-  }, [mediaList])
-
   const validateInputs = () => {
     if (selectedCity !== undefined) setCityError(false)
     else setCityError(true)
@@ -1005,6 +1001,10 @@ const CreatePost: NextPage = () => {
     if (selectedPurpose !== undefined) setPurposeError(false)
     else setPurposeError(true)
     setIsValidationDone(true)
+  }
+
+  const handleOnCityChange = (value: string) => {
+    console.log(value)
   }
 
   const handleSubmit = (e: React.MouseEvent<HTMLElement>) => {
@@ -1083,6 +1083,8 @@ const CreatePost: NextPage = () => {
           <AutoComplete
             locations={locations}
             handleSetSelectedLocation={setSelectedCity}
+            isError={cityError}
+            handleOnChange={handleOnCityChange}
           />
           {cityError && (
             <div className="mt-3 text-custom-red text-sm">المدينة مطلوبة</div>

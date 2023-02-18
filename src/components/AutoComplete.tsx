@@ -16,6 +16,7 @@ interface AutoCompleteProps {
   selectedLocation?: LocationType | undefined
   isHomePage?: boolean
   canUpdateFilterAutoCompleteShow?: boolean
+  isError?: boolean
   handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
   handleSetSelectedLocation?: Dispatch<SetStateAction<number | undefined>>
 }
@@ -25,6 +26,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   selectedLocation,
   isHomePage,
   canUpdateFilterAutoCompleteShow,
+  isError,
   handleCanUpdateFilterAutoCompleteShow,
   handleSetSelectedLocation
 }) => {
@@ -135,7 +137,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   open || isFocused
                     ? 'border-primary border-2 '
                     : 'border-custom-gray-border'
-                } ${
+                } ${isError && 'border-custom-red'} ${
                   isHomePage && !locationsSelected.length
                     ? 'rounded-full md:rounded-lg'
                     : 'rounded-lg'
@@ -179,7 +181,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                         htmlFor="location"
                         className={`${
                           open ? 'text-primary' : 'text-custom-gray'
-                        } ${
+                        } ${isError && 'text-custom-red'} ${
                           inputPlaceHolder !== '' || open
                             ? '-top-2 px-1 right-3 text-xs'
                             : 'top-3 md:top-4 right-4'

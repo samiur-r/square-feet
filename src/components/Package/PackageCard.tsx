@@ -5,7 +5,6 @@ import config from 'config'
 import Title from 'components/Title'
 import Router from 'next/router'
 import aesEncrypt from 'utils/aesEncrypt'
-import Toast from 'components/Toast'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 import PackageModal from './PackageModal'
@@ -34,12 +33,9 @@ const PackageCard: React.FC<PackageCardType> = ({
   styleRow
 }) => {
   const [openModal, setOpenModal] = useState(false)
-  const [showToast, setShowToast] = useState(false)
-  const [isToastStatusError, setIsToastStatusError] = useState(true)
-  const [toastMsg, setToastMsg] = useState('')
   const [isCallingApi, setIsCallingApi] = useState(false)
 
-  const { user } = useStore()
+  const { user, updateToast } = useStore()
 
   const handlePayment = async (
     e: React.MouseEvent<HTMLElement>,
@@ -108,8 +104,7 @@ const PackageCard: React.FC<PackageCardType> = ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setIsCallingApi(false)
-      setToastMsg(`Error: ${err.message}`)
-      setShowToast(true)
+      updateToast(true, `Error: ${err.message}`, true)
     }
     return 0
   }
@@ -120,12 +115,6 @@ const PackageCard: React.FC<PackageCardType> = ({
         styleRow ? 'md:grid-cols-1' : 'md:grid-cols-2'
       } grid grid-cols-2 w-full md:w-auto place-items-center gap-5 bg-white p-2 md:p-4 rounded-lg border border-gray-300 shadow-md`}
     >
-      <Toast
-        msg={toastMsg}
-        showToast={showToast}
-        isError={isToastStatusError}
-        handleSetShowToast={setShowToast}
-      />
       <div>
         <div
           className={`${

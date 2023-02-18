@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import type { NextPage } from 'next'
 import Router from 'next/router'
 
+import { useStore } from 'store'
 import Description from 'components/Description'
 import Title from 'components/Title'
 import { phoneSchema, passwordSchema } from 'validations/UserValidation'
 import ApiClient from 'utils/ApiClient'
 import Otp from 'components/Auth/Otp'
-import Toast from 'components/Toast'
 
 const PasswordReset: NextPage = () => {
   const [phone, setPhone] = useState<string>('')
@@ -15,9 +15,6 @@ const PasswordReset: NextPage = () => {
   const [otpVerified, setOtpVerified] = useState(false)
   const [phoneErrors, setPhoneErrors] = useState<string[]>([])
   const [passwordErrors, setPasswordErrors] = useState<string[]>([])
-  const [showToast, setShowToast] = useState(false)
-  const [isToastStatusError, setIsToastStatusError] = useState(true)
-  const [toastMsg, setToastMsg] = useState('')
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false)
   const [userId, setUserId] = useState<number | undefined>(undefined)
   const [showPasswordField, setShowPasswordField] = useState(false)
@@ -26,6 +23,8 @@ const PasswordReset: NextPage = () => {
   const handleSetPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) setPhone(e.target.value)
   }
+
+  const { updateToast } = useStore()
 
   useEffect(() => {
     if (showPasswordField) setOtpVerified(true)
@@ -58,9 +57,7 @@ const PasswordReset: NextPage = () => {
           errs.inner?.map((err: { message: string }) => err.message)
         )
       } else {
-        setIsToastStatusError(true)
-        setToastMsg(`Error: ${errs.response.data}`)
-        setShowToast(true)
+        updateToast(true, `Error: ${errs.response.data}`, true)
       }
     }
   }
@@ -78,10 +75,7 @@ const PasswordReset: NextPage = () => {
       })
 
       setIsCallingApi(false)
-      setIsToastStatusError(false)
-      setToastMsg(`Success: ${data?.success}`)
-      setShowToast(true)
-
+      updateToast(true, `Success: ${data?.success}`, false)
       Router.push('/login')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (errs: any) {
@@ -91,30 +85,19 @@ const PasswordReset: NextPage = () => {
           errs.inner?.map((err: { message: string }) => err.message)
         )
       } else {
-        setIsToastStatusError(true)
-        setToastMsg(`Error: ${errs.response.data}`)
-        setShowToast(true)
+        updateToast(true, `Error: ${errs.response.data}`, true)
       }
     }
   }
 
   return (
     <div className="dir-rtl container max-w-md grid place-items-center py-10">
-      <Toast
-        msg={toastMsg}
-        showToast={showToast}
-        isError={isToastStatusError}
-        handleSetShowToast={setShowToast}
-      />
       {isOtpModalOpen && (
         <Otp
           userId={userId as number}
           isOtpModalOpen={isOtpModalOpen}
           nextOperation
           handleIsOtpModalOpen={setIsOtpModalOpen}
-          handleSetToastMsg={setToastMsg}
-          handleSetShowToast={setShowToast}
-          handleSetIsToastStatusError={setIsToastStatusError}
           handleSetShowPasswordField={setShowPasswordField}
         />
       )}

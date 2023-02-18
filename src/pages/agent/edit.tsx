@@ -1,25 +1,76 @@
-import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import type { GetServerSideProps, NextPage } from 'next'
+import { useState } from 'react'
 import { Popover } from '@headlessui/react'
 
 import Title from 'components/Title'
 import Description from 'components/Description'
 import { useStore } from 'store'
 import MediaUploader from 'components/MediaUploader'
+import ApiClient from 'utils/ApiClient'
+import { agentSchema } from 'validations/AgentValidation'
 
-const CreatePost: NextPage = () => {
-  const { user } = useStore()
-  const [userName, setUsername] = useState('')
-  const [description, setDescription] = useState('')
-  const [instagram, setInstagram] = useState('')
-  const [twitter, setTwitter] = useState('')
-  const [facebook, setFacebook] = useState('')
-  const [email, setEmail] = useState('')
+export interface IAgent {
+  id: number
+  name: string
+  description: string
+  email: string
+  instagram: string
+  twitter: string
+  facebook: string
+  logo_url: string
+  expired_date: Date
+  created_at: Date
+  updated_at: Date
+}
+
+interface EditAgentProps {
+  agent?: IAgent
+}
+
+const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
+  const { user, updateToast } = useStore()
+  const [name, setName] = useState(agent?.name)
+  const [description, setDescription] = useState(agent?.description)
+  const [instagram, setInstagram] = useState(agent?.instagram)
+  const [twitter, setTwitter] = useState(agent?.twitter)
+  const [facebook, setFacebook] = useState(agent?.facebook)
+  const [email, setEmail] = useState(agent?.email)
+
+  const [nameError, setNameError] = useState('')
 
   const [mediaList, setMediaList] = useState<Array<File>>([])
 
-  const createOrEditPost = async () => {
-    console.log('here')
+  const handleEditAgent = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    setNameError('')
+
+    const agentInfo = {
+      name,
+      description,
+      instagram,
+      twitter,
+      facebook,
+      email,
+      logo: mediaList[0]
+    }
+
+    try {
+      await agentSchema.validate(agentInfo)
+
+      const response = await ApiClient({
+        method: 'POST',
+        url: '/agent',
+        data: { agentInfo },
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+      updateToast(true, `Success: ${response?.data.success}`, false)
+    } catch (error: any) {
+      if (error.message === 'Name is a required field')
+        setNameError(error.message)
+      updateToast(true, `Error: ${error?.response?.data}`, true)
+    }
   }
 
   return (
@@ -58,30 +109,45 @@ const CreatePost: NextPage = () => {
         <div className="relative mt-8 md:mt-10">
           <input
             type="text"
-            name="username"
-            id="username"
-            className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            name="name"
+            id="name"
+            className={`${
+              nameError
+                ? 'border-custom-red focus:border-custom-red'
+                : 'border-custom-gray-border focus:border-primary'
+            } block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer`}
             placeholder=" "
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <label
-            htmlFor="username"
-            className="whitespace-nowrap absolute cursor-text text-md text-custom-gray duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 -right-1 peer-focus:-right-1 peer-placeholder-shown:right-0"
+            htmlFor="name"
+            className={`${
+              nameError
+                ? 'text-custom-red peer-focus:text-custom-red'
+                : 'text-custom-gray peer-focus:text-primary'
+            } whitespace-nowrap absolute cursor-text text-md duration-300 transform -translate-y-5 scale-75 top-2 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 -right-1 peer-focus:-right-1 peer-placeholder-shown:right-0`}
           >
             اسم المكتب (إجباري)
           </label>
         </div>
+        {nameError && (
+          <p key={Math.random()} className="text-custom-red text-sm mt-3">
+            {nameError}
+          </p>
+        )}
         <div className="relative mt-8 md:mt-10">
           <textarea
             name="description"
             rows={7}
             className="block p-4 w-full text-base text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <label
             htmlFor="description"
-            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 z-10 bg-white px-1 -top-3 scale-75 -right-2 peer-focus:-top-3 peer-focus:scale-75 peer-focus:-right-2 peer-placeholder-shown:top-5 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 -right-2 peer-focus:-top-3 peer-focus:scale-75 peer-focus:-right-2 peer-placeholder-shown:top-5 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
           >
             نبذة عن المكتب (اختياري)
           </label>
@@ -93,11 +159,12 @@ const CreatePost: NextPage = () => {
             id="instagram"
             className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            value={instagram}
             onChange={(e) => setInstagram(e.target.value)}
           />
           <label
             htmlFor="instagram"
-            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
           >
             انستقرام
           </label>
@@ -109,11 +176,12 @@ const CreatePost: NextPage = () => {
             id="twitter"
             className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            value={twitter}
             onChange={(e) => setTwitter(e.target.value)}
           />
           <label
             htmlFor="twitter"
-            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 z-10 bg-white px-1 -top-3 scale-75 right-2 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-2 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 right-2 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-2 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
           >
             تويتر
           </label>
@@ -125,11 +193,12 @@ const CreatePost: NextPage = () => {
             id="facebook"
             className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            value={facebook}
             onChange={(e) => setFacebook(e.target.value)}
           />
           <label
             htmlFor="facebook"
-            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
           >
             فيسبوك
           </label>
@@ -141,11 +210,12 @@ const CreatePost: NextPage = () => {
             id="email"
             className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
             placeholder=" "
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <label
             htmlFor="email"
-            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1.5 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1.5 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1.5 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1.5 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
           >
             الايميل
           </label>
@@ -153,29 +223,11 @@ const CreatePost: NextPage = () => {
         <div className="w-full mt-8 md:mt-10">
           <MediaUploader handleMediaUpload={setMediaList} maxMediaNum={1} />
         </div>
-        <div className="flex items-center gap-3 mt-8 md:mt-10">
-          <input
-            id="checked-checkbox"
-            type="checkbox"
-            value=""
-            className="w-4 h-4 text-blue-600 bg-custom-gray rounded border-custom-gray-border focus:ring-blue-500 focus:ring-2"
-          />
-          <label htmlFor="checked-checkbox" className="font-medium">
-            <a className="hover:underline flex gap-3 cursor-pointer">
-              <p className="text-primary text-xs md:text-sm">
-                إجعل إعلاني مميزًا مقابل 12 دك
-              </p>
-              <p className="text-secondary text-xs md:text-sm whitespace-nowrap">
-                (لمعرفة المزيد)
-              </p>
-            </a>
-          </label>
-        </div>
         <div className="mt-3 md:mt-5">
           <button
             type="submit"
             className="bg-secondary text-white rounded-lg w-full mt-8 py-3 md:py-4 hover:opacity-90 transition-opacity duration-300"
-            // onClick={(e) => handleSubmit(e)}
+            onClick={(e) => handleEditAgent(e)}
           >
             إضافة الإعلان{' '}
           </button>
@@ -185,4 +237,26 @@ const CreatePost: NextPage = () => {
   )
 }
 
-export default CreatePost
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  try {
+    const response = await ApiClient({
+      method: 'GET',
+      url: '/agent',
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie
+      }
+    })
+    return {
+      props: { agent: response.data?.agent }
+    }
+  } catch (error) {
+    /* empty */
+  }
+
+  return {
+    props: {}
+  }
+}
+
+export default EditAgent

@@ -2,6 +2,7 @@
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
+import { useStore } from 'store'
 import Title from 'components/Title'
 import Description from 'components/Description'
 import ApiClient from 'utils/ApiClient'
@@ -12,9 +13,6 @@ interface OtpType {
   nextOperation?: boolean
   isOtpModalOpen: boolean
   handleIsOtpModalOpen: Dispatch<SetStateAction<boolean>>
-  handleSetToastMsg: Dispatch<SetStateAction<string>>
-  handleSetShowToast: Dispatch<SetStateAction<boolean>>
-  handleSetIsToastStatusError: Dispatch<SetStateAction<boolean>>
   handleSetShowPasswordField?: Dispatch<SetStateAction<boolean>>
 }
 
@@ -23,9 +21,6 @@ const Otp: React.FC<OtpType> = ({
   isOtpModalOpen,
   nextOperation,
   handleIsOtpModalOpen,
-  handleSetToastMsg,
-  handleSetShowToast,
-  handleSetIsToastStatusError,
   handleSetShowPasswordField
 }) => {
   const [open, setOpen] = useState(false)
@@ -34,6 +29,8 @@ const Otp: React.FC<OtpType> = ({
   const [error, setError] = useState<string>('')
   const [isValidationDone, setIsValidationDone] = useState(false)
   const [isCallingApi, setIsCallingApi] = useState(false)
+
+  const { updateToast } = useStore()
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -65,9 +62,7 @@ const Otp: React.FC<OtpType> = ({
       })
         .then((res) => {
           setIsCallingApi(false)
-          handleSetIsToastStatusError(false)
-          handleSetToastMsg(`Success: ${res?.data?.success}`)
-          handleSetShowToast(true)
+          updateToast(true, `Success: ${res?.data?.success}`, false)
           handleIsOtpModalOpen(false)
           if (nextOperation && handleSetShowPasswordField)
             handleSetShowPasswordField(true)
@@ -75,9 +70,7 @@ const Otp: React.FC<OtpType> = ({
         })
         .catch((err) => {
           setIsCallingApi(false)
-          handleSetIsToastStatusError(true)
-          handleSetToastMsg(`Error: ${err?.response?.data}`)
-          handleSetShowToast(true)
+          updateToast(true, `Error: ${err?.response?.data}`, true)
         })
     }
     setIsValidationDone(false)
@@ -102,15 +95,11 @@ const Otp: React.FC<OtpType> = ({
       setCode('')
       setTimer(60)
       setError('')
-      handleSetIsToastStatusError(false)
-      handleSetToastMsg(`النجاح: ${data?.success}`) // Success
-      handleSetShowToast(true)
+      updateToast(true, `Success: ${data?.success}`, false)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setIsCallingApi(false)
-      handleSetIsToastStatusError(true)
-      handleSetToastMsg(`خطأ: ${err?.response?.data}`) // Error
-      handleSetShowToast(true)
+      updateToast(true, `Error: ${err?.response?.data}`, true)
     }
   }
 

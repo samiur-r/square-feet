@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 import Router, { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Image from 'next/image'
 
+import { useStore } from 'store'
 import PackageCard from 'components/Package/PackageCard'
 import Title from 'components/Title'
 import Description from 'components/Description'
-import Toast from 'components/Toast'
 
 const packages = [
   {
@@ -73,9 +73,7 @@ const packages = [
 
 const Topup: NextPage = () => {
   const router = useRouter()
-  const [showToast, setShowToast] = useState(false)
-  const [isToastStatusError, setIsToastStatusError] = useState(true)
-  const [toastMsg, setToastMsg] = useState('')
+  const { updateToast } = useStore()
 
   useEffect(() => {
     if (!router.isReady) return
@@ -84,24 +82,14 @@ const Topup: NextPage = () => {
 
     if (query && query.redirect === 'true') Router.push('/agent/edit')
     else if (query && query.success === 'true') {
-      setIsToastStatusError(false)
-      setToastMsg('Your payment was successful')
-      setShowToast(true)
+      updateToast(true, 'Success: Your payment was successful', false)
     } else if (query && query.success === 'false') {
-      setIsToastStatusError(true)
-      setToastMsg('Your payment failed')
-      setShowToast(true)
+      updateToast(true, 'Error: Payment failed', true)
     }
   }, [router.isReady, router.query])
 
   return (
     <div className="dir-rtl container max-w-6xl px-3 pt-10 pb-0 md:pb-10 bg-gray-50 md:bg-white">
-      <Toast
-        msg={toastMsg}
-        showToast={showToast}
-        isError={isToastStatusError}
-        handleSetShowToast={setShowToast}
-      />
       <Title value="اشحن رصيد" />
       <ul className="list-disc mt-5 mr-5 text-sm md:text-base">
         <li>اختر الباقة المناسبة واضغط على الزر البرتقالي للشراء</li>

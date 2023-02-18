@@ -5,7 +5,6 @@ import Router from 'next/router'
 import { passwordSchema, phoneSchema } from 'validations/UserValidation'
 import ApiClient from 'utils/ApiClient'
 import Description from 'components/Description'
-import Toast from 'components/Toast'
 import { useStore } from 'store'
 import Otp from './Otp'
 
@@ -23,15 +22,12 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   const [phoneErrors, setPhoneErrors] = useState([])
   const [passwordErrors, setPasswordErrors] = useState([])
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false)
-  const [showToast, setShowToast] = useState(false)
-  const [isToastStatusError, setIsToastStatusError] = useState(true)
-  const [toastMsg, setToastMsg] = useState('')
   const [canHandleAuth, setCanHandleAuth] = useState(false)
   const [opt, setOpt] = useState('')
   const [isCallingApi, setIsCallingApi] = useState(false)
 
   const [userId, setUserId] = useState<number | undefined>(undefined)
-  const { addUser } = useStore()
+  const { addUser, updateToast } = useStore()
 
   const handleSetPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) setPhone(parseInt(e.target.value, 10))
@@ -93,10 +89,8 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           }
         })
         setIsCallingApi(false)
-        setIsToastStatusError(false)
         setUserId(data.userId)
-        setToastMsg(`يرجى التحقق من هاتفك`) // please verify your phone
-        setShowToast(true)
+        updateToast(true, 'Success: Please verify your phone', false)
         setIsOtpModalOpen(true)
         return
       }
@@ -106,9 +100,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setIsCallingApi(false)
-      setIsToastStatusError(true)
-      setToastMsg(`خطأ: ${error.response.data}`) // Error
-      setShowToast(true)
+      updateToast(true, `Error: ${error.response.data}`, true)
     }
   }
 
@@ -118,20 +110,11 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
 
   return (
     <>
-      <Toast
-        msg={toastMsg}
-        showToast={showToast}
-        isError={isToastStatusError}
-        handleSetShowToast={setShowToast}
-      />
       {isOtpModalOpen && (
         <Otp
           userId={userId as number}
           isOtpModalOpen={isOtpModalOpen}
           handleIsOtpModalOpen={setIsOtpModalOpen}
-          handleSetToastMsg={setToastMsg}
-          handleSetShowToast={setShowToast}
-          handleSetIsToastStatusError={setIsToastStatusError}
         />
       )}
       <form className="w-full mt-10 px-3 md:px-auto dir-rtl">

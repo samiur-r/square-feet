@@ -4,9 +4,10 @@ import { create, UseBoundStore } from 'zustand'
 import createContext from 'zustand/context'
 import { persist } from 'zustand/middleware'
 
+import { createToastSlice, ToastSliceType } from './slices/toastSlice'
 import { createUserSlice, UserSliceType } from './slices/userSlice'
 
-export type StoreState = UserSliceType
+export type StoreState = UserSliceType & ToastSliceType
 
 let store: any
 
@@ -27,7 +28,9 @@ export const initializeStore = (preloadedState: unknown = {}) => {
       (...a: any) => ({
         ...(preloadedState as object),
         // @ts-ignore
-        ...createUserSlice(...a)
+        ...createUserSlice(...a),
+        // @ts-ignore
+        ...createToastSlice(...a)
       }),
       { name: 'store' }
     )

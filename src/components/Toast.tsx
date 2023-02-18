@@ -1,19 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-interface ToastProps {
-  showToast: boolean
-  msg: string
-  isError: boolean
-  handleSetShowToast: Dispatch<SetStateAction<boolean>>
-}
+import { useStore } from 'store'
 
-const Toast: React.FC<ToastProps> = ({
-  showToast,
-  msg,
-  isError,
-  handleSetShowToast
-}) => {
+const Toast = () => {
   const [show, setShow] = useState(false)
+
+  const { updateToast, showToast, toastMessage, isToastError } = useStore()
 
   useEffect(() => {
     setShow(showToast)
@@ -23,7 +15,7 @@ const Toast: React.FC<ToastProps> = ({
     if (show) {
       setTimeout(() => {
         setShow(false)
-        handleSetShowToast(false)
+        updateToast(false, '', true)
       }, 4000)
     }
   }, [show])
@@ -34,19 +26,21 @@ const Toast: React.FC<ToastProps> = ({
     <div className="fixed right-0 top-20 z-50 m-8 w-5/6 max-w-sm md:w-full">
       <div
         className={`${
-          isError ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'
+          isToastError
+            ? 'bg-red-100 text-custom-red'
+            : 'bg-green-100 text-green-600'
         } close flex h-24 w-full cursor-pointer items-start justify-between rounded p-2 shadow-lg`}
       >
-        <span className="p-2">{msg}</span>
+        <span className="p-2">{toastMessage}</span>
         <svg
           className={`${
-            isError ? 'text-red-600' : 'text-green-600'
+            isToastError ? 'text-custom-red' : 'text-green-600'
           } fill-current`}
           xmlns="http://www.w3.org/2000/svg"
           width="18"
           height="18"
           viewBox="0 0 18 18"
-          onClick={() => handleSetShowToast(false)}
+          onClick={() => updateToast(false, '', true)}
         >
           <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
         </svg>
