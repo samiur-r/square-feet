@@ -15,7 +15,7 @@ interface ListProps {
   isFloatingLabel?: boolean
   showFilterIcon?: boolean
   bgGray?: boolean
-  handleSetItem?: Dispatch<SetStateAction<number | undefined>>
+  handleSetItem?: Dispatch<SetStateAction<OptType | undefined>>
   isError?: boolean
 }
 
@@ -32,7 +32,7 @@ const List: React.FC<ListProps> = ({
   const [selected, setSelected] = useState<OptType | undefined>(selectedOpt)
 
   useEffect(() => {
-    if (selected && handleSetItem) handleSetItem(selected.id)
+    if (selected && handleSetItem) handleSetItem(selected)
   }, [selected])
 
   return (

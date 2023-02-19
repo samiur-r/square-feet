@@ -15,7 +15,7 @@ import { locations, propertyTypes, categories } from 'constant'
 
 const CreatePost: NextPage = () => {
   const [scrollToTop, setScrollToTop] = useState(false)
-  const { user } = useStore()
+  const { user, updateToast } = useStore()
   const [cityErrors, setCityErrors] = useState<string[]>([])
   const [propertyTypeErrors, setPropertyTypeErrors] = useState<string[]>([])
   const [purposeErrors, setPurposeErrors] = useState<string[]>([])
@@ -24,11 +24,11 @@ const CreatePost: NextPage = () => {
     LocationType | undefined
   >(undefined)
   const [selectedPropertyType, setSelectedPropertyType] = useState<
-    number | undefined
+    { id: number; title: string } | undefined
   >(undefined)
-  const [selectedPurpose, setSelectedPurpose] = useState<number | undefined>(
-    undefined
-  )
+  const [selectedPurpose, setSelectedPurpose] = useState<
+    { id: number; title: string } | undefined
+  >(undefined)
   const [price, setPrice] = useState<number | undefined>(undefined)
   const [description, setDescription] = useState<string | undefined>(undefined)
   const [mediaList, setMediaList] = useState<Array<File>>([])
@@ -50,13 +50,13 @@ const CreatePost: NextPage = () => {
   ) => {
     errors?.forEach((err: { path: string; errors: string[] }) => {
       switch (err.path) {
-        case 'cityId':
+        case 'cityId' || 'cityTitle':
           setCityErrors(err.errors)
           break
-        case 'propertyId':
+        case 'propertyId' || 'propertyTitle':
           setPropertyTypeErrors(err.errors)
           break
-        case 'purposeId':
+        case 'categoryId' || 'categoryTitle':
           setPurposeErrors(err.errors)
           break
         default:
@@ -69,10 +69,19 @@ const CreatePost: NextPage = () => {
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
 
+    const state = locations.filter(
+      (location) => location.id === selectedLocation?.state_id
+    )
+
     const payload = {
-      locationId: selectedLocation,
-      propertyId: selectedPropertyType,
-      purposeId: selectedPurpose,
+      cityId: selectedLocation?.id,
+      cityTitle: selectedLocation?.title,
+      stateId: state[0]?.id,
+      stateTitle: state[0]?.title,
+      propertyId: selectedPropertyType?.id,
+      propertyTitle: selectedPropertyType?.title,
+      categoryId: selectedPurpose?.id,
+      categoryTitle: selectedPurpose?.title,
       price,
       description,
       media: mediaList
@@ -88,9 +97,14 @@ const CreatePost: NextPage = () => {
           'content-type': 'multipart/form-data'
         }
       })
-      console.log(response)
+
+      updateToast(true, `Success: ${response?.data.success}`, false)
     } catch (error: any) {
-      if (error.name === 'ValidationError') handleValidationError(error.inner)
+      if (error.name === 'ValidationError') {
+        handleValidationError(error.inner)
+        return 0
+      }
+      updateToast(true, `Error: ${error?.response?.data}`, true)
     }
   }
 
@@ -161,7 +175,12 @@ const CreatePost: NextPage = () => {
           {cityErrors && (
             <div className="flex flex-col gap-2">
               {cityErrors.map((err) => (
-                <div className="mt-3 text-custom-red text-sm">{err}</div>
+                <div
+                  key={Math.random()}
+                  className="mt-3 text-custom-red text-sm"
+                >
+                  {err}
+                </div>
               ))}
             </div>
           )}
@@ -178,7 +197,12 @@ const CreatePost: NextPage = () => {
           {propertyTypeErrors && (
             <div className="flex flex-col gap-2">
               {propertyTypeErrors.map((err) => (
-                <div className="mt-3 text-custom-red text-sm">{err}</div>
+                <div
+                  key={Math.random()}
+                  className="mt-3 text-custom-red text-sm"
+                >
+                  {err}
+                </div>
               ))}
             </div>
           )}
@@ -195,7 +219,12 @@ const CreatePost: NextPage = () => {
           {purposeErrors && (
             <div className="flex flex-col gap-2">
               {purposeErrors.map((err) => (
-                <div className="mt-3 text-custom-red text-sm">{err}</div>
+                <div
+                  key={Math.random()}
+                  className="mt-3 text-custom-red text-sm"
+                >
+                  {err}
+                </div>
               ))}
             </div>
           )}
