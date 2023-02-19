@@ -18,7 +18,7 @@ interface AutoCompleteProps {
   canUpdateFilterAutoCompleteShow?: boolean
   isError?: boolean
   handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
-  handleSetSelectedLocation?: Dispatch<SetStateAction<number | undefined>>
+  handleSetSelectedLocation?: Dispatch<SetStateAction<LocationType | undefined>>
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -39,8 +39,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   )
 
   useEffect(() => {
-    if (selected?.id && handleSetSelectedLocation)
-      handleSetSelectedLocation(selected?.id)
+    if (selected && handleSetSelectedLocation)
+      handleSetSelectedLocation(selected)
   }, [selected])
 
   const [query, setQuery] = useState('')
@@ -60,8 +60,13 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     )
   }
 
-  const handleLocationChanged = (id: number, title: string, type: string) => {
-    if (type === 'state') setLocationsSelected([{ id, title, type }])
+  const handleLocationChanged = (
+    id: number,
+    title: string,
+    stateId: number | null
+  ) => {
+    if (stateId === null)
+      setLocationsSelected([{ id, title, state_id: stateId }])
     else {
       const isExists = locationsSelected.find(
         // @ts-ignore
@@ -74,7 +79,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         // @ts-ignore
         (location: { type: string }) => location.type === 'city'
       )
-      setLocationsSelected([...onlyCities, { id, title, type }])
+      setLocationsSelected([...onlyCities, { id, title, state_id: stateId }])
     }
   }
 
@@ -103,7 +108,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         // @ts-ignore
         selectedLocation.id,
         selectedLocation.title,
-        selectedLocation.type
+        selectedLocation.state_id
       )
     }
   }, [selectedLocation])
@@ -285,7 +290,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           key={location.id}
                           className="relative cursor-default select-none"
                           value={
-                            isHomePage || location.type === 'city'
+                            isHomePage || location.state_id !== null
                               ? location
                               : undefined
                           }
@@ -294,22 +299,22 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                               // TODO: fix
                               location?.id as number,
                               location.title as string,
-                              location.type as string
+                              (location.state_id as number) || null
                             )
                           }
                         >
-                          {isHomePage && location.type === 'city' && (
+                          {isHomePage && location.state_id !== null && (
                             <span className="absolute top-3 left-5 text-primary">
                               ({location.count})
                             </span>
                           )}
                           <span
                             className={`${
-                              location.type === 'state' &&
+                              location.state_id === null &&
                               !isHomePage &&
                               'hidden'
-                            } ${location.type === 'state' && 'text-black'} ${
-                              location.type === 'city' && 'text-primary'
+                            } ${location.state_id === null && 'text-black'} ${
+                              location.state_id !== null && 'text-primary'
                             } hover:bg-primary-lighter font-DroidArabicKufiBold text-base block truncate p-2 cursor-pointer`}
                           >
                             {location.title}

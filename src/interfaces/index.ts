@@ -1,9 +1,8 @@
 export interface LocationType {
   id?: number
   title?: string
-  type?: string
+  state_id?: number | null
   count?: number
-  state_id?: number
 }
 
 export interface WindowSize {

@@ -16,6 +16,7 @@ interface ListProps {
   showFilterIcon?: boolean
   bgGray?: boolean
   handleSetItem?: Dispatch<SetStateAction<number | undefined>>
+  isError?: boolean
 }
 
 const List: React.FC<ListProps> = ({
@@ -25,7 +26,8 @@ const List: React.FC<ListProps> = ({
   isFloatingLabel,
   showFilterIcon,
   bgGray,
-  handleSetItem
+  handleSetItem,
+  isError
 }) => {
   const [selected, setSelected] = useState<OptType | undefined>(selectedOpt)
 
@@ -45,6 +47,7 @@ const List: React.FC<ListProps> = ({
                   : 'top-3 md:top-4'
               } 
 							${open ? 'text-primary' : 'text-custom-gray'}
+              ${isError && 'text-custom-red'}
 							${
                 bgGray ? 'bg-custom-gray' : 'bg-white'
               } pointer-events-none transition-all duration-300 absolute z-10 mx-4`}
@@ -56,8 +59,8 @@ const List: React.FC<ListProps> = ({
             type="button"
             className={`${
               bgGray ? ' rounded-full md:rounded-lg' : ' rounded-lg'
-            } ${
-              open ? 'border-primary' : 'border-custom-gray-border'
+            } ${open ? 'border-primary' : 'border-custom-gray-border'} ${
+              isError && 'border-custom-red'
             } bg-white flex justify-between items-center py-2.5 md:py-3.5 px-3.5 relative w-full cursor-text border shadow-sm focus:outline-none text-base text-black`}
           >
             <span className="flex gap-1.5 items-center w-full">
