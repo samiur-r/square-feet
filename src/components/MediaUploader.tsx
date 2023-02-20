@@ -12,7 +12,9 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   handleMediaUpload
 }) => {
   const [mediaList, setMediaList] = useState<Array<File>>([])
-  const [mediaPreviewList, setMediaPreviewList] = useState<Array<string>>([])
+  const [mediaPreviewList, setMediaPreviewList] = useState<
+    Array<{ src: string; type: string }>
+  >([])
   const [mediaCount, setMediaCount] = useState(0)
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,10 +26,12 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     const file = files[0]
     const reader = new FileReader()
 
+    const mediaType = file?.type.split('/')[0]
+
     reader.onloadend = () => {
-      setMediaPreviewList((prev: Array<string>) => [
+      setMediaPreviewList((prev: Array<{ src: string; type: string }>) => [
         ...prev,
-        reader.result as string
+        { src: reader.result as string, type: mediaType }
       ])
     }
 
@@ -92,14 +96,19 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
           <div className="flex flex-wrap gap-3 mx-5 mt-5">
             {mediaPreviewList.map((preview, index) => (
               <div className="relative border" key={Math.random()}>
-                <Image
-                  src={preview}
-                  width="80"
-                  height="80"
-                  objectFit="contain"
-                />
+                {preview.type === 'image' ? (
+                  <Image
+                    src={preview.src}
+                    width="80"
+                    height="80"
+                    objectFit="contain"
+                  />
+                ) : (
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <video className="w-20 h-20" src={preview.src} />
+                )}
                 <XCircleIcon
-                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold"
+                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
                   onClick={() => removeMediaPreview(index)}
                 />
               </div>

@@ -11,5 +11,5 @@ export const postSchema = object({
   categoryTitle: string().required(),
   price: number(),
   description: string(),
-  media: mixed()
+  multimedia: mixed()
 })
