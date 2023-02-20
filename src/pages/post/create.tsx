@@ -12,6 +12,7 @@ import { postSchema } from 'validations/PostValidation'
 import ApiClient from 'utils/ApiClient'
 import { LocationType } from 'interfaces'
 import { locations, propertyTypes, categories } from 'constant'
+import PackageModal from 'components/Package/PackageModal'
 
 const CreatePost: NextPage = () => {
   const [scrollToTop, setScrollToTop] = useState(false)
@@ -33,6 +34,7 @@ const CreatePost: NextPage = () => {
   const [description, setDescription] = useState<string | undefined>(undefined)
   const [mediaList, setMediaList] = useState<Array<File>>([])
   const [isCallingApi, setIsCallingApi] = useState(false)
+  const [openPackageModal, setOpenPackageModal] = useState(false)
 
   useEffect(() => {
     if (selectedLocation) setCityErrors([])
@@ -133,6 +135,11 @@ const CreatePost: NextPage = () => {
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
+      <PackageModal
+        open={openPackageModal}
+        setOpen={setOpenPackageModal}
+        thumbnail="sticky-direct.png"
+      />
       <div className="md:text-center w-full">
         <Title value="إضافة إعلان" />
       </div>
@@ -273,8 +280,11 @@ const CreatePost: NextPage = () => {
             value=""
             className="w-4 h-4 text-blue-600 bg-custom-gray rounded border-custom-gray-border focus:ring-blue-500 focus:ring-2"
           />
-          <label htmlFor="checked-checkbox" className="font-medium">
-            <a className="hover:underline flex gap-3 cursor-pointer">
+          <span className="font-medium">
+            <a
+              className="hover:underline flex gap-3 cursor-pointer"
+              onClick={() => setOpenPackageModal(true)}
+            >
               <p className="text-primary text-xs md:text-sm">
                 إجعل إعلاني مميزًا مقابل 12 دك
               </p>
@@ -282,7 +292,7 @@ const CreatePost: NextPage = () => {
                 (لمعرفة المزيد)
               </p>
             </a>
-          </label>
+          </span>
         </div>
         <div className="mt-3 md:mt-5">
           <button
