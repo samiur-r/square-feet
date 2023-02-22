@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import { Popover } from '@headlessui/react'
+import Router from 'next/router'
 
 import AutoComplete from 'components/AutoComplete'
 import ListBox from 'components/ListBox'
@@ -13,6 +14,8 @@ import ApiClient from 'utils/ApiClient'
 import { LocationType } from 'interfaces'
 import { locations, propertyTypes, categories } from 'constant'
 import PackageModal from 'components/Package/PackageModal'
+import config from 'config'
+import aesEncrypt from 'utils/aesEncrypt'
 
 const CreatePost: NextPage = () => {
   const [scrollToTop, setScrollToTop] = useState(false)
@@ -35,6 +38,7 @@ const CreatePost: NextPage = () => {
   const [mediaList, setMediaList] = useState<Array<File>>([])
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [openPackageModal, setOpenPackageModal] = useState(false)
+  const [isStickyDirectPost, setIsStickyDirectPost] = useState(false)
 
   useEffect(() => {
     if (selectedLocation) setCityErrors([])
@@ -69,6 +73,73 @@ const CreatePost: NextPage = () => {
     return 0
   }
 
+  const handlePayment = async (postInfo: any) => {
+    const responseUrl = config.kpayResponseUrl
+    const errorUrl = config.kpayErrorUrl
+    const trackId = new Date().valueOf()
+
+    // eslint-disable-next-line no-param-reassign
+    postInfo.trackId = trackId
+
+    const paramData = {
+      currencycode: '414',
+      id: config.tranportalId,
+      password: config.tranportalPassword,
+      action: '1',
+      langid: 'AR',
+      amt: 12,
+      responseURL: responseUrl,
+      errorURL: errorUrl,
+      trackid: trackId,
+      udf1: 1,
+      udf3: user?.phone
+    }
+
+    let params = ''
+
+    Object.keys(paramData).forEach((key) => {
+      params += `${key}=${paramData[key as keyof typeof paramData]}&`
+    })
+
+    const encryptedParams = aesEncrypt(params, config.termResourceKey)
+
+    params = `${encryptedParams}&tranportalId=${config.tranportalId}&responseURL=${responseUrl}&errorURL=${errorUrl}`
+
+    const url = `${config.kpayUrl}?param=paymentInit&trandata=${params}`
+
+    const payload = {
+      trackId,
+      packageId: 7,
+      amount: 12,
+      packageTitle: 'stickyDirect',
+      status: 'created'
+    }
+
+    try {
+      await ApiClient({
+        url: '/transaction',
+        method: 'POST',
+        data: { payload }
+      })
+      await ApiClient({
+        method: 'POST',
+        url: '/post/temp',
+        data: { postInfo },
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+      setIsCallingApi(false)
+      Router.push(url)
+    } catch (error: any) {
+      if (error.name === 'ValidationError') {
+        handleValidationError(error.inner)
+        return 0
+      }
+      updateToast(true, `Error: ${error?.response?.data}`, true)
+    }
+  }
+
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
 
@@ -87,12 +158,26 @@ const CreatePost: NextPage = () => {
       categoryTitle: selectedPurpose?.title,
       price,
       description,
-      multimedia: mediaList
+      multimedia: mediaList,
+      isStickyPost: isStickyDirectPost
     }
 
     try {
       await postSchema.validate(postInfo, { abortEarly: false })
       setIsCallingApi(true)
+
+      if (isStickyDirectPost) {
+        const response = await ApiClient({
+          method: 'GET',
+          url: '/credits/sticky-credit'
+        })
+
+        if (response.data.success === 0) {
+          await handlePayment(postInfo)
+          return
+        }
+      }
+
       const response = await ApiClient({
         method: 'POST',
         url: '/post',
@@ -132,6 +217,10 @@ const CreatePost: NextPage = () => {
       setScrollToTop(false)
     }
   }, [scrollToTop])
+
+  const handleStickyDirect = () => {
+    setIsStickyDirectPost(!isStickyDirectPost)
+  }
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
@@ -279,6 +368,7 @@ const CreatePost: NextPage = () => {
             type="checkbox"
             value=""
             className="w-4 h-4 text-blue-600 bg-custom-gray rounded border-custom-gray-border focus:ring-blue-500 focus:ring-2"
+            onChange={handleStickyDirect}
           />
           <span className="font-medium">
             <a

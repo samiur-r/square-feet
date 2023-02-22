@@ -5,8 +5,9 @@ import BalanceCard from 'components/Account/BalanceCard'
 import PostCard from 'components/Posts/PostCard'
 import Description from 'components/Description'
 import ApiClient from 'utils/ApiClient'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { useStore } from 'store'
+import { useEffect } from 'react'
 
 const posts = [
   {
@@ -68,7 +69,20 @@ const agencyItems = [
 ]
 
 const MyPosts: NextPage = () => {
-  const { removeUser } = useStore()
+  const { removeUser, updateToast } = useStore()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!router.isReady) return
+
+    const { query } = router
+
+    if (query && query.success === 'true') {
+      updateToast(true, 'Success: Your payment was successful', false)
+    } else if (query && query.success === 'false') {
+      updateToast(true, 'Error: Payment failed', true)
+    }
+  }, [router.isReady, router.query])
 
   const logout = async () => {
     try {
