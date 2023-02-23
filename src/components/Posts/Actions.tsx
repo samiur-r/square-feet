@@ -7,15 +7,15 @@ import { PencilIcon } from '@heroicons/react/24/solid'
 import React from 'react'
 import Image from 'next/image'
 
-const Actions: React.FC<{ isArchieve?: boolean | undefined }> = ({
-  isArchieve
+const Actions: React.FC<{ isArchive?: boolean | undefined }> = ({
+  isArchive
 }) => {
   return (
     <div className="flex flex-row-reverse gap-3">
       <div className="p-1 bg-[#ECEEF0] rounded-md">
         <TrashIcon className="w-5 h-5 text-[#939FAE]" />
       </div>
-      {!isArchieve && (
+      {!isArchive && (
         <div className="p-1 bg-[#FBE4DB] rounded-md">
           <PencilIcon className="w-5 h-5 text-[#EE772A]" />
         </div>
@@ -26,7 +26,7 @@ const Actions: React.FC<{ isArchieve?: boolean | undefined }> = ({
       <div className="p-1 bg-[#E3F4F1] rounded-md">
         <ArrowPathIcon className="w-5 h-5 text-[#2BAA90]" />
       </div>
-      {!isArchieve && (
+      {!isArchive && (
         <>
           <div className="w-7 h-7 relative">
             <Image src="/images/twitter.png" alt="twitter-icon" layout="fill" />

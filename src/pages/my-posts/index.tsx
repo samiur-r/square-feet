@@ -7,43 +7,14 @@ import Description from 'components/Description'
 import ApiClient from 'utils/ApiClient'
 import Router, { useRouter } from 'next/router'
 import { useStore } from 'store'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { IAgent, ICredit, IPost } from 'interfaces'
-
-const postList = [
-  {
-    id: 0,
-    title: 'بيت للبيع في سعد العبد الله',
-    views: 5,
-    createdAt: '1 دقيقة',
-    price: 1000,
-    description:
-      'للبيع شاله في مرحله الرابعه A مساحه 450 متر تشطيب ممتاز 3 ادوار ونص بطن وظهر يمنع الوسطاء مراجعه 550 الف',
-    isSticky: true,
-    mobile: '1234',
-    thumbnail: '/images/posts/post.jpeg',
-    media: ['', '']
-  },
-  {
-    id: 1,
-    title: 'أرض للبيع في صباح الاحمد البحريه - الخيران',
-    views: 10,
-    createdAt: '2 دقيقة',
-    price: 1100,
-    description:
-      'للبيع شاله في مرحله الرابعه A مساحه 450 متر تشطيب ممتاز 3 ادوار ونص بطن وظهر يمنع الوسطاء مراجعه 550 الف',
-    isSticky: true,
-    mobile: '1234',
-    thumbnail: '/images/posts/post.jpeg',
-    media: ['', '']
-  }
-]
 
 interface AccountType {
   agent: IAgent | null
   credits: ICredit
-  posts: IPost | null
-  archivedPosts: IPost | null
+  posts: IPost[] | null
+  archivedPosts: IPost[] | null
 }
 
 const MyPosts: NextPage<AccountType> = ({
@@ -52,13 +23,12 @@ const MyPosts: NextPage<AccountType> = ({
   posts,
   archivedPosts
 }) => {
+  const [showArchivedPosts, setShowArchivedPosts] = useState(false)
   const { removeUser, updateToast } = useStore()
   const router = useRouter()
   const expiredDate = agent ? new Date(agent?.expiry_date) : undefined
   const hours = expiredDate?.getHours().toString().padStart(2, '0')
   const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
-
-  console.log(posts)
 
   const balanceItems = [
     {
@@ -158,17 +128,27 @@ const MyPosts: NextPage<AccountType> = ({
       <div className="md:max-w-3xl md:container">
         <div className="flex gap-3 items-center">
           <h3 className="text-base md:text-xl font-DroidArabicKufiBold">
-            إعلاناتي
+            {showArchivedPosts ? 'الاعلانات المنتهيه' : 'إعلاناتي'}
           </h3>
-          <Link href="/">
-            <a className="hover:underline cursor-pointer text-primary ">
-              (الاعلانات المنتهيه)
-            </a>
-          </Link>
+          <button
+            type="button"
+            className="hover:underline cursor-pointer text-primary"
+            onClick={() => setShowArchivedPosts(!showArchivedPosts)}
+          >
+            {showArchivedPosts ? '(إعلاناتي)' : '(الاعلانات المنتهيه)'}
+          </button>
         </div>
-        {postList.map((post) => (
-          <PostCard key={post.id} post={post} showActions />
-        ))}
+        {showArchivedPosts
+          ? archivedPosts &&
+            archivedPosts?.length >= 1 &&
+            archivedPosts.map((post) => (
+              <PostCard key={post.id} post={post} showActions isArchive />
+            ))
+          : posts &&
+            posts?.length >= 1 &&
+            posts.map((post) => (
+              <PostCard key={post.id} post={post} showActions />
+            ))}
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
           انتهت نتائج البحث ولا يوجد المزيد من النتائج
         </p>
