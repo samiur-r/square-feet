@@ -23,6 +23,7 @@ const CreatePost: NextPage = () => {
   const [cityErrors, setCityErrors] = useState<string[]>([])
   const [propertyTypeErrors, setPropertyTypeErrors] = useState<string[]>([])
   const [purposeErrors, setPurposeErrors] = useState<string[]>([])
+  const [descriptionErrors, setDescriptionErrors] = useState<string[]>([])
 
   const [selectedLocation, setSelectedLocation] = useState<
     LocationType | undefined
@@ -52,6 +53,10 @@ const CreatePost: NextPage = () => {
     if (selectedPurpose !== undefined) setPurposeErrors([])
   }, [selectedPurpose])
 
+  useEffect(() => {
+    if (description !== undefined) setDescriptionErrors([])
+  }, [description])
+
   const handleValidationError = (
     errors: Array<{ path: string; errors: string[] }>
   ) => {
@@ -65,6 +70,9 @@ const CreatePost: NextPage = () => {
           break
         case 'categoryId' || 'categoryTitle':
           setPurposeErrors(err.errors)
+          break
+        case 'description':
+          setDescriptionErrors(err.errors)
           break
         default:
           break
@@ -348,17 +356,32 @@ const CreatePost: NextPage = () => {
           <textarea
             name="description"
             rows={7}
-            className="block p-4 w-full text-base text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            className={`${
+              descriptionErrors.length
+                ? 'border-custom-red'
+                : 'border-custom-gray-border'
+            } block p-4 w-full text-base text-black bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer`}
             placeholder=" "
             onChange={(e) => setDescription(e.target.value)}
           />
           <label
             htmlFor="description"
-            className="absolute pointer-events-none cursor-text text-md text-custom-gray duration-300 transform -translate-y-4 scale-75 z-10 bg-white px-1 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 right-0 peer-focus:-right-3"
+            className={`${
+              descriptionErrors.length ? 'text-custom-red' : 'text-custom-gray'
+            } absolute pointer-events-none cursor-text text-md duration-300 transform -translate-y-4 scale-75 top-1 z-10 bg-white px-0 peer-placeholder-shown:px-0 peer-focus:px-1 mx-0 peer-focus:mx-0 peer-placeholder-shown:mx-4 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:top-8 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-5 -right-2 peer-focus:-right-3`}
           >
             اكتب تفاصيل الاعلان هنا{' '}
           </label>
         </div>
+        {descriptionErrors && (
+          <div className="flex flex-col gap-2">
+            {descriptionErrors.map((err) => (
+              <div key={Math.random()} className="mt-3 text-custom-red text-sm">
+                {err}
+              </div>
+            ))}
+          </div>
+        )}
         <div className="flex justify-center items-center w-full mt-8 md:mt-10">
           <MediaUploader handleMediaUpload={setMediaList} />
         </div>

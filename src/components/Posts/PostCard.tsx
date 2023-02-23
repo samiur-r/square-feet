@@ -47,7 +47,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, showActions }) => {
           </div>
         </div>
         <div>
-          <div className="font-DroidArabicKufiBold text-sm md:text-lg line-clamp-1">
+          <div className="font-DroidArabicKufiBold text-sm md:text-lg line-clamp-1 max-w-xs">
             {post.title}
           </div>
           <div className="flex gap-3 md:gap-5 mt-3">

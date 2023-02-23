@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Link from 'next/link'
 
 import BalanceCard from 'components/Account/BalanceCard'
@@ -8,8 +8,9 @@ import ApiClient from 'utils/ApiClient'
 import Router, { useRouter } from 'next/router'
 import { useStore } from 'store'
 import { useEffect } from 'react'
+import { IAgent, ICredit, IPost } from 'interfaces'
 
-const posts = [
+const postList = [
   {
     id: 0,
     title: 'بيت للبيع في سعد العبد الله',
@@ -38,39 +39,56 @@ const posts = [
   }
 ]
 
-const balanceItems = [
-  {
-    title: 'مجاني',
-    value: 0
-  },
-  {
-    title: 'اضافي',
-    value: 9
-  },
-  {
-    title: 'مميز',
-    value: 0
-  }
-]
+interface AccountType {
+  agent: IAgent | null
+  credits: ICredit
+  posts: IPost | null
+  archivedPosts: IPost | null
+}
 
-const agencyItems = [
-  {
-    title: 'عدد الإعلانات',
-    value: 15
-  },
-  {
-    title: 'تاريخ الإنتهاء',
-    value: '13-01-2023'
-  },
-  {
-    title: 'وقت الإنتهاء',
-    value: '03:48 م'
-  }
-]
-
-const MyPosts: NextPage = () => {
+const MyPosts: NextPage<AccountType> = ({
+  agent,
+  credits,
+  posts,
+  archivedPosts
+}) => {
   const { removeUser, updateToast } = useStore()
   const router = useRouter()
+  const expiredDate = agent ? new Date(agent?.expiry_date) : undefined
+  const hours = expiredDate?.getHours().toString().padStart(2, '0')
+  const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
+
+  console.log(posts)
+
+  const balanceItems = [
+    {
+      title: 'مجاني',
+      value: credits?.free || 0
+    },
+    {
+      title: 'اضافي',
+      value: credits?.regular || 0
+    },
+    {
+      title: 'مميز',
+      value: credits?.sticky || 0
+    }
+  ]
+
+  const agencyItems = [
+    {
+      title: 'عدد الإعلانات',
+      value: credits?.agent || 0
+    },
+    {
+      title: 'تاريخ الإنتهاء',
+      value: expiredDate ? expiredDate.toISOString().substring(0, 10) : '-'
+    },
+    {
+      title: 'وقت الإنتهاء',
+      value: hours && minutes ? `${hours}:${minutes}م` : '-'
+    }
+  ]
 
   useEffect(() => {
     if (!router.isReady) return
@@ -104,17 +122,26 @@ const MyPosts: NextPage = () => {
       >
         Logout
       </button>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:w-auto">
+      <div
+        className={`${
+          agent !== null && 'md:grid-cols-2 md:w-auto'
+        } grid grid-cols-1 gap-10 w-full place-items-center`}
+      >
         <BalanceCard
           headline="رصيدك من الاعلانات"
           items={balanceItems}
-          ctaList={['اشحن الرصيد']}
+          ctaList={[{ title: 'اشحن الرصيد', href: '/topup' }]}
         />
-        <BalanceCard
-          headline="رصيد اشتراك المكتب"
-          items={agencyItems}
-          ctaList={['بياناتي', 'صفحتي']}
-        />
+        {agent !== null && (
+          <BalanceCard
+            headline="رصيد اشتراك المكتب"
+            items={agencyItems}
+            ctaList={[
+              { title: 'بياناتي', href: '/agent/edit' },
+              { title: 'صفحتي', href: '/agent' }
+            ]}
+          />
+        )}
       </div>
       <Description textBlack>
         <span className="flex justify-center text-sm md:text-base gap-2 pb-5">
@@ -139,7 +166,7 @@ const MyPosts: NextPage = () => {
             </a>
           </Link>
         </div>
-        {posts.map((post) => (
+        {postList.map((post) => (
           <PostCard key={post.id} post={post} showActions />
         ))}
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
@@ -148,6 +175,34 @@ const MyPosts: NextPage = () => {
       </div>
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  try {
+    const response = await ApiClient({
+      method: 'GET',
+      url: '/account',
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie
+      }
+    })
+
+    return {
+      props: {
+        agent: response.data?.success?.agent,
+        credits: response.data?.success?.credits,
+        posts: response.data?.success?.posts,
+        archivedPosts: response.data?.success?.archivedPosts
+      }
+    }
+  } catch (error) {
+    /* empty */
+  }
+
+  return {
+    props: {}
+  }
 }
 
 export default MyPosts
