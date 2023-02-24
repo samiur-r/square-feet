@@ -59,9 +59,9 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     if (prevItems?.length) {
       setMediaList(prevItems)
       setMediaCount(prevItems.length)
-      const reader = new FileReader()
 
       prevItems.forEach((file) => {
+        const reader = new FileReader()
         const mediaType = file?.type.split('/')[0]
 
         reader.onloadend = () => {

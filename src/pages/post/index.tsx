@@ -48,10 +48,10 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
     { id: number; title: string } | undefined
   >(post ? { id: post.category_id, title: post.category_title } : undefined)
   const [price, setPrice] = useState<number | undefined>(
-    post ? post.price : undefined
+    post && post.price !== null ? post.price : undefined
   )
   const [description, setDescription] = useState<string | undefined>(
-    post ? post.description : undefined
+    post && post.description !== null ? post.description : undefined
   )
   const [mediaList, setMediaList] = useState<Array<File>>([])
   const [prevMediaList, setPrevMediaList] = useState<Array<File>>([])
@@ -75,6 +75,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   }, [post?.media])
 
   useEffect(() => {
+    console.log(selectedLocation)
     if (selectedLocation) setCityErrors([])
   }, [selectedLocation])
 
@@ -189,7 +190,6 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
     )
 
     const postInfo = {
-      title: post?.title,
       cityId: selectedLocation?.id,
       cityTitle: selectedLocation?.title,
       stateId: state[0]?.id,
@@ -203,6 +203,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       multimedia: mediaList,
       isStickyPost: isStickyDirectPost
     }
+
+    console.log(postInfo)
 
     try {
       await postSchema.validate(postInfo, { abortEarly: false })
@@ -222,7 +224,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
 
       let response
 
-      if (post) {
+      if (mode === 'create') {
         response = await ApiClient({
           method: 'POST',
           url: '/post',
