@@ -7,9 +7,10 @@ import { PencilIcon } from '@heroicons/react/24/solid'
 import React from 'react'
 import Image from 'next/image'
 
-const Actions: React.FC<{ isArchive?: boolean | undefined }> = ({
-  isArchive
-}) => {
+const Actions: React.FC<{
+  isArchive?: boolean | undefined
+  handleAction: (operation: string) => void
+}> = ({ isArchive, handleAction }) => {
   return (
     <div className="flex flex-row-reverse gap-3">
       <div className="p-1 bg-[#ECEEF0] rounded-md">
@@ -17,7 +18,10 @@ const Actions: React.FC<{ isArchive?: boolean | undefined }> = ({
       </div>
       {!isArchive && (
         <div className="p-1 bg-[#FBE4DB] rounded-md">
-          <PencilIcon className="w-5 h-5 text-[#EE772A]" />
+          <PencilIcon
+            className="w-5 h-5 text-[#EE772A]"
+            onClick={() => handleAction('edit')}
+          />
         </div>
       )}
       <div className="p-1 bg-[#F8D8D7] rounded-md">

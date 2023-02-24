@@ -4,11 +4,13 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 interface MediaUploaderType {
   maxMediaNum?: number
+  prevItems?: Array<File>
   handleMediaUpload: Dispatch<SetStateAction<Array<File>>>
 }
 
 const MediaUploader: React.FC<MediaUploaderType> = ({
   maxMediaNum = 20,
+  prevItems,
   handleMediaUpload
 }) => {
   const [mediaList, setMediaList] = useState<Array<File>>([])
@@ -52,6 +54,31 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     setMediaPreviewList(tempPreviewList)
     setMediaList(tempMediaList)
   }
+
+  useEffect(() => {
+    if (prevItems?.length) {
+      setMediaList(prevItems)
+      setMediaCount(prevItems.length)
+      const reader = new FileReader()
+
+      prevItems.forEach((file) => {
+        const mediaType = file?.type.split('/')[0]
+
+        reader.onloadend = () => {
+          setMediaPreviewList((prev: Array<{ src: string; type: string }>) => {
+            const elementExists = prev?.some(
+              (mediaItem) =>
+                mediaItem.src === (reader.result as unknown as string)
+            )
+            if (elementExists) return [...prev]
+            return [...prev, { src: reader.result as string, type: mediaType }]
+          })
+        }
+
+        reader.readAsDataURL(file)
+      })
+    }
+  }, [prevItems])
 
   useEffect(() => {
     handleMediaUpload(mediaList)

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
 import Actions from './Actions'
+import Router from 'next/router'
 
 interface PostCardProps {
   post: IPost
@@ -20,6 +21,16 @@ const PostCard: React.FC<PostCardProps> = ({
     : '/images/nopic-ar.jpg'
 
   const { unit, timeElapsed } = getElapsedTime(post.updated_at.toString())
+
+  const handleAction = (operation: string) => {
+    switch (operation) {
+      case 'edit':
+        Router.push(`/post?mode=edit&id=${post.id}`)
+        break
+      default:
+        break
+    }
+  }
 
   return (
     <div
@@ -85,7 +96,7 @@ const PostCard: React.FC<PostCardProps> = ({
       </div>
       {showActions && (
         <div className="mt-5 md:mt-3 w-full grid place-items-center md:absolute md:top-0 md:place-items-end md:pl-10">
-          <Actions isArchive={isArchive} />
+          <Actions isArchive={isArchive} handleAction={handleAction} />
         </div>
       )}
     </div>

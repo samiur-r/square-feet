@@ -1195,7 +1195,7 @@ const Nav: React.FC = () => {
           )}
           {!isFilterPage && (
             <div className="hidden md:flex w-3/12">
-              <Link href="/post/create">
+              <Link href="/post?mode=create">
                 <a>
                   <CTA
                     title="إضافة إعلان"

@@ -35,7 +35,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
       ? {
           title: 'اكتب-المنطقه للبحث'
         }
-      : undefined
+      : selectedLocation
   )
 
   useEffect(() => {
