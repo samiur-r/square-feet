@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
-import Actions from './Actions'
 import Router from 'next/router'
+import ApiClient from 'utils/ApiClient'
+import { useStore } from 'store'
+import Actions from './Actions'
 
 interface PostCardProps {
   post: IPost
@@ -16,16 +18,38 @@ const PostCard: React.FC<PostCardProps> = ({
   showActions,
   isArchive
 }) => {
+  const { updateToast } = useStore()
+  const [isCallingApi, setIsCallingApi] = useState(false)
   const thumbnail = post?.media?.length
     ? `/images/posts/${post.media[0]}`
     : '/images/nopic-ar.jpg'
 
   const { unit, timeElapsed } = getElapsedTime(post.updated_at.toString())
 
-  const handleAction = (operation: string) => {
+  const stickPost = async () => {
+    setIsCallingApi(true)
+    try {
+      const response = await ApiClient({
+        url: '/post/stick',
+        method: 'POST',
+        data: { postId: post.id }
+      })
+      setIsCallingApi(false)
+      updateToast(true, `Success: ${response?.data.success}`, false)
+    } catch (error: any) {
+      setIsCallingApi(false)
+      updateToast(true, `Error: ${error?.response?.data}`, true)
+      console.log(error)
+    }
+  }
+
+  const handleAction = async (operation: string) => {
     switch (operation) {
       case 'edit':
         Router.push(`/post?mode=edit&id=${post.id}`)
+        break
+      case 'stick':
+        await stickPost()
         break
       default:
         break
@@ -96,7 +120,11 @@ const PostCard: React.FC<PostCardProps> = ({
       </div>
       {showActions && (
         <div className="mt-5 md:mt-3 w-full grid place-items-center md:absolute md:top-0 md:place-items-end md:pl-10">
-          <Actions isArchive={isArchive} handleAction={handleAction} />
+          <Actions
+            isArchive={isArchive}
+            isSticky={post.is_sticky}
+            handleAction={handleAction}
+          />
         </div>
       )}
     </div>

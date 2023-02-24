@@ -75,7 +75,6 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   }, [post?.media])
 
   useEffect(() => {
-    console.log(selectedLocation)
     if (selectedLocation) setCityErrors([])
   }, [selectedLocation])
 
@@ -203,8 +202,6 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       multimedia: mediaList,
       isStickyPost: isStickyDirectPost
     }
-
-    console.log(postInfo)
 
     try {
       await postSchema.validate(postInfo, { abortEarly: false })
