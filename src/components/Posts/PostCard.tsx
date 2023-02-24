@@ -19,7 +19,8 @@ const PostCard: React.FC<PostCardProps> = ({
   isArchive
 }) => {
   const { updateToast } = useStore()
-  const [isCallingApi, setIsCallingApi] = useState(false)
+  const [isCallingApiForStick, setIsCallingApiForStick] = useState(false)
+  const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
   const thumbnail = post?.media?.length
     ? `/images/posts/${post.media[0]}`
     : '/images/nopic-ar.jpg'
@@ -27,18 +28,35 @@ const PostCard: React.FC<PostCardProps> = ({
   const { unit, timeElapsed } = getElapsedTime(post.updated_at.toString())
 
   const stickPost = async () => {
-    setIsCallingApi(true)
+    setIsCallingApiForStick(true)
     try {
       const response = await ApiClient({
         url: '/post/stick',
         method: 'POST',
         data: { postId: post.id }
       })
-      setIsCallingApi(false)
+      setIsCallingApiForStick(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
       Router.reload()
     } catch (error: any) {
-      setIsCallingApi(false)
+      setIsCallingApiForStick(false)
+      updateToast(true, `Error: ${error?.response?.data}`, true)
+    }
+  }
+
+  const rePost = async () => {
+    setIsCallingApiForRepost(true)
+    try {
+      const response = await ApiClient({
+        url: '/post/repost',
+        method: 'POST',
+        data: { postId: post.id }
+      })
+      setIsCallingApiForRepost(false)
+      updateToast(true, `Success: ${response?.data.success}`, false)
+      Router.reload()
+    } catch (error: any) {
+      setIsCallingApiForRepost(false)
       updateToast(true, `Error: ${error?.response?.data}`, true)
     }
   }
@@ -50,6 +68,9 @@ const PostCard: React.FC<PostCardProps> = ({
         break
       case 'stick':
         await stickPost()
+        break
+      case 'repost':
+        await rePost()
         break
       default:
         break
@@ -123,7 +144,8 @@ const PostCard: React.FC<PostCardProps> = ({
           <Actions
             isArchive={isArchive}
             isSticky={post.is_sticky}
-            isCallingApi={isCallingApi}
+            isCallingApiForStick={isCallingApiForStick}
+            isCallingApiForRepost={isCallingApiForRepost}
             handleAction={handleAction}
           />
         </div>
