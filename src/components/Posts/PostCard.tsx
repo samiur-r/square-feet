@@ -36,10 +36,10 @@ const PostCard: React.FC<PostCardProps> = ({
       })
       setIsCallingApi(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
+      Router.reload()
     } catch (error: any) {
       setIsCallingApi(false)
       updateToast(true, `Error: ${error?.response?.data}`, true)
-      console.log(error)
     }
   }
 
@@ -123,6 +123,7 @@ const PostCard: React.FC<PostCardProps> = ({
           <Actions
             isArchive={isArchive}
             isSticky={post.is_sticky}
+            isCallingApi={isCallingApi}
             handleAction={handleAction}
           />
         </div>
