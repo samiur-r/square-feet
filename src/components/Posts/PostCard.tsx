@@ -21,6 +21,8 @@ const PostCard: React.FC<PostCardProps> = ({
   const { updateToast } = useStore()
   const [isCallingApiForStick, setIsCallingApiForStick] = useState(false)
   const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
+  const [isCallingApiForDelete, setIsCallingApiForDelete] = useState(false)
+
   const thumbnail = post?.media?.length
     ? `/images/posts/${post.media[0]}`
     : '/images/nopic-ar.jpg'
@@ -61,6 +63,23 @@ const PostCard: React.FC<PostCardProps> = ({
     }
   }
 
+  const deletePost = async () => {
+    setIsCallingApiForDelete(true)
+    try {
+      const response = await ApiClient({
+        url: '/post',
+        method: 'DELETE',
+        data: { postId: post.id }
+      })
+      setIsCallingApiForDelete(false)
+      updateToast(true, `Success: ${response?.data.success}`, false)
+      Router.reload()
+    } catch (error: any) {
+      setIsCallingApiForDelete(false)
+      updateToast(true, `Error: ${error?.response?.data}`, true)
+    }
+  }
+
   const handleAction = async (operation: string) => {
     switch (operation) {
       case 'edit':
@@ -71,6 +90,9 @@ const PostCard: React.FC<PostCardProps> = ({
         break
       case 'repost':
         await rePost()
+        break
+      case 'delete':
+        await deletePost()
         break
       default:
         break
@@ -146,6 +168,7 @@ const PostCard: React.FC<PostCardProps> = ({
             isSticky={post.is_sticky}
             isCallingApiForStick={isCallingApiForStick}
             isCallingApiForRepost={isCallingApiForRepost}
+            isCallingApiForDelete={isCallingApiForDelete}
             handleAction={handleAction}
           />
         </div>
