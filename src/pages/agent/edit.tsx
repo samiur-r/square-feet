@@ -18,9 +18,11 @@ export interface IAgent {
   twitter: string
   facebook: string
   logo_url: string
-  expired_date: Date
+  expiry_date: Date
   created_at: Date
   updated_at: Date
+  phone?: number
+  socialLinks?: Array<{ image: string; href: string }>
 }
 
 interface EditAgentProps {

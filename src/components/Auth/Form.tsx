@@ -100,7 +100,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setIsCallingApi(false)
-      updateToast(true, `Error: ${error.response.data}`, true)
+      updateToast(true, `Error: ${error?.response?.data}`, true)
     }
   }
 

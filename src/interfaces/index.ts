@@ -1,6 +1,7 @@
 export interface LocationType {
   id?: number
   title?: string
+  type?: string
   state_id?: number | null
   count?: number
 }
@@ -30,6 +31,8 @@ export interface IAgent {
   expiry_date: Date
   created_at: Date
   updated_at: Date
+  phone?: number
+  socialLinks?: Array<{ image: string; href: string }>
 }
 
 export interface ICredit {
