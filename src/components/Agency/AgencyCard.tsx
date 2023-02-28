@@ -5,11 +5,13 @@ import Link from 'next/link'
 const AgencyCard = React.forwardRef(
   (
     {
+      id,
       name,
       phone,
       logo_url,
       socialLinks
     }: {
+      id: number
       name: string
       phone: number | undefined
       logo_url: string | undefined
@@ -20,21 +22,27 @@ const AgencyCard = React.forwardRef(
   ) => {
     return (
       <div className="grid grid-cols-3 md:grid-cols-1 place-items-center bg-white p-2 rounded-lg border border-gray-300 shadow-sm cursor-pointer w-max">
-        <div className="w-full flex justify-center md:mb-2">
-          <div className="w-28 h-28 rounded-lg overflow-hidden relative">
-            <Image
-              src={`/images/agents/${logo_url}` || '/images/nopic-ar.jpg'}
-              layout="fill"
-              objectFit="cover"
-              alt="agency"
-            />
-          </div>
-        </div>
+        <Link href={`/agent/${id}`}>
+          <a>
+            <div className="w-full flex justify-center md:mb-2">
+              <div className="w-28 h-28 rounded-lg overflow-hidden relative">
+                <Image
+                  src={`/images/agents/${logo_url}` || '/images/nopic-ar.jpg'}
+                  layout="fill"
+                  objectFit="cover"
+                  alt="agency"
+                />
+              </div>
+            </div>
+          </a>
+        </Link>
         <div className="col-span-2 place-items-center">
           <div className="w-full text-center">
-            <a className="font-DroidArabicKufiBold text-sm md:text-base hover:text-primary hover:underline cursor-pointer">
-              {name}
-            </a>
+            <Link href={`/agent/${id}`}>
+              <a className="font-DroidArabicKufiBold text-sm md:text-base hover:text-primary hover:underline cursor-pointer">
+                {name}
+              </a>
+            </Link>
           </div>
           <div className="mt-2 w-full flex items-center justify-center gap-2">
             <div className="w-28">

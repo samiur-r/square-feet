@@ -33,6 +33,7 @@ export interface IAgent {
   updated_at: Date
   phone?: number
   socialLinks?: Array<{ image: string; href: string }>
+  user_id?: number
 }
 
 export interface ICredit {

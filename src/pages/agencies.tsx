@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const parsedCookie = req.cookies.token
 
   let token
-  let totalRows
+  let totalRows = 0
   let agent = null
   let credits = null
   let agents = null
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       url: '/agent/get-many?limit=10&offset=0'
     })
     agents = responseAgents.data?.agents
-    totalRows = responseAgents.data?.totalRows
+    totalRows = responseAgents.data?.totalRows || 0
   } catch (error) {
     /* empty */
   }

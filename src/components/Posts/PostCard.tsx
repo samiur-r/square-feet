@@ -69,7 +69,7 @@ const PostCard: React.FC<PostCardProps> = ({
       const response = await ApiClient({
         url: '/post',
         method: 'DELETE',
-        data: { postId: post.id }
+        data: { postId: post.id, isArchive }
       })
       setIsCallingApiForDelete(false)
       updateToast(true, `Success: ${response?.data.success}`, false)

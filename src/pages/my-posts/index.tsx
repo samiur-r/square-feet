@@ -7,21 +7,26 @@ import Description from 'components/Description'
 import ApiClient from 'utils/ApiClient'
 import Router, { useRouter } from 'next/router'
 import { useStore } from 'store'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IAgent, ICredit, IPost } from 'interfaces'
+import { useOnScreen } from 'hooks/useOnScreen'
 
 interface AccountType {
   agent: IAgent | null
   credits: ICredit
-  posts: IPost[] | null
-  archivedPosts: IPost[] | null
+  posts: IPost[]
+  archivedPosts: IPost[]
+  totalPosts: number
+  totalArchivePosts: number
 }
 
 const MyPosts: NextPage<AccountType> = ({
   agent,
   credits,
   posts,
-  archivedPosts
+  archivedPosts,
+  totalPosts,
+  totalArchivePosts
 }) => {
   const [showArchivedPosts, setShowArchivedPosts] = useState(false)
   const { removeUser, updateToast } = useStore()
@@ -29,6 +34,71 @@ const MyPosts: NextPage<AccountType> = ({
   const expiredDate = agent ? new Date(agent?.expiry_date) : undefined
   const hours = expiredDate?.getHours().toString().padStart(2, '0')
   const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
+
+  const [postList, setPostList] = useState(posts)
+  const [postCount, setPostCount] = useState(posts?.length || 0)
+
+  const [archivePostList, setArchivePostList] = useState(archivedPosts)
+  const [archivePostCount, setArchivePostCount] = useState(
+    archivedPosts?.length || 0
+  )
+
+  const [offset, setOffset] = useState(10)
+  const [limit] = useState(10)
+  const [isCallingApi, setIsCallingAPi] = useState(false)
+
+  const ref = useRef<HTMLDivElement>(null)
+  const isIntersecting = useOnScreen(ref)
+
+  const fetchPosts = async () => {
+    try {
+      const response = await ApiClient({
+        method: 'POST',
+        url: `/post/get-many?limit=${limit}&offset=${offset}`
+      })
+      setIsCallingAPi(false)
+      setPostList([...postList, ...response.data.posts])
+      setOffset((curr) => curr + 10)
+    } catch (error) {
+      /* empty */
+    }
+  }
+
+  const fetchArchivePosts = async () => {
+    try {
+      const response = await ApiClient({
+        method: 'POST',
+        url: `/post/archive/get-many?limit=${limit}&offset=${offset}`
+      })
+      setIsCallingAPi(false)
+      setArchivePostList([...archivePostList, ...response.data.posts])
+      setOffset((curr) => curr + 10)
+    } catch (error) {
+      /* empty */
+    }
+  }
+
+  useEffect(() => {
+    if (isIntersecting) {
+      if (showArchivedPosts) {
+        if (totalArchivePosts && archivePostCount < totalArchivePosts) {
+          setIsCallingAPi(true)
+          fetchArchivePosts()
+        }
+      } else if (totalPosts && postCount < totalPosts) {
+        setIsCallingAPi(true)
+        fetchPosts()
+      }
+    }
+  }, [isIntersecting])
+
+  useEffect(() => {
+    setPostCount(postList?.length)
+  }, [postList])
+
+  useEffect(() => {
+    setArchivePostCount(archivePostList?.length)
+  }, [archivePostList])
 
   const balanceItems = [
     {
@@ -83,6 +153,7 @@ const MyPosts: NextPage<AccountType> = ({
       // eslint-disable-next-line no-empty
     } catch (err) {}
   }
+
   return (
     <div className="dir-rtl container max-w-6xl pt-10 pb-8 flex flex-col gap-5 items-center bg-custom-white-light md:bg-white">
       <button
@@ -139,18 +210,40 @@ const MyPosts: NextPage<AccountType> = ({
           </button>
         </div>
         {showArchivedPosts
-          ? archivedPosts &&
-            archivedPosts?.length >= 1 &&
-            archivedPosts.map((post) => (
+          ? archivePostList &&
+            archivePostList.length &&
+            archivePostList.map((post) => (
               <PostCard key={post.id} post={post} showActions isArchive />
             ))
-          : posts &&
-            posts?.length >= 1 &&
-            posts.map((post) => (
+          : postList &&
+            postList.length &&
+            postList.map((post) => (
               <PostCard key={post.id} post={post} showActions />
             ))}
+        <div ref={ref} />
+        {isCallingApi && (
+          <div className="flex justify-center mt-10">
+            <svg
+              aria-hidden="true"
+              role="status"
+              className="inline w-10 h-10 text-primary animate-spin"
+              viewBox="0 0 100 101"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                fill="#E5E7EB"
+              />
+              <path
+                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        )}
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
-          انتهت نتائج البحث ولا يوجد المزيد من النتائج
+          انتهت نتائج البحث ولا يوجد المزيد من الاعلانات
         </p>
       </div>
     </div>
@@ -173,7 +266,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         agent: response.data?.success?.agent,
         credits: response.data?.success?.credits,
         posts: response.data?.success?.posts,
-        archivedPosts: response.data?.success?.archivedPosts
+        archivedPosts: response.data?.success?.archivePosts,
+        totalPosts: response.data?.success?.totalPosts
+          ? response.data?.success?.totalPosts
+          : 0,
+        totalArchivePosts: response.data?.success?.totalArchivePosts
+          ? response.data?.success?.totalArchivePosts
+          : 0
       }
     }
   } catch (error) {

@@ -53,7 +53,7 @@ const Agency: React.FC<{
   const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
 
   const [agents, setAgents] = useState(agencyList)
-  const [totalAgents, setTotalAgents] = useState(agents.length)
+  const [totalAgents, setTotalAgents] = useState(agents?.length || 0)
   const [offset, setOffset] = useState(10)
   const [limit] = useState(10)
   const [isCallingApi, setIsCallingAPi] = useState(false)
@@ -113,7 +113,7 @@ const Agency: React.FC<{
   }, [isIntersecting])
 
   useEffect(() => {
-    setTotalAgents(agents.length)
+    setTotalAgents(agents?.length)
   }, [agents])
 
   return (
@@ -161,17 +161,24 @@ const Agency: React.FC<{
         <Title value="قائمة المكاتب" />
       </div>
       <div className="flex flex-col md:flex-row flex-wrap justify-center md:justify-center gap-5">
-        {agents.map((agency: IAgent) => (
-          <Link key={agency.id} href="/agency">
-            <AgencyCard
-              name={agency.name}
-              phone={agency.phone}
-              logo_url={agency.logo_url}
-              socialLinks={agency.socialLinks}
-            />
-          </Link>
-        ))}
+        {agents &&
+          agents.map((agency: IAgent) => (
+            <React.Fragment key={agency.id}>
+              <AgencyCard
+                id={agency.id}
+                name={agency.name}
+                phone={agency.phone}
+                logo_url={agency.logo_url}
+                socialLinks={agency.socialLinks}
+              />
+            </React.Fragment>
+          ))}
       </div>
+      {totalRows && totalAgents >= totalRows && (
+        <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
+          انتهت نتائج البحث ولا يوجد المزيد من الاعلانات
+        </p>
+      )}
       <div ref={ref} />
       {isCallingApi && (
         <div className="flex justify-center mt-10">
