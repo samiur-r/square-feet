@@ -503,7 +503,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     try {
       const response = await ApiClient({
         method: 'GET',
-        url: `/post/${query?.id}`,
+        url: `/post/edit/${query?.id}`,
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie

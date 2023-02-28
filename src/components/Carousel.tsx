@@ -73,7 +73,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                         isImage(src) ? (
                           <Image
                             key={Math.random()}
-                            src={`/images/${src}`}
+                            src={`/images/posts/${src}`}
                             width={150}
                             height={150}
                             objectFit="contain"
@@ -97,7 +97,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                       isImage(src) ? (
                         <Image
                           key={Math.random()}
-                          src={`/images/${src}`}
+                          src={`/images/posts/${src}`}
                           alt="post_image"
                           width={600}
                           height={600}
