@@ -31,6 +31,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
         method: 'GET',
         url: `/post/get-many?limit=${limit}&offset=${offset}&userId=${agent?.user_id}`
       })
+
       setIsCallingAPi(false)
       setPosts([...posts, ...response.data.posts])
       setOffset((curr) => curr + 10)
@@ -116,7 +117,14 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
       </div>
       <div className="container max-w-3xl mt-8">
         <Title value="اعلانات المكتب" />
-        {posts && posts.map((post) => <PostCard key={post.id} post={post} />)}
+        {posts &&
+          posts.map((post) => (
+            <Link key={post.id} href={`/post/${post.id}`}>
+              <a>
+                <PostCard post={post} />
+              </a>
+            </Link>
+          ))}
       </div>
       <div ref={ref} />
       {isCallingApi && (

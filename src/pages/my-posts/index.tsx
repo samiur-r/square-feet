@@ -211,14 +211,22 @@ const MyPosts: NextPage<AccountType> = ({
         </div>
         {showArchivedPosts
           ? archivePostList &&
-            archivePostList.length &&
+            archivePostList.length > 0 &&
             archivePostList.map((post) => (
-              <PostCard key={post.id} post={post} showActions isArchive />
+              <Link key={post.id} href={`/post/${post.id}`}>
+                <a>
+                  <PostCard post={post} showActions isArchive />
+                </a>
+              </Link>
             ))
           : postList &&
-            postList.length &&
+            postList.length > 0 &&
             postList.map((post) => (
-              <PostCard key={post.id} post={post} showActions />
+              <Link key={post.id} href={`/post/${post.id}`}>
+                <a>
+                  <PostCard key={post.id} post={post} showActions />
+                </a>
+              </Link>
             ))}
         <div ref={ref} />
         {isCallingApi && (
