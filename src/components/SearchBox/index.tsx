@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
@@ -7,16 +6,31 @@ import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
 import { locations, propertyTypes, categories } from 'constant'
 import { LocationType } from 'interfaces'
+import ApiClient from 'utils/ApiClient'
+import { useStore } from 'store'
 
 const SearchBox = () => {
-  const [selectedCategory, setSelectedCategory] = useState({
-    id: categories[0].id,
-    title: categories[0].title
+  const {
+    locationsSelected,
+    propertyTypeSelected,
+    categorySelected,
+    setLocationsSelected,
+    setPropertyTypeSelected,
+    setCategorySelected
+  } = useStore()
+
+  const [selectedCategory, setSelectedCategory] = useState<
+    { id: number; title: string } | undefined
+  >({
+    id: 1,
+    title: 'للبدل'
   })
   const [selectedPropertyType, setSelectedPropertyType] = useState<
     { id: number; title: string } | undefined
-  >(undefined)
-
+  >({
+    id: 1,
+    title: 'الكل'
+  })
   const [selectedLocation, setSelectedLocation] = useState<
     LocationType[] | any
   >([])
@@ -24,10 +38,19 @@ const SearchBox = () => {
   const [canUpdateFilterAutoCompleteShow, setCanUpdateFilterAutoCompleteShow] =
     useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
+  const [isCallingApi, setIsCallingApi] = useState(false)
 
   useEffect(() => {
-    console.log(selectedLocation)
-  }, [selectedLocation])
+    setSelectedLocation(locationsSelected)
+  }, [locationsSelected])
+
+  useEffect(() => {
+    setSelectedPropertyType(propertyTypeSelected)
+  }, [propertyTypeSelected])
+
+  useEffect(() => {
+    setSelectedCategory(categorySelected)
+  }, [categorySelected])
 
   const handleLocationChanged = (
     id: number,
@@ -57,21 +80,48 @@ const SearchBox = () => {
     if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
   }, [canUpdateFilterAutoCompleteShow])
 
+  const handleSearch = async () => {
+    setIsCallingApi(true)
+    setLocationsSelected(selectedLocation)
+    setPropertyTypeSelected(selectedPropertyType)
+    setCategorySelected(selectedCategory)
+
+    try {
+      const response = await ApiClient({
+        method: 'POST',
+        url: '/search',
+        data: {
+          location: selectedLocation,
+          propertyType: selectedPropertyType,
+          category: selectedCategory
+        }
+      })
+      setIsCallingApi(false)
+      console.log(response)
+    } catch (error) {
+      setIsCallingApi(false)
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <div className="container relative z-10 max-w-6xl md:flex gap-5 grid grid-cols-1 w-full md:w-auto px-8 py-12 md:-mt-20 md:rounded-lg md:shadow-md bg-custom-white-lighter md:bg-white">
-        <Link href="/filter">
-          <div className="grid h-max md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
-            <CTA title="إبحث الآن" backgroundColor="secondary" />
-          </div>
-        </Link>
+        <div className="grid h-max md:w-2/12 w-full mt-5 md:mt-0 order-4 md:order-1">
+          <CTA
+            title="إبحث الآن"
+            backgroundColor="secondary"
+            handleClick={handleSearch}
+            isCallingApi={isCallingApi}
+          />
+        </div>
         <div className="md:hidden cursor-pointer grid grid-cols-3 rounded-full border">
           {categories.map((categoryItem, index) => (
             <button
               key={categoryItem.id}
               type="submit"
               className={`${
-                categoryItem.id === selectedCategory.id &&
+                categoryItem.id === selectedCategory?.id &&
                 'bg-primary text-white'
               } ${
                 index === 0 ? 'rounded-l-full' : index === 2 && 'rounded-r-full'
@@ -101,7 +151,7 @@ const SearchBox = () => {
                   value=""
                   name="default-radio"
                   className="w-4 h-4 ml-2 accent-orange-600"
-                  defaultChecked={categoryItem.id === selectedCategory.id}
+                  defaultChecked={categoryItem.id === selectedCategory?.id}
                   onClick={() =>
                     setSelectedCategory({
                       id: categoryItem.id,
@@ -115,7 +165,7 @@ const SearchBox = () => {
         </div>
         <div className="md:w-3/12 order-3 place-items-center">
           <ListBox
-            selectedOpt={undefined}
+            selectedOpt={selectedPropertyType}
             options={propertyTypes}
             handleSetItem={setSelectedPropertyType}
             showFilterIcon
@@ -139,7 +189,7 @@ const SearchBox = () => {
         <div className="absolute md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
-            purposes={categories}
+            categories={categories}
             propertyTypes={propertyTypes}
             handleIsfilterComboboxOpen={setShowFilterCombobox}
             showOptions

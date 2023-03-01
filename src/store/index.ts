@@ -6,8 +6,9 @@ import { persist } from 'zustand/middleware'
 
 import { createToastSlice, ToastSliceType } from './slices/toastSlice'
 import { createUserSlice, UserSliceType } from './slices/userSlice'
+import { createSearchSlice, SearchSliceType } from './slices/searchSlice'
 
-export type StoreState = UserSliceType & ToastSliceType
+export type StoreState = UserSliceType & ToastSliceType & SearchSliceType
 
 let store: any
 
@@ -30,7 +31,9 @@ export const initializeStore = (preloadedState: unknown = {}) => {
         // @ts-ignore
         ...createUserSlice(...a),
         // @ts-ignore
-        ...createToastSlice(...a)
+        ...createToastSlice(...a),
+        // @ts-ignore
+        ...createSearchSlice(...a)
       }),
       { name: 'store' }
     )

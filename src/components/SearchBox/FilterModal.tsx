@@ -3,37 +3,34 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
 
+import { useStore } from 'store'
 import { Range, getTrackBackground } from 'react-range'
 
 import { PRICE_RANGES } from 'constant'
 
 interface FilterModalProps {
-  purposes: Array<{ id: number; title: string }>
+  categories: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
-  selectedPurpose: { id: number; title: string }
-  selectedPropertyType: { id: number; title: string }
-  selectedPriceRange: number[]
   showFilterModal: boolean
-  setPurpose: Dispatch<SetStateAction<{ id: number; title: string }>>
-  setPropertyType: Dispatch<SetStateAction<{ id: number; title: string }>>
-  setPriceRange: Dispatch<SetStateAction<number[]>>
   setShowFilterModal: Dispatch<SetStateAction<boolean>>
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({
-  purposes,
+  categories,
   propertyTypes,
-  selectedPurpose,
-  selectedPropertyType,
-  selectedPriceRange: priceRange,
   showFilterModal,
-  setPurpose,
-  setPropertyType,
-  setPriceRange,
   setShowFilterModal,
   handleIsfilterComboboxOpen
 }) => {
+  const {
+    propertyTypeSelected,
+    categorySelected,
+    priceRangeSelected,
+    setPropertyTypeSelected,
+    setCategorySelected,
+    setPriceRangeSelected
+  } = useStore()
   return (
     <Transition.Root show={showFilterModal} as={Fragment}>
       <Dialog as="div" className="fixed z-30" onClose={setShowFilterModal}>
@@ -93,55 +90,63 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   <div className="py-5">
                     <div className="text-end">الغرض</div>
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
-                      {purposes.map((purpose) => (
-                        <button
-                          type="submit"
-                          key={purpose.id}
-                          className={`${
-                            selectedPurpose.id === purpose.id
-                              ? 'bg-primary text-white'
-                              : 'bg-custom-gray-3 text-custom-gray border-custom-gray-border border'
-                          } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
-                          onClick={() =>
-                            setPurpose({ id: purpose.id, title: purpose.title })
-                          }
-                        >
-                          {purpose.title}
-                        </button>
-                      ))}
+                      {categories &&
+                        categories.map((category) => (
+                          <button
+                            type="submit"
+                            key={category.id}
+                            className={`${
+                              categorySelected?.id === category?.id
+                                ? 'bg-primary text-white'
+                                : 'bg-custom-gray-3 text-custom-gray border-custom-gray-border border'
+                            } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
+                            onClick={() =>
+                              setCategorySelected({
+                                id: category?.id,
+                                title: category?.title
+                              })
+                            }
+                          >
+                            {category?.title}
+                          </button>
+                        ))}
                     </div>
                   </div>
                   <div className="py-5">
                     <div className="text-end">نوع العقار</div>
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
-                      {propertyTypes.map((type) => (
-                        <button
-                          type="submit"
-                          key={type.id}
-                          className={`${
-                            selectedPropertyType.id === type.id
-                              ? 'bg-primary text-white'
-                              : 'bg-custom-gray-3 text-custom-gray border-custom-gray-border border'
-                          } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
-                          onClick={() =>
-                            setPropertyType({ id: type.id, title: type.title })
-                          }
-                        >
-                          {type.title}
-                        </button>
-                      ))}
+                      {propertyTypes &&
+                        propertyTypes.map((type) => (
+                          <button
+                            type="submit"
+                            key={type.id}
+                            className={`${
+                              propertyTypeSelected?.id === type?.id
+                                ? 'bg-primary text-white'
+                                : 'bg-custom-gray-3 text-custom-gray border-custom-gray-border border'
+                            } px-4 py-2 rounded-full text-sm flex align-center w-max cursor-pointer transition duration-300 ease outline-none`}
+                            onClick={() =>
+                              setPropertyTypeSelected({
+                                id: type?.id,
+                                title: type?.title
+                              })
+                            }
+                          >
+                            {type?.title}
+                          </button>
+                        ))}
                     </div>
                   </div>
                   <div className="py-5">
                     <div className="text-end">السعر</div>
                     <div className="flex flex-wrap justify-center mt-12 px-5">
                       <Range
-                        values={priceRange}
+                        values={priceRangeSelected}
                         step={PRICE_RANGES.step}
                         min={PRICE_RANGES.min}
                         max={PRICE_RANGES.max}
                         // eslint-disable-next-line @typescript-eslint/no-shadow
-                        onChange={(values) => setPriceRange(values)}
+                        onChange={(values) => setPriceRangeSelected(values)}
                         renderTrack={({ props, children }) => (
                           // eslint-disable-next-line jsx-a11y/no-static-element-interactions
                           <div
@@ -161,7 +166,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                                 width: '100%',
                                 borderRadius: '4px',
                                 background: getTrackBackground({
-                                  values: priceRange,
+                                  values: priceRangeSelected,
                                   colors: ['#ccc', '#6598CB', '#ccc'],
                                   min: PRICE_RANGES.min,
                                   max: PRICE_RANGES.max
@@ -209,7 +214,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                               }}
                             >
                               <span>دك</span>
-                              <span>{priceRange[index]}</span>
+                              <span>{priceRangeSelected[index]}</span>
                             </div>
                           </div>
                         )}

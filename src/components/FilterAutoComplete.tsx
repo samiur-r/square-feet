@@ -19,12 +19,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { LocationType } from 'interfaces'
-import { PRICE_RANGES } from 'constant'
 import FilterModal from 'components/SearchBox/FilterModal'
 
 interface FilterAutoCompleteProps {
   locations: LocationType[]
-  purposes: Array<{ id: number; title: string }>
+  categories: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   handleLocationChanged?: (
@@ -37,7 +36,7 @@ interface FilterAutoCompleteProps {
 
 const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
-  purposes,
+  categories,
   propertyTypes,
   handleIsfilterComboboxOpen,
   handleLocationChanged,
@@ -47,19 +46,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-
-  // const [propertyType, setPropertyType] = useState({
-  //   id: propertyTypes[0].id,
-  //   title: propertyTypes[0].title
-  // })
-  // const [purpose, setPurpose] = useState({
-  //   id: purposes[2].id,
-  //   title: purposes[2].title
-  // })
-  // const [priceRange, setPriceRange] = useState([
-  //   PRICE_RANGES.min,
-  //   PRICE_RANGES.max
-  // ])
 
   const comboBtn = useRef<HTMLButtonElement>(null)
 
@@ -345,21 +331,15 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
           </>
         )}
       </Combobox>
-      {/* <Suspense fallback="Loading...">
+      <Suspense fallback="Loading...">
         <FilterModal
-          purposes={purposes}
+          categories={categories}
           propertyTypes={propertyTypes}
-          selectedPurpose={purpose}
-          selectedPropertyType={propertyType}
-          selectedPriceRange={priceRange}
           showFilterModal={showFilterModal}
-          setPurpose={setPurpose}
-          setPropertyType={setPropertyType}
-          setPriceRange={setPriceRange}
           setShowFilterModal={setShowFilterModal}
           handleIsfilterComboboxOpen={handleIsfilterComboboxOpen}
         />
-      </Suspense> */}
+      </Suspense>
     </div>
   )
 }
