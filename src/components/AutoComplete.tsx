@@ -13,12 +13,14 @@ import { LocationType } from 'interfaces'
 
 interface AutoCompleteProps {
   locations: LocationType[]
-  selectedLocation?: LocationType | undefined
+  selectedLocation?: LocationType[] | any
   isHomePage?: boolean
   canUpdateFilterAutoCompleteShow?: boolean
   isError?: boolean
   handleCanUpdateFilterAutoCompleteShow?: Dispatch<SetStateAction<boolean>>
-  handleSetSelectedLocation?: Dispatch<SetStateAction<LocationType | undefined>>
+  handleSetSelectedLocation?: Dispatch<
+    SetStateAction<LocationType | LocationType[] | any>
+  >
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -31,18 +33,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   handleSetSelectedLocation
 }) => {
   const [selected, setSelected] = useState<LocationType | undefined>(
-    isHomePage
-      ? {
-          title: 'اكتب-المنطقه للبحث'
-        }
-      : selectedLocation
+    selectedLocation as LocationType
   )
-
-  useEffect(() => {
-    if (selected && handleSetSelectedLocation)
-      handleSetSelectedLocation(selected)
-  }, [selected])
-
   const [query, setQuery] = useState('')
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
   const [isFocused, setIsFocused] = useState(false)
@@ -51,7 +43,14 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
   useEffect(() => {
     if (selected?.title) setInputPlaceHolder(selected.title)
+    if (selected && handleSetSelectedLocation && !isHomePage)
+      handleSetSelectedLocation(selected)
   }, [selected])
+
+  useEffect(() => {
+    if (isHomePage && handleSetSelectedLocation)
+      handleSetSelectedLocation(locationsSelected)
+  }, [locationsSelected])
 
   const removeLocation = (id: number) => {
     setLocationsSelected(
@@ -77,8 +76,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
       const onlyCities = locationsSelected.filter(
         // @ts-ignore
-        (location: { type: string }) => location.type === 'city'
+        (location: { state_id: number | null }) => location.state_id !== null
       )
+
       setLocationsSelected([...onlyCities, { id, title, state_id: stateId }])
     }
   }
@@ -103,13 +103,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         )
 
   useEffect(() => {
-    if (selectedLocation) {
-      handleLocationChanged(
-        // @ts-ignore
-        selectedLocation.id,
-        selectedLocation.title,
-        selectedLocation.state_id
-      )
+    if (isHomePage && selectedLocation && selectedLocation.length) {
+      setLocationsSelected(selectedLocation)
     }
   }, [selectedLocation])
 
@@ -129,7 +124,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
   return (
     <div className="dir-rtl w-full relative">
-      <Combobox value={selected} onChange={setSelected}>
+      <Combobox defaultValue={selected} onChange={setSelected}>
         {({ open }) => (
           <>
             {canUpdateFilterAutoCompleteShow !== undefined &&
@@ -224,7 +219,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                   {isHomePage &&
                     locationsSelected.map((location: LocationType) => (
                       <div
-                        key={location.id}
+                        key={location.id || Math.random()}
                         className="rounded-lg mt-2 ml-2 py-1 px-2 text-white bg-[#6598CB] text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease"
                       >
                         {location.title}
@@ -277,9 +272,16 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                       {isHomePage && (
                         <Combobox.Option
                           className="relative cursor-default select-none rounded-lg"
-                          value="all"
+                          value={{ title: ' كل مناطق الكويت' }}
                         >
-                          <span className="block text-base truncate hover:bg-primary-lighter text-black font-DroidArabicKufiBold p-2 cursor-pointer">
+                          <span
+                            onClick={() =>
+                              setLocationsSelected([
+                                { title: 'كل مناطق الكويت', state_id: null }
+                              ])
+                            }
+                            className="block text-base truncate hover:bg-primary-lighter text-black font-DroidArabicKufiBold p-2 cursor-pointer"
+                          >
                             {' '}
                             كل مناطق الكويت
                           </span>

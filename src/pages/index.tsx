@@ -35,7 +35,7 @@ const Home: NextPage<{ posts: IPost[]; totalPosts: number }> = ({
   )
 }
 
-export const getStaticProps: GetServerSideProps = async ({ req }) => {
+export const getStaticProps: GetServerSideProps = async () => {
   try {
     const response = await ApiClient({
       method: 'GET',
@@ -46,7 +46,8 @@ export const getStaticProps: GetServerSideProps = async ({ req }) => {
       props: {
         posts: response.data.posts,
         totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0
-      }
+      },
+      revalidate: 60
     }
   } catch (error) {
     /* empty */

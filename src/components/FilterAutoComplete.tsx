@@ -27,7 +27,11 @@ interface FilterAutoCompleteProps {
   purposes: Array<{ id: number; title: string }>
   propertyTypes: Array<{ id: number; title: string }>
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
-  handleLocationChanged?: (id: number, title: string, type: string) => void
+  handleLocationChanged?: (
+    id: number,
+    title: string,
+    state_id: number | null
+  ) => void
   showOptions?: boolean
 }
 
@@ -39,10 +43,23 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   handleLocationChanged,
   showOptions
 }) => {
-  const [selected, setSelected] = useState(locations[0])
+  const [selected, setSelected] = useState(undefined)
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+
+  // const [propertyType, setPropertyType] = useState({
+  //   id: propertyTypes[0].id,
+  //   title: propertyTypes[0].title
+  // })
+  // const [purpose, setPurpose] = useState({
+  //   id: purposes[2].id,
+  //   title: purposes[2].title
+  // })
+  // const [priceRange, setPriceRange] = useState([
+  //   PRICE_RANGES.min,
+  //   PRICE_RANGES.max
+  // ])
 
   const comboBtn = useRef<HTMLButtonElement>(null)
 
@@ -55,8 +72,13 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     )
   }
 
-  const handleChangeLocation = (id: number, title: string, type: string) => {
-    if (type === 'state') setLocationsSelected([{ id, title, type }])
+  const handleChangeLocation = (
+    id: number,
+    title: string,
+    stateId: number | null
+  ) => {
+    if (stateId === null)
+      setLocationsSelected([{ id, title, state_id: stateId }])
     else {
       const isExists = locationsSelected.find(
         // @ts-ignore
@@ -67,9 +89,10 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
       const onlyCities = locationsSelected.filter(
         // @ts-ignore
-        (location: { type: string }) => location.type === 'city'
+        (location: { state_id: number | null }) => location.state_id !== null
       )
-      setLocationsSelected([...onlyCities, { id, title, type }])
+
+      setLocationsSelected([...onlyCities, { id, title, state_id: stateId }])
     }
   }
 
@@ -101,26 +124,13 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     []
   )
 
-  const [propertyType, setPropertyType] = useState({
-    id: propertyTypes[0].id,
-    title: propertyTypes[0].title
-  })
-  const [purpose, setPurpose] = useState({
-    id: purposes[2].id,
-    title: purposes[2].title
-  })
-  const [priceRange, setPriceRange] = useState([
-    PRICE_RANGES.min,
-    PRICE_RANGES.max
-  ])
-
   const handleLocationChoosed = (location: LocationType) => {
     handleIsfilterComboboxOpen(false)
     if (handleLocationChanged)
       // @ts-ignore
-      handleLocationChanged(location.id, location.title, location.type)
+      handleLocationChanged(location.id, location.title, location.state_id)
     // @ts-ignore
-    else handleChangeLocation(location.id, location.title, location.type)
+    else handleChangeLocation(location.id, location.title, location.state_id)
   }
 
   useEffect(() => {
@@ -291,7 +301,15 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                         value="all"
                         onClick={() => handleIsfilterComboboxOpen(false)}
                       >
-                        <span className="block text-base truncate hover:bg-gray-100 text-black font-DroidArabicKufiBold py-2 px-4 cursor-pointer">
+                        <span
+                          onClick={() =>
+                            handleLocationChoosed({
+                              title: 'كل مناطق الكويت',
+                              state_id: null
+                            })
+                          }
+                          className="block text-base truncate hover:bg-gray-100 text-black font-DroidArabicKufiBold py-2 px-4 cursor-pointer"
+                        >
                           {' '}
                           كل مناطق الكويت
                         </span>
@@ -303,16 +321,16 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           value={location}
                           onClick={() => handleLocationChoosed(location)}
                         >
-                          {location.type === 'city' && (
+                          {location.state_id !== null && (
                             <span className="absolute left-5 top-1 text-primary">
                               ({location.count})
                             </span>
                           )}
                           <span
                             className={`${
-                              location.type === 'state' && 'text-black'
+                              location.state_id === null && 'text-black'
                             } ${
-                              location.type === 'city' && 'text-primary'
+                              location.type !== null && 'text-primary'
                             } hover:bg-gray-100 font-DroidArabicKufiBold text-base block truncate py-2 pr-4 cursor-pointer`}
                           >
                             {location.title}
@@ -327,7 +345,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
           </>
         )}
       </Combobox>
-      <Suspense fallback="Loading...">
+      {/* <Suspense fallback="Loading...">
         <FilterModal
           purposes={purposes}
           propertyTypes={propertyTypes}
@@ -341,7 +359,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
           setShowFilterModal={setShowFilterModal}
           handleIsfilterComboboxOpen={handleIsfilterComboboxOpen}
         />
-      </Suspense>
+      </Suspense> */}
     </div>
   )
 }

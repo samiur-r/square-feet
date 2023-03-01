@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export function useOnScreen(ref, options = { threshold: 0.5 }) {
+export function useOnScreen(ref: any, options = { threshold: 0.5 }) {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
