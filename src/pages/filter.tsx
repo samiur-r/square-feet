@@ -129,7 +129,13 @@ const Filter: NextPage = () => {
         <div className="w-full">
           {posts &&
             posts.length > 0 &&
-            posts.map((post: IPost) => <PostCard key={post.id} post={post} />)}
+            posts.map((post: IPost) => (
+              <Link key={post.id} href={`/post/${post.id}`}>
+                <a>
+                  <PostCard key={post.id} post={post} />
+                </a>
+              </Link>
+            ))}
         </div>
       </div>
       <div ref={ref} />
