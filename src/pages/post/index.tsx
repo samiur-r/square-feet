@@ -275,10 +275,6 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
     setIsStickyDirectPost(!isStickyDirectPost)
   }
 
-  useEffect(() => {
-    console.log(selectedLocation)
-  }, [selectedLocation])
-
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
       <PackageModal

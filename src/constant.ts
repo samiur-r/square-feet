@@ -7,39 +7,31 @@ export const PRICE_RANGES = {
 export const propertyTypes = [
   {
     id: 1,
-    title: 'الكل'
-  },
-  {
-    id: 2,
     title: 'كبد'
   },
   {
-    id: 3,
+    id: 2,
     title: 'شقه'
   },
   {
-    id: 4,
+    id: 3,
     title: 'أرض'
   },
   {
-    id: 5,
+    id: 4,
     title: 'عماره'
   },
   {
-    id: 6,
+    id: 5,
     title: 'تجاري'
   },
   {
-    id: 7,
+    id: 6,
     title: 'شاليه'
   },
   {
-    id: 8,
+    id: 7,
     title: 'مزرعه'
-  },
-  {
-    id: 9,
-    title: 'دولي'
   }
 ]
 

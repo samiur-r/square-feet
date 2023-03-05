@@ -7,8 +7,15 @@ import { persist } from 'zustand/middleware'
 import { createToastSlice, ToastSliceType } from './slices/toastSlice'
 import { createUserSlice, UserSliceType } from './slices/userSlice'
 import { createSearchSlice, SearchSliceType } from './slices/searchSlice'
+import {
+  createFilteredPostSlice,
+  FilteredPostSliceType
+} from './slices/filteredPostSlice'
 
-export type StoreState = UserSliceType & ToastSliceType & SearchSliceType
+export type StoreState = UserSliceType &
+  ToastSliceType &
+  SearchSliceType &
+  FilteredPostSliceType
 
 let store: any
 
@@ -33,7 +40,9 @@ export const initializeStore = (preloadedState: unknown = {}) => {
         // @ts-ignore
         ...createToastSlice(...a),
         // @ts-ignore
-        ...createSearchSlice(...a)
+        ...createSearchSlice(...a),
+        // @ts-ignore
+        ...createFilteredPostSlice(...a)
       }),
       { name: 'store' }
     )

@@ -20,11 +20,10 @@ import Link from 'next/link'
 
 import { LocationType } from 'interfaces'
 import FilterModal from 'components/SearchBox/FilterModal'
+import { useStore } from 'store'
 
 interface FilterAutoCompleteProps {
   locations: LocationType[]
-  categories: Array<{ id: number; title: string }>
-  propertyTypes: Array<{ id: number; title: string }>
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   handleLocationChanged?: (
     id: number,
@@ -36,16 +35,21 @@ interface FilterAutoCompleteProps {
 
 const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
-  categories,
-  propertyTypes,
   handleIsfilterComboboxOpen,
   handleLocationChanged,
   showOptions
 }) => {
+  const {
+    locationsSelected: lastSelectedLocations,
+    updateCanFetchPosts,
+    setLocationsSelected: updateLocationsSelected
+  } = useStore()
+
   const [selected, setSelected] = useState(undefined)
   const [query, setQuery] = useState('')
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [firstRender, setFirstRender] = useState(true)
 
   const comboBtn = useRef<HTMLButtonElement>(null)
 
@@ -58,11 +62,25 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     )
   }
 
+  useEffect(() => {
+    if (!showOptions && !firstRender) {
+      updateCanFetchPosts(true)
+      updateLocationsSelected(locationsSelected)
+    }
+  }, [locationsSelected])
+
+  useEffect(() => {
+    if (!showOptions && firstRender) {
+      setLocationsSelected(lastSelectedLocations)
+    }
+  }, [lastSelectedLocations])
+
   const handleChangeLocation = (
     id: number,
     title: string,
     stateId: number | null
   ) => {
+    if (firstRender) setFirstRender(false)
     if (stateId === null)
       setLocationsSelected([{ id, title, state_id: stateId }])
     else {
@@ -333,8 +351,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
       </Combobox>
       <Suspense fallback="Loading...">
         <FilterModal
-          categories={categories}
-          propertyTypes={propertyTypes}
           showFilterModal={showFilterModal}
           setShowFilterModal={setShowFilterModal}
           handleIsfilterComboboxOpen={handleIsfilterComboboxOpen}

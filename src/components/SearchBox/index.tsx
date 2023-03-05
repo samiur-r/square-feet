@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import Router from 'next/router'
 
 import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
@@ -9,6 +10,13 @@ import { LocationType } from 'interfaces'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 
+const allProperTypeObj = {
+  id: 0,
+  title: 'الكل'
+}
+
+propertyTypes.unshift(allProperTypeObj)
+
 const SearchBox = () => {
   const {
     locationsSelected,
@@ -16,7 +24,9 @@ const SearchBox = () => {
     categorySelected,
     setLocationsSelected,
     setPropertyTypeSelected,
-    setCategorySelected
+    setCategorySelected,
+    updateFilteredPosts,
+    updateFilteredPostsCount
   } = useStore()
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -28,7 +38,7 @@ const SearchBox = () => {
   const [selectedPropertyType, setSelectedPropertyType] = useState<
     { id: number; title: string } | undefined
   >({
-    id: 1,
+    id: 0,
     title: 'الكل'
   })
   const [selectedLocation, setSelectedLocation] = useState<
@@ -82,6 +92,19 @@ const SearchBox = () => {
 
   const handleSearch = async () => {
     setIsCallingApi(true)
+
+    let location
+    let propertyType
+    if (
+      selectedLocation.length === 1 &&
+      selectedLocation[0].title === 'كل مناطق الكويت'
+    )
+      location = undefined
+    else location = selectedLocation
+
+    if (selectedPropertyType?.id === 0) propertyType = undefined
+    else propertyType = selectedPropertyType
+
     setLocationsSelected(selectedLocation)
     setPropertyTypeSelected(selectedPropertyType)
     setCategorySelected(selectedCategory)
@@ -91,16 +114,19 @@ const SearchBox = () => {
         method: 'POST',
         url: '/search',
         data: {
-          location: selectedLocation,
-          propertyType: selectedPropertyType,
+          limit: 10,
+          offset: 0,
+          location,
+          propertyType,
           category: selectedCategory
         }
       })
       setIsCallingApi(false)
-      console.log(response)
+      updateFilteredPostsCount(response?.data?.count)
+      updateFilteredPosts(response?.data?.posts)
+      Router.push('/filter')
     } catch (error) {
       setIsCallingApi(false)
-      console.log(error)
     }
   }
 
@@ -189,8 +215,6 @@ const SearchBox = () => {
         <div className="absolute md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
-            categories={categories}
-            propertyTypes={propertyTypes}
             handleIsfilterComboboxOpen={setShowFilterCombobox}
             showOptions
             handleLocationChanged={handleLocationChanged}
