@@ -5,7 +5,7 @@ import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
 import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
-import { locations, propertyTypes, categories } from 'constant'
+import { propertyTypes, categories } from 'constant'
 import { LocationType } from 'interfaces'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
@@ -17,7 +17,7 @@ const allProperTypeObj = {
 
 propertyTypes.unshift(allProperTypeObj)
 
-const SearchBox = () => {
+const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
   const {
     locationsSelected,
     propertyTypeSelected,

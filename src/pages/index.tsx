@@ -9,18 +9,19 @@ import Faq from 'components/Articles/Faq'
 import Posts from 'components/Posts'
 import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
-import { IPost } from 'interfaces'
+import { IPost, LocationType } from 'interfaces'
 
-const Home: NextPage<{ posts: IPost[]; totalPosts: number }> = ({
-  posts,
-  totalPosts
-}) => {
+const Home: NextPage<{
+  posts: IPost[]
+  totalPosts: number
+  locations: LocationType[]
+}> = ({ posts, totalPosts, locations }) => {
   return (
     <div className="bg-gray-50 md:bg-white">
       <div className="h-[calc(100vh_-_8rem)] md:h-[calc(100vh_-_6rem)] md:mb-10 overflow-hidden flex flex-col justify-between bg-custom-white-lighter">
         <div>
           <Hero />
-          <SearchBox />
+          <SearchBox locations={locations} />
         </div>
         <Banner />
       </div>
@@ -42,10 +43,16 @@ export const getStaticProps: GetServerSideProps = async () => {
       url: '/post/get-many?limit=10&offset=0'
     })
 
+    const responseLocations = await ApiClient({
+      method: 'GET',
+      url: '/locations'
+    })
+
     return {
       props: {
         posts: response.data.posts,
-        totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0
+        totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0,
+        locations: responseLocations.data?.locations || null
       },
       revalidate: 60
     }
