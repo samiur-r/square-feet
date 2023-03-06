@@ -29,7 +29,7 @@ const MyPosts: NextPage<AccountType> = ({
   totalArchivePosts
 }) => {
   const [showArchivedPosts, setShowArchivedPosts] = useState(false)
-  const { removeUser, updateToast } = useStore()
+  const { updateToast } = useStore()
   const router = useRouter()
   const expiredDate = agent ? new Date(agent?.expiry_date) : undefined
   const hours = expiredDate?.getHours().toString().padStart(2, '0')
@@ -142,27 +142,8 @@ const MyPosts: NextPage<AccountType> = ({
     }
   }, [router.isReady, router.query])
 
-  const logout = async () => {
-    try {
-      await ApiClient({
-        method: 'GET',
-        url: `/user/logout`
-      })
-      removeUser()
-      Router.push('/login')
-      // eslint-disable-next-line no-empty
-    } catch (err) {}
-  }
-
   return (
     <div className="dir-rtl container max-w-6xl pt-10 pb-8 flex flex-col gap-5 items-center bg-custom-white-light md:bg-white">
-      <button
-        onClick={logout}
-        className="bg-primary p-2 text-white"
-        type="button"
-      >
-        Logout
-      </button>
       <div
         className={`${
           agent !== null && 'md:grid-cols-2 md:w-auto'

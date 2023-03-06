@@ -240,7 +240,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       }
       setIsCallingApi(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
-      Router.push('/my-posts')
+      Router.push('/account')
     } catch (error: any) {
       setIsCallingApi(false)
       if (error.name === 'ValidationError') {

@@ -96,7 +96,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
       }
       setIsCallingApi(false)
       addUser(data.success)
-      Router.push('/my-posts')
+      Router.push('/account')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       setIsCallingApi(false)

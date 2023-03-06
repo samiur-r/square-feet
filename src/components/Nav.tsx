@@ -11,7 +11,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-import { locations, propertyTypes, categories } from 'constant'
+import { locations } from 'constant'
+import { useStore } from 'store'
 import CTA from './CTA'
 
 const DynamicFilterAutoComplete = dynamic(
@@ -114,15 +115,38 @@ const realEstate = [
 const navItems = [
   {
     title: 'تسجيل',
-    href: '/'
+    href: '/register'
   },
   {
     title: 'دخول',
-    href: '/'
+    href: '/login'
   },
   {
     title: 'المكاتب',
+    href: '/المكاتب'
+  },
+  {
+    title: 'الرئيسية',
     href: '/'
+  }
+]
+
+const navItemsAuth = [
+  {
+    title: 'خروج',
+    href: '/logout'
+  },
+  {
+    title: 'اشحن رصيد',
+    href: '/topup'
+  },
+  {
+    title: 'إعلاناتي',
+    href: '/account'
+  },
+  {
+    title: 'المكاتب',
+    href: '/المكاتب'
   },
   {
     title: 'الرئيسية',
@@ -177,6 +201,7 @@ const socialLinks = [
 ]
 
 const Nav: React.FC = () => {
+  const { user } = useStore()
   const { pathname } = useRouter()
   const [showSubRealState, setShowSubRealState] = useState([
     false,
@@ -228,8 +253,6 @@ const Nav: React.FC = () => {
             <Suspense fallback="Loading...">
               <DynamicFilterAutoComplete
                 locations={locations}
-                categories={categories}
-                propertyTypes={propertyTypes}
                 handleIsfilterComboboxOpen={setIsLocationDropDownOpen}
               />
             </Suspense>
@@ -316,20 +339,41 @@ const Nav: React.FC = () => {
                   </>
                 )}
               </Popover>
-              {navItems.map((item) => (
-                <button
-                  type="submit"
-                  onClick={() => handleNavChange(item)}
-                  className={`${
-                    activeItem === item.title
-                      ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
-                      : 'text-base'
-                  } font-medium hover:text-primary relative`}
-                  key={item.title}
-                >
-                  {item.title}
-                </button>
-              ))}
+              {user
+                ? navItemsAuth.map((item) => (
+                    <Link href={`${item.href}`} key={item.title}>
+                      <a>
+                        <button
+                          type="submit"
+                          onClick={() => handleNavChange(item)}
+                          className={`${
+                            activeItem === item.title
+                              ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
+                              : 'text-base'
+                          } font-medium hover:text-primary relative`}
+                        >
+                          {item.title}
+                        </button>
+                      </a>
+                    </Link>
+                  ))
+                : navItems.map((item) => (
+                    <Link href={`${item.href}`} key={item.title}>
+                      <a>
+                        <button
+                          type="submit"
+                          onClick={() => handleNavChange(item)}
+                          className={`${
+                            activeItem === item.title
+                              ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
+                              : 'text-base'
+                          } font-medium hover:text-primary relative`}
+                        >
+                          {item.title}
+                        </button>
+                      </a>
+                    </Link>
+                  ))}
             </Popover.Group>
           )}
           <div

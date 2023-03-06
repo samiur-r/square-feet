@@ -17,5 +17,13 @@ module.exports = withBundleAnalyzer({
     })
 
     return config
+  },
+  async rewrites() {
+    return [
+      {
+        source: encodeURI('/المكاتب'),
+        destination: '/agencies'
+      }
+    ]
   }
 })

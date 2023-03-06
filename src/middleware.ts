@@ -10,7 +10,7 @@ export default async function middleware(req: NextRequest) {
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (
-    pathname.startsWith('/my-posts') ||
+    pathname.startsWith('/account') ||
     pathname.startsWith('/post/create') ||
     pathname.startsWith('/agent/edit')
   ) {
@@ -35,7 +35,7 @@ export default async function middleware(req: NextRequest) {
     if (token) {
       try {
         await verifyJwt(token)
-        req.nextUrl.pathname = '/my-posts'
+        req.nextUrl.pathname = '/account'
         return NextResponse.redirect(req.nextUrl)
       } catch (err) {
         return NextResponse.next()

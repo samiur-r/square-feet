@@ -1,17 +1,26 @@
-import { useRouter } from 'next/router'
+import Router from 'next/router'
 import { useEffect } from 'react'
+import { useStore } from 'store'
+import ApiClient from 'utils/ApiClient'
 
-const Redirect = () => {
-  const router = useRouter()
+const Logout = () => {
+  const { removeUser } = useStore()
+
+  const logout = async () => {
+    try {
+      await ApiClient({
+        method: 'GET',
+        url: `/user/logout`
+      })
+      removeUser()
+      Router.push('/')
+      // eslint-disable-next-line no-empty
+    } catch (err) {}
+  }
 
   useEffect(() => {
-    if (!router.isReady) return
-
-    const { query } = router
-
-    if (query && query.success)
-      router.push(`/account?success=${router.query.success}`)
-  }, [router.isReady, router.query])
+    logout()
+  }, [])
 
   return (
     <div className="h-screen flex justify-center items-start mt-40">
@@ -36,4 +45,4 @@ const Redirect = () => {
   )
 }
 
-export default Redirect
+export default Logout
