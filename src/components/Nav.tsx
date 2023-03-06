@@ -163,19 +163,58 @@ const mobileNavItems = [
   },
   {
     title: 'دخول / تسجيل',
-    href: '/',
+    href: '/login',
     icon: '/images/mobile_nav_icons/sign_in.svg',
     primaryIcon: '/images/mobile_nav_icons/sign_in_primary.svg'
   },
   {
     title: 'إعلان مجانًا',
-    href: '/',
+    href: '/post?mode=create',
     icon: '/images/mobile_nav_icons/add_circle_outlined.svg',
     primaryIcon: '/images/mobile_nav_icons/add_circle_outlined_primary.svg'
   },
   {
     title: 'المكاتب',
+    href: '/المكاتب',
+    icon: '/images/mobile_nav_icons/briefcase_outlined.svg',
+    primaryIcon: '/images/mobile_nav_icons/briefcase_outlined_primary.svg'
+  }
+]
+
+const mobileNavItemsAuth = [
+  {
+    title: 'الرئيسية / بحث',
     href: '/',
+    icon: '/images/mobile_nav_icons/home_search.svg',
+    primaryIcon: '/images/mobile_nav_icons/home_search_primary.svg'
+  },
+  {
+    title: 'خروج',
+    href: '/logout',
+    icon: '/images/mobile_nav_icons/sign_in.svg',
+    primaryIcon: '/images/mobile_nav_icons/sign_in_primary.svg'
+  },
+  {
+    title: 'إعلاناتي',
+    href: '/account',
+    icon: '/images/mobile_nav_icons/doc.svg',
+    primaryIcon: '/images/mobile_nav_icons/doc_primary.svg'
+  },
+  {
+    title: 'اشحن رصيد',
+    href: '/topup',
+    icon: '/images/mobile_nav_icons/credit_card_add.svg',
+    primaryIcon: '/images/mobile_nav_icons/credit_card_add_primary.svg'
+  },
+  {
+    title: 'إعلان مجانًا',
+    href: '/post?mode=create',
+    icon: '/images/mobile_nav_icons/add_circle_outlined.svg',
+    primaryIcon: '/images/mobile_nav_icons/add_circle_outlined_primary.svg'
+  },
+  {
+    title: 'المكاتب',
+    href: '/المكاتب',
     icon: '/images/mobile_nav_icons/briefcase_outlined.svg',
     primaryIcon: '/images/mobile_nav_icons/briefcase_outlined_primary.svg'
   }
@@ -202,6 +241,12 @@ const socialLinks = [
 
 const Nav: React.FC = () => {
   const { user } = useStore()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    if (user) setIsLoggedIn(true)
+    else setIsLoggedIn(false)
+  }, [user])
   const { pathname } = useRouter()
   const [showSubRealState, setShowSubRealState] = useState([
     false,
@@ -339,40 +384,36 @@ const Nav: React.FC = () => {
                   </>
                 )}
               </Popover>
-              {user
+              {isLoggedIn
                 ? navItemsAuth.map((item) => (
-                    <Link href={`${item.href}`} key={item.title}>
-                      <a>
-                        <button
-                          type="submit"
-                          onClick={() => handleNavChange(item)}
-                          className={`${
-                            activeItem === item.title
-                              ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
-                              : 'text-base'
-                          } font-medium hover:text-primary relative`}
-                        >
-                          {item.title}
-                        </button>
-                      </a>
-                    </Link>
+                    <a href={`${item.href}`} key={item.title}>
+                      <button
+                        type="submit"
+                        onClick={() => handleNavChange(item)}
+                        className={`${
+                          activeItem === item.title
+                            ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
+                            : 'text-base'
+                        } font-medium hover:text-primary relative`}
+                      >
+                        {item.title}
+                      </button>
+                    </a>
                   ))
                 : navItems.map((item) => (
-                    <Link href={`${item.href}`} key={item.title}>
-                      <a>
-                        <button
-                          type="submit"
-                          onClick={() => handleNavChange(item)}
-                          className={`${
-                            activeItem === item.title
-                              ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
-                              : 'text-base'
-                          } font-medium hover:text-primary relative`}
-                        >
-                          {item.title}
-                        </button>
-                      </a>
-                    </Link>
+                    <a href={`${item.href}`} key={item.title}>
+                      <button
+                        type="submit"
+                        onClick={() => handleNavChange(item)}
+                        className={`${
+                          activeItem === item.title
+                            ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
+                            : 'text-base'
+                        } font-medium hover:text-primary relative`}
+                      >
+                        {item.title}
+                      </button>
+                    </a>
                   ))}
             </Popover.Group>
           )}
@@ -452,53 +493,111 @@ const Nav: React.FC = () => {
 
               {/* nav items */}
               <div className="mt-2 flex flex-col gap-3">
-                {mobileNavItems.map((item) => (
-                  <Link href={item.href} key={item.title}>
-                    <button
-                      type="submit"
-                      onClick={() => handleMobileNavChange(item)}
-                      className={`${
-                        activeItemOnMobile === item.title &&
-                        'bg-primary-lighter text-primary'
-                      } flex font-DroidArabicKufiBold items-center gap-4 justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
-                    >
-                      <p
-                        className={`${
-                          item.title === 'إعلان مجانًا' && 'text-secondary'
-                        } font-DroidArabicKufiBold`}
-                      >
-                        {item.title}
-                      </p>
-                      {item.title === 'إعلان مجانًا' ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="2"
-                          stroke="currentColor"
-                          className="w-8 h-8 text-secondary"
+                {isLoggedIn
+                  ? mobileNavItemsAuth.map((item) => (
+                      <Link href={item.href} key={item.title}>
+                        <a
+                          className={`${
+                            activeItemOnMobile === item.title &&
+                            'bg-primary-lighter text-primary'
+                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      ) : (
-                        <Image
-                          src={
-                            activeItemOnMobile === item.title
-                              ? item.primaryIcon
-                              : item.icon
-                          }
-                          height={30}
-                          width={30}
-                          alt="nav_item"
-                        />
-                      )}
-                    </button>
-                  </Link>
-                ))}
+                          <Popover.Button
+                            type="submit"
+                            onClick={() => handleMobileNavChange(item)}
+                            className="flex gap-4 items-center"
+                          >
+                            <p
+                              className={`${
+                                item.title === 'إعلان مجانًا' &&
+                                'text-secondary'
+                              } font-DroidArabicKufiBold`}
+                            >
+                              {item.title}
+                            </p>
+                            {item.title === 'إعلان مجانًا' ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                                stroke="currentColor"
+                                className="w-8 h-8 text-secondary"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                            ) : (
+                              <Image
+                                src={
+                                  activeItemOnMobile === item.title
+                                    ? item.primaryIcon
+                                    : item.icon
+                                }
+                                height={30}
+                                width={30}
+                                alt="nav_item"
+                              />
+                            )}
+                          </Popover.Button>
+                        </a>
+                      </Link>
+                    ))
+                  : mobileNavItems.map((item) => (
+                      <Link href={item.href} key={item.title}>
+                        <a
+                          className={`${
+                            activeItemOnMobile === item.title &&
+                            'bg-primary-lighter text-primary'
+                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                        >
+                          <Popover.Button
+                            type="submit"
+                            onClick={() => handleMobileNavChange(item)}
+                            className="flex gap-4"
+                          >
+                            <p
+                              className={`${
+                                item.title === 'إعلان مجانًا' &&
+                                'text-secondary'
+                              } font-DroidArabicKufiBold`}
+                            >
+                              {item.title}
+                            </p>
+                            {item.title === 'إعلان مجانًا' ? (
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                                stroke="currentColor"
+                                className="w-8 h-8 text-secondary"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                              </svg>
+                            ) : (
+                              <Image
+                                src={
+                                  activeItemOnMobile === item.title
+                                    ? item.primaryIcon
+                                    : item.icon
+                                }
+                                height={30}
+                                width={30}
+                                alt="nav_item"
+                              />
+                            )}
+                          </Popover.Button>
+                        </a>
+                      </Link>
+                    ))}
                 <Popover className="relative ml-5 rounded-l-2xl">
                   {() => (
                     <>
