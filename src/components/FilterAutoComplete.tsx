@@ -294,7 +294,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                 afterLeave={() => setQuery('')}
               >
                 <Combobox.Options className="fixed md:absolute pr-2 overflow-y-scroll mt-1 left-0 h-screen w-screen md:max-h-96 md:w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {filteredLocations.length === 0 && query !== '' ? (
+                  {filteredLocations &&
+                  filteredLocations.length === 0 &&
+                  query !== '' ? (
                     <div className="relative cursor-default select-none py-2 px-4 text-custom-gray">
                       لا توجد منطقه بهذا الاسم
                     </div>

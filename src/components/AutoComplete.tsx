@@ -263,7 +263,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     isHomePage && 'hidden md:block'
                   } z-20 bg-white absolute p-2 overflow-y-scroll mt-3 left-0 max-h-80 w-full rounded-lg text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm`}
                 >
-                  {filteredLocations.length === 0 && query !== '' ? (
+                  {filteredLocations &&
+                  filteredLocations.length === 0 &&
+                  query !== '' ? (
                     <div className="relative cursor-default select-none py-2 px-4 text-custom-gray">
                       لا توجد منطقه بهذا الاسم
                     </div>
@@ -287,42 +289,43 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                           </span>
                         </Combobox.Option>
                       )}
-                      {filteredLocations.map((location) => (
-                        <Combobox.Option
-                          key={location.id}
-                          className="relative cursor-default select-none"
-                          value={
-                            isHomePage || location.state_id !== null
-                              ? location
-                              : undefined
-                          }
-                          onClick={() =>
-                            handleLocationChanged(
-                              // TODO: fix
-                              location?.id as number,
-                              location.title as string,
-                              (location.state_id as number) || null
-                            )
-                          }
-                        >
-                          {isHomePage && location.state_id !== null && (
-                            <span className="absolute top-3 left-5 text-primary">
-                              ({location.count})
-                            </span>
-                          )}
-                          <span
-                            className={`${
-                              location.state_id === null &&
-                              !isHomePage &&
-                              'hidden'
-                            } ${location.state_id === null && 'text-black'} ${
-                              location.state_id !== null && 'text-primary'
-                            } hover:bg-primary-lighter font-DroidArabicKufiBold text-base block truncate p-2 cursor-pointer`}
+                      {filteredLocations &&
+                        filteredLocations.map((location) => (
+                          <Combobox.Option
+                            key={location.id}
+                            className="relative cursor-default select-none"
+                            value={
+                              isHomePage || location.state_id !== null
+                                ? location
+                                : undefined
+                            }
+                            onClick={() =>
+                              handleLocationChanged(
+                                // TODO: fix
+                                location?.id as number,
+                                location.title as string,
+                                (location.state_id as number) || null
+                              )
+                            }
                           >
-                            {location.title}
-                          </span>
-                        </Combobox.Option>
-                      ))}
+                            {isHomePage && location.state_id !== null && (
+                              <span className="absolute top-3 left-5 text-primary">
+                                ({location.count})
+                              </span>
+                            )}
+                            <span
+                              className={`${
+                                location.state_id === null &&
+                                !isHomePage &&
+                                'hidden'
+                              } ${location.state_id === null && 'text-black'} ${
+                                location.state_id !== null && 'text-primary'
+                              } hover:bg-primary-lighter font-DroidArabicKufiBold text-base block truncate p-2 cursor-pointer`}
+                            >
+                              {location.title}
+                            </span>
+                          </Combobox.Option>
+                        ))}
                     </>
                   )}
                 </Combobox.Options>

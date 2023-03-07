@@ -278,7 +278,43 @@ const Nav: React.FC = () => {
     setActiveItemOnMobile(item.title)
   }
 
+  const handleActiveItem = (pathStr: string) => {
+    switch (pathStr) {
+      case '/':
+        setActiveItem('الرئيسية')
+        setActiveItemOnMobile('الرئيسية / بحث')
+        break
+      case '/agencies':
+        setActiveItem('المكاتب')
+        setActiveItemOnMobile('المكاتب')
+        break
+      case '/account':
+        setActiveItem('إعلاناتي')
+        setActiveItemOnMobile('إعلاناتي')
+        break
+      case '/topup':
+        setActiveItem('اشحن رصيد')
+        setActiveItemOnMobile('اشحن رصيد')
+        break
+      case '/post':
+        setActiveItem('')
+        setActiveItemOnMobile('إعلان مجانًا')
+        break
+      case '/login':
+        setActiveItem('دخول')
+        setActiveItemOnMobile('دخول / تسجيل')
+        break
+      case '/register':
+        setActiveItem('تسجيل')
+        setActiveItemOnMobile('دخول / تسجيل')
+        break
+      default:
+        break
+    }
+  }
+
   useEffect(() => {
+    handleActiveItem(pathname)
     setIsFilterPage(pathname === '/filter')
   }, [pathname])
 
