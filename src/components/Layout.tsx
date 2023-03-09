@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 import Nav from './Nav'
 import Footer from './Footer'
@@ -11,6 +12,14 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const { pathname } = useRouter()
+  const [showFooter, setShowFooter] = useState(false)
+
+  useEffect(() => {
+    if (pathname && (pathname === '/' || pathname === '/agencies'))
+      setShowFooter(true)
+  }, [pathname])
+
   return (
     <>
       <Head>
@@ -37,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* <Breadcrumbs /> */}
       <Toast />
       <main>{children}</main>
-      <Footer />
+      {showFooter && <Footer />}
     </>
   )
 }
