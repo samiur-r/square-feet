@@ -49,6 +49,7 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
     useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
   const [isCallingApi, setIsCallingApi] = useState(false)
+  const [isSearchDone, setIsSearchDone] = useState(false)
 
   useEffect(() => {
     setSelectedLocation(locationsSelected)
@@ -90,8 +91,26 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
     if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
   }, [canUpdateFilterAutoCompleteShow])
 
+  const nextUrl = () => {
+    let url = ''
+    if (locationsSelected && locationsSelected?.length < 2) {
+      url = `/${categorySelected?.title}`
+      if (propertyTypeSelected && propertyTypeSelected.id !== 0)
+        url = `${url}/${propertyTypeSelected?.title}`
+      if (locationsSelected.length === 1) {
+        const location = locationsSelected[0].title
+          ? locationsSelected[0].title.replace(/\s+/g, '-')
+          : ''
+        url = `${url}/${location}`
+      }
+    } else url = '/search'
+
+    return url
+  }
+
   const handleSearch = async () => {
     setIsCallingApi(true)
+    setIsSearchDone(false)
 
     let location
     let propertyType
@@ -124,11 +143,18 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
       setIsCallingApi(false)
       updateFilteredPostsCount(response?.data?.count)
       updateFilteredPosts(response?.data?.posts)
-      Router.push('/filter')
+      setIsSearchDone(true)
     } catch (error) {
       setIsCallingApi(false)
     }
   }
+
+  useEffect(() => {
+    if (isSearchDone) {
+      const url = nextUrl()
+      Router.push(encodeURI(url))
+    }
+  }, [isSearchDone])
 
   return (
     <>
@@ -177,8 +203,8 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
                   value=""
                   name="default-radio"
                   className="w-4 h-4 ml-2 accent-orange-600"
-                  defaultChecked={categoryItem.id === selectedCategory?.id}
-                  onClick={() =>
+                  checked={categoryItem.id === selectedCategory?.id}
+                  onChange={() =>
                     setSelectedCategory({
                       id: categoryItem.id,
                       title: categoryItem.title

@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect, Suspense } from 'react'
-import { Popover, Transition } from '@headlessui/react'
+import { Menu, Popover, Transition } from '@headlessui/react'
 import { XMarkIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
 import {
   Bars3Icon,
@@ -8,11 +8,12 @@ import {
 } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-import { locations } from 'constant'
+import { locations, categories, propertyTypes } from 'constant'
 import { useStore } from 'store'
+import ApiClient from 'utils/ApiClient'
 import CTA from './CTA'
 
 const DynamicFilterAutoComplete = dynamic(
@@ -28,31 +29,38 @@ const realEstate = [
     subItems: [
       {
         title: 'بيوت للايجار',
-        href: ''
+        href: 'للايجار/بيوت',
+        property: 'بيت'
       },
       {
         title: 'شقق للايجار',
-        href: ''
+        href: 'للايجار/مزارع',
+        property: 'شقه'
       },
       {
         title: 'أراضي للايجار',
-        href: ''
-      },
-      {
-        title: 'تجاري للايجار',
-        href: ''
+        href: 'للايجار/اراضي',
+        property: 'أرض'
       },
       {
         title: 'عمارات للايجار',
-        href: ''
+        href: 'للايجار/عمارات',
+        property: 'عماره'
+      },
+      {
+        title: 'تجاري للايجار',
+        href: 'للايجار/تجاري',
+        property: 'تجاري'
       },
       {
         title: 'شاليهات للايجار',
-        href: ''
+        href: 'للايجار/شاليهات',
+        property: 'شاليه'
       },
       {
         title: 'مزارع للايجار',
-        href: ''
+        href: 'للايجار/مزارع',
+        property: 'مزرعه'
       }
     ]
   },
@@ -61,35 +69,38 @@ const realEstate = [
     subItems: [
       {
         title: 'بيوت للبيع',
-        href: ''
+        href: 'للبيع/بيوت',
+        property: 'بيت'
       },
       {
         title: 'شقق للبيع',
-        href: ''
+        href: 'للبيع/مزارع',
+        property: 'شقه'
       },
       {
         title: 'أراضي للبيع',
-        href: ''
-      },
-      {
-        title: 'تجاري للبيع',
-        href: ''
+        href: 'للبيع/اراضي',
+        property: 'أرض'
       },
       {
         title: 'عمارات للبيع',
-        href: ''
+        href: 'للبيع/عمارات',
+        property: 'عماره'
+      },
+      {
+        title: 'تجاري للبيع',
+        href: 'للبيع/تجاري',
+        property: 'تجاري'
       },
       {
         title: 'شاليهات للبيع',
-        href: ''
+        href: 'للبيع/شاليهات',
+        property: 'شاليه'
       },
       {
         title: 'مزارع للبيع',
-        href: ''
-      },
-      {
-        title: 'دولي للبيع',
-        href: ''
+        href: 'للبيع/مزارع',
+        property: 'مزرعه'
       }
     ]
   },
@@ -98,15 +109,18 @@ const realEstate = [
     subItems: [
       {
         title: 'بيوت للبدل',
-        href: ''
+        href: 'للبدل/بيوت',
+        property: 'بيت'
       },
       {
         title: 'شقق للبدل',
-        href: ''
+        href: 'للبدل/شقق',
+        property: 'شقه'
       },
       {
         title: 'أراضي للبدل',
-        href: ''
+        href: 'للبدل/اراضي',
+        property: 'أرض'
       }
     ]
   }
@@ -240,7 +254,13 @@ const socialLinks = [
 ]
 
 const Nav: React.FC = () => {
-  const { user } = useStore()
+  const {
+    user,
+    setPropertyTypeSelected,
+    setCategorySelected,
+    updateFilteredPosts,
+    updateFilteredPostsCount
+  } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
@@ -259,6 +279,7 @@ const Nav: React.FC = () => {
   )
   const [isFilterPage, setIsFilterPage] = useState(false)
   const [isLocationDropDownOpen, setIsLocationDropDownOpen] = useState(false)
+  const [isCallingApi, setIsCallingApi] = useState(false)
 
   const handleShowSubRealState = (index: number) => {
     setShowSubRealState(
@@ -315,8 +336,40 @@ const Nav: React.FC = () => {
 
   useEffect(() => {
     handleActiveItem(pathname)
-    setIsFilterPage(pathname === '/filter')
+    setIsFilterPage(pathname === '/search')
   }, [pathname])
+
+  const handleSearch = async (val: { href: string; property: string }) => {
+    setIsCallingApi(true)
+    const parts = val.href.split('/')
+    const categorySelected = categories.find(
+      (element) => element.title === parts[0]
+    )
+    const propertyTypeSelected = propertyTypes.find(
+      (element) => element.title === val.property
+    )
+
+    setPropertyTypeSelected(propertyTypeSelected)
+    setCategorySelected(categorySelected)
+    try {
+      const response = await ApiClient({
+        method: 'POST',
+        url: '/search',
+        data: {
+          limit: 10,
+          offset: 0,
+          propertyType: propertyTypeSelected,
+          category: categorySelected
+        }
+      })
+      setIsCallingApi(false)
+      updateFilteredPostsCount(response?.data?.count)
+      updateFilteredPosts(response?.data?.posts)
+      Router.push(`/${parts[0]}/${parts[1]}`)
+    } catch (error) {
+      setIsCallingApi(false)
+    }
+  }
 
   return (
     <Popover className="fixed top-0 bg-white shadow-md md:shadow-sm w-full z-20 flex items-center min-h-20 md:min-h-24">
@@ -380,10 +433,9 @@ const Nav: React.FC = () => {
                         <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                           <div className="bg-white w-48">
                             {realEstate.map((item, index) => (
-                              <button
-                                type="submit"
+                              <a
                                 key={item.title}
-                                className="rounded-lg w-full p-3"
+                                className="block rounded-lg w-full p-3"
                                 onClick={() => handleShowSubRealState(index)}
                               >
                                 <div className="flex items-center justify-between">
@@ -398,20 +450,40 @@ const Nav: React.FC = () => {
                                 <div
                                   className={`${
                                     showSubRealState[index] ? 'flex' : 'hidden'
-                                  } flex-col mt-2 shadow py-2`}
+                                  } flex-col mt-2 shadow py-2 items-center`}
                                 >
-                                  {item.subItems?.map((subItem) => (
-                                    <Link
-                                      key={subItem.title}
-                                      href={subItem.href}
+                                  {isCallingApi ? (
+                                    <svg
+                                      aria-hidden="true"
+                                      role="status"
+                                      className="inline w-5 h-5 text-primary animate-spin"
+                                      viewBox="0 0 100 101"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
                                     >
-                                      <p className="hover:bg-gray-50">
-                                        {subItem.title}
-                                      </p>
-                                    </Link>
-                                  ))}
+                                      <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="#E5E7EB"
+                                      />
+                                      <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentColor"
+                                      />
+                                    </svg>
+                                  ) : (
+                                    item.subItems.map((subItem) => (
+                                      <Popover.Button
+                                        key={subItem.title}
+                                        onClick={() => handleSearch(subItem)}
+                                      >
+                                        <p className="hover:bg-gray-50">
+                                          {subItem.title}
+                                        </p>
+                                      </Popover.Button>
+                                    ))
+                                  )}
                                 </div>
-                              </button>
+                              </a>
                             ))}
                           </div>
                         </div>
@@ -634,82 +706,76 @@ const Nav: React.FC = () => {
                         </a>
                       </Link>
                     ))}
-                <Popover className="relative ml-5 rounded-l-2xl">
-                  {() => (
-                    <>
-                      <Popover.Button className="group py-1 inline-flex mt-1 pl-5 items-center justify-between w-full rounded-l-2xl bg-white text-base font-medium hover:bg-blue-100 transition-colors ease-in-out duration-500 focus:outline-none">
-                        <ChevronDownIcon
-                          className="text-base h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
-                          aria-hidden="true"
+                <Menu as="div" className="relative ml-5 rounded-l-2xl">
+                  <div>
+                    <Menu.Button className="group py-1 inline-flex mt-1 pl-5 items-center justify-between w-full rounded-l-2xl bg-white text-base font-medium hover:bg-blue-100 transition-colors ease-in-out duration-500 focus:outline-none">
+                      <ChevronDownIcon
+                        className="text-base h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
+                        aria-hidden="true"
+                      />
+                      <div className="flex items-center gap-5 justify-end pr-6 py-2 ml-5 rounded-l-2xl cursor-pointer">
+                        <p className="font-DroidArabicKufiBold">
+                          عقارات الكویت
+                        </p>
+                        <Image
+                          src="/images/building-solid.svg"
+                          height={25}
+                          width={25}
+                          alt="home_search"
                         />
-                        <div className="flex items-center gap-5 justify-end pr-6 py-2 ml-5 rounded-l-2xl cursor-pointer">
-                          <p className="font-DroidArabicKufiBold">
-                            عقارات الكویت
-                          </p>
-                          <Image
-                            src="/images/building-solid.svg"
-                            height={25}
-                            width={25}
-                            alt="home_search"
-                          />
-                        </div>
-                      </Popover.Button>
+                      </div>
+                    </Menu.Button>
+                  </div>
 
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel className="absolute z-20 transform">
-                          <div className="overflow-hidden rounded-lg w-full shadow-lg ring-1 ring-black ring-opacity-5">
-                            <div className="bg-white w-full">
-                              {realEstate.map((item, index) => (
-                                <button
-                                  type="submit"
-                                  key={item.title}
-                                  className="rounded-lg w-full p-3"
-                                  onClick={() => handleShowSubRealState(index)}
-                                >
-                                  <div className="flex items-center justify-between">
-                                    <ChevronDownIcon
-                                      className="ml-2 h-5 w-5 group-hover:text-custom-gray text-custom-gray-4 text-base"
-                                      aria-hidden="true"
-                                    />
-                                    <p className="text-base font-medium">
-                                      {item.title}
-                                    </p>
-                                  </div>
-                                  <div
-                                    className={`${
-                                      showSubRealState[index]
-                                        ? 'flex'
-                                        : 'hidden'
-                                    } flex-col mt-2 shadow py-2`}
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
+                  >
+                    <Menu.Items className="absolute right-0 mr-12 px-3 z-50 transform">
+                      <div className="overflow-hidden flex flex-col gap-3 rounded-lg w-full px-2 py-2 shadow-lg bg-white">
+                        {realEstate.map((item, index) => (
+                          <div key={item.title}>
+                            <a
+                              className="rounded-lg w-full hover:bg-primary"
+                              onClick={() => handleShowSubRealState(index)}
+                            >
+                              <div className="flex items-center justify-between">
+                                <ChevronDownIcon
+                                  className="ml-2 h-5 w-5 group-hover:text-custom-gray text-custom-gray-4 text-base"
+                                  aria-hidden="true"
+                                />
+                                <p className="text-base font-medium">
+                                  {item.title}
+                                </p>
+                              </div>
+                              <div
+                                className={`${
+                                  showSubRealState[index] ? 'flex' : 'hidden'
+                                } flex-col items-center shadow mt-5 py-1`}
+                              >
+                                {item.subItems?.map((subItem) => (
+                                  <Popover.Button
+                                    key={subItem.title}
+                                    onClick={() => handleSearch(subItem)}
                                   >
-                                    {item.subItems?.map((subItem) => (
-                                      <Link
-                                        key={subItem.title}
-                                        href={subItem.href}
-                                      >
-                                        <p className="hover:bg-gray-50">
-                                          {subItem.title}
-                                        </p>
-                                      </Link>
-                                    ))}
-                                  </div>
-                                </button>
-                              ))}
-                            </div>
+                                    <p className="hover:bg-gray-50">
+                                      {subItem.title}
+                                    </p>
+                                  </Popover.Button>
+                                ))}
+                              </div>
+                            </a>
                           </div>
-                        </Popover.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Popover>
+                        ))}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
             </div>
             <div className="px-5 w-full flex justify-center gap-5 mb-5">

@@ -35,6 +35,10 @@ const List: React.FC<ListProps> = ({
     if (selected && handleSetItem) handleSetItem(selected)
   }, [selected])
 
+  useEffect(() => {
+    setSelected(selectedOpt)
+  }, [selectedOpt])
+
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (

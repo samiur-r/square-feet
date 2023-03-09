@@ -68,7 +68,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
       updateFilteredPostsCount(response?.data?.count)
       updateFilteredPosts(response?.data?.posts)
       setShowFilterModal(false)
-      Router.push('/filter')
+      Router.push('/search')
     } catch (error) {
       setIsCallingApi(false)
     }

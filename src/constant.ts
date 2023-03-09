@@ -7,7 +7,7 @@ export const PRICE_RANGES = {
 export const propertyTypes = [
   {
     id: 1,
-    title: 'كبد'
+    title: 'بيت'
   },
   {
     id: 2,

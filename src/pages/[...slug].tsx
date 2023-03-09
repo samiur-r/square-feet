@@ -10,7 +10,7 @@ import { IPost } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
 
-const Filter: NextPage = () => {
+const Search: NextPage = () => {
   let resetFilteredPosts = false
   let offset = 10
   const {
@@ -169,4 +169,4 @@ const Filter: NextPage = () => {
   )
 }
 
-export default Filter
+export default Search

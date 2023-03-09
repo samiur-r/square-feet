@@ -23,6 +23,10 @@ module.exports = withBundleAnalyzer({
       {
         source: encodeURI('/المكاتب'),
         destination: '/agencies'
+      },
+      {
+        source: encodeURI('/نبذه-عنا'),
+        destination: '/about'
       }
     ]
   }

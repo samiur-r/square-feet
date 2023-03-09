@@ -180,7 +180,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                       <label
                         htmlFor="location"
                         className={`${
-                          open ? 'text-primary' : 'text-custom-gray'
+                          open ? 'text-primary' : 'ray'
                         } ${isError && 'text-custom-red'} ${
                           inputPlaceHolder !== '' || open
                             ? '-top-2 px-1 right-3 text-xs'
