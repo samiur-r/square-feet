@@ -71,5 +71,6 @@ export interface IPost {
 export interface BreadcrumbType {
   title: string
   href: string
+  type: number[]
   isLink: boolean
 }

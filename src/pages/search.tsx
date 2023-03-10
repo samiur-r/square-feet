@@ -128,12 +128,14 @@ const Search: NextPage = () => {
     {
       title: `عقارات ${categorySelected?.title} في الكويت`,
       href: `${categorySelected?.title}`,
+      type: [0],
       isLink: false
     },
     propertyTypeSelected && propertyTypeSelected.id !== 0
       ? {
           title: `${propertyTypeSelected?.title} ${categorySelected?.title}`,
-          href: `${propertyTypeSelected?.title}/${categorySelected?.title}`,
+          href: `${categorySelected?.title}/${propertyTypeSelected?.title}`,
+          type: [0, 1],
           isLink: false
         }
       : null
@@ -148,15 +150,17 @@ const Search: NextPage = () => {
     {
       title: `عقارات ${categorySelected?.title} في الكويت`,
       href: `${categorySelected?.title}`,
+      type: [0],
       isLink: false
     },
     {
       title: `${categorySelected?.title} في ${getStateTitleFromCity(
         locationsSelected[0]
       )}`,
-      href: `${getStateTitleFromCity(locationsSelected[0])}/${
-        categorySelected?.title
-      }`,
+      href: `${categorySelected?.title}/${getStateTitleFromCity(
+        locationsSelected[0]
+      )}`,
+      type: [0, 2],
       isLink: false
     },
     locationsSelected &&
@@ -164,7 +168,8 @@ const Search: NextPage = () => {
     locationsSelected[0]?.state_id !== null
       ? {
           title: `${categorySelected?.title} في ${locationsSelected[0]?.title}`,
-          href: `${locationsSelected[0]?.title}/${categorySelected?.title}`,
+          href: `${categorySelected?.title}/${locationsSelected[0]?.title}`,
+          type: [0, 2],
           isLink: false
         }
       : null,
@@ -174,7 +179,8 @@ const Search: NextPage = () => {
     propertyTypeSelected
       ? {
           title: `${propertyTypeSelected?.title} ${categorySelected?.title} في ${locationsSelected[0]?.title}`,
-          href: `${locationsSelected[0]?.title}/${propertyTypeSelected?.title}/${categorySelected?.title}`,
+          href: `${categorySelected?.title}/${propertyTypeSelected?.title}/${locationsSelected[0]?.title}`,
+          type: [0, 1, 2],
           isLink: false
         }
       : null
@@ -183,7 +189,6 @@ const Search: NextPage = () => {
   const breadcrumbsItemsFiltered = breadcrumbsItems.filter(
     (obj) => obj !== null
   )
-  console.log(breadcrumbsItemsFiltered)
 
   const breadcrumbsItemsWithLocationFiltered =
     breadcrumbsItemsWithLocation.filter((obj) => obj !== null)
