@@ -77,7 +77,7 @@ const Breadcrumbs: React.FC<{
     <nav
       className={`${
         items?.length ? 'block' : 'hidden'
-      } flex justify-center py-2 pr-10 dir-rtl border`}
+      } flex justify-center py-2 md:pr-10 dir-rtl border`}
       aria-label="Breadcrumb"
     >
       <div className="max-w-6xl w-full">
@@ -100,7 +100,7 @@ const Breadcrumbs: React.FC<{
             />
           </svg>
         ) : (
-          <ol className="flex items-center">
+          <ol className="flex items-center flex-wrap">
             {items &&
               items.map((item: BreadcrumbType, index) => (
                 <li key={Math.random()} className="flex gap-2 items-center">

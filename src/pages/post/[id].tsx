@@ -27,16 +27,19 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
     {
       title: `عقارات ${post?.category_title} في الكويت`,
       href: `${post?.category_title}`,
+      type: [0],
       isLink: false
     },
     {
       title: `${post?.category_title} في ${post?.state_title}`,
-      href: `${post?.state_title}/${post?.category_title}`,
+      href: `${post?.category_title}/${post?.state_title}`,
+      type: [0, 2],
       isLink: false
     },
     {
       title: `${post?.category_title} في ${post?.city_title}`,
-      href: `${post?.city_title}/${post?.category_title}`,
+      href: `${post?.state_title}/${post?.city_title}`,
+      type: [2, 2],
       isLink: false
     },
     {

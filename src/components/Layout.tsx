@@ -43,7 +43,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       </Head>
       <Nav />
-      <div className="h-20 md:h-24" />
       <Toast />
       <main>{children}</main>
       {showFooter && <Footer />}
