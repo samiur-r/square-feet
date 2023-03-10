@@ -336,7 +336,7 @@ const Nav: React.FC = () => {
 
   useEffect(() => {
     handleActiveItem(pathname)
-    setIsFilterPage(pathname === '/search')
+    setIsFilterPage(pathname === '/search' || pathname === '/[...slug]')
   }, [pathname])
 
   const handleSearch = async (val: { href: string; property: string }) => {

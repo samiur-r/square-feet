@@ -5,7 +5,21 @@ import AgencyArticle from 'components/Articles/AgencyArticle'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 import ApiClient from 'utils/ApiClient'
 import { ICredit } from 'interfaces'
+import Breadcrumbs from 'components/Breadcrumbs'
 import { IAgent } from './agent/edit'
+
+const breadcrumbsItems = [
+  {
+    title: 'الكويت',
+    href: '/',
+    isLink: true
+  },
+  {
+    title: 'المكاتب',
+    href: '/المكاتب',
+    isLink: true
+  }
+]
 
 interface AgenciesType {
   agents: IAgent[]
@@ -23,7 +37,8 @@ const Agencies: NextPage<AgenciesType> = ({
   credits
 }) => {
   return (
-    <div className="min-h-screen bg-gray-100 pt-5">
+    <div className="min-h-screen bg-gray-100">
+      <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />
       <div className="dir-rtl container max-w-6xl pt-5 pb-10 flex flex-col items-center gap-5">
         <Agency
           isLoggedIn={isLoggedIn}

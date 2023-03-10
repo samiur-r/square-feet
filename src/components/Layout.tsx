@@ -5,7 +5,8 @@ import { useRouter } from 'next/router'
 import Nav from './Nav'
 import Footer from './Footer'
 import Toast from './Toast'
-// import Breadcrumbs from './Breadcrumbs'
+
+const footerPages = ['/', '/agencies', '/agent/[id]']
 
 interface LayoutProps {
   children: React.ReactNode
@@ -16,8 +17,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [showFooter, setShowFooter] = useState(false)
 
   useEffect(() => {
-    if (pathname && (pathname === '/' || pathname === '/agencies'))
-      setShowFooter(true)
+    if (pathname && footerPages.includes(pathname)) setShowFooter(true)
+    else setShowFooter(false)
   }, [pathname])
 
   return (
@@ -43,7 +44,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Head>
       <Nav />
       <div className="h-20 md:h-24" />
-      {/* <Breadcrumbs /> */}
       <Toast />
       <main>{children}</main>
       {showFooter && <Footer />}

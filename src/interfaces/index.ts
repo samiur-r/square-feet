@@ -67,3 +67,9 @@ export interface IPost {
   updated_at: Date
   phone?: number
 }
+
+export interface BreadcrumbType {
+  title: string
+  href: string
+  isLink: boolean
+}
