@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import Head from 'next/head'
 
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
@@ -18,6 +19,15 @@ const Home: NextPage<{
 }> = ({ posts, totalPosts, locations }) => {
   return (
     <div className="bg-gray-50 md:bg-white">
+      <Head>
+        <title>
+          شقق للايجار ✔️ بيوت للبيع ✔️ بوشملان دليل عقارات الكويت #1
+        </title>
+        <meta
+          name="description"
+          content="شقق للإيجار في الكويت ✔️ بيوت اراضي عقارات للبيع ✔️ من المالك مباشرة وبدون عمولة ✔️ مجاني وسهل الإستخدام ✚ 6,000 إعلان عقار جديد في بو شملان الدليل العقاري"
+        />
+      </Head>
       <div className="h-[calc(100vh_-_8rem)] md:h-[calc(100vh_-_6rem)] md:mb-10 overflow-hidden flex flex-col justify-between bg-custom-white-lighter">
         <div>
           <Hero />

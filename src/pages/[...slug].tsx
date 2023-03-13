@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import Head from 'next/head'
 import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
@@ -12,6 +13,16 @@ import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
 
+const getStateTitleFromCity = (locationObj: LocationType) => {
+  if (locationObj?.id === undefined) return ''
+  if (locationObj?.state_id === null)
+    return locationObj?.title?.replace(/\s+/g, '-')
+  const state = locations.find(
+    (location) => location?.id === locationObj?.state_id
+  )
+  return state?.title?.replace(/\s+/g, '-')
+}
+
 interface PageProps {
   retrievedPosts: IPost[]
   count: number
@@ -21,6 +32,7 @@ interface PageProps {
   selectedLocations: LocationType[]
   selectedPropertyType: { id: number; title: string }
   selectedCategory: { id: number; title: string }
+  similarSearches: Array<{ title: string; href: string }>
 }
 
 const Search: NextPage<PageProps> = ({
@@ -31,18 +43,9 @@ const Search: NextPage<PageProps> = ({
   metaDescription,
   selectedLocations,
   selectedPropertyType,
-  selectedCategory
+  selectedCategory,
+  similarSearches
 }) => {
-  // console.log({
-  //   retrievedPosts,
-  //   count,
-  //   articles,
-  //   metaTitle,
-  //   metaDescription,
-  //   selectedLocations,
-  //   selectedPropertyType,
-  //   selectedCategory
-  // })
   let offset = 10
   const {
     locationsSelected,
@@ -137,16 +140,6 @@ const Search: NextPage<PageProps> = ({
     []
   )
 
-  const getStateTitleFromCity = (locationObj: LocationType) => {
-    if (locationObj?.id === undefined) return ''
-    if (locationObj?.state_id === null)
-      return locationObj?.title?.replace(/\s+/g, '-')
-    const state = locations.find(
-      (location) => location?.id === locationObj?.state_id
-    )
-    return state?.title?.replace(/\s+/g, '-')
-  }
-
   const breadcrumbsItems = [
     {
       title: 'الكويت',
@@ -216,6 +209,10 @@ const Search: NextPage<PageProps> = ({
 
   return (
     <div>
+      <Head>
+        <title>{metaTitle || ''}</title>
+        <meta name="description" content={metaDescription || ''} />
+      </Head>
       <Breadcrumbs
         breadcrumbsItems={
           selectedLocations && selectedLocations.length
@@ -225,17 +222,22 @@ const Search: NextPage<PageProps> = ({
       />
       <div className="dir-rtl container max-w-5xl py-10 flex flex-col">
         <div className="flex flex-col gap-5">
-          <FilterArticle />
+          <FilterArticle articles={articles} />
           <div ref={scroll as LegacyRef<HTMLDivElement>}>
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>
-          <div>
-            <Link href="/">
-              <a className="text-primary underline">عقارات للبيع في الكويت</a>
-            </Link>
+          <div className="flex gap-2">
+            {similarSearches &&
+              similarSearches.map((item) => (
+                <Link key={Math.random()} href={item.href}>
+                  <a className="text-primary cursor-pointer hover: underline w-28">
+                    {item.title}
+                  </a>
+                </Link>
+              ))}
           </div>
         </div>
-        <div className="container max-w-[736px] flex flex-col gap-2 mt-5 p-0">
+        <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div className="self-start flex gap-2 items-center">
             <Title
               value={`${
@@ -302,11 +304,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   const slugs: string[] = params.slug as string[]
-  let propertyType
-  let category
-  let location
-
-  console.log(slugs)
+  let propertyType: { id: number; title: string } | undefined
+  let category: { id: number; title: string } | undefined
+  let location:
+    | { id: number; title: string; state_id: null; count: number }
+    | { id: number; title: string; state_id: number; count: number }
+    | undefined
 
   slugs.forEach((item, index) => {
     if (index === 0) {
@@ -325,6 +328,57 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       location = locations.find((element) => element.title === locationTitle)
     }
   })
+
+  const similarSearches: Array<{ title: string; href: string }> = [
+    {
+      title: `عقارات ${category?.title} في الكويت`,
+      href: `${category?.title}`
+    }
+  ]
+
+  if (!propertyType && !location) {
+    propertyTypes.forEach((type) => {
+      if (type.id !== 0) {
+        similarSearches.push({
+          title: `${type.title} ${category?.title} في الكويت`,
+          href: `${category?.title}/${type.title}`
+        })
+      }
+    })
+  } else if (!propertyType && location) {
+    propertyTypes.forEach((type) => {
+      if (type.id === 1 || type.id === 2 || type.id === 3) {
+        similarSearches.push({
+          title: `${category?.title} ${type.title} في ${location?.title}`,
+          href: `${category?.title}/${type.title}/${location?.title.replace(
+            /\s+/g,
+            '-'
+          )}`
+        })
+      }
+    })
+  } else if (propertyType && location) {
+    similarSearches.push({
+      title: `${category?.title} في ${location?.title}`,
+      href: `${category?.title}/${location?.title.replace(/\s+/g, '-')}`
+    })
+    similarSearches.push({
+      title: `${category?.title} في ${location?.title}`,
+      href: `${category?.title}/${location?.title.replace(/\s+/g, '-')}`
+    })
+    similarSearches.push({
+      title: `${category?.title} في ${getStateTitleFromCity(location)}`,
+      href: `${category?.title}/${getStateTitleFromCity(location)}`
+    })
+    similarSearches.push({
+      title: `${propertyType?.title} ${
+        category?.title
+      } في ${getStateTitleFromCity(location)}`,
+      href: `${category?.title}/${propertyType?.title}/${getStateTitleFromCity(
+        location
+      )}`
+    })
+  }
 
   try {
     const response = await ApiClient({
@@ -367,7 +421,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
           id: 0,
           title: 'الكل'
         },
-        selectedCategory: category || {}
+        selectedCategory: category || {},
+        similarSearches
       }
     }
   } catch (error) {

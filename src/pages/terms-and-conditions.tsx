@@ -2,10 +2,18 @@ import type { NextPage } from 'next'
 
 import Description from 'components/Description'
 import Title from 'components/Title'
+import Head from 'next/head'
 
 const TermsCondition: NextPage = () => {
   return (
     <div className="dir-rtl container max-w-6xl pt-5 pb-10 flex flex-col gap-5">
+      <Head>
+        <title>الشروط والاحكام | بو شملان دليل عقارات الكويت</title>
+        <meta
+          name="description"
+          content="يجب على كل مستخدمي التطبيق او الموقع قراءة كافة بنود الشروط والأحكام، ويجب عليهم كذلك الالتزام بكافة البنود والشروط والقوانين في الكويت"
+        />
+      </Head>
       <h1 className="font-DroidArabicKufiBold text-4xl">الشروط والاحكام</h1>
       <Title value="القبول" />
       <Description

@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 import Breadcrumbs from 'components/Breadcrumbs'
 import PostCard from 'components/Posts/PostCard'
-import FilterArticle from 'components/Articles/Filter'
 import Title from 'components/Title'
 import { useStore } from 'store'
 import { IPost, LocationType } from 'interfaces'
@@ -191,7 +190,6 @@ const Search: NextPage = () => {
       />
       <div className="dir-rtl container max-w-5xl py-10 flex flex-col">
         <div className="flex flex-col gap-5">
-          <FilterArticle />
           <div ref={scroll as LegacyRef<HTMLDivElement>}>
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>

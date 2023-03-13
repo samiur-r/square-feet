@@ -9,6 +9,7 @@ import {
   LegacyRef,
   useCallback
 } from 'react'
+import Router from 'next/router'
 import { Combobox, Transition } from '@headlessui/react'
 import {
   ChevronUpIcon,
@@ -41,6 +42,8 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 }) => {
   const {
     locationsSelected: lastSelectedLocations,
+    propertyTypeSelected,
+    categorySelected,
     updateCanFetchPosts,
     setLocationsSelected: updateLocationsSelected
   } = useStore()
@@ -62,10 +65,30 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     )
   }
 
+  const redirectToFilter = (locationTitle: string) => {
+    let url = `${categorySelected?.title}`
+
+    if (propertyTypeSelected && propertyTypeSelected.id !== 0)
+      url = `${url}/${propertyTypeSelected?.title}`
+
+    url = `${url}/${locationTitle.replace(/\s+/g, '-')}`
+
+    Router.push(url)
+  }
+
   useEffect(() => {
     if (!showOptions && !firstRender) {
+      if (
+        locationsSelected &&
+        locationsSelected.length <= 1 &&
+        locationsSelected[0]
+      ) {
+        redirectToFilter(locationsSelected[0].title as string)
+      }
+
       updateCanFetchPosts(true)
       updateLocationsSelected(locationsSelected)
+      Router.push('/search')
     }
   }, [locationsSelected])
 
