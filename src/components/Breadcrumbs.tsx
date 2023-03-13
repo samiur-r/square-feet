@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { BreadcrumbType } from 'interfaces'
 import { ChevronLeftIcon } from '@heroicons/react/20/solid'
-import { categories, locations, propertyTypes } from 'constant'
-import { useStore } from 'store'
-import ApiClient from 'utils/ApiClient'
+import Router from 'next/router'
 
 const Breadcrumbs: React.FC<{
   breadcrumbsItems: BreadcrumbType[] | any
 }> = ({ breadcrumbsItems }) => {
-  const {
-    setLocationsSelected,
-    setPropertyTypeSelected,
-    setCategorySelected,
-    updateFilteredPosts,
-    updateFilteredPostsCount
-  } = useStore()
-
   const [loading, setLoading] = useState(true)
   const [items, setItems] = useState<BreadcrumbType[]>([])
 
@@ -25,52 +15,7 @@ const Breadcrumbs: React.FC<{
   }, [breadcrumbsItems])
 
   const handleClick = async (item: BreadcrumbType) => {
-    if (item?.isLink) window.location.replace(item.href)
-
-    setLoading(true)
-    let url = ''
-    const parts = item.href.split('/')
-    let categorySelected
-    let propertyTypeSelected
-    let locationsSelected
-
-    parts.forEach((part, index) => {
-      url = `${url}/${part}`
-      if (item.type[index] === 0) {
-        categorySelected = categories.find((element) => element.title === part)
-      }
-      if (item.type[index] === 1) {
-        propertyTypeSelected = propertyTypes.find(
-          (element) => element.title === part
-        )
-      }
-      if (item.type[index] === 2) {
-        locationsSelected = locations.find((element) => element.title === part)
-      }
-    })
-
-    setLocationsSelected(locationsSelected ? [locationsSelected] : [])
-    setPropertyTypeSelected(propertyTypeSelected)
-    setCategorySelected(categorySelected)
-
-    try {
-      const response = await ApiClient({
-        method: 'POST',
-        url: '/search',
-        data: {
-          limit: 10,
-          offset: 0,
-          propertyType: propertyTypeSelected,
-          category: categorySelected
-        }
-      })
-      setLoading(false)
-      updateFilteredPostsCount(response?.data?.count)
-      updateFilteredPosts(response?.data?.posts)
-      window.location.replace(url.replace(/\s+/g, '-'))
-    } catch (error) {
-      setLoading(false)
-    }
+    Router.push(item.href)
   }
 
   return (

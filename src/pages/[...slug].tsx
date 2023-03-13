@@ -1,7 +1,8 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
+import { locations, categories, propertyTypes } from 'constant'
 import Breadcrumbs from 'components/Breadcrumbs'
 import PostCard from 'components/Posts/PostCard'
 import FilterArticle from 'components/Articles/Filter'
@@ -10,39 +11,77 @@ import { useStore } from 'store'
 import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
-import { locations } from 'constant'
 
-const Search: NextPage = () => {
-  let resetFilteredPosts = false
+interface PageProps {
+  retrievedPosts: IPost[]
+  count: number
+  articles: string[]
+  metaTitle: string
+  metaDescription: string
+  selectedLocations: LocationType[]
+  selectedPropertyType: { id: number; title: string }
+  selectedCategory: { id: number; title: string }
+}
+
+const Search: NextPage<PageProps> = ({
+  retrievedPosts,
+  count,
+  articles,
+  metaTitle,
+  metaDescription,
+  selectedLocations,
+  selectedPropertyType,
+  selectedCategory
+}) => {
+  // console.log({
+  //   retrievedPosts,
+  //   count,
+  //   articles,
+  //   metaTitle,
+  //   metaDescription,
+  //   selectedLocations,
+  //   selectedPropertyType,
+  //   selectedCategory
+  // })
   let offset = 10
   const {
-    filteredPosts,
-    totalFilteredPosts,
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
-    canFetchPosts,
+    setLocationsSelected,
+    setPropertyTypeSelected,
+    setCategorySelected,
     updateFilteredPostsCount,
-    updateFilteredPosts,
-    updateCanFetchPosts
+    updateFilteredPosts
   } = useStore()
-  const [posts, setPosts] = useState<IPost[]>([])
-  const [totalPosts, setTotalPosts] = useState<number | undefined>()
+  const [posts, setPosts] = useState<IPost[]>(retrievedPosts)
+  const [totalPosts] = useState<number | undefined>(count)
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [limit] = useState(10)
 
+  useEffect(() => {
+    setLocationsSelected(selectedLocations)
+  }, [selectedLocations])
+
+  useEffect(() => {
+    setPropertyTypeSelected(selectedPropertyType)
+  }, [selectedPropertyType])
+
+  useEffect(() => {
+    setCategorySelected(selectedCategory)
+  }, [selectedCategory])
+
+  useEffect(() => {
+    updateFilteredPosts(posts)
+  }, [posts])
+
+  useEffect(() => {
+    updateFilteredPostsCount(count)
+  }, [count])
+
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
-
-  useEffect(() => {
-    setPosts(filteredPosts)
-    setPostCount(filteredPosts.length)
-  }, [filteredPosts])
-
-  useEffect(() => {
-    setTotalPosts(totalFilteredPosts)
-  }, [totalFilteredPosts])
 
   const fetchPosts = async () => {
     setIsCallingApi(true)
@@ -60,35 +99,23 @@ const Search: NextPage = () => {
       })
       setIsCallingApi(false)
       offset += 10
-      updateFilteredPostsCount(response?.data?.count)
-      updateFilteredPosts(
-        resetFilteredPosts
-          ? response.data.posts
-          : [...filteredPosts, ...response.data.posts]
+      setPosts([...posts, ...response.data.posts])
+      setPostCount((curr) =>
+        response.data?.posts?.length ? curr + response.data.posts.length : curr
       )
-      updateCanFetchPosts(false)
     } catch (error) {
       setIsCallingApi(false)
     }
   }
 
   useEffect(() => {
-    if (isIntersecting && !canFetchPosts) {
+    if (isIntersecting) {
       if (totalPosts && postCount < totalPosts) {
-        resetFilteredPosts = false
         setIsCallingApi(true)
         fetchPosts()
       }
     }
   }, [isIntersecting])
-
-  useEffect(() => {
-    if (canFetchPosts) {
-      offset = 0
-      resetFilteredPosts = true
-      fetchPosts()
-    }
-  }, [canFetchPosts])
 
   const scroll = useCallback(
     (
@@ -112,31 +139,29 @@ const Search: NextPage = () => {
 
   const getStateTitleFromCity = (locationObj: LocationType) => {
     if (locationObj?.id === undefined) return ''
-    if (locationObj?.state_id === null) return locationObj?.title
+    if (locationObj?.state_id === null)
+      return locationObj?.title?.replace(/\s+/g, '-')
     const state = locations.find(
       (location) => location?.id === locationObj?.state_id
     )
-    return state?.title
+    return state?.title?.replace(/\s+/g, '-')
   }
 
   const breadcrumbsItems = [
     {
       title: 'الكويت',
-      href: '/',
-      isLink: true
+      href: '/'
     },
     {
-      title: `عقارات ${categorySelected?.title} في الكويت`,
-      href: `${categorySelected?.title}`,
-      type: [0],
-      isLink: false
+      title: `عقارات ${selectedCategory?.title} في الكويت`,
+      href: `${selectedCategory?.title}`
     },
-    propertyTypeSelected && propertyTypeSelected.id !== 0
+    selectedPropertyType &&
+    Object.keys(selectedPropertyType).length !== 0 &&
+    selectedPropertyType.id !== 0
       ? {
-          title: `${propertyTypeSelected?.title} ${categorySelected?.title}`,
-          href: `${categorySelected?.title}/${propertyTypeSelected?.title}`,
-          type: [0, 1],
-          isLink: false
+          title: `${selectedPropertyType?.title} ${selectedCategory?.title}`,
+          href: `${selectedCategory?.title}/${selectedPropertyType?.title}`
         }
       : null
   ]
@@ -148,40 +173,36 @@ const Search: NextPage = () => {
       isLink: true
     },
     {
-      title: `عقارات ${categorySelected?.title} في الكويت`,
-      href: `${categorySelected?.title}`,
-      type: [0],
-      isLink: false
+      title: `عقارات ${selectedCategory?.title} في الكويت`,
+      href: `${selectedCategory?.title}`
     },
     {
-      title: `${categorySelected?.title} في ${getStateTitleFromCity(
-        locationsSelected[0]
+      title: `${selectedCategory?.title} في ${getStateTitleFromCity(
+        selectedLocations[0]
       )}`,
-      href: `${categorySelected?.title}/${getStateTitleFromCity(
-        locationsSelected[0]
-      )}`,
-      type: [0, 2],
-      isLink: false
+      href: `${selectedCategory?.title}/${getStateTitleFromCity(
+        selectedLocations[0]
+      )}`
     },
-    locationsSelected &&
-    locationsSelected.length &&
-    locationsSelected[0]?.state_id !== null
+    selectedLocations &&
+    selectedLocations.length &&
+    selectedLocations[0]?.state_id !== null
       ? {
-          title: `${categorySelected?.title} في ${locationsSelected[0]?.title}`,
-          href: `${categorySelected?.title}/${locationsSelected[0]?.title}`,
-          type: [0, 2],
-          isLink: false
+          title: `${selectedCategory?.title} في ${selectedLocations[0]?.title}`,
+          href: `${
+            selectedCategory?.title
+          }/${selectedLocations[0]?.title?.replace(/\s+/g, '-')}`
         }
       : null,
-    locationsSelected &&
-    locationsSelected.length &&
-    locationsSelected[0]?.state_id !== null &&
-    propertyTypeSelected
+    selectedLocations &&
+    selectedLocations.length &&
+    selectedLocations[0]?.state_id !== null &&
+    Object.keys(selectedPropertyType).length !== 0
       ? {
-          title: `${propertyTypeSelected?.title} ${categorySelected?.title} في ${locationsSelected[0]?.title}`,
-          href: `${categorySelected?.title}/${propertyTypeSelected?.title}/${locationsSelected[0]?.title}`,
-          type: [0, 1, 2],
-          isLink: false
+          title: `${selectedPropertyType?.title} ${selectedCategory?.title} في ${selectedLocations[0]?.title}`,
+          href: `${selectedCategory?.title}/${
+            selectedPropertyType?.title
+          }/${selectedLocations[0]?.title?.replace(/\s+/g, '-')}`
         }
       : null
   ]
@@ -197,7 +218,7 @@ const Search: NextPage = () => {
     <div>
       <Breadcrumbs
         breadcrumbsItems={
-          locationsSelected && locationsSelected.length
+          selectedLocations && selectedLocations.length
             ? breadcrumbsItemsWithLocationFiltered
             : breadcrumbsItemsFiltered
         }
@@ -216,8 +237,18 @@ const Search: NextPage = () => {
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-5 p-0">
           <div className="self-start flex gap-2 items-center">
-            <Title value="نتائج البحث" />
-            <p className="text-lg md:text-xl">({totalPosts || ''} إعلان)</p>
+            <Title
+              value={`${
+                selectedPropertyType && selectedPropertyType.id !== 0
+                  ? selectedPropertyType.title
+                  : ''
+              } ${selectedCategory ? selectedCategory.title : ''} في ${
+                selectedLocations && selectedLocations.length
+                  ? selectedLocations[0].title
+                  : 'الكويت'
+              }`}
+            />
+            <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
           <div className="w-full">
             {posts &&
@@ -261,6 +292,89 @@ const Search: NextPage = () => {
       </div>
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  if (!params || !params?.slug || !params.slug.length) {
+    return {
+      props: {}
+    }
+  }
+
+  const slugs: string[] = params.slug as string[]
+  let propertyType
+  let category
+  let location
+
+  console.log(slugs)
+
+  slugs.forEach((item, index) => {
+    if (index === 0) {
+      category = categories.find((element) => element.title === item)
+    }
+    if (index === 1) {
+      propertyType = propertyTypes.find((element) => element.title === item)
+
+      if (!propertyType) {
+        const locationTitle = item.replace(/-/g, ' ')
+        location = locations.find((element) => element.title === locationTitle)
+      }
+    }
+    if (index === 2) {
+      const locationTitle = item.replace(/-/g, ' ')
+      location = locations.find((element) => element.title === locationTitle)
+    }
+  })
+
+  try {
+    const response = await ApiClient({
+      method: 'POST',
+      url: '/search',
+      data: {
+        limit: 10,
+        offset: 0,
+        location,
+        propertyType,
+        category
+      }
+    })
+
+    const responseArticleAndMeta = await ApiClient({
+      method: 'POST',
+      url: '/page-content',
+      data: {
+        location,
+        propertyType,
+        category
+      }
+    })
+
+    const retrievedPosts = response.data?.posts || []
+    const count = response.data?.count || 0
+    const articles = responseArticleAndMeta.data?.articles || []
+    const metaTitle = responseArticleAndMeta.data?.meta_title || ''
+    const metaDescription = responseArticleAndMeta.data?.meta_description || ''
+
+    return {
+      props: {
+        retrievedPosts,
+        count,
+        articles,
+        metaTitle,
+        metaDescription,
+        selectedLocations: location ? [location] : [],
+        selectedPropertyType: propertyType || {
+          id: 0,
+          title: 'الكل'
+        },
+        selectedCategory: category || {}
+      }
+    }
+  } catch (error) {
+    return {
+      props: {}
+    }
+  }
 }
 
 export default Search

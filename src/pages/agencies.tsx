@@ -11,13 +11,11 @@ import { IAgent } from './agent/edit'
 const breadcrumbsItems = [
   {
     title: 'الكويت',
-    href: '/',
-    isLink: true
+    href: '/'
   },
   {
     title: 'المكاتب',
-    href: '/المكاتب',
-    isLink: true
+    href: '/المكاتب'
   }
 ]
 

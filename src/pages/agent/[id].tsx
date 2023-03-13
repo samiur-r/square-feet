@@ -55,18 +55,15 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
   const breadcrumbsItems = [
     {
       title: 'الكويت',
-      href: '/',
-      isLink: true
+      href: '/'
     },
     {
       title: 'المكاتب',
-      href: '/المكاتب',
-      isLink: true
+      href: '/المكاتب'
     },
     {
       title: agent?.name || '',
-      href: `/agent/${agent?.id}`,
-      isLink: true
+      href: `/agent/${agent?.id}`
     }
   ]
 

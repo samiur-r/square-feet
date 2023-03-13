@@ -14,17 +14,17 @@ const ApartmentRent = () => {
           <div>
             <Description light>
               من خلال بو شملان يمكنك البحث في آلاف الشقق والعقارات المعروضه{' '}
-              <Link href="/للايجار">
+              <Link href="للايجار">
                 <a className="underline underline-offset-4">للايجار</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للبيع">
+              <Link href="للبيع">
                 <a className="underline underline-offset-4">للبيع</a>
-              </Link>{' '}
+              </Link>
               او{' '}
               <Link href="للبدل">
                 <a className="underline underline-offset-4">للبدل</a>
-              </Link>{' '}
+              </Link>
               في الكويت من الملاك مباشره او من خلال{' '}
               <Link href="المكاتب">
                 <a className="underline underline-offset-4">المكاتب العقارية</a>
@@ -36,17 +36,17 @@ const ApartmentRent = () => {
             <li>
               <Description light>
                 الغرض من الإعلان:{' '}
-                <Link href="/للبيع">
+                <Link href="للبيع">
                   <a className="underline underline-offset-4">للبيع</a>
-                </Link>{' '}
+                </Link>
                 او{' '}
-                <Link href="/للايجار">
+                <Link href="للايجار">
                   <a className="underline underline-offset-4">للايجار</a>
-                </Link>{' '}
+                </Link>
                 او{' '}
                 <Link href="للبدل">
                   <a className="underline underline-offset-4">للبدل</a>
-                </Link>{' '}
+                </Link>
               </Description>
             </li>
             <li>

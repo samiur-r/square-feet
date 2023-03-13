@@ -179,9 +179,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                     {!isHomePage && (
                       <label
                         htmlFor="location"
-                        className={`${
-                          open ? 'text-primary' : 'ray'
-                        } ${isError && 'text-custom-red'} ${
+                        className={`${open ? 'text-primary' : 'ray'} ${
+                          isError && 'text-custom-red'
+                        } ${
                           inputPlaceHolder !== '' || open
                             ? '-top-2 px-1 right-3 text-xs'
                             : 'top-3 md:top-4 right-4'

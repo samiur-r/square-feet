@@ -15,26 +15,22 @@ export interface AuthProps {
 const breadcrumbsItemsLogin = [
   {
     title: 'الكويت',
-    href: '/',
-    isLink: true
+    href: '/'
   },
   {
     title: 'دخول',
-    href: '/login',
-    isLink: true
+    href: '/login'
   }
 ]
 
 const breadcrumbsItemsRegister = [
   {
     title: 'الكويت',
-    href: '/',
-    isLink: true
+    href: '/'
   },
   {
     title: 'تسجيل',
-    href: '/register',
-    isLink: true
+    href: '/register'
   }
 ]
 

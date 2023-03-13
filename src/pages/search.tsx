@@ -7,7 +7,7 @@ import PostCard from 'components/Posts/PostCard'
 import FilterArticle from 'components/Articles/Filter'
 import Title from 'components/Title'
 import { useStore } from 'store'
-import { BreadcrumbType, IPost, LocationType } from 'interfaces'
+import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
 import { locations } from 'constant'
@@ -122,21 +122,16 @@ const Search: NextPage = () => {
   const breadcrumbsItems = [
     {
       title: 'الكويت',
-      href: '/',
-      isLink: true
+      href: '/'
     },
     {
       title: `عقارات ${categorySelected?.title} في الكويت`,
-      href: `${categorySelected?.title}`,
-      type: [0],
-      isLink: false
+      href: `${categorySelected?.title}`
     },
     propertyTypeSelected && propertyTypeSelected.id !== 0
       ? {
           title: `${propertyTypeSelected?.title} ${categorySelected?.title}`,
-          href: `${categorySelected?.title}/${propertyTypeSelected?.title}`,
-          type: [0, 1],
-          isLink: false
+          href: `${propertyTypeSelected?.title}/${categorySelected?.title}`
         }
       : null
   ]
@@ -149,28 +144,22 @@ const Search: NextPage = () => {
     },
     {
       title: `عقارات ${categorySelected?.title} في الكويت`,
-      href: `${categorySelected?.title}`,
-      type: [0],
-      isLink: false
+      href: `${categorySelected?.title}`
     },
     {
       title: `${categorySelected?.title} في ${getStateTitleFromCity(
         locationsSelected[0]
       )}`,
-      href: `${categorySelected?.title}/${getStateTitleFromCity(
-        locationsSelected[0]
-      )}`,
-      type: [0, 2],
-      isLink: false
+      href: `${getStateTitleFromCity(locationsSelected[0])}/${
+        categorySelected?.title
+      }`
     },
     locationsSelected &&
     locationsSelected.length &&
     locationsSelected[0]?.state_id !== null
       ? {
           title: `${categorySelected?.title} في ${locationsSelected[0]?.title}`,
-          href: `${categorySelected?.title}/${locationsSelected[0]?.title}`,
-          type: [0, 2],
-          isLink: false
+          href: `${locationsSelected[0]?.title}/${categorySelected?.title}`
         }
       : null,
     locationsSelected &&
@@ -179,9 +168,7 @@ const Search: NextPage = () => {
     propertyTypeSelected
       ? {
           title: `${propertyTypeSelected?.title} ${categorySelected?.title} في ${locationsSelected[0]?.title}`,
-          href: `${categorySelected?.title}/${propertyTypeSelected?.title}/${locationsSelected[0]?.title}`,
-          type: [0, 1, 2],
-          isLink: false
+          href: `${locationsSelected[0]?.title}/${propertyTypeSelected?.title}/${categorySelected?.title}`
         }
       : null
   ]

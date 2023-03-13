@@ -21,31 +21,23 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const breadcrumbsItems = [
     {
       title: 'الكويت',
-      href: '/',
-      isLink: true
+      href: '/'
     },
     {
       title: `عقارات ${post?.category_title} في الكويت`,
-      href: `${post?.category_title}`,
-      type: [0],
-      isLink: false
+      href: `/${post?.category_title}`
     },
     {
       title: `${post?.category_title} في ${post?.state_title}`,
-      href: `${post?.category_title}/${post?.state_title}`,
-      type: [0, 2],
-      isLink: false
+      href: `/${post?.category_title}/${post?.state_title.replace(/\s+/g, '-')}`
     },
     {
       title: `${post?.category_title} في ${post?.city_title}`,
-      href: `${post?.state_title}/${post?.city_title}`,
-      type: [2, 2],
-      isLink: false
+      href: `/${post?.category_title}/${post?.city_title.replace(/\s+/g, '-')}`
     },
     {
       title: `${post?.title}`,
-      href: `/post/${post?.id}`,
-      isLink: true
+      href: `/post/${post?.id}`
     }
   ]
 

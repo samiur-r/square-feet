@@ -7,31 +7,31 @@ export const PRICE_RANGES = {
 export const propertyTypes = [
   {
     id: 1,
-    title: 'بيت'
+    title: 'ارض'
   },
   {
     id: 2,
-    title: 'شقه'
+    title: 'بيت'
   },
   {
     id: 3,
-    title: 'أرض'
-  },
-  {
-    id: 4,
-    title: 'عماره'
-  },
-  {
-    id: 5,
     title: 'تجاري'
   },
   {
-    id: 6,
+    id: 4,
     title: 'شاليه'
   },
   {
+    id: 5,
+    title: 'شقة'
+  },
+  {
+    id: 6,
+    title: 'عمارة'
+  },
+  {
     id: 7,
-    title: 'مزرعه'
+    title: 'مزرعة'
   }
 ]
 
@@ -53,7 +53,7 @@ export const categories = [
 export const locations = [
   {
     id: 1,
-    title: 'محافظة الاحمدي',
+    title: 'الاحمدي',
     state_id: null,
     count: 0
   },
@@ -227,7 +227,7 @@ export const locations = [
   },
   {
     id: 30,
-    title: 'محافظة الجهراء',
+    title: 'الجهراء',
     state_id: null,
     count: 0
   },
@@ -347,7 +347,7 @@ export const locations = [
   },
   {
     id: 50,
-    title: 'محافظة العاصمة',
+    title: 'العاصمة',
     state_id: null,
     count: 0
   },
@@ -545,7 +545,7 @@ export const locations = [
   },
   {
     id: 83,
-    title: 'محافظة الفروانية',
+    title: 'الفروانية',
     state_id: null,
     count: 0
   },
@@ -677,7 +677,7 @@ export const locations = [
   },
   {
     id: 105,
-    title: 'محافظة حولي',
+    title: 'حولي',
     state_id: null,
     count: 0
   },
@@ -785,7 +785,7 @@ export const locations = [
   },
   {
     id: 123,
-    title: 'محافظة مبارك الكبير',
+    title: 'مبارك الكبير',
     state_id: null,
     count: 0
   },
@@ -859,6 +859,18 @@ export const locations = [
     id: 135,
     title: 'مبارك الكبير',
     state_id: 123,
+    count: 0
+  },
+  {
+    id: 136,
+    title: 'دولي',
+    state_id: null,
+    count: 0
+  },
+  {
+    id: 137,
+    title: 'دولي - عقارات عالمية',
+    state_id: 136,
     count: 0
   }
 ]

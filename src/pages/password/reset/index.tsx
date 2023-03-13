@@ -13,13 +13,11 @@ import Breadcrumbs from 'components/Breadcrumbs'
 const breadcrumbsItems = [
   {
     title: 'الكويت',
-    href: '/',
-    isLink: true
+    href: '/'
   },
   {
     title: 'تغيير كلمة السر',
-    href: '/password/reset',
-    isLink: true
+    href: '/password/reset'
   }
 ]
 

@@ -11,9 +11,8 @@ import Image from 'next/image'
 import Router, { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-import { locations, categories, propertyTypes } from 'constant'
+import { locations } from 'constant'
 import { useStore } from 'store'
-import ApiClient from 'utils/ApiClient'
 import CTA from './CTA'
 
 const DynamicFilterAutoComplete = dynamic(
@@ -29,38 +28,31 @@ const realEstate = [
     subItems: [
       {
         title: 'بيوت للايجار',
-        href: 'للايجار/بيوت',
-        property: 'بيت'
+        href: 'للايجار/بيوت'
       },
       {
         title: 'شقق للايجار',
-        href: 'للايجار/مزارع',
-        property: 'شقه'
+        href: 'للايجار/شقه'
       },
       {
         title: 'أراضي للايجار',
-        href: 'للايجار/اراضي',
-        property: 'أرض'
-      },
-      {
-        title: 'عمارات للايجار',
-        href: 'للايجار/عمارات',
-        property: 'عماره'
+        href: 'للايجار/اراضي'
       },
       {
         title: 'تجاري للايجار',
-        href: 'للايجار/تجاري',
-        property: 'تجاري'
+        href: 'للايجار/تجاري'
+      },
+      {
+        title: 'عمارات للايجار',
+        href: 'للايجار/عمارات'
       },
       {
         title: 'شاليهات للايجار',
-        href: 'للايجار/شاليهات',
-        property: 'شاليه'
+        href: 'للايجار/شاليهات'
       },
       {
         title: 'مزارع للايجار',
-        href: 'للايجار/مزارع',
-        property: 'مزرعه'
+        href: 'للايجار/مزارع'
       }
     ]
   },
@@ -69,38 +61,31 @@ const realEstate = [
     subItems: [
       {
         title: 'بيوت للبيع',
-        href: 'للبيع/بيوت',
-        property: 'بيت'
+        href: 'للبيع/بيوت'
       },
       {
         title: 'شقق للبيع',
-        href: 'للبيع/مزارع',
-        property: 'شقه'
+        href: 'للبيع/شقه'
       },
       {
         title: 'أراضي للبيع',
-        href: 'للبيع/اراضي',
-        property: 'أرض'
+        href: 'للبيع/اراضي'
       },
       {
         title: 'عمارات للبيع',
-        href: 'للبيع/عمارات',
-        property: 'عماره'
+        href: 'للبيع/عمارات'
       },
       {
         title: 'تجاري للبيع',
-        href: 'للبيع/تجاري',
-        property: 'تجاري'
+        href: 'للبيع/تجاري'
       },
       {
         title: 'شاليهات للبيع',
-        href: 'للبيع/شاليهات',
-        property: 'شاليه'
+        href: 'للبيع/شاليهات'
       },
       {
         title: 'مزارع للبيع',
-        href: 'للبيع/مزارع',
-        property: 'مزرعه'
+        href: 'للبيع/مزارع'
       }
     ]
   },
@@ -109,18 +94,15 @@ const realEstate = [
     subItems: [
       {
         title: 'بيوت للبدل',
-        href: 'للبدل/بيوت',
-        property: 'بيت'
+        href: 'للبدل/بيوت'
       },
       {
         title: 'شقق للبدل',
-        href: 'للبدل/شقق',
-        property: 'شقه'
+        href: 'للبدل/شقه'
       },
       {
         title: 'أراضي للبدل',
-        href: 'للبدل/اراضي',
-        property: 'أرض'
+        href: 'للبدل/اراضي'
       }
     ]
   }
@@ -254,13 +236,7 @@ const socialLinks = [
 ]
 
 const Nav: React.FC = () => {
-  const {
-    user,
-    setPropertyTypeSelected,
-    setCategorySelected,
-    updateFilteredPosts,
-    updateFilteredPostsCount
-  } = useStore()
+  const { user } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
@@ -279,7 +255,6 @@ const Nav: React.FC = () => {
   )
   const [isFilterPage, setIsFilterPage] = useState(false)
   const [isLocationDropDownOpen, setIsLocationDropDownOpen] = useState(false)
-  const [isCallingApi, setIsCallingApi] = useState(false)
 
   const handleShowSubRealState = (index: number) => {
     setShowSubRealState(
@@ -339,36 +314,9 @@ const Nav: React.FC = () => {
     setIsFilterPage(pathname === '/search' || pathname === '/[...slug]')
   }, [pathname])
 
-  const handleSearch = async (val: { href: string; property: string }) => {
-    setIsCallingApi(true)
+  const handleSearch = async (val: { title?: string; href: any }) => {
     const parts = val.href.split('/')
-    const categorySelected = categories.find(
-      (element) => element.title === parts[0]
-    )
-    const propertyTypeSelected = propertyTypes.find(
-      (element) => element.title === val.property
-    )
-
-    setPropertyTypeSelected(propertyTypeSelected)
-    setCategorySelected(categorySelected)
-    try {
-      const response = await ApiClient({
-        method: 'POST',
-        url: '/search',
-        data: {
-          limit: 10,
-          offset: 0,
-          propertyType: propertyTypeSelected,
-          category: categorySelected
-        }
-      })
-      setIsCallingApi(false)
-      updateFilteredPostsCount(response?.data?.count)
-      updateFilteredPosts(response?.data?.posts)
-      Router.push(`/${parts[0]}/${parts[1]}`)
-    } catch (error) {
-      setIsCallingApi(false)
-    }
+    Router.push(`/${parts[0]}/${parts[1]}`)
   }
 
   return (
@@ -452,36 +400,16 @@ const Nav: React.FC = () => {
                                     showSubRealState[index] ? 'flex' : 'hidden'
                                   } flex-col mt-2 shadow py-2 items-center`}
                                 >
-                                  {isCallingApi ? (
-                                    <svg
-                                      aria-hidden="true"
-                                      role="status"
-                                      className="inline w-5 h-5 text-primary animate-spin"
-                                      viewBox="0 0 100 101"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
+                                  {item.subItems.map((subItem) => (
+                                    <Popover.Button
+                                      key={subItem.title}
+                                      onClick={() => handleSearch(subItem)}
                                     >
-                                      <path
-                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                        fill="#E5E7EB"
-                                      />
-                                      <path
-                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                        fill="currentColor"
-                                      />
-                                    </svg>
-                                  ) : (
-                                    item.subItems.map((subItem) => (
-                                      <Popover.Button
-                                        key={subItem.title}
-                                        onClick={() => handleSearch(subItem)}
-                                      >
-                                        <p className="hover:bg-gray-50">
-                                          {subItem.title}
-                                        </p>
-                                      </Popover.Button>
-                                    ))
-                                  )}
+                                      <p className="hover:bg-gray-50">
+                                        {subItem.title}
+                                      </p>
+                                    </Popover.Button>
+                                  ))}
                                 </div>
                               </a>
                             ))}

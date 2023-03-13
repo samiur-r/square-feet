@@ -112,8 +112,8 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
     setIsCallingApi(true)
     setIsSearchDone(false)
 
-    let location
-    let propertyType
+    let location: string | any[] | undefined
+    let propertyType: { id: number; title: string } | undefined
     if (
       selectedLocation.length === 1 &&
       selectedLocation[0].title === 'كل مناطق الكويت'
@@ -127,6 +127,26 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
     setLocationsSelected(selectedLocation)
     setPropertyTypeSelected(selectedPropertyType)
     setCategorySelected(selectedCategory)
+
+    if (!location || (location && location.length <= 1)) {
+      setIsCallingApi(false)
+      const paths = []
+      let url = `${selectedCategory?.title}`
+
+      if (propertyType) paths.push(1)
+      if (location || location?.length) paths.push(2)
+
+      paths.forEach((item) => {
+        if (item === 1 && propertyType) {
+          url = `${url}/${propertyType.title}`
+        }
+        if (item === 2 && location && location.length) {
+          url = `${url}/${location[0].title.replace(/\s+/g, '-')}`
+        }
+      })
+      Router.push(url)
+      return
+    }
 
     try {
       const response = await ApiClient({

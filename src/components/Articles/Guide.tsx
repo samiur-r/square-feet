@@ -16,34 +16,34 @@ const Guide = () => {
               بوشملان هو دليل الكويت العقاري الأول والاكبر والأكثر شهرة في
               الكويت ودول الخليج العربي وفيه تجد الإعلانات الخاصة بعقارات الكويت
               بمختلف أنواعها. نساعدك بالبحث عن{' '}
-              <Link href="/للايجار/شقق">
+              <Link href="للايجار/شقه">
                 <a className="underline underline-offset-4"> شقق للايجار </a>
-              </Link>{' '}
+              </Link>
               او
-              <Link href="/للايجار/شقق">
+              <Link href="للبيع/بيوت">
                 <a className="underline underline-offset-4">بيوت للبيع</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للبيع/أراضي">
+              <Link href="للبيع/اراضي">
                 <a className="underline underline-offset-4">أراضي للبدل</a>
-              </Link>{' '}
+              </Link>
               او غير ذلك.
             </Description>
           </div>
           <div>
             <Description light>
               سواء كنت مواطنا او مقيما تبحث عن عقار في الكويت{' '}
-              <Link href="/للايجار">
+              <Link href="للايجار">
                 <a className="underline underline-offset-4"> للايجار</a>
-              </Link>{' '}
+              </Link>
               ،{' '}
-              <Link href="/للبيع">
+              <Link href="للبيع">
                 <a className="underline underline-offset-4">للبيع</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للبدل">
+              <Link href="للبدل">
                 <a className="underline underline-offset-4">للبدل</a>
-              </Link>{' '}
+              </Link>
               او كنت دلال او وسيط عقاري وتحاول عقد صفقات عقارية، فإن زيارتك
               لدليل عقارات الكويت هي الخطوة الأولى لتحقيق هدفك بسرعه وبسهوله،
               فنحن نقدم الحلول العقارية بشكل متطور وحديث على شكل موقع الكتروني
@@ -61,27 +61,27 @@ const Guide = () => {
           <div>
             <Description light>
               نقدم خدماتنا بشكل مجاني للباحثين عن{' '}
-              <Link href="/للبيع">
+              <Link href="للبيع">
                 <a className="underline underline-offset-4">عقار للشراء</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للايجار">
+              <Link href="للايجار">
                 <a className="underline underline-offset-4">للاستئجار،</a>
-              </Link>{' '}
+              </Link>
               ولسنا وسيط عقاري ولا نتدخل بأي شكل من الاشكال بين البائع والمشتري
               من استفسارات او مفاوضات واتفاقيات. ولا نتقاضى أي عمولة أو رسوم على
               الصفقات العقارية سواء كانت{' '}
-              <Link href="/للايجار">
+              <Link href="للايجار">
                 <a className="underline underline-offset-4">للايجار</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للبيع">
+              <Link href="للبيع">
                 <a className="underline underline-offset-4">للبيع</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للبدل">
+              <Link href="للبدل">
                 <a className="underline underline-offset-4">للبدل</a>
-              </Link>{' '}
+              </Link>
               أو غيرها من الصفقات.
             </Description>
           </div>
@@ -91,13 +91,13 @@ const Guide = () => {
               مجاني ايضا ، ويجب عليك تأكيد حسابك عن طريق رسالة نصية SMS وبعدها
               ستتمكن من إضافة إعلانك وتحديد البيانات التاليه: الموبايل، المنطقة،
               نوع العقار، الغرض من الإعلان سواء كان{' '}
-              <Link href="/للايجار">
+              <Link href="للايجار">
                 <a className="underline underline-offset-4">للايجار</a>
-              </Link>{' '}
+              </Link>
               او{' '}
-              <Link href="/للبيع">
+              <Link href="للبيع">
                 <a className="underline underline-offset-4">للبيع،</a>
-              </Link>{' '}
+              </Link>
               تحديد السعر المطلوب، كتابة تفاصيل الإعلان والعقار مثل المساحه وعدد
               الغرف وعدد الصالات والحمامات، والأدوار، وعدد المصافط المتوفرة،
               وتوفر الاصنصير (المصعد)، ونوعية التشطيب مثل سوبر ديلوكس او بنيان
