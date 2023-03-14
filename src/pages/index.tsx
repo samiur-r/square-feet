@@ -58,8 +58,6 @@ export const getStaticProps: GetServerSideProps = async () => {
       url: '/locations'
     })
 
-    console.log(responseLocations.data)
-
     return {
       props: {
         posts: response.data.posts,
