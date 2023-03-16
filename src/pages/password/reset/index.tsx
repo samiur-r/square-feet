@@ -206,7 +206,9 @@ const PasswordReset: NextPage = () => {
                 } else checkIfUserExists()
               }}
             >
-              أرسل لي رقم التفعيل SMS{' '}
+              {otpVerified
+                ? 'إعادة تعيين كلمة المرور'
+                : 'أرسل لي رقم التفعيل SMS'}
               {isCallingApi && (
                 <svg
                   aria-hidden="true"
