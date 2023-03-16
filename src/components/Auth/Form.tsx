@@ -80,14 +80,16 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
       })
 
       if (data && data.nextOperation) {
-        await ApiClient({
-          method: 'POST',
-          url: `/otp/resend`,
-          data: {
-            userId: data.userId,
-            type: 'registration'
-          }
-        })
+        if (data.nextOperation === 'verify mobile') {
+          await ApiClient({
+            method: 'POST',
+            url: `/otp/resend`,
+            data: {
+              userId: data.userId,
+              type: 'registration'
+            }
+          })
+        }
         setIsCallingApi(false)
         setUserId(data.userId)
         updateToast(true, 'Success: Please verify your phone', false)
