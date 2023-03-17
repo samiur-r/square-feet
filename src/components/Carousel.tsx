@@ -73,7 +73,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                         isImage(src) ? (
                           <Image
                             key={Math.random()}
-                            src={`/images/posts/${src}`}
+                            src={`${src}`}
                             width={150}
                             height={150}
                             objectFit="contain"
@@ -86,7 +86,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                             className="2xl:w-96 2xl:h-96 w-26 h-26"
                             playsInline
                           >
-                            <source src={`/images/posts/${src}`} />
+                            <source src={`${src}`} />
                             Your browser does not support the video tag.
                           </video>
                         )
@@ -97,7 +97,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                       isImage(src) ? (
                         <Image
                           key={Math.random()}
-                          src={`/images/posts/${src}`}
+                          src={`${src}`}
                           alt="post_image"
                           width={600}
                           height={600}
@@ -111,7 +111,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                           controls
                           playsInline
                         >
-                          <source src={`/images/posts/${src}`} />
+                          <source src={`${src}`} />
                           Your browser does not support the video tag.
                         </video>
                       )

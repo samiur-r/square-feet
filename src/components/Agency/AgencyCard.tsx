@@ -27,7 +27,7 @@ const AgencyCard = React.forwardRef(
             <div className="w-full flex justify-center md:mb-2">
               <div className="w-28 h-28 rounded-lg overflow-hidden relative">
                 <Image
-                  src={`/images/agents/${logo_url}` || '/images/nopic-ar.jpg'}
+                  src={`${logo_url}` || '/images/nopic-ar.jpg'}
                   layout="fill"
                   objectFit="cover"
                   alt="agency"

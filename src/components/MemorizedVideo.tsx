@@ -10,7 +10,7 @@ const MemorizedVideo: React.FC<{ src: string; isThumbnail?: boolean }> = ({
       className={`${isThumbnail ? 'w-96 h-96' : 'max-w-3xl'}`}
       controls={!isThumbnail}
     >
-      <source src={`/images/posts/${src}`} />
+      <source src={`${src}`} />
       Your browser does not support the video tag.
     </video>
   )

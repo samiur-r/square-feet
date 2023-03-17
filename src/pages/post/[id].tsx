@@ -114,7 +114,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                 {isImage(post.media[0]) ? (
                   <Image
                     key={Math.random()}
-                    src={`/images/posts/${post.media[0]}`}
+                    src={`${post.media[0]}`}
                     alt="post_image"
                     width={500}
                     height={500}
@@ -129,7 +129,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                     controls
                     onClick={() => setShowCarousel(true)}
                   >
-                    <source src={`/images/posts/${post.media[0]}`} />
+                    <source src={`${post.media[0]}`} />
                     Your browser does not support the video tag.
                   </video>
                 )}
@@ -139,7 +139,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                   isImage(src) ? (
                     <Image
                       key={Math.random()}
-                      src={`/images/posts/${src}`}
+                      src={`${src}`}
                       width={100}
                       height={100}
                       objectFit="contain"
@@ -150,7 +150,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                   ) : (
                     // eslint-disable-next-line jsx-a11y/media-has-caption
                     <video className="w-24 h-24" controls key={Math.random()}>
-                      <source src={`/images/posts/${src}`} />
+                      <source src={`${src}`} />
                       Your browser does not support the video tag.
                     </video>
                   )

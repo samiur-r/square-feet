@@ -24,7 +24,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const [isCallingApiForDelete, setIsCallingApiForDelete] = useState(false)
 
   const thumbnail = post?.media?.length
-    ? `/images/posts/${post.media[0]}`
+    ? `${post.media[0]}`
     : '/images/nopic-ar.jpg'
 
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())

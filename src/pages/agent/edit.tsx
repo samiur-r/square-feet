@@ -40,7 +40,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [nameError, setNameError] = useState('')
 
-  const [mediaList, setMediaList] = useState<Array<File>>([])
+  const [mediaList, setMediaList] = useState<Array<string>>([])
 
   const handleEditAgent = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
@@ -225,7 +225,11 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
           </label>
         </div>
         <div className="w-full mt-8 md:mt-10">
-          <MediaUploader handleMediaUpload={setMediaList} maxMediaNum={1} />
+          <MediaUploader
+            mediaList={mediaList}
+            handleSetMediaList={setMediaList}
+            maxMediaNum={1}
+          />
         </div>
         <div className="mt-3 md:mt-5">
           <button

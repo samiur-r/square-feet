@@ -1,22 +1,18 @@
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 
 interface MediaUploaderType {
   maxMediaNum?: number
-  prevItems?: Array<File>
-  handleMediaUpload: Dispatch<SetStateAction<Array<File>>>
+  mediaList: Array<string>
+  handleSetMediaList: Dispatch<SetStateAction<Array<string>>>
 }
 
 const MediaUploader: React.FC<MediaUploaderType> = ({
   maxMediaNum = 20,
-  prevItems,
-  handleMediaUpload
+  mediaList,
+  handleSetMediaList
 }) => {
-  const [mediaList, setMediaList] = useState<Array<File>>([])
-  const [mediaPreviewList, setMediaPreviewList] = useState<
-    Array<{ src: string; type: string }>
-  >([])
   const [mediaCount, setMediaCount] = useState(0)
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,62 +23,21 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     }
     const file = files[0]
     const reader = new FileReader()
-
-    const mediaType = file?.type.split('/')[0]
+    reader.readAsDataURL(file)
 
     reader.onloadend = () => {
-      setMediaPreviewList((prev: Array<{ src: string; type: string }>) => [
-        ...prev,
-        { src: reader.result as string, type: mediaType }
-      ])
+      handleSetMediaList((prev) => [...prev, reader.result as string])
+      setMediaCount((prev) => prev + 1)
     }
-
-    reader.readAsDataURL(file)
-    setMediaList((prev: Array<File>) => [...prev, files[0]])
-    setMediaCount((prev) => prev + 1)
   }
 
-  const removeMediaPreview = (index: number) => {
+  const removeMedia = (index: number) => {
     setMediaCount((prev) => prev - 1)
 
-    const tempPreviewList = [...mediaPreviewList]
     const tempMediaList = [...mediaList]
-
-    tempPreviewList.splice(index, 1)
     tempMediaList.splice(index, 1)
-
-    setMediaPreviewList(tempPreviewList)
-    setMediaList(tempMediaList)
+    handleSetMediaList(tempMediaList)
   }
-
-  useEffect(() => {
-    if (prevItems?.length) {
-      setMediaList(prevItems)
-      setMediaCount(prevItems.length)
-
-      prevItems.forEach((file) => {
-        const reader = new FileReader()
-        const mediaType = file?.type.split('/')[0]
-
-        reader.onloadend = () => {
-          setMediaPreviewList((prev: Array<{ src: string; type: string }>) => {
-            const elementExists = prev?.some(
-              (mediaItem) =>
-                mediaItem.src === (reader.result as unknown as string)
-            )
-            if (elementExists) return [...prev]
-            return [...prev, { src: reader.result as string, type: mediaType }]
-          })
-        }
-
-        reader.readAsDataURL(file)
-      })
-    }
-  }, [prevItems])
-
-  useEffect(() => {
-    handleMediaUpload(mediaList)
-  }, [mediaList])
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">
@@ -119,11 +74,11 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
             <span className="block text-custom-gray">(اختياري)</span>
           </p>
         </label>
-        {mediaPreviewList.length !== 0 && (
+        {mediaList.length !== 0 && (
           <div className="flex flex-wrap gap-3 mx-5 mt-5">
-            {mediaPreviewList.map((preview, index) => (
+            {mediaList.map((preview, index) => (
               <div className="relative border" key={Math.random()}>
-                {preview.type === 'image' ? (
+                {/* {preview.type === 'image' ? (
                   <Image
                     src={preview.src}
                     width="80"
@@ -133,10 +88,16 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
                   <video className="w-20 h-20" src={preview.src} />
-                )}
+                )} */}
+                <Image
+                  src={preview}
+                  width="80"
+                  height="80"
+                  objectFit="contain"
+                />
                 <XCircleIcon
                   className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
-                  onClick={() => removeMediaPreview(index)}
+                  onClick={() => removeMedia(index)}
                 />
               </div>
             ))}

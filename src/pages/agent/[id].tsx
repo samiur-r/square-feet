@@ -75,9 +75,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
           <div className="w-40 h-32 md:w-46 md:h-32 rounded-lg overflow-hidden relative border">
             <Image
               src={
-                agent?.logo_url
-                  ? `/images/agents/${agent.logo_url}`
-                  : '/images/nopic-ar.jpg'
+                agent?.logo_url ? `${agent.logo_url}` : '/images/nopic-ar.jpg'
               }
               layout="fill"
               objectFit="cover"

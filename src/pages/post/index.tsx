@@ -51,21 +51,18 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   const [description, setDescription] = useState<string | undefined>(
     post && post.description !== null ? post.description : undefined
   )
-  const [mediaList, setMediaList] = useState<Array<File>>([])
-  const [prevMediaList, setPrevMediaList] = useState<Array<File>>([])
+  const [mediaList, setMediaList] = useState<Array<string>>([])
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [openPackageModal, setOpenPackageModal] = useState(false)
   const [isStickyDirectPost, setIsStickyDirectPost] = useState(false)
 
-  const handleMediaListForEdit = (media: string[]) => {
-    media.forEach(async (item) => {
-      const file = await createFileObjFromUrlStr('posts', item)
-      setPrevMediaList((prev: Array<File>) => {
-        const elementExists = prev?.some((mediaItem) => mediaItem.name === item)
-        if (elementExists) return [...prev]
-        return [...prev, file as File]
+  const handleMediaListForEdit = async (media: string[]) => {
+    const multimediaList: string[] = await Promise.all(
+      media.map((f) => {
+        return createFileObjFromUrlStr(f)
       })
-    })
+    )
+    setMediaList(() => [...multimediaList])
   }
 
   useEffect(() => {
@@ -185,7 +182,6 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
     const state = locations.filter(
       (location) => location.id === selectedLocation?.state_id
     )
-
     const postInfo = {
       cityId: selectedLocation?.id,
       cityTitle: selectedLocation?.title,
@@ -225,7 +221,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
           url: '/post',
           data: { postInfo },
           headers: {
-            'content-type': 'multipart/form-data'
+            'content-type': 'application/json'
           }
         })
       } else {
@@ -234,7 +230,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
           url: '/post',
           data: { postInfo, postId: post?.id },
           headers: {
-            'content-type': 'multipart/form-data'
+            'content-type': 'application/json'
           }
         })
       }
@@ -432,8 +428,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
         )}
         <div className="flex justify-center items-center w-full mt-8 md:mt-10">
           <MediaUploader
-            handleMediaUpload={setMediaList}
-            prevItems={prevMediaList}
+            handleSetMediaList={setMediaList}
+            mediaList={mediaList}
           />
         </div>
         {mode === 'create' && (

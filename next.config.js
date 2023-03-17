@@ -5,6 +5,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
+  images: {
+    domains: ['res.cloudinary.com']
+  },
   swcMinify: true,
   i18n: {
     locales: ['ar'],
