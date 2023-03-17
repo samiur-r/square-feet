@@ -39,6 +39,13 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     handleSetMediaList(tempMediaList)
   }
 
+  const getMediaType = (base64Str: string) => {
+    let type = 'image'
+    // eslint-disable-next-line prefer-destructuring
+    if (base64Str) type = base64Str.split('/')[0].split(':')[1]
+    return type
+  }
+
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">
       <div className="flex flex-col justify-center items-center pt-5 pb-6">
@@ -78,23 +85,17 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
           <div className="flex flex-wrap gap-3 mx-5 mt-5">
             {mediaList.map((preview, index) => (
               <div className="relative border" key={Math.random()}>
-                {/* {preview.type === 'image' ? (
+                {getMediaType(preview) === 'image' ? (
                   <Image
-                    src={preview.src}
+                    src={preview}
                     width="80"
                     height="80"
                     objectFit="contain"
                   />
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
-                  <video className="w-20 h-20" src={preview.src} />
-                )} */}
-                <Image
-                  src={preview}
-                  width="80"
-                  height="80"
-                  objectFit="contain"
-                />
+                  <video className="w-20 h-20" src={preview} />
+                )}
                 <XCircleIcon
                   className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
                   onClick={() => removeMedia(index)}
