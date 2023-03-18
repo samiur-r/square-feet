@@ -171,7 +171,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 alt="views_icon"
               />
               <div className="text-custom-gray md:text-base text-xs">
-                {post.views}
+                {post ? Math.ceil(post.views) : ''}
               </div>
             </div>
           </div>

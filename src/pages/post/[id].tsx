@@ -63,7 +63,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
             </div>
             <div className="flex flex-nowrap gap-2 items-center bg-primary-dark px-2 py-1 rounded-lg">
               <div className="md:text-base text-sm">
-                {post ? Math.floor(post.views) : ''}
+                {post ? Math.ceil(post.views) : ''}
               </div>
               <Image
                 src="/images/eye-white.svg"
