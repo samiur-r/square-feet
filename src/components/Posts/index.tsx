@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
 
 import Title from 'components/Title'

@@ -10,7 +10,7 @@ import ApiClient from 'utils/ApiClient'
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
-import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
+import { parseJwtFromCookie } from 'utils/jwtUtils'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
