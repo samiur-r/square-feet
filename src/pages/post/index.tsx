@@ -431,6 +431,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
             handleSetMediaList={setMediaList}
             mediaList={mediaList}
             mode={mode}
+            hasMedia={post?.media?.length}
           />
         </div>
         {mode === 'create' && (

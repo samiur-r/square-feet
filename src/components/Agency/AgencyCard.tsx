@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { toBase64, placeholderImg } from 'utils/strToBase64'
 
 const AgencyCard = React.forwardRef(
   (
@@ -27,10 +28,14 @@ const AgencyCard = React.forwardRef(
             <div className="w-full flex justify-center md:mb-2">
               <div className="w-28 h-28 rounded-lg overflow-hidden relative">
                 <Image
-                  src={`${logo_url}` || '/images/nopic-ar.jpg'}
                   layout="fill"
                   objectFit="cover"
                   alt="agency"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    placeholderImg()
+                  )}`}
+                  src={`${logo_url}` || '/images/nopic-ar.jpg'}
                 />
               </div>
             </div>

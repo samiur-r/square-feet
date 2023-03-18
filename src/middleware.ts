@@ -11,7 +11,8 @@ export default async function middleware(req: NextRequest) {
 
   if (
     pathname.startsWith('/account') ||
-    pathname.startsWith('/post') ||
+    pathname.startsWith('/post?mode=create') ||
+    pathname.startsWith('/post?mode=edit') ||
     pathname.startsWith('/agent/edit')
   ) {
     if (token) {

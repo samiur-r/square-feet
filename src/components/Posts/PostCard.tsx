@@ -6,6 +6,7 @@ import Router from 'next/router'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 import Link from 'next/link'
+import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import Actions from './Actions'
 
 interface PostCardProps {
@@ -127,10 +128,14 @@ const PostCard: React.FC<PostCardProps> = ({
             <Link href={`/post/${post.id}`}>
               <a>
                 <Image
-                  src={thumbnail}
                   layout="fill"
                   objectFit="cover"
                   alt="property_image"
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    placeholderImg()
+                  )}`}
+                  src={thumbnail}
                 />
               </a>
             </Link>

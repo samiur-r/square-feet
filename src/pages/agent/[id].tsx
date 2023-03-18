@@ -9,6 +9,7 @@ import ApiClient from 'utils/ApiClient'
 import { IAgent, IPost } from 'interfaces'
 import { useEffect, useRef, useState } from 'react'
 import { useOnScreen } from 'hooks/useOnScreen'
+import { toBase64, placeholderImg } from 'utils/strToBase64'
 
 interface AgentProps {
   agent: IAgent
@@ -74,12 +75,16 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
         <div className="bg-primary-light flex flex-col md:flex-row gap-5 md:gap-10 justify-center items-center text-white px-5 py-8 rounded-b-lg md:rounded-none">
           <div className="w-40 h-32 md:w-46 md:h-32 rounded-lg overflow-hidden relative border">
             <Image
-              src={
-                agent?.logo_url ? `${agent.logo_url}` : '/images/nopic-ar.jpg'
-              }
               layout="fill"
               objectFit="cover"
               alt="logo"
+              placeholder="blur"
+              blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                placeholderImg()
+              )}`}
+              src={
+                agent?.logo_url ? `${agent.logo_url}` : '/images/nopic-ar.jpg'
+              }
             />
           </div>
           <div className="flex flex-col items-center text-center">

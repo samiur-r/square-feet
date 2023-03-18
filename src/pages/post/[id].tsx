@@ -9,6 +9,7 @@ import Title from 'components/Title'
 import ApiClient from 'utils/ApiClient'
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
+import { placeholderImg, toBase64 } from 'utils/strToBase64'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
@@ -114,13 +115,17 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                 {isImage(post.media[0]) ? (
                   <Image
                     key={Math.random()}
-                    src={`${post.media[0]}`}
                     alt="post_image"
                     width={500}
                     height={500}
                     objectFit="contain"
                     className="cursor-pointer"
                     onClick={() => setShowCarousel(true)}
+                    placeholder="blur"
+                    blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                      placeholderImg()
+                    )}`}
+                    src={`${post.media[0]}`}
                   />
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
@@ -146,6 +151,10 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                       alt="post_image"
                       className="cursor-pointer"
                       onClick={() => setShowCarousel(true)}
+                      placeholder="blur"
+                      blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                        placeholderImg()
+                      )}`}
                     />
                   ) : (
                     // eslint-disable-next-line jsx-a11y/media-has-caption

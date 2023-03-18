@@ -7,16 +7,18 @@ interface MediaUploaderType {
   mediaList: Array<string>
   handleSetMediaList: Dispatch<SetStateAction<Array<string>>>
   mode?: string
+  hasMedia?: number | undefined
 }
 
 const MediaUploader: React.FC<MediaUploaderType> = ({
   maxMediaNum = 20,
   mediaList,
   handleSetMediaList,
-  mode
+  mode,
+  hasMedia
 }) => {
   const [mediaCount, setMediaCount] = useState(0)
-  const [showLoading, setShowLoading] = useState(true)
+  const [showLoading, setShowLoading] = useState(false)
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
@@ -50,15 +52,12 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   }
 
   useEffect(() => {
-    if (mediaList.length) setShowLoading(false)
-    else if (mode && mode === 'edit') {
-      setTimeout(() => {
-        setShowLoading(false)
-      }, 8000)
-    } else {
-      setShowLoading(false)
-    }
+    if (mediaList.length && showLoading) setShowLoading(false)
   }, [mediaList])
+
+  useEffect(() => {
+    if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
+  }, [hasMedia])
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">

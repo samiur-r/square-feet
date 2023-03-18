@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Popover } from '@headlessui/react'
 
 import Title from 'components/Title'
@@ -8,6 +8,8 @@ import { useStore } from 'store'
 import MediaUploader from 'components/MediaUploader'
 import ApiClient from 'utils/ApiClient'
 import { agentSchema } from 'validations/AgentValidation'
+import Router from 'next/router'
+import createFileObjFromUrlStr from 'utils/createFileObjFromUrlStr'
 
 export interface IAgent {
   id: number
@@ -32,7 +34,7 @@ interface EditAgentProps {
 const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
   const { user, updateToast } = useStore()
   const [name, setName] = useState(agent?.name)
-  const [description, setDescription] = useState(agent?.description)
+  const [description, setDescription] = useState(agent?.description ?? '')
   const [instagram, setInstagram] = useState(agent?.instagram)
   const [twitter, setTwitter] = useState(agent?.twitter)
   const [facebook, setFacebook] = useState(agent?.facebook)
@@ -41,6 +43,19 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
   const [nameError, setNameError] = useState('')
 
   const [mediaList, setMediaList] = useState<Array<string>>([])
+
+  const handleMediaListForEdit = async (media: string[]) => {
+    const multimediaList: string[] = await Promise.all(
+      media.map((f) => {
+        return createFileObjFromUrlStr(f)
+      })
+    )
+    setMediaList(() => [...multimediaList])
+  }
+
+  useEffect(() => {
+    if (agent?.logo_url) handleMediaListForEdit([agent.logo_url])
+  }, [agent?.logo_url])
 
   const handleEditAgent = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
@@ -64,16 +79,21 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
         url: '/agent',
         data: { agentInfo },
         headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'application/json'
         }
       })
       setIsCallingApi(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
+      Router.push('/account')
     } catch (error: any) {
       setIsCallingApi(false)
       if (error.message === 'Name is a required field')
         setNameError(error.message)
-      updateToast(true, `Error: ${error?.response?.data}`, true)
+      updateToast(
+        true,
+        `Error: ${error?.response?.data ?? 'Something went wrong'}`,
+        true
+      )
     }
   }
 
@@ -229,6 +249,8 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
             mediaList={mediaList}
             handleSetMediaList={setMediaList}
             maxMediaNum={1}
+            mode="edit"
+            hasMedia={agent?.logo_url ? 1 : 0}
           />
         </div>
         <div className="mt-3 md:mt-5">
