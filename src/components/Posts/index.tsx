@@ -43,13 +43,7 @@ const Posts: React.FC<{ posts: IPost[]; totalPosts: number }> = ({
     <div className="dir-rtl container max-w-3xl pt-5 md:pt-0 pb-10 bg-custom-white-light md:bg-white">
       <Title value="أحدث الإعلانات" />
       {postList &&
-        postList.map((post) => (
-          <Link key={post.id} href={`/post/${post.id}`}>
-            <a>
-              <PostCard post={post} />
-            </a>
-          </Link>
-        ))}
+        postList.map((post) => <PostCard key={post.id} post={post} />)}
       {(totalPosts && postCount >= totalPosts) || postCount === 0 ? (
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
           انتهت نتائج البحث ولا يوجد المزيد من الاعلانات

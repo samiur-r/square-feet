@@ -194,20 +194,12 @@ const MyPosts: NextPage<AccountType> = ({
           ? archivePostList &&
             archivePostList.length > 0 &&
             archivePostList.map((post) => (
-              <Link key={post.id} href={`/post/${post.id}`}>
-                <a>
-                  <PostCard post={post} showActions isArchive />
-                </a>
-              </Link>
+              <PostCard post={post} showActions isArchive />
             ))
           : postList &&
             postList.length > 0 &&
             postList.map((post) => (
-              <Link key={post.id} href={`/post/${post.id}`}>
-                <a>
-                  <PostCard key={post.id} post={post} showActions />
-                </a>
-              </Link>
+              <PostCard key={post.id} post={post} showActions />
             ))}
         <div ref={ref} />
         {isCallingApi && (

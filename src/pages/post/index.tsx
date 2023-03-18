@@ -430,6 +430,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
           <MediaUploader
             handleSetMediaList={setMediaList}
             mediaList={mediaList}
+            mode={mode}
           />
         </div>
         {mode === 'create' && (

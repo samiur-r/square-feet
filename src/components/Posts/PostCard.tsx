@@ -5,6 +5,7 @@ import getElapsedTime from 'utils/getElapsedTime'
 import Router from 'next/router'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
+import Link from 'next/link'
 import Actions from './Actions'
 
 interface PostCardProps {
@@ -23,8 +24,17 @@ const PostCard: React.FC<PostCardProps> = ({
   const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
   const [isCallingApiForDelete, setIsCallingApiForDelete] = useState(false)
 
+  const getMediaType = (base64Str: string) => {
+    const pathSegments = base64Str.split('/')
+    const resourceType = pathSegments[4]
+    return resourceType
+  }
+
+  // eslint-disable-next-line no-nested-ternary
   const thumbnail = post?.media?.length
-    ? `${post.media[0]}`
+    ? getMediaType(post.media[0]) === 'image'
+      ? `${post.media[0]}`
+      : '/images/nopic-ar.jpg'
     : '/images/nopic-ar.jpg'
 
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
@@ -114,18 +124,25 @@ const PostCard: React.FC<PostCardProps> = ({
       <div className="flex md:items-center gap-3 md:gap-4">
         <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center border">
           <div className="w-16 h-12 md:w-28 md:h-28 relative">
-            <Image
-              src={thumbnail}
-              layout="fill"
-              objectFit="cover"
-              alt="property_image"
-            />
+            <Link href={`/post/${post.id}`}>
+              <a>
+                <Image
+                  src={thumbnail}
+                  layout="fill"
+                  objectFit="cover"
+                  alt="property_image"
+                />
+              </a>
+            </Link>
           </div>
         </div>
         <div>
-          <div className="font-DroidArabicKufiBold text-sm md:text-lg line-clamp-1 max-w-xs">
-            {post.title}
+          <div className="font-DroidArabicKufiBold text-sm md:text-lg line-clamp-1 max-w-xs relative z-10">
+            <Link href={`/post/${post.id}`}>
+              <a>{post.title}</a>
+            </Link>
           </div>
+
           <div className="flex gap-3 md:gap-5 mt-3">
             <div className="text-primary md:text-base text-xs font-bold font-DroidArabicKufiBold">
               {post.price} دك

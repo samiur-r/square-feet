@@ -6,12 +6,14 @@ interface MediaUploaderType {
   maxMediaNum?: number
   mediaList: Array<string>
   handleSetMediaList: Dispatch<SetStateAction<Array<string>>>
+  mode?: string
 }
 
 const MediaUploader: React.FC<MediaUploaderType> = ({
   maxMediaNum = 20,
   mediaList,
-  handleSetMediaList
+  handleSetMediaList,
+  mode
 }) => {
   const [mediaCount, setMediaCount] = useState(0)
   const [showLoading, setShowLoading] = useState(true)
@@ -49,10 +51,13 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
 
   useEffect(() => {
     if (mediaList.length) setShowLoading(false)
-
-    setTimeout(() => {
+    else if (mode && mode === 'edit') {
+      setTimeout(() => {
+        setShowLoading(false)
+      }, 8000)
+    } else {
       setShowLoading(false)
-    }, 5000)
+    }
   }, [mediaList])
 
   return (

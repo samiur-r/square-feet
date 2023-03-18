@@ -256,11 +256,7 @@ const Search: NextPage<PageProps> = ({
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
-                <Link key={post.id} href={`/post/${post.id}`}>
-                  <a>
-                    <PostCard key={post.id} post={post} />
-                  </a>
-                </Link>
+                <PostCard key={post.id} post={post} />
               ))}
           </div>
         </div>
