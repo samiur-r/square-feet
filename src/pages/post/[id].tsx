@@ -10,6 +10,7 @@ import ApiClient from 'utils/ApiClient'
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
+import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
@@ -184,19 +185,28 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  // $id-$city-$category-$type/عقارات
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  params
+}) => {
+  const parsedCookie = req.cookies.token
+  let token
+
+  if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
+
   try {
     const response = await ApiClient({
       method: 'GET',
       url: `/post/${params?.id}`
     })
 
-    await ApiClient({
-      method: 'POST',
-      url: `/post/increment-post-view`,
-      data: { postId: params?.id }
-    })
+    if (!token) {
+      await ApiClient({
+        method: 'POST',
+        url: `/post/increment-post-view`,
+        data: { postId: params?.id }
+      })
+    }
 
     return {
       props: {
