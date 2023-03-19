@@ -24,6 +24,8 @@ const getElapsedTime = (dateStr: string) => {
     timeElapsed = differenceInMinutes
   }
 
+  if (timeElapsed === 0) timeElapsed = 1
+
   return { unit, timeElapsed }
 }
 

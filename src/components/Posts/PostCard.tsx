@@ -39,6 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
     : '/images/nopic-ar.jpg'
 
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
+  console.log({ unit, timeElapsed })
 
   const stickPost = async () => {
     setIsCallingApiForStick(true)
@@ -149,9 +150,11 @@ const PostCard: React.FC<PostCardProps> = ({
           </div>
 
           <div className="flex gap-3 md:gap-5 mt-3">
-            <div className="text-primary md:text-base text-xs font-bold font-DroidArabicKufiBold">
-              {post.price} دك
-            </div>
+            {post && post.price && (
+              <div className="text-primary md:text-base text-xs font-bold font-DroidArabicKufiBold">
+                {post.price} دك
+              </div>
+            )}
             <div className="flex flex-nowrap gap-2 items-center">
               <Image
                 src="/images/time.svg"
