@@ -299,6 +299,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
   }
 
+  if (params.slug[0] === 'post' || params.slug[0] === 'agent')
+    return {
+      notFound: true // return a 404 page
+    }
+
   const slugs: string[] = params.slug as string[]
   let propertyType: { id: number; title: string } | undefined
   let category: { id: number; title: string } | undefined

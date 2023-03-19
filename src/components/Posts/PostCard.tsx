@@ -39,7 +39,6 @@ const PostCard: React.FC<PostCardProps> = ({
     : '/images/nopic-ar.jpg'
 
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
-  console.log({ unit, timeElapsed })
 
   const stickPost = async () => {
     setIsCallingApiForStick(true)

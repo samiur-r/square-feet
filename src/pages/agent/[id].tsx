@@ -138,7 +138,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
         </div>
         <div className="container max-w-3xl mt-8">
           <Title value="اعلانات المكتب" />
-          {posts && posts.map((post) => <PostCard post={post} />)}
+          {posts && posts.map((post) => <PostCard key={post.id} post={post} />)}
         </div>
         <div ref={ref} />
         {isCallingApi && (
