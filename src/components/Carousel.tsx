@@ -74,8 +74,8 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                           <Image
                             key={Math.random()}
                             src={`${src}`}
-                            width={150}
-                            height={150}
+                            width={100}
+                            height={100}
                             objectFit="contain"
                             alt="post_image"
                           />
@@ -83,7 +83,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                           // eslint-disable-next-line jsx-a11y/media-has-caption
                           <video
                             key={Math.random()}
-                            className="2xl:w-96 2xl:h-96 w-26 h-26"
+                            className="2xl:w-96 2xl:h-96 w-20 h-20"
                             playsInline
                           >
                             <source src={`${src}`} />
@@ -107,7 +107,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                         // eslint-disable-next-line jsx-a11y/media-has-caption
                         <video
                           key={Math.random()}
-                          className="max-w-3xl"
+                          className="max-w-sm"
                           controls
                           playsInline
                         >
