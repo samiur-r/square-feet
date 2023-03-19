@@ -35,7 +35,7 @@ const AgencyCard = React.forwardRef(
                   blurDataURL={`data:image/svg+xml;base64,${toBase64(
                     placeholderImg()
                   )}`}
-                  src={`${logo_url}` || '/images/nopic-ar.jpg'}
+                  src={logo_url ? `${logo_url}` : '/images/nopic-ar.jpg'}
                 />
               </div>
             </div>

@@ -128,20 +128,26 @@ const Agency: React.FC<{
             />
           ))
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full md:w-auto place-items-center">
+          <div
+            className={`${
+              agent && 'md:grid-cols-2 md:w-auto'
+            } grid grid-cols-1 gap-10 w-full place-items-center`}
+          >
             <BalanceCard
               headline="رصيدك من الاعلانات"
               items={balanceItems}
               ctaList={[{ title: 'اشحن الرصيد', href: '/topup' }]}
             />
-            <BalanceCard
-              headline="رصيد اشتراك المكتب"
-              items={agencyItems}
-              ctaList={[
-                { title: 'بياناتي', href: '/agent/edit' },
-                { title: 'صفحتي', href: '/agent' }
-              ]}
-            />
+            {agent && (
+              <BalanceCard
+                headline="رصيد اشتراك المكتب"
+                items={agencyItems}
+                ctaList={[
+                  { title: 'بياناتي', href: '/agent/edit' },
+                  { title: 'صفحتي', href: '/agent' }
+                ]}
+              />
+            )}
           </div>
         )}
       </div>
@@ -174,11 +180,11 @@ const Agency: React.FC<{
             </React.Fragment>
           ))}
       </div>
-      {totalRows && totalAgents >= totalRows && (
+      {totalRows && totalAgents >= totalRows ? (
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
           انتهت نتائج البحث ولا يوجد المزيد من الاعلانات
         </p>
-      )}
+      ) : null}
       <div ref={ref} />
       {isCallingApi && (
         <div className="flex justify-center mt-10">
