@@ -194,7 +194,7 @@ const MyPosts: NextPage<AccountType> = ({
           ? archivePostList &&
             archivePostList.length > 0 &&
             archivePostList.map((post) => (
-              <PostCard post={post} showActions isArchive />
+              <PostCard key={post.id} post={post} showActions isArchive />
             ))
           : postList &&
             postList.length > 0 &&

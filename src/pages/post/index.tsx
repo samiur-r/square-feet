@@ -162,7 +162,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
         url: '/post/temp',
         data: { postInfo },
         headers: {
-          'content-type': 'multipart/form-data'
+          'content-type': 'application/json'
         }
       })
       setIsCallingApi(false)
