@@ -15,7 +15,9 @@ const allProperTypeObj = {
   title: 'الكل'
 }
 
-propertyTypes.unshift(allProperTypeObj)
+const propertyTypeList = propertyTypes
+
+propertyTypeList.unshift(allProperTypeObj)
 
 const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
   const {
@@ -238,7 +240,7 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
         <div className="md:w-3/12 order-3 place-items-center">
           <ListBox
             selectedOpt={selectedPropertyType}
-            options={propertyTypes}
+            options={propertyTypeList}
             handleSetItem={setSelectedPropertyType}
             showFilterIcon
             bgGray
