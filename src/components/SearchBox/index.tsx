@@ -10,14 +10,13 @@ import { LocationType } from 'interfaces'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 
-const allProperTypeObj = {
-  id: 0,
-  title: 'الكل'
-}
-
-const propertyTypeList = propertyTypes
-
-propertyTypeList.unshift(allProperTypeObj)
+const propertyTypeList = [
+  {
+    id: 0,
+    title: 'الكل'
+  },
+  ...propertyTypes
+]
 
 const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
   const {
