@@ -125,7 +125,7 @@ const PostCard: React.FC<PostCardProps> = ({
       <div className="flex md:items-center gap-3 md:gap-4">
         <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center border">
           <div className="w-16 h-12 md:w-28 md:h-28 relative">
-            <Link href={`/post/${post.id}`}>
+            <Link href={isArchive ? '#' : `/post/${post.id}`}>
               <a>
                 <Image
                   layout="fill"
@@ -143,7 +143,7 @@ const PostCard: React.FC<PostCardProps> = ({
         </div>
         <div>
           <div className="font-DroidArabicKufiBold text-sm md:text-lg line-clamp-1 max-w-xs relative z-10">
-            <Link href={`/post/${post.id}`}>
+            <Link href={isArchive ? '#' : `/post/${post.id}`}>
               <a>{post.title}</a>
             </Link>
           </div>
