@@ -151,13 +151,13 @@ const Footer = () => {
             <ul className="flex flex-col items-center gap-3">
               {index === 0
                 ? item.links.map((link) => (
-                    <Link key={link.title} href={link.href}>
-                      <a>
-                        <li className="cursor-pointer hover:underline">
+                    <li className="cursor-pointer hover:underline">
+                      <Link key={link.title} href={link.href}>
+                        <a>
                           <Description value={link.title} />
-                        </li>
-                      </a>
-                    </Link>
+                        </a>
+                      </Link>
+                    </li>
                   ))
                 : item.links.map((link) => (
                     <li
