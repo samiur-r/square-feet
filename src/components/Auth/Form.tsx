@@ -30,7 +30,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   const { addUser, updateToast } = useStore()
 
   const handleSetPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 10) setPhone(e.target.value)
+    if (e.target.value.length <= 8) setPhone(e.target.value)
   }
 
   const validatePhone = async () => {
