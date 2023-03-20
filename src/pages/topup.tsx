@@ -7,6 +7,7 @@ import { useStore } from 'store'
 import PackageCard from 'components/Package/PackageCard'
 import Title from 'components/Title'
 import Description from 'components/Description'
+import Link from 'next/link'
 
 const packages = [
   {
@@ -96,9 +97,15 @@ const Topup: NextPage = () => {
         <li>
           <Description textBlack>
             <span className="flex gap-2">
-              <a className="text-primary hover:underline">راسلنا بالواتس اب</a>
+              <Link href="https://api.whatsapp.com/send/?phone=96560444900&text&type=phone_number&app_absent=0">
+                <a className="text-primary hover:underline">
+                  راسلنا بالواتس اب
+                </a>
+              </Link>
               <span>او</span>
-              <a className="text-primary hover:underline"> اتصل بنا</a>
+              <Link href="tel:+96560444900">
+                <a className="text-primary hover:underline"> اتصل بنا</a>
+              </Link>
               <span>للمساعده</span>
             </span>
           </Description>

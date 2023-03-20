@@ -31,7 +31,8 @@ const Cards = () => {
   return (
     <div className="container max-w-3xl pt-20 pb-10 md:pt-32 md:pb-28 grid grid-cols-3 gap-5 md:gap-20 place-items-center">
       {items.map((item) => (
-        <a
+        <button
+          type="button"
           key={Math.random()}
           onClick={() => handleSearch(item.href)}
           className="block shadow-md rounded-lg px-5 md:px-12 bg-custom-gray-3 cursor-pointer"
@@ -50,7 +51,7 @@ const Cards = () => {
             <span>{item.row1}</span>
             <span>{item.row2}</span>
           </div>
-        </a>
+        </button>
       ))}
     </div>
   )

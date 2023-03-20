@@ -341,6 +341,7 @@ const Nav: React.FC = () => {
           )}
           {!isFilterPage && (
             <div className="hidden md:flex w-3/12">
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a href="/post?mode=create">
                 <CTA
                   title="إضافة إعلان"
@@ -379,7 +380,8 @@ const Nav: React.FC = () => {
                         <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                           <div className="bg-white w-48">
                             {realEstate.map((item, index) => (
-                              <a
+                              <button
+                                type="button"
                                 key={item.title}
                                 className="block rounded-lg w-full p-3"
                                 onClick={() => handleShowSubRealState(index)}
@@ -409,7 +411,7 @@ const Nav: React.FC = () => {
                                     </Popover.Button>
                                   ))}
                                 </div>
-                              </a>
+                              </button>
                             ))}
                           </div>
                         </div>
@@ -666,7 +668,8 @@ const Nav: React.FC = () => {
                       <div className="overflow-hidden flex flex-col gap-3 rounded-lg w-full px-2 py-2 shadow-lg bg-white">
                         {realEstate.map((item, index) => (
                           <div key={item.title}>
-                            <a
+                            <button
+                              type="button"
                               className="rounded-lg w-full hover:bg-primary"
                               onClick={() => handleShowSubRealState(index)}
                             >
@@ -695,7 +698,7 @@ const Nav: React.FC = () => {
                                   </Popover.Button>
                                 ))}
                               </div>
-                            </a>
+                            </button>
                           </div>
                         ))}
                       </div>

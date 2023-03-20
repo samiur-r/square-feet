@@ -49,12 +49,13 @@ const Breadcrumbs: React.FC<{
             {items &&
               items.map((item: BreadcrumbType, index) => (
                 <li key={Math.random()} className="flex gap-2 items-center">
-                  <a
+                  <button
+                    type="button"
                     className="text-sm px-2 cursor-pointer hover:underline"
                     onClick={() => handleClick(item)}
                   >
                     {item.title}
-                  </a>
+                  </button>
                   {items.length - 1 > index && (
                     <ChevronLeftIcon className="text-sm w-7 h-7 text-custom-gray" />
                   )}
