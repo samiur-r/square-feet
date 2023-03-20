@@ -31,7 +31,7 @@ export interface IAgent {
   expiry_date: Date
   created_at: Date
   updated_at: Date
-  phone?: number
+  phone?: string
   socialLinks?: Array<{ image: string; href: string }>
   user_id?: number
 }
@@ -65,7 +65,7 @@ export interface IPost {
   expiry_date: Date
   created_at: Date
   updated_at: Date
-  phone?: number
+  phone?: string
 }
 
 export interface BreadcrumbType {

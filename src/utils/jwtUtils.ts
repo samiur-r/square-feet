@@ -19,7 +19,7 @@ const signJwt = async (phone: string | null) => {
 
 const signJwtWithUserPayload = async (user: {
   id: number
-  phone: number
+  phone: string
   is_admin: boolean
   is_agent: boolean
   status: string

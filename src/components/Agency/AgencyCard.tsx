@@ -14,7 +14,7 @@ const AgencyCard = React.forwardRef(
     }: {
       id: number
       name: string
-      phone: number | undefined
+      phone: string | undefined
       logo_url: string | undefined
       socialLinks: Array<{ image: string; href: string }> | undefined
     },

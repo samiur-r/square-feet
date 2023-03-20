@@ -23,7 +23,7 @@ export interface IAgent {
   expiry_date: Date
   created_at: Date
   updated_at: Date
-  phone?: number
+  phone?: string
   socialLinks?: Array<{ image: string; href: string }>
 }
 
@@ -113,7 +113,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
             </Popover.Panel>
             <Popover.Button className="w-full">
               <input
-                type="number"
+                type="text"
                 name="phone"
                 id="phone"
                 className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"

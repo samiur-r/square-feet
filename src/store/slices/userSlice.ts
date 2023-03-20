@@ -2,7 +2,7 @@ import { StateCreator } from 'zustand'
 
 interface UserType {
   id: number
-  phone: number
+  phone: string
   isAdmin: boolean
   isAgent: boolean
   status: string

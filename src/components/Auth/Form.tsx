@@ -17,7 +17,7 @@ interface AuthFormProps {
 }
 
 const Form: React.FC<AuthFormProps> = ({ type, link }) => {
-  const [phone, setPhone] = useState<number | undefined>()
+  const [phone, setPhone] = useState<string | undefined>()
   const [password, setPassword] = useState('')
   const [phoneErrors, setPhoneErrors] = useState([])
   const [passwordErrors, setPasswordErrors] = useState([])
@@ -30,7 +30,7 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
   const { addUser, updateToast } = useStore()
 
   const handleSetPhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 10) setPhone(parseInt(e.target.value, 10))
+    if (e.target.value.length <= 10) setPhone(e.target.value)
   }
 
   const validatePhone = async () => {
