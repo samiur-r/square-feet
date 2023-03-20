@@ -29,6 +29,9 @@ const List: React.FC<ListProps> = ({
   handleSetItem,
   isError
 }) => {
+  useEffect(() => {
+    console.log(options)
+  }, [options])
   const [selected, setSelected] = useState<OptType | undefined>(selectedOpt)
 
   useEffect(() => {
