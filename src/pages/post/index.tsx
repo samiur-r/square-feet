@@ -194,7 +194,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       price,
       description,
       multimedia: mediaList,
-      isStickyPost: isStickyDirectPost
+      isStickyPost: isStickyDirectPost,
+      phone: user?.phone
     }
 
     try {
