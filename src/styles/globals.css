@@ -5,6 +5,7 @@
 @layer base {
   html {
     font-family: Droid Arabic Kufi Regular, sans-serif;
+    
   }
 }
 
@@ -21,10 +22,11 @@
 }
 
 html {
-  @apply text-black;
+  @apply text-black h-full;
 }
 
 body {
+  @apply h-full;
   scrollbar-width: thin;
 }
 
