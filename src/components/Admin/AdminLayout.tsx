@@ -54,7 +54,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeItem, setActiveItem] = useState(0)
   const [adminName, setAdminName] = useState('')
-  const { admin } = useStore()
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false)
+  const { admin, removeAdmin } = useStore()
 
   useEffect(() => {
     const matchingNavItem = navigation.find(
@@ -66,6 +67,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     if (admin && admin.name) setAdminName(admin.name)
+    if (admin && admin.is_super) setIsSuperAdmin(admin.is_super)
   }, [admin])
 
   const handleLogout = async () => {
@@ -74,7 +76,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         method: 'GET',
         url: `/admin/logout`
       })
-      Router.push('/')
+      removeAdmin()
+      Router.push('/admin/login')
       // eslint-disable-next-line no-empty
     } catch (err) {}
   }
@@ -250,29 +253,30 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 leaveTo="transform opacity-0 scale-95"
               >
                 <Menu.Items className="absolute right-0 left-0 z-10 mx-3 mt-1 origin-top divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <Link href="/admin/settings">
-                          <a
-                            className={`${
-                              active
-                                ? 'bg-gray-100 text-gray-900'
-                                : 'text-gray-700'
-                            } block px-4 py-2 text-sm
+                  {isSuperAdmin && (
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link href="/admin/settings">
+                            <a
+                              className={`${
+                                active
+                                  ? 'bg-gray-100 text-gray-900'
+                                  : 'text-gray-700'
+                              } block px-4 py-2 text-sm
                       `}
-                          >
-                            Settings
-                          </a>
-                        </Link>
-                      )}
-                    </Menu.Item>
-                  </div>
+                            >
+                              Settings
+                            </a>
+                          </Link>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  )}
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
                         <a
-                          href="#"
                           className={`${
                             active
                               ? 'bg-gray-100 text-gray-900'
@@ -370,28 +374,29 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div className="py-1">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <Link href="/admin/settings">
-                              <a
-                                className={`${
-                                  active
-                                    ? 'bg-gray-100 text-gray-900'
-                                    : 'text-gray-700'
-                                } block px-4 py-2 text-sm`}
-                              >
-                                Settings
-                              </a>
-                            </Link>
-                          )}
-                        </Menu.Item>
-                      </div>
+                      {isSuperAdmin && (
+                        <div className="py-1">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link href="/admin/settings">
+                                <a
+                                  className={`${
+                                    active
+                                      ? 'bg-gray-100 text-gray-900'
+                                      : 'text-gray-700'
+                                  } block px-4 py-2 text-sm`}
+                                >
+                                  Settings
+                                </a>
+                              </Link>
+                            )}
+                          </Menu.Item>
+                        </div>
+                      )}
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
                               className={`${
                                 active
                                   ? 'bg-gray-100 text-gray-900'
