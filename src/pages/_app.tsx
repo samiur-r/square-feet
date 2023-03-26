@@ -16,9 +16,10 @@ const MyApp = ({
 }>) => {
   const createStore = useCreateStore(pageProps.initialZustandState)
 
-  const getLayout = router.pathname.includes('/admin')
-    ? (page: any) => <AdminLayout children={page} />
-    : (page: any) => <Layout children={page} />
+  const getLayout =
+    router.pathname.includes('/admin') && router.pathname !== '/admin/login'
+      ? (page: any) => <AdminLayout children={page} />
+      : (page: any) => <Layout children={page} />
 
   return (
     <Provider createStore={createStore}>

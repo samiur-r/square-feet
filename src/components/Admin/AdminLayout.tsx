@@ -12,7 +12,10 @@ import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
+import ApiClient from 'utils/ApiClient'
+import { useStore } from 'store'
+import Toast from '../Toast'
 
 const navigation = [
   {
@@ -50,6 +53,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeItem, setActiveItem] = useState(0)
+  const [adminName, setAdminName] = useState('')
+  const { admin } = useStore()
 
   useEffect(() => {
     const matchingNavItem = navigation.find(
@@ -58,6 +63,21 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     const matchingItemId = matchingNavItem ? matchingNavItem.id : 0
     setActiveItem(matchingItemId)
   }, [currentUrl])
+
+  useEffect(() => {
+    if (admin && admin.name) setAdminName(admin.name)
+  }, [admin])
+
+  const handleLogout = async () => {
+    try {
+      await ApiClient({
+        method: 'GET',
+        url: `/admin/logout`
+      })
+      Router.push('/')
+      // eslint-disable-next-line no-empty
+    } catch (err) {}
+  }
 
   return (
     <>
@@ -69,6 +89,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="min-h-full">
+        <Toast />
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -207,8 +228,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                         />
                       </svg>
                       <span className="flex min-w-0 flex-1 flex-col">
-                        <span className="truncate text-sm font-medium text-gray-900">
-                          boshamlan-admin
+                        <span className="truncate text-sm font-bold text-gray-900">
+                          {adminName}
                         </span>
                       </span>
                     </span>
@@ -232,17 +253,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
-                        <a
-                          href="#"
-                          className={`${
-                            active
-                              ? 'bg-gray-100 text-gray-900'
-                              : 'text-gray-700'
-                          } block px-4 py-2 text-sm
-                        `}
-                        >
-                          Settings
-                        </a>
+                        <Link href="/admin/settings">
+                          <a
+                            className={`${
+                              active
+                                ? 'bg-gray-100 text-gray-900'
+                                : 'text-gray-700'
+                            } block px-4 py-2 text-sm
+                      `}
+                          >
+                            Settings
+                          </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   </div>
@@ -256,6 +278,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                               ? 'bg-gray-100 text-gray-900'
                               : 'text-gray-700'
                           } block px-4 py-2 text-sm`}
+                          onClick={handleLogout}
                         >
                           Logout
                         </a>
@@ -350,16 +373,17 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
-                              className={`${
-                                active
-                                  ? 'bg-gray-100 text-gray-900'
-                                  : 'text-gray-700'
-                              } block px-4 py-2 text-sm`}
-                            >
-                              Settings
-                            </a>
+                            <Link href="/admin/settings">
+                              <a
+                                className={`${
+                                  active
+                                    ? 'bg-gray-100 text-gray-900'
+                                    : 'text-gray-700'
+                                } block px-4 py-2 text-sm`}
+                              >
+                                Settings
+                              </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       </div>
@@ -373,6 +397,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                                   ? 'bg-gray-100 text-gray-900'
                                   : 'text-gray-700'
                               } block px-4 py-2 text-sm`}
+                              onClick={handleLogout}
                             >
                               Logout
                             </a>
@@ -394,7 +419,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 </h1>
               </div>
             </div>
-            <div className="container max-w-5xl p-5">{children}</div>
+            <div className="container max-w-6xl p-5">{children}</div>
           </main>
         </div>
       </div>

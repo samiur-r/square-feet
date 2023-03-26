@@ -45,5 +45,55 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  if (
+    pathname.startsWith('/admin/dashboard') ||
+    pathname.startsWith('/admin/users') ||
+    pathname.startsWith('/admin/posts') ||
+    pathname.startsWith('/admin/transactions')
+  ) {
+    if (token) {
+      try {
+        const { payload } = await verifyJwt(token)
+        if (payload.admin_status) return NextResponse.next()
+      } catch (err) {
+        req.nextUrl.pathname = '/admin/login'
+        return NextResponse.redirect(req.nextUrl)
+      }
+    }
+    req.nextUrl.pathname = '/admin/login'
+    return NextResponse.redirect(req.nextUrl)
+  }
+
+  if (pathname.startsWith('/admin/login')) {
+    if (token) {
+      try {
+        const { payload } = await verifyJwt(token)
+        if (payload.admin_status) {
+          req.nextUrl.pathname = '/admin/dashboard'
+          return NextResponse.redirect(req.nextUrl)
+        }
+        req.nextUrl.pathname = '/account'
+        return NextResponse.redirect(req.nextUrl)
+      } catch (err) {
+        return NextResponse.next()
+      }
+    }
+    return NextResponse.next()
+  }
+
+  if (pathname.startsWith('/admin/settings')) {
+    if (token) {
+      try {
+        const { payload } = await verifyJwt(token)
+        if (payload.admin_status && payload.is_super) return NextResponse.next()
+      } catch (err) {
+        req.nextUrl.pathname = '/admin/dashboard'
+        return NextResponse.redirect(req.nextUrl)
+      }
+    }
+    req.nextUrl.pathname = '/admin/dashboard'
+    return NextResponse.redirect(req.nextUrl)
+  }
+
   return NextResponse.next()
 }
