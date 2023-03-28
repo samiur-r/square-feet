@@ -8,7 +8,10 @@ import {
   ClipboardDocumentListIcon,
   CreditCardIcon
 } from '@heroicons/react/24/outline'
-import { ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import {
+  AdjustmentsVerticalIcon,
+  ChevronUpDownIcon
+} from '@heroicons/react/20/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import Head from 'next/head'
@@ -415,17 +418,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               </div>
             </div>
           </div>
-          <main className="flex-1">
-            {/* Page title & actions */}
-            <div className="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
-              <div className="min-w-0 flex-1">
-                <h1 className="text-lg font-medium leading-6 text-gray-900 sm:truncate">
-                  {navigation[activeItem - 1]?.name}
-                </h1>
-              </div>
-            </div>
-            <div className="container max-w-6xl p-5">{children}</div>
-          </main>
+          <main className="flex-1">{children}</main>
         </div>
       </div>
     </>
