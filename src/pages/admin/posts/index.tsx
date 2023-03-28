@@ -1,4 +1,5 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
+import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import type { NextPage } from 'next'
 import { useState } from 'react'
@@ -26,6 +27,9 @@ const Posts: NextPage = () => {
           show={showFilterSideBar}
           handleSetShowFilterSideBar={setShowFilterSideBar}
         />
+        <div className="mt-16">
+          <PostDataTable />
+        </div>
       </div>
     </div>
   )

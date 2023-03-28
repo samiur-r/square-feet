@@ -214,7 +214,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                               <DatePicker
                                 id="date"
                                 selected={fromDateCreation}
-                                onChange={(date: SetStateAction<Date>) =>
+                                onChange={(date: any) =>
                                   setFromDateCreation(date)
                                 }
                                 className="p-2 bg-slate-500 text-custom-gray-2 rounded-md"
@@ -227,7 +227,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                               <DatePicker
                                 id="date"
                                 selected={toDateCreation}
-                                onChange={(date: SetStateAction<Date>) =>
+                                onChange={(date: any) =>
                                   setToDateCreation(date)
                                 }
                                 className="p-2 ml-5 bg-slate-500 text-custom-gray-2 rounded-md"
@@ -250,7 +250,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                               <DatePicker
                                 id="date"
                                 selected={fromDateSticky}
-                                onChange={(date: SetStateAction<Date>) =>
+                                onChange={(date: any) =>
                                   setFromDateSticky(date)
                                 }
                                 className="p-2 bg-slate-500 text-custom-gray-2 rounded-md"
@@ -263,9 +263,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                               <DatePicker
                                 id="date"
                                 selected={toDateSticky}
-                                onChange={(date: SetStateAction<Date>) =>
-                                  setToDateSticky(date)
-                                }
+                                onChange={(date: any) => setToDateSticky(date)}
                                 className="p-2 ml-5 bg-slate-500 text-custom-gray-2 rounded-md"
                               />
                             </div>
