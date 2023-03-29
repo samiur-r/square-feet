@@ -16,10 +16,70 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
   const [postList, setPostList] = useState<PostsWithUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const [locationToFilter, setLocationToFilter] = useState<number | undefined>(
+    0
+  )
+  const [categoryToFilter, setCategoryToFilter] = useState<number | undefined>(
+    0
+  )
+  const [propertyTypeToFilter, setPropertyTypeToFilter] = useState<
+    number | undefined
+  >(0)
+  const [fromPriceToFilter, setFromPriceToFilter] = useState<
+    number | undefined
+  >(undefined)
+  const [toPriceToFilter, setToPriceToFilter] = useState<number | undefined>(
+    undefined
+  )
+  const [fromCreationDateToFilter, setFromCreationDateToFilter] =
+    useState<Date | null>(null)
+  const [toCreationDateToFilter, setToCreationDateToFilter] =
+    useState<Date | null>(null)
+  const [stickyStatusToFilter, setStickyStatusToFilter] = useState<
+    number | undefined
+  >(undefined)
+  const [userTypeToFilter, setUserTypeToFilter] = useState<string | undefined>(
+    undefined
+  )
+  const [orderByToFilter, setOrderByToFilter] = useState<string | undefined>(
+    'Created'
+  )
+  const [postStatusToFilter, setPostStatusToFilter] = useState<
+    string | undefined
+  >('Active')
+
   useEffect(() => {
     setPostList(posts)
     setIsLoading(false)
   }, [posts])
+
+  const reset = () => {
+    setLocationToFilter(0)
+    setCategoryToFilter(0)
+    setPropertyTypeToFilter(0)
+    setFromPriceToFilter(undefined)
+    setToPriceToFilter(undefined)
+    setFromCreationDateToFilter(null)
+    setToCreationDateToFilter(null)
+    setStickyStatusToFilter(undefined)
+    setUserTypeToFilter(undefined)
+    setOrderByToFilter('Created')
+    setPostStatusToFilter('Active')
+  }
+
+  const handleFilter = async () => {
+    console.log(locationToFilter)
+    console.log(categoryToFilter)
+    console.log(propertyTypeToFilter)
+    console.log(fromPriceToFilter)
+    console.log(toPriceToFilter)
+    console.log(fromCreationDateToFilter)
+    console.log(toCreationDateToFilter)
+    console.log(stickyStatusToFilter)
+    console.log(userTypeToFilter)
+    console.log(orderByToFilter)
+    console.log(postStatusToFilter)
+  }
 
   return (
     <div>
@@ -40,6 +100,30 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
         <PostFilterSideBar
           show={showFilterSideBar}
           handleSetShowFilterSideBar={setShowFilterSideBar}
+          locationToFilter={locationToFilter}
+          categoryToFilter={categoryToFilter}
+          propertyTypeToFilter={propertyTypeToFilter}
+          fromPriceToFilter={fromPriceToFilter}
+          toPriceToFilter={toPriceToFilter}
+          fromCreationDateToFilter={fromCreationDateToFilter}
+          toCreationDateToFilter={toCreationDateToFilter}
+          stickyStatusToFilter={stickyStatusToFilter}
+          userTypeToFilter={userTypeToFilter}
+          orderByToFilter={orderByToFilter}
+          postStatusToFilter={postStatusToFilter}
+          handleSetLocationToFilter={setLocationToFilter}
+          handleSetCategoryToFilter={setCategoryToFilter}
+          handleSetPropertyTypeToFilter={setPropertyTypeToFilter}
+          handleSetFromPriceToFilter={setFromPriceToFilter}
+          handleSetToPriceToFilter={setToPriceToFilter}
+          handleSetFromCreationDateToFilter={setFromCreationDateToFilter}
+          handleSetToCreationDateToFilter={setToCreationDateToFilter}
+          handleSetStickyStatusToFilter={setStickyStatusToFilter}
+          handleSetUserTypeToFilter={setUserTypeToFilter}
+          handleSetOrderByToFilter={setOrderByToFilter}
+          handleSetPostStatusToFilter={setPostStatusToFilter}
+          reset={reset}
+          handleFilter={handleFilter}
         />
         {isLoading && (
           <div className="flex justify-center mb-3">

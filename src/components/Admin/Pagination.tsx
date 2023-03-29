@@ -7,16 +7,12 @@ import {
 } from '@heroicons/react/20/solid'
 import React from 'react'
 
-const Pagination = (props) => {
-  const {
-    currentPage,
-    totalPages,
-    onPageChange,
-    prevPageText,
-    nextPageText,
-    firstPageText,
-    lastPageText
-  } = props
+const Pagination = (props: {
+  currentPage: any
+  totalPages: any
+  onPageChange: any
+}) => {
+  const { currentPage, totalPages, onPageChange } = props
 
   const handleClickPrev = () => {
     if (currentPage > 1) {

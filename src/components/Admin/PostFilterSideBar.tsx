@@ -13,27 +13,70 @@ const orderByItems = [
   'Repost Date',
   'Repost Count',
   'City',
-  'Property Type'
+  'Property Type',
+  'Category'
 ]
 
 const postStatusItems = ['Active', 'Deleted', 'Archived', 'Reposted']
 
 interface FilterSideBarProps {
   show: boolean
+  locationToFilter: number | undefined
+  categoryToFilter: number | undefined
+  propertyTypeToFilter: number | undefined
+  fromPriceToFilter: number | undefined
+  toPriceToFilter: number | undefined
+  fromCreationDateToFilter: Date | null
+  toCreationDateToFilter: Date | null
+  stickyStatusToFilter: number | undefined
+  userTypeToFilter: string | undefined
+  orderByToFilter: string | undefined
+  postStatusToFilter: string | undefined
+  handleSetLocationToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetCategoryToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetPropertyTypeToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetFromPriceToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetToPriceToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetFromCreationDateToFilter: Dispatch<SetStateAction<Date | null>>
+  handleSetToCreationDateToFilter: Dispatch<SetStateAction<Date | null>>
+  handleSetStickyStatusToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetUserTypeToFilter: Dispatch<SetStateAction<string | undefined>>
+  handleSetOrderByToFilter: Dispatch<SetStateAction<string | undefined>>
+  handleSetPostStatusToFilter: Dispatch<SetStateAction<string | undefined>>
   handleSetShowFilterSideBar: Dispatch<SetStateAction<boolean>>
+  reset: () => void
+  handleFilter: () => void
 }
 
 const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
   show,
-  handleSetShowFilterSideBar
+  locationToFilter,
+  categoryToFilter,
+  propertyTypeToFilter,
+  fromPriceToFilter,
+  toPriceToFilter,
+  fromCreationDateToFilter,
+  toCreationDateToFilter,
+  stickyStatusToFilter,
+  userTypeToFilter,
+  orderByToFilter,
+  postStatusToFilter,
+  handleSetLocationToFilter,
+  handleSetCategoryToFilter,
+  handleSetPropertyTypeToFilter,
+  handleSetFromPriceToFilter,
+  handleSetToPriceToFilter,
+  handleSetFromCreationDateToFilter,
+  handleSetToCreationDateToFilter,
+  handleSetStickyStatusToFilter,
+  handleSetUserTypeToFilter,
+  handleSetOrderByToFilter,
+  handleSetPostStatusToFilter,
+  handleSetShowFilterSideBar,
+  reset,
+  handleFilter
 }) => {
   const [open, setOpen] = useState(false)
-
-  const [fromDateCreation, setFromDateCreation] = useState(new Date())
-  const [toDateCreation, setToDateCreation] = useState(new Date())
-
-  const [fromDateSticky, setFromDateSticky] = useState(new Date())
-  const [toDateSticky, setToDateSticky] = useState(new Date())
 
   useEffect(() => {
     if (open !== show) handleSetShowFilterSideBar(open)
@@ -95,7 +138,12 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="location"
                             name="location"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={0}
+                            value={locationToFilter}
+                            onChange={(e) =>
+                              handleSetLocationToFilter(
+                                parseInt(e.target.value, 10)
+                              )
+                            }
                           >
                             <option value={0}>-</option>
                             {locations.map((location) => (
@@ -116,9 +164,16 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="category"
                             name="category"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={categories[0].id}
+                            value={categoryToFilter}
+                            onChange={(e) =>
+                              handleSetCategoryToFilter(
+                                e.target.value
+                                  ? parseInt(e.target.value, 10)
+                                  : undefined
+                              )
+                            }
                           >
-                            <option value={0}>-</option>
+                            <option value={undefined}>-</option>
                             {categories.map((category) => (
                               <option key={category.id} value={category.id}>
                                 {category.title}
@@ -137,9 +192,16 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="property_type"
                             name="property_type"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={0}
+                            value={propertyTypeToFilter}
+                            onChange={(e) =>
+                              handleSetPropertyTypeToFilter(
+                                e.target.value
+                                  ? parseInt(e.target.value, 10)
+                                  : undefined
+                              )
+                            }
                           >
-                            <option value={0}>-</option>
+                            <option value={undefined}>-</option>
                             {propertyTypes.map((type) => (
                               <option key={type.id} value={type.id}>
                                 {type.title}
@@ -166,6 +228,14 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                                 className="block bg-slate-500 w-full rounded-md border-0 py-1.5 pl-8 pr-12 text-custom-gray-2 placeholder:text-custom-gray-2 sm:text-sm sm:leading-6"
                                 placeholder="From"
                                 aria-describedby="price-currency"
+                                value={fromPriceToFilter ?? ''}
+                                onChange={(e) =>
+                                  handleSetFromPriceToFilter(
+                                    e.target.value
+                                      ? parseInt(e.target.value, 10)
+                                      : undefined
+                                  )
+                                }
                               />
                               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-custom-gray-2">
                                 <span
@@ -187,6 +257,14 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                                 className="block bg-slate-500 w-full rounded-md border-0 py-1.5 pl-8 pr-12 text-custom-gray-2 placeholder:text-custom-gray-2 sm:text-sm sm:leading-6"
                                 placeholder="To"
                                 aria-describedby="price-currency"
+                                value={toPriceToFilter ?? ''}
+                                onChange={(e) =>
+                                  handleSetToPriceToFilter(
+                                    e.target.value
+                                      ? parseInt(e.target.value, 10)
+                                      : undefined
+                                  )
+                                }
                               />
                               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 bg-custom-gray-2">
                                 <span
@@ -213,9 +291,9 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                               </p>
                               <DatePicker
                                 id="date"
-                                selected={fromDateCreation}
+                                selected={fromCreationDateToFilter}
                                 onChange={(date: any) =>
-                                  setFromDateCreation(date)
+                                  handleSetFromCreationDateToFilter(date)
                                 }
                                 className="p-2 bg-slate-500 text-custom-gray-2 rounded-md"
                               />
@@ -226,44 +304,10 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                               </p>
                               <DatePicker
                                 id="date"
-                                selected={toDateCreation}
+                                selected={toCreationDateToFilter}
                                 onChange={(date: any) =>
-                                  setToDateCreation(date)
+                                  handleSetToCreationDateToFilter(date)
                                 }
-                                className="p-2 ml-5 bg-slate-500 text-custom-gray-2 rounded-md"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mt-5">
-                          <label
-                            htmlFor="date"
-                            className="block text-sm font-medium leading-6 text-custom-gray-2"
-                          >
-                            Stick Date:
-                          </label>
-                          <div className="mt-2 flex flex-col gap-3 items-center">
-                            <div className="flex gap-2 items-center">
-                              <p className="text-custom-gray-2 text-sm">
-                                From:{' '}
-                              </p>
-                              <DatePicker
-                                id="date"
-                                selected={fromDateSticky}
-                                onChange={(date: any) =>
-                                  setFromDateSticky(date)
-                                }
-                                className="p-2 bg-slate-500 text-custom-gray-2 rounded-md"
-                              />
-                            </div>
-                            <div className="flex gap-2 items-center">
-                              <p className="text-custom-gray-2  text-sm">
-                                To:{' '}
-                              </p>
-                              <DatePicker
-                                id="date"
-                                selected={toDateSticky}
-                                onChange={(date: any) => setToDateSticky(date)}
                                 className="p-2 ml-5 bg-slate-500 text-custom-gray-2 rounded-md"
                               />
                             </div>
@@ -280,10 +324,17 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="is_sticky"
                             name="is_sticky"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={0}
+                            value={stickyStatusToFilter}
+                            onChange={(e) =>
+                              handleSetStickyStatusToFilter(
+                                e.target.value
+                                  ? parseInt(e.target.value, 10)
+                                  : undefined
+                              )
+                            }
                           >
-                            <option value={0}>-</option>
-                            <option value={-1}>No</option>
+                            <option value={undefined}>-</option>
+                            <option value={0}>No</option>
                             <option value={1}>Yes</option>
                           </select>
                         </div>
@@ -298,9 +349,14 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="user_type"
                             name="user_type"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={0}
+                            defaultValue={userTypeToFilter}
+                            onChange={(e) =>
+                              handleSetUserTypeToFilter(
+                                e.target.value ? e.target.value : undefined
+                              )
+                            }
                           >
-                            <option value={0}>-</option>
+                            <option value={undefined}>-</option>
                             <option value="agent">Agent</option>
                             <option value="regular">Regular</option>
                           </select>
@@ -316,7 +372,12 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="order_by"
                             name="order_by"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue="Created"
+                            defaultValue={orderByToFilter}
+                            onChange={(e) =>
+                              handleSetOrderByToFilter(
+                                e.target.value ? e.target.value : undefined
+                              )
+                            }
                           >
                             {orderByItems.map((item) => (
                               <option key={Math.random()} value={item}>
@@ -336,9 +397,14 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="post_status"
                             name="post_status"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={0}
+                            defaultValue={postStatusToFilter}
+                            onChange={(e) =>
+                              handleSetPostStatusToFilter(
+                                e.target.value ? e.target.value : undefined
+                              )
+                            }
                           >
-                            <option value={0}>-</option>
+                            <option value={undefined}>-</option>
                             {postStatusItems.map((item) => (
                               <option key={Math.random()} value={item}>
                                 {item}
@@ -352,13 +418,14 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                       <button
                         type="button"
                         className="rounded-md bg-custom-gray-2 py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        onClick={() => setOpen(false)}
+                        onClick={reset}
                       >
                         Reset
                       </button>
                       <button
                         type="submit"
                         className="ml-4 inline-flex justify-center rounded-md bg-primary py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                        onClick={handleFilter}
                       >
                         Save
                       </button>

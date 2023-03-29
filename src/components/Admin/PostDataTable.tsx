@@ -20,7 +20,6 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem)
   const totalPages = Math.ceil(data.length / itemsPerPage)
-  const pageRangeDisplayed = 5
 
   // Function to handle page changes
   const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
@@ -100,12 +99,7 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          pageRangeDisplayed={pageRangeDisplayed}
           onPageChange={handlePageChange}
-          prevPageText="<"
-          nextPageText=">"
-          firstPageText="|<"
-          lastPageText=">|"
         />
       </div>
     </div>
