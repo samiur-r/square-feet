@@ -1,5 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  FormEvent,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useState
+} from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { propertyTypes, categories, locations } from 'constant'
@@ -21,31 +28,31 @@ const postStatusItems = ['Active', 'Deleted', 'Archived', 'Reposted']
 
 interface FilterSideBarProps {
   show: boolean
-  locationToFilter: number | undefined
-  categoryToFilter: number | undefined
-  propertyTypeToFilter: number | undefined
+  locationToFilter: number
+  categoryToFilter: number
+  propertyTypeToFilter: number
   fromPriceToFilter: number | undefined
   toPriceToFilter: number | undefined
   fromCreationDateToFilter: Date | null
   toCreationDateToFilter: Date | null
-  stickyStatusToFilter: number | undefined
-  userTypeToFilter: string | undefined
+  stickyStatusToFilter: number
+  userTypeToFilter: string
   orderByToFilter: string | undefined
   postStatusToFilter: string | undefined
-  handleSetLocationToFilter: Dispatch<SetStateAction<number | undefined>>
-  handleSetCategoryToFilter: Dispatch<SetStateAction<number | undefined>>
-  handleSetPropertyTypeToFilter: Dispatch<SetStateAction<number | undefined>>
+  handleSetLocationToFilter: Dispatch<SetStateAction<number>>
+  handleSetCategoryToFilter: Dispatch<SetStateAction<number>>
+  handleSetPropertyTypeToFilter: Dispatch<SetStateAction<number>>
   handleSetFromPriceToFilter: Dispatch<SetStateAction<number | undefined>>
   handleSetToPriceToFilter: Dispatch<SetStateAction<number | undefined>>
   handleSetFromCreationDateToFilter: Dispatch<SetStateAction<Date | null>>
   handleSetToCreationDateToFilter: Dispatch<SetStateAction<Date | null>>
-  handleSetStickyStatusToFilter: Dispatch<SetStateAction<number | undefined>>
-  handleSetUserTypeToFilter: Dispatch<SetStateAction<string | undefined>>
-  handleSetOrderByToFilter: Dispatch<SetStateAction<string | undefined>>
-  handleSetPostStatusToFilter: Dispatch<SetStateAction<string | undefined>>
+  handleSetStickyStatusToFilter: Dispatch<SetStateAction<number>>
+  handleSetUserTypeToFilter: Dispatch<SetStateAction<string>>
+  handleSetOrderByToFilter: Dispatch<SetStateAction<string>>
+  handleSetPostStatusToFilter: Dispatch<SetStateAction<string>>
   handleSetShowFilterSideBar: Dispatch<SetStateAction<boolean>>
   reset: () => void
-  handleFilter: () => void
+  handleFilter: (e: FormEvent<HTMLButtonElement>) => void
 }
 
 const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
@@ -167,13 +174,11 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             value={categoryToFilter}
                             onChange={(e) =>
                               handleSetCategoryToFilter(
-                                e.target.value
-                                  ? parseInt(e.target.value, 10)
-                                  : undefined
+                                parseInt(e.target.value, 10)
                               )
                             }
                           >
-                            <option value={undefined}>-</option>
+                            <option value={0}>-</option>
                             {categories.map((category) => (
                               <option key={category.id} value={category.id}>
                                 {category.title}
@@ -195,13 +200,11 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             value={propertyTypeToFilter}
                             onChange={(e) =>
                               handleSetPropertyTypeToFilter(
-                                e.target.value
-                                  ? parseInt(e.target.value, 10)
-                                  : undefined
+                                parseInt(e.target.value, 10)
                               )
                             }
                           >
-                            <option value={undefined}>-</option>
+                            <option value={0}>-</option>
                             {propertyTypes.map((type) => (
                               <option key={type.id} value={type.id}>
                                 {type.title}
@@ -327,14 +330,12 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             value={stickyStatusToFilter}
                             onChange={(e) =>
                               handleSetStickyStatusToFilter(
-                                e.target.value
-                                  ? parseInt(e.target.value, 10)
-                                  : undefined
+                                parseInt(e.target.value, 10)
                               )
                             }
                           >
-                            <option value={undefined}>-</option>
-                            <option value={0}>No</option>
+                            <option value={0}>-</option>
+                            <option value={-1}>No</option>
                             <option value={1}>Yes</option>
                           </select>
                         </div>
@@ -349,14 +350,12 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="user_type"
                             name="user_type"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={userTypeToFilter}
+                            value={userTypeToFilter}
                             onChange={(e) =>
-                              handleSetUserTypeToFilter(
-                                e.target.value ? e.target.value : undefined
-                              )
+                              handleSetUserTypeToFilter(e.target.value)
                             }
                           >
-                            <option value={undefined}>-</option>
+                            <option value="-">-</option>
                             <option value="agent">Agent</option>
                             <option value="regular">Regular</option>
                           </select>
@@ -372,7 +371,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="order_by"
                             name="order_by"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={orderByToFilter}
+                            value={orderByToFilter}
                             onChange={(e) =>
                               handleSetOrderByToFilter(
                                 e.target.value ? e.target.value : undefined
@@ -397,7 +396,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             id="post_status"
                             name="post_status"
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
-                            defaultValue={postStatusToFilter}
+                            value={postStatusToFilter}
                             onChange={(e) =>
                               handleSetPostStatusToFilter(
                                 e.target.value ? e.target.value : undefined
@@ -425,7 +424,10 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                       <button
                         type="submit"
                         className="ml-4 inline-flex justify-center rounded-md bg-primary py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        onClick={handleFilter}
+                        onClick={(e: FormEvent<HTMLButtonElement>) => {
+                          setOpen(false)
+                          handleFilter(e)
+                        }}
                       >
                         Save
                       </button>

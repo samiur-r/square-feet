@@ -3,7 +3,7 @@ import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import { PostsWithUser } from 'interfaces'
 import type { GetServerSideProps, NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import ApiClient from 'utils/ApiClient'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
@@ -16,15 +16,9 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
   const [postList, setPostList] = useState<PostsWithUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const [locationToFilter, setLocationToFilter] = useState<number | undefined>(
-    0
-  )
-  const [categoryToFilter, setCategoryToFilter] = useState<number | undefined>(
-    0
-  )
-  const [propertyTypeToFilter, setPropertyTypeToFilter] = useState<
-    number | undefined
-  >(0)
+  const [locationToFilter, setLocationToFilter] = useState<number>(0)
+  const [categoryToFilter, setCategoryToFilter] = useState<number>(0)
+  const [propertyTypeToFilter, setPropertyTypeToFilter] = useState<number>(0)
   const [fromPriceToFilter, setFromPriceToFilter] = useState<
     number | undefined
   >(undefined)
@@ -35,18 +29,10 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
     useState<Date | null>(null)
   const [toCreationDateToFilter, setToCreationDateToFilter] =
     useState<Date | null>(null)
-  const [stickyStatusToFilter, setStickyStatusToFilter] = useState<
-    number | undefined
-  >(undefined)
-  const [userTypeToFilter, setUserTypeToFilter] = useState<string | undefined>(
-    undefined
-  )
-  const [orderByToFilter, setOrderByToFilter] = useState<string | undefined>(
-    'Created'
-  )
-  const [postStatusToFilter, setPostStatusToFilter] = useState<
-    string | undefined
-  >('Active')
+  const [stickyStatusToFilter, setStickyStatusToFilter] = useState<number>(0)
+  const [userTypeToFilter, setUserTypeToFilter] = useState<string>('-')
+  const [orderByToFilter, setOrderByToFilter] = useState<string>('Created')
+  const [postStatusToFilter, setPostStatusToFilter] = useState<string>('Active')
 
   useEffect(() => {
     setPostList(posts)
@@ -61,24 +47,42 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
     setToPriceToFilter(undefined)
     setFromCreationDateToFilter(null)
     setToCreationDateToFilter(null)
-    setStickyStatusToFilter(undefined)
-    setUserTypeToFilter(undefined)
+    setStickyStatusToFilter(0)
+    setUserTypeToFilter('-')
     setOrderByToFilter('Created')
     setPostStatusToFilter('Active')
   }
 
-  const handleFilter = async () => {
-    console.log(locationToFilter)
-    console.log(categoryToFilter)
-    console.log(propertyTypeToFilter)
-    console.log(fromPriceToFilter)
-    console.log(toPriceToFilter)
-    console.log(fromCreationDateToFilter)
-    console.log(toCreationDateToFilter)
-    console.log(stickyStatusToFilter)
-    console.log(userTypeToFilter)
-    console.log(orderByToFilter)
-    console.log(postStatusToFilter)
+  const handleFilter = async (e: FormEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      const { data } = await ApiClient({
+        method: 'POST',
+        url: '/admin/filter-posts',
+        data: {
+          locationToFilter,
+          categoryToFilter,
+          propertyTypeToFilter,
+          fromPriceToFilter,
+          toPriceToFilter,
+          fromCreationDateToFilter,
+          toCreationDateToFilter,
+          stickyStatusToFilter,
+          userTypeToFilter,
+          orderByToFilter,
+          postStatusToFilter
+        },
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      setIsLoading(false)
+      setPostList(data.posts)
+    } catch (error) {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -175,7 +179,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/filter-posts',
-        data: { typeOfPost: 'active' },
+        data: { postStatusToFilter: 'Active' },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
