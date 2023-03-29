@@ -74,3 +74,10 @@ export interface BreadcrumbType {
   type: number[]
   isLink: boolean
 }
+
+export interface PostsWithUser extends IPost {
+  user_phone?: string
+  posted_date?: string
+  public_date?: string
+  expired_date?: string
+}
