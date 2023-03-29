@@ -8,6 +8,7 @@ import {
   TrashIcon
 } from '@heroicons/react/24/solid'
 import { PostsWithUser } from 'interfaces'
+import Router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import DropDown from './Dropdown'
 import Pagination from './Pagination'
@@ -43,12 +44,12 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
     setCurrentPage(1)
   }
 
-  const handleViewPost = () => {
-    console.log('View Post')
+  const handleViewPost = (postId: number) => {
+    Router.push(`/post/${postId}`)
   }
 
-  const handleEditPost = () => {
-    console.log('Edit Post')
+  const handleEditPost = (postId: number) => {
+    Router.push(`/post?mode=edit&id=${postId}`)
   }
 
   const handleStickPost = () => {
@@ -137,7 +138,7 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
               <td className="py-2.5 px-3 border">{item.public_date}</td>
               <td className="py-2.5 px-3 border">{item.expired_date}</td>
               <td className="py-2.5 px-3 border">
-                <DropDown items={dropDownItems} />
+                <DropDown items={dropDownItems} postId={item.id} />
               </td>
             </tr>
           ))}

@@ -9,12 +9,21 @@ export default async function middleware(req: NextRequest) {
 
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
-  if (
-    pathname.startsWith('/account') ||
-    pathname.startsWith('/post?mode=create') ||
-    pathname.startsWith('/post?mode=edit') ||
-    pathname.startsWith('/agent/edit')
-  ) {
+  if (pathname.startsWith('/account') || pathname.startsWith('/agent/edit')) {
+    if (token) {
+      try {
+        await verifyJwt(token)
+        return NextResponse.next()
+      } catch (err) {
+        req.nextUrl.pathname = '/login'
+        return NextResponse.redirect(req.nextUrl)
+      }
+    }
+    req.nextUrl.pathname = '/login'
+    return NextResponse.redirect(req.nextUrl)
+  }
+
+  if (pathname.startsWith('/post') && req.nextUrl.searchParams.get('mode')) {
     if (token) {
       try {
         await verifyJwt(token)

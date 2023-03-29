@@ -10,9 +10,10 @@ interface ActionType {
 
 interface DropDownProps {
   items: ActionType[]
+  postId?: number
 }
 
-const DropDown: React.FC<DropDownProps> = ({ items }) => {
+const DropDown: React.FC<DropDownProps> = ({ items, postId }) => {
   return (
     <Menu as="div" className="relative inline-block text-left ml-2">
       <div>
@@ -45,7 +46,7 @@ const DropDown: React.FC<DropDownProps> = ({ items }) => {
                       className={`
                     ${active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'}
                     flex items-center px-4 py-2 text-sm w-full text-left`}
-                      onClick={() => item.handleClick()}
+                      onClick={() => item.handleClick(postId)}
                     >
                       {item.icon && <item.icon className="h-5 w-5 mr-3" />}
                       {item.title}
