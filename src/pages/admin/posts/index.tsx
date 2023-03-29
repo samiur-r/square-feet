@@ -22,7 +22,7 @@ const Posts: NextPage = () => {
           />
         </div>
       </div>
-      <div className="container max-w-6xl p-5">
+      <div className="container max-w-6xl p-5 ">
         <PostFilterSideBar
           show={showFilterSideBar}
           handleSetShowFilterSideBar={setShowFilterSideBar}

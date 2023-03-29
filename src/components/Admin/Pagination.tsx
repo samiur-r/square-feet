@@ -39,7 +39,7 @@ const Pagination = (props) => {
   }
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-center">
       <div className="text-sm mr-2">{`Page ${currentPage} of ${totalPages}`}</div>
       <ul className="flex">
         <li
