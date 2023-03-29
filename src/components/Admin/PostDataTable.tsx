@@ -1,5 +1,15 @@
+import {
+  CheckBadgeIcon,
+  ClipboardDocumentCheckIcon
+} from '@heroicons/react/20/solid'
+import {
+  CommandLineIcon,
+  PencilSquareIcon,
+  TrashIcon
+} from '@heroicons/react/24/solid'
 import { PostsWithUser } from 'interfaces'
 import React, { useEffect, useState } from 'react'
+import DropDown from './Dropdown'
 import Pagination from './Pagination'
 
 interface DataGridProps {
@@ -33,6 +43,54 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
     setCurrentPage(1)
   }
 
+  const handleViewPost = () => {
+    console.log('View Post')
+  }
+
+  const handleEditPost = () => {
+    console.log('Edit Post')
+  }
+
+  const handleStickPost = () => {
+    console.log('Stick Post')
+  }
+
+  const handleLogPost = () => {
+    console.log('Log Post')
+  }
+
+  const handleDeletePost = () => {
+    console.log('Delete Post')
+  }
+
+  const dropDownItems = [
+    {
+      title: 'View Post',
+      icon: ClipboardDocumentCheckIcon,
+      handleClick: handleViewPost
+    },
+    {
+      title: 'Edit Post',
+      icon: PencilSquareIcon,
+      handleClick: handleEditPost
+    },
+    {
+      title: 'Stick',
+      icon: CheckBadgeIcon,
+      handleClick: handleStickPost
+    },
+    {
+      title: 'Log',
+      icon: CommandLineIcon,
+      handleClick: handleLogPost
+    },
+    {
+      title: 'Delete Post',
+      icon: TrashIcon,
+      handleClick: handleDeletePost
+    }
+  ]
+
   return (
     <div className="overflow-x-scroll xl:overflow-hidden">
       <table className="min-w-full shadow-lg">
@@ -51,6 +109,7 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
             <th className="py-3 px-3 text-left">Posted</th>
             <th className="py-3 px-3 text-left">Public Date</th>
             <th className="py-3 px-3 text-left">Expires</th>
+            <th className="py-3 px-3 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +136,9 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
               <td className="py-2.5 px-3 border">{item.posted_date}</td>
               <td className="py-2.5 px-3 border">{item.public_date}</td>
               <td className="py-2.5 px-3 border">{item.expired_date}</td>
+              <td className="py-2.5 px-3 border">
+                <DropDown items={dropDownItems} />
+              </td>
             </tr>
           ))}
         </tbody>
