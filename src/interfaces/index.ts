@@ -81,3 +81,12 @@ export interface PostsWithUser extends IPost {
   public_date?: string
   expired_date?: string
 }
+
+export interface LogType {
+  id: number
+  post_id: number | null
+  transaction: string | null
+  user: string
+  activity: string
+  publish_date: string
+}

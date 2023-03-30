@@ -17,7 +17,7 @@ import Pagination from './Pagination'
 interface DataGridProps {
   posts: PostsWithUser[]
   handleStickPost: (postId: number) => void
-  handleDeletePost: (postId: number) => void
+  handleDeletePost: (postId: number | undefined) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
@@ -68,8 +68,8 @@ const DataGrid: React.FC<DataGridProps> = ({
     setShowConfirmModal(true)
   }
 
-  const handleLogPost = () => {
-    console.log('Log Post')
+  const handleLogPost = (postId: number) => {
+    Router.push(`/admin/logs?postId=${postId}`)
   }
 
   useEffect(() => {

@@ -89,7 +89,12 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
   }
 
   const handleStickPost = async (postId: number) => {
+    if (!postId) return
     const post = postList.find((item) => item.id === postId)
+
+    if (!post) {
+      updateToast(true, 'Error: Something went wrong', true)
+    }
 
     if (post?.is_sticky) {
       updateToast(true, `Error: The post is already sticked`, true)
@@ -111,7 +116,8 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
     }
   }
 
-  const handleDeletePost = async (postId: number) => {
+  const handleDeletePost = async (postId: number | undefined) => {
+    if (!postId) return
     setIsLoading(true)
     try {
       await ApiClient({
@@ -143,7 +149,7 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
           />
         </div>
       </div>
-      <div className="container max-w-8xl p-5 ">
+      <div className="container max-w-8xl p-5">
         <PostFilterSideBar
           show={showFilterSideBar}
           handleSetShowFilterSideBar={setShowFilterSideBar}
