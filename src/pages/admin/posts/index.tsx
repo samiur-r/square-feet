@@ -3,7 +3,9 @@ import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import { PostsWithUser } from 'interfaces'
 import type { GetServerSideProps, NextPage } from 'next'
+import Router from 'next/router'
 import { FormEvent, useEffect, useState } from 'react'
+import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
@@ -12,6 +14,7 @@ interface AdminPostProps {
 }
 
 const Posts: NextPage<AdminPostProps> = ({ posts }) => {
+  const { updateToast } = useStore()
   const [showFilterSideBar, setShowFilterSideBar] = useState(false)
   const [postList, setPostList] = useState<PostsWithUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -85,6 +88,46 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
     }
   }
 
+  const handleStickPost = async (postId: number) => {
+    const post = postList.find((item) => item.id === postId)
+
+    if (post?.is_sticky) {
+      updateToast(true, `Error: The post is already sticked`, true)
+      return false
+    }
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/stick-post',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post sticked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post sticked attempt failed', true)
+    }
+  }
+
+  const handleDeletePost = async (postId: number) => {
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/admin/delete-post',
+        data: { postId, isArchive: postStatusToFilter === 'Archived' }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post deleted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post delete attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -151,7 +194,11 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
           </div>
         )}
         <div className="mt-16">
-          <PostDataTable posts={postList} />
+          <PostDataTable
+            posts={postList}
+            handleStickPost={handleStickPost}
+            handleDeletePost={handleDeletePost}
+          />
         </div>
       </div>
     </div>

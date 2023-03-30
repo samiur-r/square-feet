@@ -10,17 +10,28 @@ import {
 import { PostsWithUser } from 'interfaces'
 import Router from 'next/router'
 import React, { useEffect, useState } from 'react'
+import Modal from 'components/Modal'
 import DropDown from './Dropdown'
 import Pagination from './Pagination'
 
 interface DataGridProps {
   posts: PostsWithUser[]
+  handleStickPost: (postId: number) => void
+  handleDeletePost: (postId: number) => void
 }
 
-const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
+const DataGrid: React.FC<DataGridProps> = ({
+  posts,
+  handleStickPost,
+  handleDeletePost
+}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [data, setData] = useState<PostsWithUser[]>([])
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [postIdToDelete, setPostIdToDelete] = useState<number | undefined>(
+    undefined
+  )
 
   useEffect(() => {
     setData(posts)
@@ -52,17 +63,18 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
     Router.push(`/post?mode=edit&id=${postId}`)
   }
 
-  const handleStickPost = () => {
-    console.log('Stick Post')
+  const handleShowDeleteConfirmModal = (postId: number) => {
+    setPostIdToDelete(postId)
+    setShowConfirmModal(true)
   }
 
   const handleLogPost = () => {
     console.log('Log Post')
   }
 
-  const handleDeletePost = () => {
-    console.log('Delete Post')
-  }
+  useEffect(() => {
+    if (!showConfirmModal) setPostIdToDelete(undefined)
+  }, [showConfirmModal])
 
   const dropDownItems = [
     {
@@ -88,12 +100,40 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
     {
       title: 'Delete Post',
       icon: TrashIcon,
-      handleClick: handleDeletePost
+      handleClick: handleShowDeleteConfirmModal
     }
   ]
 
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden">
+      <Modal
+        type="warning"
+        isModalOpen={showConfirmModal}
+        handleIsModalOpen={setShowConfirmModal}
+      >
+        <p className="font-semibold text-lg">
+          Are you sure you want to delete the post?
+        </p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowConfirmModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              handleDeletePost(postIdToDelete)
+              setShowConfirmModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
       <table className="min-w-full shadow-lg">
         <thead className="bg-primary text-custom-gray-2 text-sm">
           <tr>

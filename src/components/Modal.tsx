@@ -24,11 +24,7 @@ const Modal: React.FC<ModalType> = ({
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10 dir-rtl"
-        onClose={handleIsModalOpen}
-      >
+      <Dialog as="div" className="relative z-10" onClose={handleIsModalOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -77,15 +73,6 @@ const Modal: React.FC<ModalType> = ({
                     </div>
                   )}
                   <div className="text-start mt-1">{children}</div>
-                </div>
-                <div className="mt-5 flex justify-center">
-                  <button
-                    type="button"
-                    className="flex justify-center items-center py-3 px-8 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-primary"
-                    onClick={() => handleIsModalOpen(false)}
-                  >
-                    أغلق
-                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
