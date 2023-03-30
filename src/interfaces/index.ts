@@ -90,3 +90,43 @@ export interface LogType {
   activity: string
   publish_date: string
 }
+
+export interface IUser {
+  id: number
+  phone: string
+  password: string
+  status: string
+  is_admin: boolean
+  is_agent: boolean
+  admin_comment: string
+  created_at: Date
+  updated_at: Date
+}
+
+export interface AdminUser {
+  id: number
+  phone: string
+  status: string
+  admin_comment: string
+  registered: string
+  credits: {
+    id: number
+    free: number
+    regular: number
+    sticky: number
+    agent: number
+  }
+  subscription: string
+  payment: {
+    regular: number
+    sticky: number
+    agent: number
+  }
+  post: {
+    total: number
+    active: number
+    archived: number
+    repost: number
+    deleted: number
+  }
+}
