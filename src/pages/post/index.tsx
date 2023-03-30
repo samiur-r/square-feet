@@ -23,7 +23,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   mode
 }) => {
   const [scrollToTop, setScrollToTop] = useState(false)
-  const { user, updateToast } = useStore()
+  const { admin, user, updateToast } = useStore()
   const [cityErrors, setCityErrors] = useState<string[]>([])
   const [propertyTypeErrors, setPropertyTypeErrors] = useState<string[]>([])
   const [purposeErrors, setPurposeErrors] = useState<string[]>([])
@@ -237,7 +237,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       }
       setIsCallingApi(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
-      Router.push('/account')
+      if (admin) Router.push('/admin/posts')
+      else Router.push('/account')
     } catch (error: any) {
       setIsCallingApi(false)
       if (error.name === 'ValidationError') {
@@ -298,7 +299,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
                 id="phone"
                 className="block bg-custom-gray-3 px-4 py-2.5 md:py-4 w-full text-custom-gray rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=""
-                value={user?.phone}
+                value={post?.phone}
                 readOnly
               />
             </Popover.Button>
@@ -514,7 +515,12 @@ export const getServerSideProps: GetServerSideProps = async ({
         }
       }
     } catch (error) {
-      /* empty */
+      return {
+        redirect: {
+          destination: '/post?mode=create',
+          permanent: false
+        }
+      }
     }
   }
 

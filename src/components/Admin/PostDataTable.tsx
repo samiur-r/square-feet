@@ -93,7 +93,7 @@ const DataGrid: React.FC<DataGridProps> = ({ posts }) => {
   ]
 
   return (
-    <div className="overflow-x-scroll xl:overflow-hidden">
+    <div className="overflow-x-scroll xl:overflow-x-hidden">
       <table className="min-w-full shadow-lg">
         <thead className="bg-primary text-custom-gray-2 text-sm">
           <tr>
