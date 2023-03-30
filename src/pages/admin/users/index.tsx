@@ -2,7 +2,7 @@ import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import UserDataTable from 'components/Admin/UserDataTable'
-import { AdminUser, IUser } from 'interfaces'
+import { AdminUser } from 'interfaces'
 import type { GetServerSideProps, NextPage } from 'next'
 import Router from 'next/router'
 import { FormEvent, useEffect, useState } from 'react'
@@ -61,6 +61,36 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
     }
   }
 
+  const updateUserCredit = async (
+    creditAmount: number | undefined,
+    creditType: string | undefined,
+    userId: number | undefined
+  ) => {
+    if (creditAmount === undefined || !creditType || !userId) return
+    setIsLoading(true)
+
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/update-credit',
+        data: {
+          creditAmount,
+          creditType,
+          userId
+        },
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Credit updated successfully', false)
+      Router.push('/admin/users')
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Success: Credit update attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -99,7 +129,7 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
           </div>
         )}
         <div className="mt-16">
-          <UserDataTable users={userList} />
+          <UserDataTable users={userList} updateUserCredit={updateUserCredit} />
         </div>
       </div>
     </div>

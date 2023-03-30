@@ -1,19 +1,39 @@
 import { AdminUser } from 'interfaces'
 import React, { useEffect, useState } from 'react'
+import Modal from 'components/Modal'
 import Pagination from './Pagination'
 
 interface DataGridProps {
   users: AdminUser[]
+  updateUserCredit: (
+    creditAmount: number | undefined,
+    creditType: string | undefined,
+    userId: number | undefined
+  ) => void
 }
 
-const DataGrid: React.FC<DataGridProps> = ({ users }) => {
+const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [data, setData] = useState<AdminUser[]>([])
+  const [creditAmount, setCreditAmount] = useState<number | undefined>(
+    undefined
+  )
+  const [creditType, setCreditType] = useState<string | undefined>(undefined)
+  const [showCreditModal, setShowCreditModal] = useState(false)
+  const [userId, setUserId] = useState<number | undefined>(undefined)
 
   useEffect(() => {
     setData(users)
   }, [users])
+
+  useEffect(() => {
+    if (!showCreditModal) {
+      setCreditAmount(undefined)
+      setUserId(undefined)
+      setCreditType(undefined)
+    }
+  }, [showCreditModal])
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage
@@ -35,6 +55,44 @@ const DataGrid: React.FC<DataGridProps> = ({ users }) => {
 
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden">
+      <Modal
+        isModalOpen={showCreditModal}
+        handleIsModalOpen={setShowCreditModal}
+        type=""
+      >
+        <p className="font-semibold text-lg">{creditType} credit</p>
+        <input
+          type="number"
+          name="credit"
+          value={creditAmount}
+          className="mt-5 p-2 outline-none border"
+          onChange={(e) =>
+            setCreditAmount(
+              e.target.value ? parseInt(e.target.value, 10) : undefined
+            )
+          }
+        />
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowCreditModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              updateUserCredit(creditAmount, creditType, userId)
+              setShowCreditModal(false)
+            }}
+            disabled={creditAmount === undefined}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
       <table className="min-w-full shadow-lg">
         <thead className="bg-primary text-custom-gray-2 text-sm">
           <tr>
@@ -80,7 +138,59 @@ const DataGrid: React.FC<DataGridProps> = ({ users }) => {
               <td className="py-2.5 px-3 border">{item.post.archived}</td>
               <td className="py-2.5 px-3 border">{item.post.repost}</td>
               <td className="py-2.5 px-3 border">{item.post.deleted}</td>
-              <td className="py-2.5 px-3 border">{`${item.credits.free} / ${item.credits.regular} / ${item.credits.sticky} / ${item.credits.agent}`}</td>
+              <td className="py-2.5 px-3 border flex gap-1 justify-center">
+                <button
+                  type="button"
+                  className="text-custom-gray-1 underline"
+                  onClick={() => {
+                    setCreditAmount(item.credits.free)
+                    setUserId(item.id)
+                    setCreditType('free')
+                    setShowCreditModal(true)
+                  }}
+                >
+                  {item.credits.free}
+                </button>
+                <p>/</p>
+                <button
+                  type="button"
+                  className="text-custom-green underline"
+                  onClick={() => {
+                    setCreditAmount(item.credits.regular)
+                    setUserId(item.id)
+                    setCreditType('regular')
+                    setShowCreditModal(true)
+                  }}
+                >
+                  {item.credits.regular}
+                </button>
+                <p>/</p>
+                <button
+                  type="button"
+                  className="text-custom-red underline"
+                  onClick={() => {
+                    setCreditAmount(item.credits.sticky)
+                    setUserId(item.id)
+                    setCreditType('sticky')
+                    setShowCreditModal(true)
+                  }}
+                >
+                  {item.credits.sticky}
+                </button>
+                <p>/</p>
+                <button
+                  type="button"
+                  className="text-primary underline"
+                  onClick={() => {
+                    setCreditAmount(item.credits.agent)
+                    setUserId(item.id)
+                    setCreditType('agent')
+                    setShowCreditModal(true)
+                  }}
+                >
+                  {item.credits.agent}
+                </button>
+              </td>
               <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
               <td className="py-2.5 px-3 border">{item.subscription}</td>
               <td className="py-2.5 px-3 border">{item.registered}</td>
