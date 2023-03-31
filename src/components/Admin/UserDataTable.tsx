@@ -1,7 +1,17 @@
 import { AdminUser } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 import Modal from 'components/Modal'
+import {
+  ArrowRightOnRectangleIcon,
+  CheckBadgeIcon,
+  ClipboardDocumentIcon,
+  CreditCardIcon,
+  UserCircleIcon,
+  CommandLineIcon,
+  PencilSquareIcon
+} from '@heroicons/react/20/solid'
 import Pagination from './Pagination'
+import DropDown from './Dropdown'
 
 interface DataGridProps {
   users: AdminUser[]
@@ -53,6 +63,37 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
     setCurrentPage(1)
   }
 
+  const dropDownItems = [
+    {
+      title: 'View Posts',
+      icon: ClipboardDocumentIcon
+    },
+    {
+      title: 'Transactions',
+      icon: CreditCardIcon
+    },
+    {
+      title: 'View Page',
+      icon: UserCircleIcon
+    },
+    {
+      title: 'Verify',
+      icon: CheckBadgeIcon
+    },
+    {
+      title: 'Log',
+      icon: CommandLineIcon
+    },
+    {
+      title: 'Login Using Id',
+      icon: ArrowRightOnRectangleIcon
+    },
+    {
+      title: 'Edit',
+      icon: PencilSquareIcon
+    }
+  ]
+
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden">
       <Modal
@@ -100,7 +141,7 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
             <th colSpan={7} className="border py-2">
               Posts
             </th>
-            <th colSpan={2}> </th>
+            <th colSpan={3}> </th>
           </tr>
           <tr>
             <th className="py-3 px-3 text-left border">ID</th>
@@ -122,6 +163,7 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
             </th>
             <th className="py-3 px-3 text-left border">Subscription</th>
             <th className="py-3 px-3 text-left border">Registered</th>
+            <th className="py-3 px-3 text-left border">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -194,6 +236,9 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
               <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
               <td className="py-2.5 px-3 border">{item.subscription}</td>
               <td className="py-2.5 px-3 border">{item.registered}</td>
+              <td className="py-2.5 px-3 border">
+                <DropDown items={dropDownItems} postId={item.id} />
+              </td>
             </tr>
           ))}
         </tbody>

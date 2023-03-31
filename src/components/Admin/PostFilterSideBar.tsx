@@ -373,9 +373,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
                             value={orderByToFilter}
                             onChange={(e) =>
-                              handleSetOrderByToFilter(
-                                e.target.value ? e.target.value : undefined
-                              )
+                              handleSetOrderByToFilter(e.target.value)
                             }
                           >
                             {orderByItems.map((item) => (
@@ -398,9 +396,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                             className="bg-slate-500 mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-custom-gray-2 sm:text-sm sm:leading-6"
                             value={postStatusToFilter}
                             onChange={(e) =>
-                              handleSetPostStatusToFilter(
-                                e.target.value ? e.target.value : undefined
-                              )
+                              handleSetPostStatusToFilter(e.target.value)
                             }
                           >
                             <option value={undefined}>-</option>

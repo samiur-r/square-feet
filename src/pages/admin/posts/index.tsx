@@ -11,9 +11,10 @@ import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface AdminPostProps {
   posts: PostsWithUser[]
+  userId: number
 }
 
-const Posts: NextPage<AdminPostProps> = ({ posts }) => {
+const Posts: NextPage<AdminPostProps> = ({ posts, userId }) => {
   const { updateToast } = useStore()
   const [showFilterSideBar, setShowFilterSideBar] = useState(false)
   const [postList, setPostList] = useState<PostsWithUser[]>([])
@@ -75,7 +76,8 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
           stickyStatusToFilter,
           userTypeToFilter,
           orderByToFilter,
-          postStatusToFilter
+          postStatusToFilter,
+          userId
         },
         headers: {
           'content-type': 'application/json'
@@ -211,8 +213,13 @@ const Posts: NextPage<AdminPostProps> = ({ posts }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query
+}) => {
   const parsedCookie = req.cookies.token
+
+  console.log(query)
 
   let token
   let posts = null
@@ -232,7 +239,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/filter-posts',
-        data: { postStatusToFilter: 'Active' },
+        data: { postStatusToFilter: 'Active', userId: query?.userId },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
@@ -246,7 +253,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   return {
-    props: { posts, totalPosts }
+    props: { posts, totalPosts, userId: query?.userId ?? null }
   }
 }
 

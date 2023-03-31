@@ -1,7 +1,6 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
-import PostDataTable from 'components/Admin/PostDataTable'
-import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import UserDataTable from 'components/Admin/UserDataTable'
+import UserFilterSideBar from 'components/Admin/UserFilterSideBar'
 import { AdminUser } from 'interfaces'
 import type { GetServerSideProps, NextPage } from 'next'
 import Router from 'next/router'
@@ -20,11 +19,14 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
   const [userList, setUserList] = useState<AdminUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const [statusToFilter, setStatusToFilter] = useState<number | string>(0)
+  const [phoneToFilter, setPhoneToFilter] = useState<string>('')
+  const [adminCommentToFilter, setAdminCommentToFilter] = useState<string>('')
   const [fromCreationDateToFilter, setFromCreationDateToFilter] =
     useState<Date | null>(null)
   const [toCreationDateToFilter, setToCreationDateToFilter] =
     useState<Date | null>(null)
-  const [orderByToFilter, setOrderByToFilter] = useState<string>('Created')
+  const [orderByToFilter, setOrderByToFilter] = useState<string>('Registered')
 
   useEffect(() => {
     setUserList(users)
@@ -32,9 +34,12 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
   }, [users])
 
   const reset = () => {
+    setStatusToFilter(0)
+    setPhoneToFilter('')
+    setAdminCommentToFilter('')
     setFromCreationDateToFilter(null)
     setToCreationDateToFilter(null)
-    setOrderByToFilter('Created')
+    setOrderByToFilter('Registered')
   }
 
   const handleFilter = async (e: FormEvent<HTMLButtonElement>) => {
@@ -46,6 +51,9 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
         method: 'POST',
         url: '/admin/filter-users',
         data: {
+          statusToFilter,
+          phoneToFilter,
+          adminCommentToFilter,
           fromCreationDateToFilter,
           toCreationDateToFilter,
           orderByToFilter
@@ -55,7 +63,7 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
         }
       })
       setIsLoading(false)
-      setUserList(data.posts)
+      setUserList(data.users)
     } catch (error) {
       setIsLoading(false)
     }
@@ -107,6 +115,24 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
         </div>
       </div>
       <div className="container max-w-8xl p-5">
+        <UserFilterSideBar
+          show={showFilterSideBar}
+          statusToFilter={statusToFilter}
+          phoneToFilter={phoneToFilter}
+          adminCommentToFilter={adminCommentToFilter}
+          fromCreationDateToFilter={fromCreationDateToFilter}
+          toCreationDateToFilter={toCreationDateToFilter}
+          orderByToFilter={orderByToFilter}
+          handleSetStatusToFilter={setStatusToFilter}
+          handleSetPhoneToFilter={setPhoneToFilter}
+          handleSetAdminCommentToFilter={setAdminCommentToFilter}
+          handleSetFromCreationDateToFilter={setFromCreationDateToFilter}
+          handleSetToCreationDateToFilter={setToCreationDateToFilter}
+          handleSetOrderByToFilter={setOrderByToFilter}
+          handleSetShowFilterSideBar={setShowFilterSideBar}
+          reset={reset}
+          handleFilter={handleFilter}
+        />
         {isLoading && (
           <div className="flex justify-center mb-3">
             <svg
