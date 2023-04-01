@@ -130,3 +130,17 @@ export interface AdminUser {
     deleted: number
   }
 }
+
+export interface TransactionType {
+  id: number
+  status: string
+  package_title: string
+  amount: number
+  tran_id: string
+  created_at: Date
+  updated_at: Date
+  user: {
+    phone: string
+    admin_comment: string
+  }
+}
