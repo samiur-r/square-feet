@@ -160,7 +160,7 @@ const MyPosts: NextPage<AccountType> = ({
             items={agencyItems}
             ctaList={[
               { title: 'بياناتي', href: '/agent/edit' },
-              { title: 'صفحتي', href: '/agent' }
+              { title: 'صفحتي', href: `/agent/${agent?.id}` }
             ]}
           />
         )}

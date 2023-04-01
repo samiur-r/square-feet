@@ -99,6 +99,35 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
     }
   }
 
+  const handleVerifyUser = async (id: number) => {
+    if (!id) return
+    const user = userList?.find((item) => item.id === id)
+
+    if (!user) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (user.status === 'verified') {
+      updateToast(true, 'Error: User is already verified', true)
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/verify-user',
+        data: { userId: id }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User verified successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User verification attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -155,7 +184,11 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
           </div>
         )}
         <div className="mt-16">
-          <UserDataTable users={userList} updateUserCredit={updateUserCredit} />
+          <UserDataTable
+            users={userList}
+            updateUserCredit={updateUserCredit}
+            handleVerifyUser={handleVerifyUser}
+          />
         </div>
       </div>
     </div>

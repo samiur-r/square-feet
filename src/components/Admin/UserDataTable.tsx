@@ -21,9 +21,14 @@ interface DataGridProps {
     creditType: string | undefined,
     userId: number | undefined
   ) => void
+  handleVerifyUser: (id: number) => void
 }
 
-const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
+const DataGrid: React.FC<DataGridProps> = ({
+  users,
+  updateUserCredit,
+  handleVerifyUser
+}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const [data, setData] = useState<AdminUser[]>([])
@@ -102,7 +107,8 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
     },
     {
       title: 'Verify',
-      icon: CheckBadgeIcon
+      icon: CheckBadgeIcon,
+      handleClick: handleVerifyUser
     },
     {
       title: 'Log',

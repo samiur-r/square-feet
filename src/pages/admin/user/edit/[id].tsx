@@ -232,7 +232,7 @@ const EditUser: NextPage<AdminPostProps> = ({ user }) => {
                         className="flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         onClick={(e) => handleEditUserInfo(e)}
                       >
-                        Edit Info
+                        Submit
                       </button>
                     </div>
                   </form>
@@ -380,7 +380,7 @@ const EditUser: NextPage<AdminPostProps> = ({ user }) => {
                         className="flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         onClick={(e) => handleEditAgentInfo(e)}
                       >
-                        Edit Info
+                        Submit
                       </button>
                     </div>
                   </form>
