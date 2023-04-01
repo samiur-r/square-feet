@@ -206,13 +206,15 @@ const DataGrid: React.FC<DataGridProps> = ({
               <td className="py-2.5 px-3 border">
                 {item.admin_comment ?? '-'}
               </td>
-              <td className="py-2.5 px-3 border">{item.status}</td>
+              <td className="py-2.5 px-3 border">
+                {item.is_agent ? 'agent' : 'user'}
+              </td>
               <td className="py-2.5 px-3 border">{item.post.total}</td>
               <td className="py-2.5 px-3 border">{item.post.active}</td>
               <td className="py-2.5 px-3 border">{item.post.archived}</td>
               <td className="py-2.5 px-3 border">{item.post.repost}</td>
               <td className="py-2.5 px-3 border">{item.post.deleted}</td>
-              <td className="py-2.5 px-3 border flex gap-1 justify-center">
+              <td className="py-5 px-3 border flex justify-center gap-1">
                 <button
                   type="button"
                   className="text-custom-gray-1 underline"

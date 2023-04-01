@@ -109,6 +109,7 @@ export interface AdminUser {
   status: string
   admin_comment: string
   registered: string
+  is_agent: boolean
   credits: {
     id: number
     free: number
