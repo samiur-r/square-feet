@@ -20,6 +20,7 @@ export interface IAgent {
   twitter: string
   facebook: string
   logo_url: string
+  website: string
   expiry_date: Date
   created_at: Date
   updated_at: Date
@@ -39,6 +40,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
   const [twitter, setTwitter] = useState(agent?.twitter)
   const [facebook, setFacebook] = useState(agent?.facebook)
   const [email, setEmail] = useState(agent?.email)
+  const [website, setWebsite] = useState(agent?.website)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [nameError, setNameError] = useState('')
 
@@ -68,6 +70,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
       twitter,
       facebook,
       email,
+      website,
       logo: mediaList[0]
     }
 
@@ -174,6 +177,23 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
             className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 -right-2 peer-focus:-top-3 peer-focus:scale-75 peer-focus:-right-2 peer-placeholder-shown:top-5 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
           >
             نبذة عن المكتب (اختياري)
+          </label>
+        </div>
+        <div className="relative mt-8 md:mt-10">
+          <input
+            type="text"
+            name="website"
+            id="website"
+            className="block px-4 py-2.5 md:py-4 shadow-sm w-full text-black bg-transparent rounded-lg border border-custom-gray-border appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+            placeholder=" "
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+          />
+          <label
+            htmlFor="website"
+            className="absolute pointer-events-none cursor-text text-md text-custom-gray peer-focus:text-primary duration-300 z-10 bg-white px-1 -top-3 scale-75 right-1 peer-focus:-top-3 peer-focus:scale-75 peer-focus:right-1 peer-placeholder-shown:top-4 peer-placeholder-shown:right-3 peer-placeholder-shown:scale-100"
+          >
+            موقع إلكتروني
           </label>
         </div>
         <div className="relative mt-8 md:mt-10">

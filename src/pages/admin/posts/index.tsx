@@ -219,8 +219,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const parsedCookie = req.cookies.token
 
-  console.log(query)
-
   let token
   let posts = null
   let totalPosts = null

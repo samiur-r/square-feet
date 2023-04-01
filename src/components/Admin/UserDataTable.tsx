@@ -10,6 +10,7 @@ import {
   CommandLineIcon,
   PencilSquareIcon
 } from '@heroicons/react/20/solid'
+import Router from 'next/router'
 import Pagination from './Pagination'
 import DropDown from './Dropdown'
 
@@ -63,18 +64,41 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
     setCurrentPage(1)
   }
 
+  const handleShowPosts = (id: number) => {
+    Router.push(`/admin/posts?userId=${id}`)
+  }
+
+  const handleShowTransactions = (id: number) => {
+    Router.push(`/admin/transactions?userId=${id}`)
+  }
+
+  const handleShowUser = (id: number) => {
+    Router.push(`/admin/user/${id}`)
+  }
+
+  const handleShowLogs = (id: number) => {
+    Router.push(`/admin/logs?user=${id}`)
+  }
+
+  const handleEditUser = (id: number) => {
+    Router.push(`/admin/user/edit/${id}`)
+  }
+
   const dropDownItems = [
     {
       title: 'View Posts',
-      icon: ClipboardDocumentIcon
+      icon: ClipboardDocumentIcon,
+      handleClick: handleShowPosts
     },
     {
       title: 'Transactions',
-      icon: CreditCardIcon
+      icon: CreditCardIcon,
+      handleClick: handleShowTransactions
     },
     {
       title: 'View Page',
-      icon: UserCircleIcon
+      icon: UserCircleIcon,
+      handleClick: handleShowUser
     },
     {
       title: 'Verify',
@@ -82,7 +106,8 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
     },
     {
       title: 'Log',
-      icon: CommandLineIcon
+      icon: CommandLineIcon,
+      handleClick: handleShowLogs
     },
     {
       title: 'Login Using Id',
@@ -90,7 +115,8 @@ const DataGrid: React.FC<DataGridProps> = ({ users, updateUserCredit }) => {
     },
     {
       title: 'Edit',
-      icon: PencilSquareIcon
+      icon: PencilSquareIcon,
+      handleClick: handleEditUser
     }
   ]
 

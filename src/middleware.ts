@@ -57,6 +57,7 @@ export default async function middleware(req: NextRequest) {
   if (
     pathname.startsWith('/admin/dashboard') ||
     pathname.startsWith('/admin/users') ||
+    pathname.startsWith('/admin/user') ||
     pathname.startsWith('/admin/posts') ||
     pathname.startsWith('/admin/transactions')
   ) {
