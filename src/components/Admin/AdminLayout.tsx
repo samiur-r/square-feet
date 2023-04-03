@@ -211,7 +211,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="mt-5 flex h-0 flex-1 flex-col overflow-y-auto pt-1">
             {/* User account dropdown */}
-            <Menu as="div" className="relative inline-block px-3 text-left">
+            <Menu
+              as="div"
+              className="relative inline-block px-3 text-left border-b-2 pb-1"
+            >
               <div>
                 <Menu.Button className="group w-full rounded-md bg-gray-100 px-3.5 py-2 text-left text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                   <span className="flex w-full items-center justify-between">

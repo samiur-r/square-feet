@@ -115,10 +115,10 @@ const DataGrid: React.FC<DataGridProps> = ({
       icon: CommandLineIcon,
       handleClick: handleShowLogs
     },
-    {
-      title: 'Login Using Id',
-      icon: ArrowRightOnRectangleIcon
-    },
+    // {
+    //   title: 'Login Using Id',
+    //   icon: ArrowRightOnRectangleIcon
+    // },
     {
       title: 'Edit',
       icon: PencilSquareIcon,
