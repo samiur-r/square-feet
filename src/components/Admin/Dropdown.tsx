@@ -9,7 +9,7 @@ interface ActionType {
 }
 
 interface DropDownProps {
-  items: ActionType[]
+  items: ActionType[] | any[]
   postId?: number
   showStick?: boolean
   showDelete?: boolean

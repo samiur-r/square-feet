@@ -2,7 +2,6 @@ import { AdminUser } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 import Modal from 'components/Modal'
 import {
-  ArrowRightOnRectangleIcon,
   CheckBadgeIcon,
   ClipboardDocumentIcon,
   CreditCardIcon,
@@ -21,7 +20,7 @@ interface DataGridProps {
     creditType: string | undefined,
     userId: number | undefined
   ) => void
-  handleVerifyUser: (id: number) => void
+  handleVerifyUser?: (id: number) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
