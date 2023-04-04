@@ -1,4 +1,5 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
+import PaginationNew from 'components/Admin/PaginationNew'
 import TransactionDataTable from 'components/Admin/TransactionDataTable'
 import TransactionFilterSideBar from 'components/Admin/TransactionFilterSideBar'
 import { TransactionType } from 'interfaces'
@@ -114,6 +115,9 @@ const Transactions: NextPage<TransactionProps> = ({ transactions, userId }) => {
         )}
         <div className="mt-16">
           <TransactionDataTable transactions={transactionList} />
+        </div>
+        <div className="mt-10">
+          <PaginationNew totalPages={100} />
         </div>
       </div>
     </div>
