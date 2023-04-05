@@ -116,9 +116,6 @@ const Transactions: NextPage<TransactionProps> = ({ transactions, userId }) => {
         <div className="mt-16">
           <TransactionDataTable transactions={transactionList} />
         </div>
-        <div className="mt-10">
-          <PaginationNew totalPages={100} />
-        </div>
       </div>
     </div>
   )

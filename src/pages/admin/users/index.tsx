@@ -12,13 +12,16 @@ import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface AdminPostProps {
   users: AdminUser[]
+  totalPages: number
 }
 
-const Users: NextPage<AdminPostProps> = ({ users }) => {
+const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
   const { updateToast } = useStore()
   const [showFilterSideBar, setShowFilterSideBar] = useState(false)
-  const [userList, setUserList] = useState<AdminUser[]>([])
+  const [userList, setUserList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [pageNumber, setPageNumber] = useState(1)
+  const [currentItemList, setCurrentItemList] = useState<any[]>([])
 
   const [statusToFilter, setStatusToFilter] = useState<number | string>(0)
   const [phoneToFilter, setPhoneToFilter] = useState<string>('')
@@ -28,11 +31,43 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
   const [toCreationDateToFilter, setToCreationDateToFilter] =
     useState<Date | null>(null)
   const [orderByToFilter, setOrderByToFilter] = useState<string>('Registered')
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    setUserList(users)
+    setCount(totalPages)
+  }, [totalPages])
+
+  useEffect(() => {
+    setUserList([{ page: 1, users }])
     setIsLoading(false)
   }, [users])
+
+  const fetchItems = async () => {
+    setCurrentItemList([])
+    setIsLoading(true)
+    try {
+      const { data } = await ApiClient({
+        method: 'POST',
+        url: '/admin/filter-users',
+        data: { offset: pageNumber ? pageNumber * 10 - 10 : 0 }
+      })
+      setUserList([...userList, { page: pageNumber, users: data.users ?? [] }])
+      setCurrentItemList(data.users ?? [])
+      setIsLoading(false)
+    } catch (error) {
+      updateToast(true, 'Error: Something went wrong', true)
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (pageNumber && pageNumber !== 1) {
+      const foundItem = userList.find((user) => user.page === pageNumber)
+      if (foundItem) setCurrentItemList(foundItem.users)
+      else fetchItems()
+    }
+    if (pageNumber && pageNumber === 1) setCurrentItemList(users)
+  }, [pageNumber])
 
   const reset = () => {
     setStatusToFilter(0)
@@ -57,15 +92,20 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
           adminCommentToFilter,
           fromCreationDateToFilter,
           toCreationDateToFilter,
-          orderByToFilter
+          orderByToFilter,
+          offset: 0
         },
         headers: {
           'content-type': 'application/json'
         }
       })
       setIsLoading(false)
-      setUserList(data.users)
+      setUserList([])
+      setUserList([{ page: 1, users: data.users }])
+      setCurrentItemList(data.users)
+      setCount(data.totalPages)
     } catch (error) {
+      updateToast(true, 'Error: Something went wrong', true)
       setIsLoading(false)
     }
   }
@@ -186,13 +226,16 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
         )}
         <div className="mt-16">
           <UserDataTable
-            users={userList}
+            users={currentItemList}
             updateUserCredit={updateUserCredit}
             handleVerifyUser={handleVerifyUser}
           />
         </div>
         <div className="mt-16">
-          <PaginationNew totalPages={100} />
+          <PaginationNew
+            totalPages={count}
+            handlePageNumberChange={setPageNumber}
+          />
         </div>
       </div>
     </div>
@@ -204,6 +247,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   let token
   let users = []
+  let totalPages = null
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (token) {
@@ -219,19 +263,21 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/filter-users',
+        data: { offset: 0 },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
         }
       })
       users = response.data?.users ?? []
+      totalPages = response.data?.totalPages ?? null
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { users }
+    props: { users, totalPages }
   }
 }
 

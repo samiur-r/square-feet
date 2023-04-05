@@ -28,8 +28,6 @@ const DataGrid: React.FC<DataGridProps> = ({
   updateUserCredit,
   handleVerifyUser
 }) => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
   const [data, setData] = useState<AdminUser[]>([])
   const [creditAmount, setCreditAmount] = useState<number | undefined>(
     undefined
@@ -49,24 +47,6 @@ const DataGrid: React.FC<DataGridProps> = ({
       setCreditType(undefined)
     }
   }, [showCreditModal])
-
-  // Pagination logic
-  const indexOfLastItem = currentPage * itemsPerPage
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem)
-  const totalPages = Math.ceil(data.length / itemsPerPage)
-
-  // Function to handle page changes
-  const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
-    setCurrentPage(pageNumber)
-  }
-
-  // Function to handle items per page changes
-  const handleItemsPerPageChange = (event: { target: { value: string } }) => {
-    const value = parseInt(event.target.value, 10)
-    setItemsPerPage(value)
-    setCurrentPage(1)
-  }
 
   const handleShowPosts = (id: number) => {
     Router.push(`/admin/posts?userId=${id}`)
@@ -198,105 +178,88 @@ const DataGrid: React.FC<DataGridProps> = ({
           </tr>
         </thead>
         <tbody>
-          {currentItems.map((item) => (
-            <tr key={item.id} className="text-sm text-center">
-              <td className="py-2.5 px-3 border">{item.id}</td>
-              <td className="py-2.5 px-3 border">{item.phone}</td>
-              <td className="py-2.5 px-3 border">
-                {item.admin_comment ?? '-'}
-              </td>
-              <td className="py-2.5 px-3 border">
-                {item.is_agent ? 'agent' : 'user'}
-              </td>
-              <td className="py-2.5 px-3 border">{item.post.total}</td>
-              <td className="py-2.5 px-3 border">{item.post.active}</td>
-              <td className="py-2.5 px-3 border">{item.post.archived}</td>
-              <td className="py-2.5 px-3 border">{item.post.repost}</td>
-              <td className="py-2.5 px-3 border">{item.post.deleted}</td>
-              <td className="py-5 px-3 border flex justify-center gap-1">
-                <button
-                  type="button"
-                  className="text-custom-gray-1 underline"
-                  onClick={() => {
-                    setCreditAmount(item.credits.free)
-                    setUserId(item.id)
-                    setCreditType('free')
-                    setShowCreditModal(true)
-                  }}
-                >
-                  {item.credits.free}
-                </button>
-                <p>/</p>
-                <button
-                  type="button"
-                  className="text-custom-green underline"
-                  onClick={() => {
-                    setCreditAmount(item.credits.regular)
-                    setUserId(item.id)
-                    setCreditType('regular')
-                    setShowCreditModal(true)
-                  }}
-                >
-                  {item.credits.regular}
-                </button>
-                <p>/</p>
-                <button
-                  type="button"
-                  className="text-custom-red underline"
-                  onClick={() => {
-                    setCreditAmount(item.credits.sticky)
-                    setUserId(item.id)
-                    setCreditType('sticky')
-                    setShowCreditModal(true)
-                  }}
-                >
-                  {item.credits.sticky}
-                </button>
-                <p>/</p>
-                <button
-                  type="button"
-                  className="text-primary underline"
-                  onClick={() => {
-                    setCreditAmount(item.credits.agent)
-                    setUserId(item.id)
-                    setCreditType('agent')
-                    setShowCreditModal(true)
-                  }}
-                >
-                  {item.credits.agent}
-                </button>
-              </td>
-              <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
-              <td className="py-2.5 px-3 border">{item.subscription}</td>
-              <td className="py-2.5 px-3 border">{item.registered}</td>
-              <td className="py-2.5 px-3 border">
-                <DropDown items={dropDownItems} postId={item.id} />
-              </td>
-            </tr>
-          ))}
+          {data &&
+            data.length > 0 &&
+            data.map((item) => (
+              <tr key={item.id} className="text-sm text-center">
+                <td className="py-2.5 px-3 border">{item.id}</td>
+                <td className="py-2.5 px-3 border">{item.phone}</td>
+                <td className="py-2.5 px-3 border">
+                  {item.admin_comment ?? '-'}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {item.is_agent ? 'agent' : 'user'}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {item.post.active + item.post.archived + item.post.deleted}
+                </td>
+                <td className="py-2.5 px-3 border">{item.post.active}</td>
+                <td className="py-2.5 px-3 border">{item.post.archived}</td>
+                <td className="py-2.5 px-3 border">{item.post.repost}</td>
+                <td className="py-2.5 px-3 border">{item.post.deleted}</td>
+                <td className="py-5 px-3 border flex justify-center gap-1">
+                  <button
+                    type="button"
+                    className="text-custom-gray-1 underline"
+                    onClick={() => {
+                      setCreditAmount(item.credits.free)
+                      setUserId(item.id)
+                      setCreditType('free')
+                      setShowCreditModal(true)
+                    }}
+                  >
+                    {item.credits.free}
+                  </button>
+                  <p>/</p>
+                  <button
+                    type="button"
+                    className="text-custom-green underline"
+                    onClick={() => {
+                      setCreditAmount(item.credits.regular)
+                      setUserId(item.id)
+                      setCreditType('regular')
+                      setShowCreditModal(true)
+                    }}
+                  >
+                    {item.credits.regular}
+                  </button>
+                  <p>/</p>
+                  <button
+                    type="button"
+                    className="text-custom-red underline"
+                    onClick={() => {
+                      setCreditAmount(item.credits.sticky)
+                      setUserId(item.id)
+                      setCreditType('sticky')
+                      setShowCreditModal(true)
+                    }}
+                  >
+                    {item.credits.sticky}
+                  </button>
+                  <p>/</p>
+                  <button
+                    type="button"
+                    className="text-primary underline"
+                    onClick={() => {
+                      setCreditAmount(item.credits.agent)
+                      setUserId(item.id)
+                      setCreditType('agent')
+                      setShowCreditModal(true)
+                    }}
+                  >
+                    {item.credits.agent}
+                  </button>
+                </td>
+                <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
+                <td className="py-2.5 px-3 border">{item.subscription}</td>
+                <td className="py-2.5 px-3 border">{item.registered}</td>
+                <td className="py-2.5 px-3 border">
+                  <DropDown items={dropDownItems} postId={item.id} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
-      <div className="flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-between mt-4">
-        <div>
-          <span className="mr-2 text-sm">Show</span>
-          <select
-            className="py-1 text-sm px-4 bg-custom-gray-2 rounded"
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-          >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-          <span className="ml-2 text-sm">entries</span>
-        </div>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
-      </div>
     </div>
   )
 }
