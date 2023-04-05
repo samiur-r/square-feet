@@ -4,15 +4,23 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/20/solid'
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 interface PaginationProps {
   totalPages: number
+  handlePageNumberChange: Dispatch<SetStateAction<number>>
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  totalPages,
+  handlePageNumberChange
+}) => {
   const [currentPage, setCurrentPage] = useState(1)
   const pageRange = 4 // number of pages to show before and after the current page
+
+  useEffect(() => {
+    handlePageNumberChange(currentPage)
+  }, [currentPage])
 
   function handlePageChange(page: React.SetStateAction<number>) {
     setCurrentPage(page)
@@ -49,7 +57,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
         pageNumbers.push(
           <span
             key={i}
-            className={`inline-block mx-1 px-3 py-1 cursor-pointer hover:text-primary ${
+            className={`inline-block mx-1 px-3 py-1 cursor-pointer hover:text-primary transition-all duration-200 ${
               i === currentPage
                 ? 'bg-primary text-white border rounded-lg shadow-lg'
                 : 'text-gray-700'

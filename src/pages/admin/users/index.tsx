@@ -1,4 +1,5 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
+import PaginationNew from 'components/Admin/PaginationNew'
 import UserDataTable from 'components/Admin/UserDataTable'
 import UserFilterSideBar from 'components/Admin/UserFilterSideBar'
 import { AdminUser } from 'interfaces'
@@ -189,6 +190,9 @@ const Users: NextPage<AdminPostProps> = ({ users }) => {
             updateUserCredit={updateUserCredit}
             handleVerifyUser={handleVerifyUser}
           />
+        </div>
+        <div className="mt-16">
+          <PaginationNew totalPages={100} />
         </div>
       </div>
     </div>
