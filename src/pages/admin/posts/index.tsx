@@ -1,4 +1,5 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
+import PaginationNew from 'components/Admin/PaginationNew'
 import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import { PostsWithUser } from 'interfaces'
@@ -12,13 +13,18 @@ import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 interface AdminPostProps {
   posts: PostsWithUser[]
   userId: number
+  totalPages: number
 }
 
-const Posts: NextPage<AdminPostProps> = ({ posts, userId }) => {
+const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
   const { updateToast } = useStore()
   const [showFilterSideBar, setShowFilterSideBar] = useState(false)
-  const [postList, setPostList] = useState<PostsWithUser[]>([])
+  const [postList, setPostList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+
+  const [pageNumber, setPageNumber] = useState(1)
+  const [currentItemList, setCurrentItemList] = useState<any[]>([])
+  const [count, setCount] = useState(0)
 
   const [locationToFilter, setLocationToFilter] = useState<number>(0)
   const [categoryToFilter, setCategoryToFilter] = useState<number>(0)
@@ -39,9 +45,43 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId }) => {
   const [postStatusToFilter, setPostStatusToFilter] = useState<string>('Active')
 
   useEffect(() => {
-    setPostList(posts)
+    setCount(totalPages)
+  }, [totalPages])
+
+  useEffect(() => {
+    setPostList([{ page: 1, posts }])
     setIsLoading(false)
   }, [posts])
+
+  const fetchItems = async () => {
+    setCurrentItemList([])
+    setIsLoading(true)
+    try {
+      const { data } = await ApiClient({
+        method: 'POST',
+        url: '/admin/filter-posts',
+        data: {
+          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          postStatusToFilter
+        }
+      })
+      setPostList([...postList, { page: pageNumber, posts: data.posts ?? [] }])
+      setCurrentItemList(data.posts ?? [])
+      setIsLoading(false)
+    } catch (error) {
+      updateToast(true, 'Error: Something went wrong', true)
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (pageNumber && pageNumber !== 1) {
+      const foundItem = postList.find((post) => post.page === pageNumber)
+      if (foundItem) setCurrentItemList(foundItem.posts)
+      else fetchItems()
+    }
+    if (pageNumber && pageNumber === 1) setCurrentItemList(posts)
+  }, [pageNumber])
 
   const reset = () => {
     setLocationToFilter(0)
@@ -77,16 +117,21 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId }) => {
           userTypeToFilter,
           orderByToFilter,
           postStatusToFilter,
-          userId
+          userId,
+          offset: 0
         },
         headers: {
           'content-type': 'application/json'
         }
       })
       setIsLoading(false)
-      setPostList(data.posts)
+      setPostList([])
+      setPostList([{ page: 1, posts: data.posts }])
+      setCurrentItemList(data.posts)
+      setCount(data.totalPages)
     } catch (error) {
       setIsLoading(false)
+      updateToast(true, 'Error: Something went wrong', true)
     }
   }
 
@@ -203,9 +248,15 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId }) => {
         )}
         <div className="mt-16">
           <PostDataTable
-            posts={postList}
+            posts={currentItemList}
             handleStickPost={handleStickPost}
             handleDeletePost={handleDeletePost}
+          />
+        </div>
+        <div className="mt-16">
+          <PaginationNew
+            totalPages={count}
+            handlePageNumberChange={setPageNumber}
           />
         </div>
       </div>
@@ -221,7 +272,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   let token
   let posts = null
-  let totalPosts = null
+  let totalPages = null
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (token) {
@@ -237,21 +288,25 @@ export const getServerSideProps: GetServerSideProps = async ({
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/filter-posts',
-        data: { postStatusToFilter: 'Active', userId: query?.userId },
+        data: {
+          postStatusToFilter: 'Active',
+          userId: query?.userId,
+          offset: 0
+        },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
         }
       })
       posts = response.data?.posts ?? []
-      totalPosts = response.data?.totalPosts ?? 0
+      totalPages = response.data?.totalPages ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { posts, totalPosts, userId: query?.userId ?? null }
+    props: { posts, totalPages, userId: query?.userId ?? null }
   }
 }
 

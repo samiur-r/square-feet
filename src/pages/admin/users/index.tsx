@@ -105,8 +105,8 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
       setCurrentItemList(data.users)
       setCount(data.totalPages)
     } catch (error) {
-      updateToast(true, 'Error: Something went wrong', true)
       setIsLoading(false)
+      updateToast(true, 'Error: Something went wrong', true)
     }
   }
 
