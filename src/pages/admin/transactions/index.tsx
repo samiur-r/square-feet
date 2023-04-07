@@ -5,18 +5,30 @@ import TransactionFilterSideBar from 'components/Admin/TransactionFilterSideBar'
 import { TransactionType } from 'interfaces'
 import type { GetServerSideProps, NextPage } from 'next'
 import { FormEvent, useEffect, useState } from 'react'
+import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface TransactionProps {
   transactions: TransactionType[]
   userId: number
+  totalPages: number
 }
 
-const Transactions: NextPage<TransactionProps> = ({ transactions, userId }) => {
+const Transactions: NextPage<TransactionProps> = ({
+  transactions,
+  userId,
+  totalPages
+}) => {
+  const { updateToast } = useStore()
   const [showFilterSideBar, setShowFilterSideBar] = useState(false)
-  const [transactionList, setTransactionList] = useState<TransactionType[]>([])
+  const [transactionList, setTransactionList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
+
+  const [pageNumber, setPageNumber] = useState(1)
+  const [currentItemList, setCurrentItemList] = useState<any[]>([])
+  const [count, setCount] = useState(0)
+
   const [statusToFilter, setStatusToFilter] = useState<string>('-')
   const [typeToFilter, setTypeToFilter] = useState<string>('-')
   const [fromCreationDateToFilter, setFromCreationDateToFilter] =
@@ -25,9 +37,48 @@ const Transactions: NextPage<TransactionProps> = ({ transactions, userId }) => {
     useState<Date | null>(null)
 
   useEffect(() => {
-    setTransactionList(transactions)
+    setCount(totalPages)
+  }, [totalPages])
+
+  useEffect(() => {
+    setTransactionList([{ page: 1, transactions }])
     setIsLoading(false)
   }, [transactions])
+
+  const fetchItems = async () => {
+    setCurrentItemList([])
+    setIsLoading(true)
+    try {
+      const { data } = await ApiClient({
+        method: 'POST',
+        url: '/admin/get-transactions',
+        data: {
+          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          userId
+        }
+      })
+      setTransactionList([
+        ...transactionList,
+        { page: pageNumber, transactions: data.transactions ?? [] }
+      ])
+      setCurrentItemList(data.transactions ?? [])
+      setIsLoading(false)
+    } catch (error) {
+      updateToast(true, 'Error: Something went wrong', true)
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (pageNumber && pageNumber !== 1) {
+      const foundItem = transactionList.find(
+        (transaction) => transaction.page === pageNumber
+      )
+      if (foundItem) setCurrentItemList(foundItem.transactions)
+      else fetchItems()
+    }
+    if (pageNumber && pageNumber === 1) setCurrentItemList(transactions)
+  }, [pageNumber])
 
   const reset = () => {
     setStatusToFilter('-')
@@ -49,14 +100,18 @@ const Transactions: NextPage<TransactionProps> = ({ transactions, userId }) => {
           typeToFilter,
           fromCreationDateToFilter,
           toCreationDateToFilter,
-          userId
+          userId,
+          offset: 0
         },
         headers: {
           'content-type': 'application/json'
         }
       })
       setIsLoading(false)
-      setTransactionList(data.transactions)
+      setTransactionList([])
+      setTransactionList([{ page: 1, transactions: data.transactions }])
+      setCurrentItemList(data.transactions)
+      setCount(data.totalPages)
     } catch (error) {
       setIsLoading(false)
     }
@@ -114,7 +169,13 @@ const Transactions: NextPage<TransactionProps> = ({ transactions, userId }) => {
           </div>
         )}
         <div className="mt-16">
-          <TransactionDataTable transactions={transactionList} />
+          <TransactionDataTable transactions={currentItemList} />
+        </div>
+        <div className="mt-16">
+          <PaginationNew
+            totalPages={count}
+            handlePageNumberChange={setPageNumber}
+          />
         </div>
       </div>
     </div>
@@ -129,6 +190,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   let token
   let transactions = null
+  let totalPages = null
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (token) {
@@ -144,20 +206,21 @@ export const getServerSideProps: GetServerSideProps = async ({
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/get-transactions',
-        data: { userId: query?.userId },
+        data: { userId: query?.userId, offset: 0 },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
         }
       })
       transactions = response.data?.transactions ?? []
+      totalPages = response.data?.totalPages ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { transactions, userId: query?.userId ?? null }
+    props: { transactions, userId: query?.userId ?? null, totalPages }
   }
 }
 
