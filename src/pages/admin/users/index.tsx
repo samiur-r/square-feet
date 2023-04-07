@@ -1,7 +1,7 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 import PaginationNew from 'components/Admin/PaginationNew'
 import UserDataTable from 'components/Admin/UserDataTable'
-import UserFilterSideBar from 'components/Admin/UserFilterSideBar'
+import UserFilterBar from 'components/Admin/UserFilterBar'
 import { AdminUser } from 'interfaces'
 import type { GetServerSideProps, NextPage } from 'next'
 import Router from 'next/router'
@@ -177,16 +177,9 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
             Users
           </h1>
         </div>
-        <div className="min-w-0 flex-1 flex justify-end">
-          <AdjustmentsVerticalIcon
-            className="h6 w-6 text-primary cursor-pointer"
-            onClick={() => setShowFilterSideBar(!showFilterSideBar)}
-          />
-        </div>
       </div>
       <div className="container max-w-8xl p-5">
-        <UserFilterSideBar
-          show={showFilterSideBar}
+        <UserFilterBar
           statusToFilter={statusToFilter}
           phoneToFilter={phoneToFilter}
           adminCommentToFilter={adminCommentToFilter}
@@ -199,12 +192,11 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
           handleSetFromCreationDateToFilter={setFromCreationDateToFilter}
           handleSetToCreationDateToFilter={setToCreationDateToFilter}
           handleSetOrderByToFilter={setOrderByToFilter}
-          handleSetShowFilterSideBar={setShowFilterSideBar}
           reset={reset}
           handleFilter={handleFilter}
         />
         {isLoading && (
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center my-5">
             <svg
               aria-hidden="true"
               role="status"
