@@ -1,18 +1,63 @@
 import LogDataTable from 'components/Admin/LogDataTable'
+import PaginationNew from 'components/Admin/PaginationNew'
 import { LogType } from 'interfaces'
 import { GetServerSideProps, NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
+import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
-const Log: NextPage<{ logs: LogType[] }> = ({ logs }) => {
+const Log: NextPage<{
+  logs: LogType[]
+  totalPages: number
+  postId: any
+  user: any
+}> = ({ logs, totalPages, postId, user }) => {
+  const { updateToast } = useStore()
   const [isLoading, setIsLoading] = useState(true)
-  const [logList, setLogList] = useState<LogType[]>([])
+  const [logList, setLogList] = useState<any>([])
+
+  const [pageNumber, setPageNumber] = useState(1)
+  const [currentItemList, setCurrentItemList] = useState<any[]>([])
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
-    setLogList(logs)
+    setCount(totalPages)
+  }, [totalPages])
+
+  useEffect(() => {
+    setLogList([{ page: 1, logs }])
     setIsLoading(false)
   }, [logs])
+
+  const fetchItems = async () => {
+    setCurrentItemList([])
+    setIsLoading(true)
+    try {
+      const { data } = await ApiClient({
+        method: 'POST',
+        url: '/admin/get-logs',
+        data: { postId, user, offset: pageNumber ? pageNumber * 10 - 10 : 0 }
+      })
+      setLogList([...logList, { page: pageNumber, logs: data.logs ?? [] }])
+      setCurrentItemList(data.logs ?? [])
+      setIsLoading(false)
+    } catch (error) {
+      updateToast(true, 'Error: Something went wrong', true)
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (pageNumber && pageNumber !== 1) {
+      const foundItem = logList.find(
+        (log: { page: number }) => log.page === pageNumber
+      )
+      if (foundItem) setCurrentItemList(foundItem.logs)
+      else fetchItems()
+    }
+    if (pageNumber && pageNumber === 1) setCurrentItemList(logs)
+  }, [pageNumber])
 
   return (
     <div>
@@ -46,7 +91,13 @@ const Log: NextPage<{ logs: LogType[] }> = ({ logs }) => {
           </div>
         )}
         <div className="mt-16">
-          <LogDataTable logs={logList} />
+          <LogDataTable logs={currentItemList} />
+        </div>
+        <div className="mt-16">
+          <PaginationNew
+            totalPages={count}
+            handlePageNumberChange={setPageNumber}
+          />
         </div>
       </div>
     </div>
@@ -60,6 +111,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const parsedCookie = req.cookies.token
   let token
   let logs = null
+  let totalPages = null
   let postId
   let user
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
@@ -80,20 +132,21 @@ export const getServerSideProps: GetServerSideProps = async ({
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/get-logs',
-        data: { postId, user },
+        data: { postId, user, offset: 0 },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
         }
       })
       logs = response.data?.logs ?? []
+      totalPages = response.data?.totalPages ?? null
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { logs }
+    props: { logs, totalPages, postId: postId ?? null, user: user ?? null }
   }
 }
 
