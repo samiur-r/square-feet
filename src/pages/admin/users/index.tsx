@@ -1,4 +1,3 @@
-import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 import PaginationNew from 'components/Admin/PaginationNew'
 import UserDataTable from 'components/Admin/UserDataTable'
 import UserFilterBar from 'components/Admin/UserFilterBar'
@@ -17,7 +16,6 @@ interface AdminPostProps {
 
 const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
   const { updateToast } = useStore()
-  const [showFilterSideBar, setShowFilterSideBar] = useState(false)
   const [userList, setUserList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [pageNumber, setPageNumber] = useState(1)

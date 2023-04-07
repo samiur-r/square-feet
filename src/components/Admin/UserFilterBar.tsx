@@ -59,7 +59,7 @@ const UserFilterBar: React.FC<FilterSideBarProps> = ({
   return (
     <div className="flex m-auto h-full max-w-6xl flex-col divide-y divide-gray-200 bg-custom-gray-3 shadow-xl">
       <div className="flex min-h-0 flex-1 flex-col">
-        <div className="flex items-stretch py-2 text-base font-semibold justify-center text-primary">
+        <div className="flex py-2 text-base font-semibold justify-center text-primary">
           Filter Users
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3 flex-1 pb-5 px-4 sm:px-6 bg-custom-gray-2">

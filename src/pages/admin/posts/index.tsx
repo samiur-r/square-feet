@@ -1,4 +1,3 @@
-import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 import PaginationNew from 'components/Admin/PaginationNew'
 import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
@@ -18,7 +17,6 @@ interface AdminPostProps {
 
 const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
   const { updateToast } = useStore()
-  const [showFilterSideBar, setShowFilterSideBar] = useState(false)
   const [postList, setPostList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -183,23 +181,15 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
 
   return (
     <div>
-      <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
+      <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center">
         <div className="min-w-0 flex-1">
           <h1 className="text-lg font-medium leading-6 text-gray-900 sm:truncate">
             Posts
           </h1>
         </div>
-        <div className="min-w-0 flex-1 flex justify-end">
-          <AdjustmentsVerticalIcon
-            className="h6 w-6 text-primary cursor-pointer"
-            onClick={() => setShowFilterSideBar(!showFilterSideBar)}
-          />
-        </div>
       </div>
       <div className="container max-w-8xl p-5">
         <PostFilterSideBar
-          show={showFilterSideBar}
-          handleSetShowFilterSideBar={setShowFilterSideBar}
           locationToFilter={locationToFilter}
           categoryToFilter={categoryToFilter}
           propertyTypeToFilter={propertyTypeToFilter}
@@ -226,7 +216,7 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
           handleFilter={handleFilter}
         />
         {isLoading && (
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center my-5">
             <svg
               aria-hidden="true"
               role="status"
