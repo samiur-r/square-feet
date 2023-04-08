@@ -7,10 +7,11 @@ import {
   CreditCardIcon,
   UserCircleIcon,
   CommandLineIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
+  NoSymbolIcon,
+  BoltIcon
 } from '@heroicons/react/20/solid'
 import Router from 'next/router'
-import Pagination from './Pagination'
 import DropDown from './Dropdown'
 
 interface DataGridProps {
@@ -21,12 +22,16 @@ interface DataGridProps {
     userId: number | undefined
   ) => void
   handleVerifyUser?: (id: number) => void
+  handleBlockUser: (id: number | undefined) => void
+  handleUnBlockUser: (id: number | undefined) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
   users,
   updateUserCredit,
-  handleVerifyUser
+  handleVerifyUser,
+  handleBlockUser,
+  handleUnBlockUser
 }) => {
   const [data, setData] = useState<AdminUser[]>([])
   const [creditAmount, setCreditAmount] = useState<number | undefined>(
@@ -35,6 +40,10 @@ const DataGrid: React.FC<DataGridProps> = ({
   const [creditType, setCreditType] = useState<string | undefined>(undefined)
   const [showCreditModal, setShowCreditModal] = useState(false)
   const [userId, setUserId] = useState<number | undefined>(undefined)
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [confirmationMsg, setConfirmationMsg] = useState('')
+  const [blockOpt, setBlockOpt] = useState<undefined | number>(undefined)
 
   useEffect(() => {
     setData(users)
@@ -68,6 +77,28 @@ const DataGrid: React.FC<DataGridProps> = ({
     Router.push(`/admin/user/edit/${id}`)
   }
 
+  useEffect(() => {
+    if (!showConfirmModal) {
+      setBlockOpt(undefined)
+      setUserId(undefined)
+      setConfirmationMsg('')
+    }
+  }, [showConfirmModal])
+
+  const handleShowConfirmModalForBlock = (id: number) => {
+    setBlockOpt(1)
+    setUserId(id)
+    setConfirmationMsg('Are you sure to block the user?')
+    setShowConfirmModal(true)
+  }
+
+  const handleShowConfirmModalForUnBlock = (id: number) => {
+    setBlockOpt(2)
+    setUserId(id)
+    setConfirmationMsg('Are you sure to unblock the user?')
+    setShowConfirmModal(true)
+  }
+
   const dropDownItems = [
     {
       title: 'View Posts',
@@ -90,14 +121,20 @@ const DataGrid: React.FC<DataGridProps> = ({
       handleClick: handleVerifyUser
     },
     {
+      title: 'Block',
+      icon: NoSymbolIcon,
+      handleClick: handleShowConfirmModalForBlock
+    },
+    {
+      title: 'Unblock',
+      icon: BoltIcon,
+      handleClick: handleShowConfirmModalForUnBlock
+    },
+    {
       title: 'Log',
       icon: CommandLineIcon,
       handleClick: handleShowLogs
     },
-    // {
-    //   title: 'Login Using Id',
-    //   icon: ArrowRightOnRectangleIcon
-    // },
     {
       title: 'Edit',
       icon: PencilSquareIcon,
@@ -107,6 +144,43 @@ const DataGrid: React.FC<DataGridProps> = ({
 
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden">
+      {/* credit edit modal */}
+      <Modal
+        isModalOpen={showConfirmModal}
+        handleIsModalOpen={setShowConfirmModal}
+        type="warning"
+      >
+        <p className="font-semibold text-lg">{confirmationMsg}</p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowConfirmModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              switch (blockOpt) {
+                case 1:
+                  handleBlockUser(userId)
+                  break
+                case 2:
+                  handleUnBlockUser(userId)
+                  break
+                default:
+                  break
+              }
+              setShowConfirmModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
+      {/* credit edit modal */}
       <Modal
         isModalOpen={showCreditModal}
         handleIsModalOpen={setShowCreditModal}

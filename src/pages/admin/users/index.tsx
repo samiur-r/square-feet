@@ -167,6 +167,68 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
     }
   }
 
+  const handleBlockUser = async (id: number | undefined) => {
+    if (!id) return
+    const user = currentItemList?.find((item) => item.id === id)
+
+    if (!user) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    console.log(user)
+
+    if (user.is_blocked) {
+      updateToast(true, 'Error: User is already blocked', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/block-status',
+        data: { userId: id, status: true }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User blocked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User block attempt failed', true)
+    }
+  }
+
+  const handleUnBlockUser = async (id: number | undefined) => {
+    if (!id) return
+    const user = currentItemList?.find((item) => item.id === id)
+
+    if (!user) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (!user.is_blocked) {
+      updateToast(true, 'Error: User is not blocked', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/block-status',
+        data: { userId: id, status: false }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User unblocked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User unblock attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -219,6 +281,8 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
             users={currentItemList}
             updateUserCredit={updateUserCredit}
             handleVerifyUser={handleVerifyUser}
+            handleBlockUser={handleBlockUser}
+            handleUnBlockUser={handleUnBlockUser}
           />
         </div>
         <div className="mt-16">

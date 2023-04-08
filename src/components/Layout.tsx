@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
+import { io, Socket } from 'socket.io-client'
 
+import { useStore } from 'store'
+import config from 'config'
 import Nav from './Nav'
 import Footer from './Footer'
 import Toast from './Toast'
@@ -14,12 +17,22 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { pathname } = useRouter()
+  const { user } = useStore()
   const [showFooter, setShowFooter] = useState(false)
+  const socket: Socket = io(config.socketUrl)
 
   useEffect(() => {
     if (pathname && footerPages.includes(pathname)) setShowFooter(true)
     else setShowFooter(false)
   }, [pathname])
+
+  useEffect(() => {
+    socket.on('userBlocked', (data) => {
+      if (user && data && data.user === user.phone) {
+        Router.push('/logout')
+      }
+    })
+  }, [])
 
   return (
     <>

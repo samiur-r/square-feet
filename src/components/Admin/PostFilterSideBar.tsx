@@ -307,7 +307,7 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
               >
                 Creation Date:
               </label>
-              <div className="mt-2 flex flex-col gap-3 items-center">
+              <div className="mt-2  md:ml-5 flex flex-col gap-3 items-center">
                 <div className="flex gap-2 items-center">
                   <p className=" text-sm">From: </p>
                   <DatePicker
