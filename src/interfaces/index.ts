@@ -107,7 +107,7 @@ export interface AdminUser {
   id: number
   phone: string
   status: string
-  admin_comment: string
+  adminComment: string
   registered: string
   is_agent: boolean
   credits: {

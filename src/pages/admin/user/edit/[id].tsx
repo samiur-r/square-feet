@@ -17,6 +17,7 @@ interface AgentType {
 }
 
 interface UserType {
+  id: number
   phone: string
   admin_comment: string
   agent: AgentType[]
@@ -80,7 +81,7 @@ const EditUser: NextPage<AdminPostProps> = ({ user }) => {
       await ApiClient({
         method: 'PUT',
         url: '/admin/edit-user',
-        data: { phone, adminComment, password }
+        data: { id: user.id, phone, adminComment, password }
       })
       setIsLoading(false)
       updateToast(true, 'Success: User info updated successfully', false)

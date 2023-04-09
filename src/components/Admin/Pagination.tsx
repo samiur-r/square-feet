@@ -1,92 +1,153 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/20/solid'
-import React from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
-const Pagination = (props: {
-  currentPage: any
-  totalPages: any
-  onPageChange: any
+interface PaginationProps {
+  totalPages: number
+  pageNum: number
+  handlePageNumberChange: Dispatch<SetStateAction<number>>
+}
+
+const Pagination: React.FC<PaginationProps> = ({
+  totalPages,
+  handlePageNumberChange,
+  pageNum
 }) => {
-  const { currentPage, totalPages, onPageChange } = props
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageRange = 4 // number of pages to show before and after the current page
 
-  const handleClickPrev = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1)
+  useEffect(() => {
+    if (currentPage !== pageNum) handlePageNumberChange(currentPage)
+  }, [currentPage])
+
+  useEffect(() => {
+    setCurrentPage(pageNum)
+  }, [pageNum])
+
+  function handlePageChange(page: React.SetStateAction<number>) {
+    setCurrentPage(page)
+  }
+
+  function handlePrevClick() {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
+
+  function handleNextClick() {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
+  }
+
+  function handleFirstPageClick() {
+    setCurrentPage(1)
+  }
+
+  function handleLastPageClick() {
+    setCurrentPage(totalPages)
+  }
+
+  function renderPageNumbers() {
+    const pageNumbers = []
+
+    // Show ellipses at the beginning if the current page is more than the page range
+    if (currentPage > pageRange + 1) {
+      pageNumbers.push(<span key="left-ellipsis">...</span>)
     }
-  }
 
-  const handleClickNext = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1)
+    // Show page numbers within the range of the current page
+    // eslint-disable-next-line no-plusplus
+    for (let i = currentPage - pageRange; i <= currentPage + pageRange; i++) {
+      if (i > 0 && i <= totalPages) {
+        pageNumbers.push(
+          <span
+            key={i}
+            className={`inline-block mx-1 px-3 py-1 cursor-pointer hover:text-primary transition-all duration-200 ${
+              i === currentPage
+                ? 'bg-primary text-white border rounded-lg shadow-lg'
+                : 'text-gray-700'
+            }`}
+            onClick={() => handlePageChange(i)}
+          >
+            {i}
+          </span>
+        )
+      }
     }
-  }
 
-  const handleClickFirst = () => {
-    onPageChange(1)
-  }
+    // Show ellipses at the end if the current page is less than the total pages minus the page range
+    if (currentPage < totalPages - pageRange) {
+      pageNumbers.push(<span key="right-ellipsis">...</span>)
+    }
 
-  const handleClickLast = () => {
-    onPageChange(totalPages)
+    // Show the first and last pages
+    if (currentPage - pageRange > 1) {
+      pageNumbers.unshift(
+        <span
+          key="first"
+          className="inline-block mx-1 px-3 py-1 cursor-pointer hover:text-primary text-gray-700"
+          onClick={handleFirstPageClick}
+        >
+          1
+        </span>
+      )
+    }
+
+    if (currentPage + pageRange < totalPages) {
+      pageNumbers.push(
+        <span
+          key="last"
+          className="inline-block mx-1 px-3 py-1 text-gray-700 cursor-pointer hover:text-primary"
+          onClick={handleLastPageClick}
+        >
+          {totalPages}
+        </span>
+      )
+    }
+
+    return pageNumbers
   }
 
   return (
-    <div className="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-center">
-      <div className="text-sm mr-2">{`Page ${currentPage} of ${totalPages}`}</div>
-      <ul className="flex">
-        <li
-          className={`mx-1 ${
-            currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'
-          }`}
-          onClick={handleClickFirst}
-        >
-          <ChevronDoubleLeftIcon
-            className={`h-6 w-6 ${
-              currentPage === 1 ? 'text-gray-300' : 'text-primary'
-            }`}
-          />
-        </li>
-        <li
-          className={`mx-1 ${
-            currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'
-          }`}
-          onClick={handleClickPrev}
-        >
-          <ChevronLeftIcon
-            className={`h-6 w-6 ${
-              currentPage === 1 ? 'text-gray-300' : 'text-primary'
-            }`}
-          />
-        </li>
-        <li
-          className={`mx-1 ${
-            currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'
-          }`}
-          onClick={handleClickNext}
-        >
-          <ChevronRightIcon
-            className={`h-6 w-6 ${
-              currentPage === totalPages ? 'text-gray-300' : 'text-primary'
-            }`}
-          />
-        </li>
-        <li
-          className={`mx-1 ${
-            currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'
-          }`}
-          onClick={handleClickLast}
-        >
-          <ChevronDoubleRightIcon
-            className={`h-6 w-6 ${
-              currentPage === totalPages ? 'text-gray-300' : 'text-primary'
-            }`}
-          />
-        </li>
-      </ul>
+    <div className="flex justify-center items-center mt-4">
+      <button
+        type="button"
+        className="inline-block shadow-md cursor-pointer mx-1 p-1 rounded-full bg-custom-gray-2 hover:opacity-30 transition-opacity duration-500 focus:outline-none"
+        onClick={handleFirstPageClick}
+        disabled={currentPage === 1}
+      >
+        <ChevronDoubleLeftIcon className="h-7 w-7 text-primary" />
+      </button>
+      <button
+        type="button"
+        className="inline-block shadow-md cursor-pointer mx-1 p-1 rounded-full bg-custom-gray-2 hover:opacity-30 transition-opacity duration-500 focus:outline-none"
+        onClick={handlePrevClick}
+        disabled={currentPage === 1}
+      >
+        <ChevronLeftIcon className="h-7 w-7 text-primary" />
+      </button>
+
+      <div className="bg-custom-gray-2 p-1 rounded-lg mx-2 shadow-md">
+        {renderPageNumbers()}
+      </div>
+
+      <button
+        type="button"
+        className="inline-block shadow-md cursor-pointer mx-1 p-1 rounded-full bg-custom-gray-2 hover:opacity-30 transition-opacity duration-500 focus:outline-none"
+        onClick={handleNextClick}
+        disabled={currentPage === totalPages}
+      >
+        <ChevronRightIcon className="h-7 w-7 text-primary" />
+      </button>
+      <button
+        type="button"
+        className="inline-block shadow-md cursor-pointer mx-1 p-1 rounded-full bg-custom-gray-2 hover:opacity-30 transition-opacity duration-500 focus:outline-none"
+        onClick={handleLastPageClick}
+        disabled={currentPage === totalPages}
+      >
+        <ChevronDoubleRightIcon className="h-7 w-7 text-primary" />
+      </button>
     </div>
   )
 }

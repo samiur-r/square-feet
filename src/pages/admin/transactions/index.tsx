@@ -1,5 +1,5 @@
 import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
-import PaginationNew from 'components/Admin/PaginationNew'
+import Pagination from 'components/Admin/Pagination'
 import TransactionDataTable from 'components/Admin/TransactionDataTable'
 import TransactionFilterSideBar from 'components/Admin/TransactionFilterSideBar'
 import { TransactionType } from 'interfaces'
@@ -21,12 +21,10 @@ const Transactions: NextPage<TransactionProps> = ({
   totalPages
 }) => {
   const { updateToast } = useStore()
-  const [showFilterSideBar, setShowFilterSideBar] = useState(false)
   const [transactionList, setTransactionList] = useState<any[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-
   const [pageNumber, setPageNumber] = useState(1)
   const [currentItemList, setCurrentItemList] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [count, setCount] = useState(0)
 
   const [statusToFilter, setStatusToFilter] = useState<string>('-')
@@ -70,14 +68,11 @@ const Transactions: NextPage<TransactionProps> = ({
   }
 
   useEffect(() => {
-    if (pageNumber && pageNumber !== 1) {
-      const foundItem = transactionList.find(
-        (transaction) => transaction.page === pageNumber
-      )
-      if (foundItem) setCurrentItemList(foundItem.transactions)
-      else fetchItems()
-    }
-    if (pageNumber && pageNumber === 1) setCurrentItemList(transactions)
+    const foundItem = transactionList.find(
+      (transaction) => transaction.page === pageNumber
+    )
+    if (foundItem) setCurrentItemList(foundItem.transactions)
+    else fetchItems()
   }, [pageNumber])
 
   const reset = () => {
@@ -90,6 +85,7 @@ const Transactions: NextPage<TransactionProps> = ({
   const handleFilter = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setIsLoading(true)
+    setTransactionList([])
 
     try {
       const { data } = await ApiClient({
@@ -108,9 +104,9 @@ const Transactions: NextPage<TransactionProps> = ({
         }
       })
       setIsLoading(false)
-      setTransactionList([])
       setTransactionList([{ page: 1, transactions: data.transactions }])
       setCurrentItemList(data.transactions)
+      setPageNumber(1)
       setCount(data.totalPages)
     } catch (error) {
       setIsLoading(false)
@@ -125,16 +121,9 @@ const Transactions: NextPage<TransactionProps> = ({
             Transactions
           </h1>
         </div>
-        <div className="min-w-0 flex-1 flex justify-end">
-          <AdjustmentsVerticalIcon
-            className="h6 w-6 text-primary cursor-pointer"
-            onClick={() => setShowFilterSideBar(!showFilterSideBar)}
-          />
-        </div>
       </div>
       <div className="container max-w-8xl p-5">
         <TransactionFilterSideBar
-          show={showFilterSideBar}
           statusToFilter={statusToFilter}
           typeToFilter={typeToFilter}
           fromCreationDateToFilter={fromCreationDateToFilter}
@@ -143,7 +132,6 @@ const Transactions: NextPage<TransactionProps> = ({
           handleSetTypeToFilter={setTypeToFilter}
           handleSetFromCreationDateToFilter={setFromCreationDateToFilter}
           handleSetToCreationDateToFilter={setToCreationDateToFilter}
-          handleSetShowFilterSideBar={setShowFilterSideBar}
           reset={reset}
           handleFilter={handleFilter}
         />
@@ -172,7 +160,8 @@ const Transactions: NextPage<TransactionProps> = ({
           <TransactionDataTable transactions={currentItemList} />
         </div>
         <div className="mt-16">
-          <PaginationNew
+          <Pagination
+            pageNum={pageNumber}
             totalPages={count}
             handlePageNumberChange={setPageNumber}
           />

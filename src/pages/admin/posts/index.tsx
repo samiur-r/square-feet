@@ -1,4 +1,4 @@
-import PaginationNew from 'components/Admin/PaginationNew'
+import Pagination from 'components/Admin/Pagination'
 import PostDataTable from 'components/Admin/PostDataTable'
 import PostFilterSideBar from 'components/Admin/PostFilterSideBar'
 import { PostsWithUser } from 'interfaces'
@@ -17,7 +17,7 @@ interface AdminPostProps {
 
 const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
   const { updateToast } = useStore()
-  const [postList, setPostList] = useState<any[]>([])
+  const [postList, setPostList] = useState<any[]>(posts)
   const [isLoading, setIsLoading] = useState(true)
 
   const [pageNumber, setPageNumber] = useState(1)
@@ -73,12 +73,9 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
   }
 
   useEffect(() => {
-    if (pageNumber && pageNumber !== 1) {
-      const foundItem = postList.find((post) => post.page === pageNumber)
-      if (foundItem) setCurrentItemList(foundItem.posts)
-      else fetchItems()
-    }
-    if (pageNumber && pageNumber === 1) setCurrentItemList(posts)
+    const foundItem = postList.find((post) => post.page === pageNumber)
+    if (foundItem) setCurrentItemList(foundItem.posts)
+    else fetchItems()
   }, [pageNumber])
 
   const reset = () => {
@@ -98,6 +95,7 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
   const handleFilter = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setIsLoading(true)
+    setPostList([])
 
     try {
       const { data } = await ApiClient({
@@ -123,9 +121,9 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
         }
       })
       setIsLoading(false)
-      setPostList([])
       setPostList([{ page: 1, posts: data.posts }])
       setCurrentItemList(data.posts)
+      setPageNumber(1)
       setCount(data.totalPages)
     } catch (error) {
       setIsLoading(false)
@@ -244,7 +242,8 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
           />
         </div>
         <div className="mt-16">
-          <PaginationNew
+          <Pagination
+            pageNum={pageNumber}
             totalPages={count}
             handlePageNumberChange={setPageNumber}
           />

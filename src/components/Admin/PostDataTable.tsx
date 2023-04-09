@@ -84,7 +84,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   ]
 
   return (
-    <div className="overflow-x-scroll xl:overflow-x-hidden">
+    <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
       <Modal
         type="warning"
         isModalOpen={showConfirmModal}

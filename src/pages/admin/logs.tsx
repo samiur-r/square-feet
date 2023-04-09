@@ -1,5 +1,5 @@
 import LogDataTable from 'components/Admin/LogDataTable'
-import PaginationNew from 'components/Admin/PaginationNew'
+import Pagination from 'components/Admin/Pagination'
 import { LogType } from 'interfaces'
 import { GetServerSideProps, NextPage } from 'next'
 import React, { useEffect, useState } from 'react'
@@ -94,7 +94,7 @@ const Log: NextPage<{
           <LogDataTable logs={currentItemList} />
         </div>
         <div className="mt-16">
-          <PaginationNew
+          <Pagination
             totalPages={count}
             handlePageNumberChange={setPageNumber}
           />

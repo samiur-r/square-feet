@@ -1,4 +1,4 @@
-import PaginationNew from 'components/Admin/PaginationNew'
+import Pagination from 'components/Admin/Pagination'
 import UserDataTable from 'components/Admin/UserDataTable'
 import UserFilterBar from 'components/Admin/UserFilterBar'
 import { AdminUser } from 'interfaces'
@@ -16,7 +16,7 @@ interface AdminPostProps {
 
 const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
   const { updateToast } = useStore()
-  const [userList, setUserList] = useState<any[]>([])
+  const [userList, setUserList] = useState<any[]>(users)
   const [isLoading, setIsLoading] = useState(true)
   const [pageNumber, setPageNumber] = useState(1)
   const [currentItemList, setCurrentItemList] = useState<any[]>([])
@@ -59,12 +59,9 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
   }
 
   useEffect(() => {
-    if (pageNumber && pageNumber !== 1) {
-      const foundItem = userList.find((user) => user.page === pageNumber)
-      if (foundItem) setCurrentItemList(foundItem.users)
-      else fetchItems()
-    }
-    if (pageNumber && pageNumber === 1) setCurrentItemList(users)
+    const foundItem = userList.find((user) => user.page === pageNumber)
+    if (foundItem) setCurrentItemList(foundItem.users)
+    else fetchItems()
   }, [pageNumber])
 
   const reset = () => {
@@ -79,6 +76,7 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
   const handleFilter = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     setIsLoading(true)
+    setUserList([])
 
     try {
       const { data } = await ApiClient({
@@ -98,9 +96,9 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
         }
       })
       setIsLoading(false)
-      setUserList([])
       setUserList([{ page: 1, users: data.users }])
       setCurrentItemList(data.users)
+      setPageNumber(1)
       setCount(data.totalPages)
     } catch (error) {
       setIsLoading(false)
@@ -131,7 +129,7 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
       })
       setIsLoading(false)
       updateToast(true, 'Success: Credit updated successfully', false)
-      Router.push('/admin/users')
+      Router.reload()
     } catch (error) {
       setIsLoading(false)
       updateToast(true, 'Success: Credit update attempt failed', true)
@@ -175,8 +173,6 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
       updateToast(true, 'Error: Something went wrong', true)
       return
     }
-
-    console.log(user)
 
     if (user.is_blocked) {
       updateToast(true, 'Error: User is already blocked', true)
@@ -286,9 +282,10 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
           />
         </div>
         <div className="mt-16">
-          <PaginationNew
+          <Pagination
             totalPages={count}
             handlePageNumberChange={setPageNumber}
+            pageNum={pageNumber}
           />
         </div>
       </div>

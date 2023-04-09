@@ -143,7 +143,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   ]
 
   return (
-    <div className="overflow-x-scroll xl:overflow-x-hidden">
+    <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
       {/* credit edit modal */}
       <Modal
         isModalOpen={showConfirmModal}
@@ -259,7 +259,7 @@ const DataGrid: React.FC<DataGridProps> = ({
                 <td className="py-2.5 px-3 border">{item.id}</td>
                 <td className="py-2.5 px-3 border">{item.phone}</td>
                 <td className="py-2.5 px-3 border">
-                  {item.admin_comment ?? '-'}
+                  {item.adminComment ?? '-'}
                 </td>
                 <td className="py-2.5 px-3 border">
                   {item.is_agent ? 'agent' : 'user'}

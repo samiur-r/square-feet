@@ -13,7 +13,7 @@ const DataGrid: React.FC<DataGridProps> = ({ logs }) => {
   }, [logs])
 
   return (
-    <div className="overflow-x-scroll xl:overflow-x-hidden">
+    <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
       <table className="min-w-full shadow-lg">
         <thead className="bg-primary text-custom-gray-2 text-sm">
           <tr>
