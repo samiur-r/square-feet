@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { Cog8ToothIcon } from '@heroicons/react/24/solid'
 
@@ -13,9 +13,29 @@ interface DropDownProps {
   postId?: number
   showStick?: boolean
   showDelete?: boolean
+  showRepost?: boolean
 }
 
-const DropDown: React.FC<DropDownProps> = ({ items, postId }) => {
+const DropDown: React.FC<DropDownProps> = ({
+  items,
+  postId,
+  showStick,
+  showDelete,
+  showRepost
+}) => {
+  const [itemList, setItemList] = useState<any>([])
+
+  useEffect(() => {
+    if (items && items.length) {
+      const parsedItems = items
+        .filter((item) => showDelete || item.title !== 'Delete')
+        .filter((item) => showStick || item.title !== 'Stick')
+        .filter((item) => showRepost || item.title !== 'Re post')
+
+      setItemList(parsedItems)
+    }
+  }, [items])
+
   return (
     <Menu as="div" className="inline-block text-left ml-2">
       <div>
@@ -38,9 +58,9 @@ const DropDown: React.FC<DropDownProps> = ({ items, postId }) => {
       >
         <Menu.Items className="absolute right-10 md:right-20 z-30 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {items &&
-              items.length &&
-              items.map((item: ActionType) => (
+            {itemList &&
+              itemList.length &&
+              itemList.map((item: ActionType) => (
                 <Menu.Item key={Math.random()}>
                   {({ active }) => (
                     <button

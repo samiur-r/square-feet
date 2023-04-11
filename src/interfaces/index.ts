@@ -82,6 +82,7 @@ export interface PostsWithUser extends IPost {
   expired_date?: string
   reposted_date?: string
   sticky_date?: string
+  post_type?: string
 }
 
 export interface LogType {

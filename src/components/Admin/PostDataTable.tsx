@@ -3,6 +3,8 @@ import {
   ClipboardDocumentCheckIcon
 } from '@heroicons/react/20/solid'
 import {
+  ArchiveBoxXMarkIcon,
+  ArrowPathIcon,
   CommandLineIcon,
   PencilSquareIcon,
   TrashIcon
@@ -17,18 +19,30 @@ interface DataGridProps {
   posts: PostsWithUser[]
   handleStickPost: (postId: number) => void
   handleDeletePost: (postId: number | undefined) => void
+  handlePermanentDeletePost: (postId: number | undefined) => void
+  handleRePost: (postId: number | undefined) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
   posts,
   handleStickPost,
-  handleDeletePost
+  handleDeletePost,
+  handlePermanentDeletePost,
+  handleRePost
 }) => {
   const [data, setData] = useState<PostsWithUser[]>([])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [postIdToDelete, setPostIdToDelete] = useState<number | undefined>(
     undefined
   )
+  const [postIdToPermanentDelete, setPostIdToPermanentDelete] = useState<
+    number | undefined
+  >(undefined)
+  const [postIdToRePost, setPostIdToRePost] = useState<number | undefined>(
+    undefined
+  )
+  const [modalMsg, setModalMsg] = useState('')
+  const [opt, setOpt] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     setData(posts)
@@ -43,7 +57,23 @@ const DataGrid: React.FC<DataGridProps> = ({
   }
 
   const handleShowDeleteConfirmModal = (postId: number) => {
+    setOpt('delete')
+    setModalMsg('Are you sure you want to delete the post?')
     setPostIdToDelete(postId)
+    setShowConfirmModal(true)
+  }
+
+  const handleShowPermanentDeleteConfirmModal = (postId: number) => {
+    setOpt('permanent_delete')
+    setModalMsg('Are you sure you want to permanently delete the post?')
+    setPostIdToPermanentDelete(postId)
+    setShowConfirmModal(true)
+  }
+
+  const handleShowRepostConfirmModal = (postId: number) => {
+    setOpt('repost')
+    setModalMsg('Are you sure you want to repost the post?')
+    setPostIdToRePost(postId)
     setShowConfirmModal(true)
   }
 
@@ -52,8 +82,31 @@ const DataGrid: React.FC<DataGridProps> = ({
   }
 
   useEffect(() => {
-    if (!showConfirmModal) setPostIdToDelete(undefined)
+    if (!showConfirmModal) {
+      setModalMsg('')
+      setPostIdToPermanentDelete(undefined)
+      setPostIdToDelete(undefined)
+      setPostIdToRePost(undefined)
+      setOpt(undefined)
+    }
   }, [showConfirmModal])
+
+  const handleOpt = () => {
+    setShowConfirmModal(false)
+    switch (opt) {
+      case 'delete':
+        handleDeletePost(postIdToDelete)
+        break
+      case 'permanent_delete':
+        handlePermanentDeletePost(postIdToPermanentDelete)
+        break
+      case 'repost':
+        handleRePost(postIdToRePost)
+        break
+      default:
+        break
+    }
+  }
 
   const dropDownItems = [
     {
@@ -77,9 +130,19 @@ const DataGrid: React.FC<DataGridProps> = ({
       handleClick: handleLogPost
     },
     {
-      title: 'Delete Post',
+      title: 'Re post',
+      icon: ArrowPathIcon,
+      handleClick: handleShowRepostConfirmModal
+    },
+    {
+      title: 'Delete',
       icon: TrashIcon,
       handleClick: handleShowDeleteConfirmModal
+    },
+    {
+      title: 'Delete Permanently',
+      icon: ArchiveBoxXMarkIcon,
+      handleClick: handleShowPermanentDeleteConfirmModal
     }
   ]
 
@@ -90,9 +153,7 @@ const DataGrid: React.FC<DataGridProps> = ({
         isModalOpen={showConfirmModal}
         handleIsModalOpen={setShowConfirmModal}
       >
-        <p className="font-semibold text-lg">
-          Are you sure you want to delete the post?
-        </p>
+        <p className="font-semibold text-lg">{modalMsg}</p>
         <div className="flex justify-end mt-10 gap-3">
           <button
             type="button"
@@ -104,10 +165,7 @@ const DataGrid: React.FC<DataGridProps> = ({
           <button
             type="button"
             className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
-            onClick={() => {
-              handleDeletePost(postIdToDelete)
-              setShowConfirmModal(false)
-            }}
+            onClick={() => handleOpt()}
           >
             Confirm
           </button>
@@ -157,7 +215,15 @@ const DataGrid: React.FC<DataGridProps> = ({
               <td className="py-2.5 px-3 border">{item.public_date}</td>
               <td className="py-2.5 px-3 border">{item.expired_date}</td>
               <td className="py-2.5 px-3 border">
-                <DropDown items={dropDownItems} postId={item.id} />
+                <DropDown
+                  items={dropDownItems}
+                  postId={item.id}
+                  showStick={
+                    item.is_sticky === false && item.post_type === 'active'
+                  }
+                  showDelete={item.post_type !== 'deleted'}
+                  showRepost={item.post_type !== 'active'}
+                />
               </td>
             </tr>
           ))}

@@ -177,6 +177,42 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
     }
   }
 
+  const handlePermanentDeletePost = async (postId: number | undefined) => {
+    if (!postId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/admin/delete-post-permanent',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post deleted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post delete attempt failed', true)
+    }
+  }
+
+  const handleRePost = async (postId: number | undefined) => {
+    if (!postId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/repost',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post reposted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post reposted attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center">
@@ -239,6 +275,8 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
             posts={currentItemList}
             handleStickPost={handleStickPost}
             handleDeletePost={handleDeletePost}
+            handlePermanentDeletePost={handlePermanentDeletePost}
+            handleRePost={handleRePost}
           />
         </div>
         <div className="mt-16">
