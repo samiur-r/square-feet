@@ -146,11 +146,11 @@ const DataGrid: React.FC<DataGridProps> = ({
                 {item.price ? item.price : '-'}
               </td>
               <td className="py-2.5 px-3 border">
-                {item.is_sticky ? 'true' : 'false'}
+                {item.is_sticky ? item.sticky_date : '-'}
               </td>
               <td className="py-2.5 px-3 border">{item.user_phone}</td>
               <td className="py-2.5 px-3 border">
-                {item.is_reposted ? 'true' : 'false'}
+                {item.is_reposted ? item.reposted_date : '-'}
               </td>
               <td className="py-2.5 px-3 border">{item.repost_count}</td>
               <td className="py-2.5 px-3 border">{item.posted_date}</td>
