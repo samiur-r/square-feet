@@ -99,6 +99,12 @@ const DataGrid: React.FC<DataGridProps> = ({
     setShowConfirmModal(true)
   }
 
+  const getUserStatus = (user: AdminUser) => {
+    if (user.is_blocked) return 'blocked'
+    if (user.is_agent) return 'agent'
+    return 'user'
+  }
+
   const dropDownItems = [
     {
       title: 'View Posts',
@@ -261,9 +267,7 @@ const DataGrid: React.FC<DataGridProps> = ({
                 <td className="py-2.5 px-3 border">
                   {item.adminComment ?? '-'}
                 </td>
-                <td className="py-2.5 px-3 border">
-                  {item.is_agent ? 'agent' : 'user'}
-                </td>
+                <td className="py-2.5 px-3 border">{getUserStatus(item)}</td>
                 <td className="py-2.5 px-3 border">
                   {item.post.active + item.post.archived + item.post.deleted}
                 </td>

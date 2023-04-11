@@ -83,6 +83,7 @@ export interface PostsWithUser extends IPost {
   reposted_date?: string
   sticky_date?: string
   post_type?: string
+  deleted_date?: string
 }
 
 export interface LogType {
@@ -112,6 +113,7 @@ export interface AdminUser {
   status: string
   adminComment: string
   registered: string
+  is_blocked: boolean
   is_agent: boolean
   credits: {
     id: number
