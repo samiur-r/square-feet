@@ -45,6 +45,11 @@ const DataGrid: React.FC<DataGridProps> = ({
   const [confirmationMsg, setConfirmationMsg] = useState('')
   const [blockOpt, setBlockOpt] = useState<undefined | number>(undefined)
 
+  const [showAdminCommentModal, setShowAdminCommentModal] = useState(false)
+  const [adminComment, setAdminComment] = useState<string | undefined>(
+    undefined
+  )
+
   useEffect(() => {
     setData(users)
   }, [users])
@@ -99,6 +104,22 @@ const DataGrid: React.FC<DataGridProps> = ({
     setShowConfirmModal(true)
   }
 
+  useEffect(() => {
+    if (!showAdminCommentModal) {
+      setUserId(undefined)
+      setAdminComment(undefined)
+    }
+  }, [showAdminCommentModal])
+
+  const handleShowConfirmModalForAdminComment = (
+    id: number,
+    admin_comment: string | undefined
+  ) => {
+    setUserId(id)
+    setAdminComment(admin_comment)
+    setShowAdminCommentModal(true)
+  }
+
   const getUserStatus = (user: AdminUser) => {
     if (user.is_blocked) return 'blocked'
     if (user.is_agent) return 'agent'
@@ -150,7 +171,42 @@ const DataGrid: React.FC<DataGridProps> = ({
 
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
-      {/* credit edit modal */}
+      {/* admin comment modal */}
+      <Modal
+        isModalOpen={showAdminCommentModal}
+        handleIsModalOpen={setShowAdminCommentModal}
+        type="warning"
+      >
+        <p className="font-semibold text-lg">Admin Comment</p>
+        <input
+          type="text"
+          name="adminComment"
+          value={adminComment}
+          className="mt-5 p-2 outline-none border"
+          onChange={(e) => setAdminComment(e.target.value)}
+        />
+
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowAdminCommentModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              console.log(userId, adminComment)
+              setShowAdminCommentModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
+      {/* block/unblock confirmation modal */}
       <Modal
         isModalOpen={showConfirmModal}
         handleIsModalOpen={setShowConfirmModal}
@@ -265,7 +321,17 @@ const DataGrid: React.FC<DataGridProps> = ({
                 <td className="py-2.5 px-3 border">{item.id}</td>
                 <td className="py-2.5 px-3 border">{item.phone}</td>
                 <td className="py-2.5 px-3 border">
-                  {item.adminComment ?? '-'}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleShowConfirmModalForAdminComment(
+                        item.id,
+                        item.adminComment
+                      )
+                    }
+                  >
+                    {item.adminComment ?? '-'}
+                  </button>
                 </td>
                 <td className="py-2.5 px-3 border">{getUserStatus(item)}</td>
                 <td className="py-2.5 px-3 border">
