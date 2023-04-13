@@ -225,6 +225,31 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
     }
   }
 
+  const handleUpdateAdminComment = async (
+    userId: number | undefined,
+    adminComment: string | undefined
+  ) => {
+    if (!userId) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/admin-comment',
+        data: { userId, adminComment }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User comment updated successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User comment update attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -279,6 +304,7 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
             handleVerifyUser={handleVerifyUser}
             handleBlockUser={handleBlockUser}
             handleUnBlockUser={handleUnBlockUser}
+            handleUpdateAdminComment={handleUpdateAdminComment}
           />
         </div>
         <div className="mt-16">

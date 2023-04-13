@@ -24,6 +24,10 @@ interface DataGridProps {
   handleVerifyUser?: (id: number) => void
   handleBlockUser: (id: number | undefined) => void
   handleUnBlockUser: (id: number | undefined) => void
+  handleUpdateAdminComment: (
+    userId: number | undefined,
+    adminComment: string | undefined
+  ) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
@@ -31,7 +35,8 @@ const DataGrid: React.FC<DataGridProps> = ({
   updateUserCredit,
   handleVerifyUser,
   handleBlockUser,
-  handleUnBlockUser
+  handleUnBlockUser,
+  handleUpdateAdminComment
 }) => {
   const [data, setData] = useState<AdminUser[]>([])
   const [creditAmount, setCreditAmount] = useState<number | undefined>(
@@ -198,7 +203,7 @@ const DataGrid: React.FC<DataGridProps> = ({
             type="button"
             className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
             onClick={() => {
-              console.log(userId, adminComment)
+              handleUpdateAdminComment(userId, adminComment)
               setShowAdminCommentModal(false)
             }}
           >
