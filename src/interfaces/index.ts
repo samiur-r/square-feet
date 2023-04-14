@@ -90,6 +90,8 @@ export interface PostsWithUser extends IPost {
   post_type?: string
   deletedDate?: string
   deletedTime?: string
+  unStickTime?: string
+  unStickDate?: string
 }
 
 export interface LogType {

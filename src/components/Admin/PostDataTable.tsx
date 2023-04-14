@@ -181,10 +181,11 @@ const DataGrid: React.FC<DataGridProps> = ({
             <th className="py-3 px-3 text-left">Type</th>
             <th className="py-3 px-3 text-left">City</th>
             <th className="py-3 px-3 text-left">Price</th>
-            <th className="py-3 px-3 text-left">Sticky</th>
             <th className="py-3 px-3 text-left">User</th>
-            <th className="py-3 px-3 text-left">Reposted</th>
             <th className="py-3 px-3 text-left">Repost Count</th>
+            <th className="py-3 px-3 text-left">Reposted</th>
+            <th className="py-3 px-3 text-left">Sticky</th>
+            <th className="py-3 px-3 text-left">Unstick</th>
             <th className="py-3 px-3 text-left">Posted</th>
             <th className="py-3 px-3 text-left">Public Date</th>
             <th className="py-3 px-3 text-left">Deleted At</th>
@@ -205,16 +206,8 @@ const DataGrid: React.FC<DataGridProps> = ({
               <td className="py-2.5 px-3 border">
                 {item.price ? item.price : '-'}
               </td>
-              <td className="py-2.5 px-3 border">
-                {item.is_sticky ? (
-                  <Tooltip text={item.stickyTime}>
-                    <p>{item.stickyDate}</p>
-                  </Tooltip>
-                ) : (
-                  '-'
-                )}
-              </td>
               <td className="py-2.5 px-3 border">{item.user_phone}</td>
+              <td className="py-2.5 px-3 border">{item.repost_count}</td>
               <td className="py-2.5 px-3 border">
                 {item.is_reposted ? (
                   <Tooltip text={item.repostedTime}>
@@ -224,7 +217,24 @@ const DataGrid: React.FC<DataGridProps> = ({
                   '-'
                 )}
               </td>
-              <td className="py-2.5 px-3 border">{item.repost_count}</td>
+              <td className="py-2.5 px-3 border">
+                {item.is_sticky ? (
+                  <Tooltip text={item.stickyTime}>
+                    <p>{item.stickyDate}</p>
+                  </Tooltip>
+                ) : (
+                  '-'
+                )}
+              </td>
+              <td className="py-2.5 px-3 border">
+                {item.is_sticky ? (
+                  <Tooltip text={item.unStickTime}>
+                    <p>{item.unStickDate}</p>
+                  </Tooltip>
+                ) : (
+                  '-'
+                )}
+              </td>
               <td className="py-2.5 px-3 border">
                 <Tooltip text={item.postedTime}>
                   <p>{item.postedDate}</p>

@@ -200,7 +200,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pt-5 lg:pb-4">
+        <div className="hidden shadow-lg lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col lg:border-r lg:border-gray-200 lg:bg-gray-100 lg:pt-5 lg:pb-4">
           <div className="flex flex-shrink-0 items-center px-6">
             <Link href="/">
               <a className="block relative w-40 h-12">

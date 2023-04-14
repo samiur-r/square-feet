@@ -142,6 +142,127 @@ const User: NextPage<AdminPostProps> = ({
     }
   }
 
+  const handleBlockUser = async (id: number | undefined) => {
+    if (!id) return
+    const userItem = userList?.find((item) => item.id === id)
+
+    if (!userItem) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (userItem.is_blocked) {
+      updateToast(true, 'Error: User is already blocked', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/block-status',
+        data: { userId: id, status: true }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User blocked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User block attempt failed', true)
+    }
+  }
+
+  const handleUnBlockUser = async (id: number | undefined) => {
+    if (!id) return
+    const userItem = userList?.find((item) => item.id === id)
+
+    if (!userItem) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (!userItem.is_blocked) {
+      updateToast(true, 'Error: User is not blocked', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/block-status',
+        data: { userId: id, status: false }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User unblocked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User unblock attempt failed', true)
+    }
+  }
+
+  const handleUpdateAdminComment = async (
+    userId: number | undefined,
+    adminComment: string | undefined
+  ) => {
+    if (!userId) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/admin-comment',
+        data: { userId, adminComment }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User comment updated successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User comment update attempt failed', true)
+    }
+  }
+
+  const handlePermanentDeletePost = async (postId: number | undefined) => {
+    if (!postId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/admin/delete-post-permanent',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post deleted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post delete attempt failed', true)
+    }
+  }
+
+  const handleRePost = async (postId: number | undefined) => {
+    if (!postId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/repost',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post reposted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post reposted attempt failed', true)
+    }
+  }
+
   return (
     <div className="mb-10">
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -149,19 +270,6 @@ const User: NextPage<AdminPostProps> = ({
           <h1 className="text-lg font-medium leading-6 text-gray-900 sm:truncate">
             User: {userList && userList.length ? userList[0].phone : ''}
           </h1>
-        </div>
-        <div className="min-w-0 flex-1 flex justify-end">
-          <Link
-            href={
-              userList && userList.length
-                ? `/admin/user/edit/${userList[0].id}`
-                : '#'
-            }
-          >
-            <a>
-              <PencilSquareIcon className="h6 w-6 text-primary cursor-pointer" />
-            </a>
-          </Link>
         </div>
       </div>
       <div className="container max-w-8xl p-5">
@@ -188,7 +296,13 @@ const User: NextPage<AdminPostProps> = ({
         )}
         <div className="mt-16">
           <div className="mb-10 text-xl font-bold text-center">User Info</div>
-          <UserDataTable users={userList} updateUserCredit={updateUserCredit} />
+          <UserDataTable
+            users={userList}
+            updateUserCredit={updateUserCredit}
+            handleBlockUser={handleBlockUser}
+            handleUnBlockUser={handleUnBlockUser}
+            handleUpdateAdminComment={handleUpdateAdminComment}
+          />
         </div>
       </div>
       <div className="mt-16">
@@ -197,6 +311,8 @@ const User: NextPage<AdminPostProps> = ({
           posts={activePostList}
           handleStickPost={handleStickPost}
           handleDeletePost={handleDeleteActivePost}
+          handleRePost={handleRePost}
+          handlePermanentDeletePost={handlePermanentDeletePost}
         />
       </div>
       <div className="mt-16">
@@ -209,6 +325,8 @@ const User: NextPage<AdminPostProps> = ({
             updateToast(true, 'Error: You can not stick a archived post', true)
           }
           handleDeletePost={handleDeleteArchivedPost}
+          handleRePost={handleRePost}
+          handlePermanentDeletePost={handlePermanentDeletePost}
         />
       </div>
 
@@ -222,6 +340,8 @@ const User: NextPage<AdminPostProps> = ({
           handleDeletePost={() =>
             updateToast(true, 'Error: The post is already deleted', true)
           }
+          handleRePost={handleRePost}
+          handlePermanentDeletePost={handlePermanentDeletePost}
         />
       </div>
     </div>
