@@ -28,7 +28,7 @@ export interface IAgent {
   twitter?: string
   facebook?: string
   logo_url?: string
-  expiry_date: Date
+  subscription_ends_date: Date
   created_at: Date
   updated_at: Date
   phone?: string
@@ -77,13 +77,19 @@ export interface BreadcrumbType {
 
 export interface PostsWithUser extends IPost {
   user_phone?: string
-  posted_date?: string
-  public_date?: string
-  expired_date?: string
-  reposted_date?: string
-  sticky_date?: string
+  postedDate?: string
+  postedTime?: string
+  publicDate?: string
+  publicTime?: string
+  expiredDate?: string
+  expiredTime?: string
+  repostedDate?: string
+  repostedTime?: string
+  stickyDate?: string
+  stickyTime?: string
   post_type?: string
-  deleted_date?: string
+  deletedDate?: string
+  deletedTime?: string
 }
 
 export interface LogType {
@@ -112,7 +118,8 @@ export interface AdminUser {
   phone: string
   status: string
   adminComment: string
-  registered: string
+  registeredTime: string
+  registeredDate: string
   is_blocked: boolean
   is_agent: boolean
   credits: {
@@ -122,7 +129,10 @@ export interface AdminUser {
     sticky: number
     agent: number
   }
-  subscription: string
+  subscriptionStartTime: string
+  subscriptionStartDate: string
+  subscriptionEndsTime: string
+  subscriptionEndsDate: string
   payment: {
     regular: number
     sticky: number

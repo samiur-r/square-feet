@@ -12,6 +12,7 @@ import {
   BoltIcon
 } from '@heroicons/react/20/solid'
 import Router from 'next/router'
+import Tooltip from 'components/Tooltip'
 import DropDown from './Dropdown'
 
 interface DataGridProps {
@@ -400,8 +401,28 @@ const DataGrid: React.FC<DataGridProps> = ({
                   </button>
                 </td>
                 <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
-                <td className="py-2.5 px-3 border">{item.subscription}</td>
-                <td className="py-2.5 px-3 border">{item.registered}</td>
+                <td className="py-2.5 px-3 border">
+                  {item.is_agent ? (
+                    <span>
+                      <Tooltip
+                        text={`${item.subscriptionStartTime} - ${item.subscriptionEndsTime}`}
+                      >
+                        <p>
+                          {item.subscriptionStartDate}
+                          {' - '}
+                          {item.subscriptionEndsDate}
+                        </p>
+                      </Tooltip>
+                    </span>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Tooltip text={item.registeredTime}>
+                    <p>{item.registeredDate}</p>
+                  </Tooltip>
+                </td>
                 <td className="py-2.5 px-3 border">
                   <DropDown items={dropDownItems} postId={item.id} />
                 </td>

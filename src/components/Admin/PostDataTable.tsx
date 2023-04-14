@@ -13,6 +13,7 @@ import { PostsWithUser } from 'interfaces'
 import Router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Modal from 'components/Modal'
+import Tooltip from 'components/Tooltip'
 import DropDown from './Dropdown'
 
 interface DataGridProps {
@@ -205,17 +206,49 @@ const DataGrid: React.FC<DataGridProps> = ({
                 {item.price ? item.price : '-'}
               </td>
               <td className="py-2.5 px-3 border">
-                {item.is_sticky ? item.sticky_date : '-'}
+                {item.is_sticky ? (
+                  <Tooltip text={item.stickyTime}>
+                    <p>{item.stickyDate}</p>
+                  </Tooltip>
+                ) : (
+                  '-'
+                )}
               </td>
               <td className="py-2.5 px-3 border">{item.user_phone}</td>
               <td className="py-2.5 px-3 border">
-                {item.is_reposted ? item.reposted_date : '-'}
+                {item.is_reposted ? (
+                  <Tooltip text={item.repostedTime}>
+                    <p>{item.repostedDate}</p>
+                  </Tooltip>
+                ) : (
+                  '-'
+                )}
               </td>
               <td className="py-2.5 px-3 border">{item.repost_count}</td>
-              <td className="py-2.5 px-3 border">{item.posted_date}</td>
-              <td className="py-2.5 px-3 border">{item.public_date}</td>
-              <td className="py-2.5 px-3 border">{item.deleted_date ?? '-'}</td>
-              <td className="py-2.5 px-3 border">{item.expired_date}</td>
+              <td className="py-2.5 px-3 border">
+                <Tooltip text={item.postedTime}>
+                  <p>{item.postedDate}</p>
+                </Tooltip>
+              </td>
+              <td className="py-2.5 px-3 border">
+                <Tooltip text={item.publicTime}>
+                  <p>{item.publicDate}</p>
+                </Tooltip>
+              </td>
+              <td className="py-2.5 px-3 border">
+                {item.deletedDate ? (
+                  <Tooltip text={item.deletedTime}>
+                    <p>{item.deletedDate}</p>
+                  </Tooltip>
+                ) : (
+                  '-'
+                )}
+              </td>
+              <td className="py-2.5 px-3 border">
+                <Tooltip text={item.expiredTime}>
+                  <p>{item.expiredDate}</p>
+                </Tooltip>
+              </td>
               <td className="py-2.5 px-3 border">
                 <DropDown
                   items={dropDownItems}
