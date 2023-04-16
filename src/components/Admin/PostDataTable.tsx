@@ -147,6 +147,18 @@ const DataGrid: React.FC<DataGridProps> = ({
     }
   ]
 
+  const getRowBGColor = (post_type: string | undefined, isSticky: boolean) => {
+    if (isSticky) return 'bg-green-100'
+    switch (post_type) {
+      case 'archived':
+        return 'bg-gray-100'
+      case 'deleted':
+        return 'bg-red-100'
+      default:
+        break
+    }
+  }
+
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
       <Modal
@@ -195,7 +207,13 @@ const DataGrid: React.FC<DataGridProps> = ({
         </thead>
         <tbody>
           {data.map((item) => (
-            <tr key={item.id} className="text-sm">
+            <tr
+              key={item.id}
+              className={`text-sm ${getRowBGColor(
+                item.post_type,
+                item.is_sticky
+              )}`}
+            >
               <td className="py-2.5 px-3 border">{item.id}</td>
               <td className="py-2.5 px-3 border text-xs truncate max-w-[100px] 2xl:max-w-[300px]">
                 {item.description}
