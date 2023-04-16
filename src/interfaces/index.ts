@@ -135,6 +135,8 @@ export interface AdminUser {
   subscriptionStartDate: string
   subscriptionEndsTime: string
   subscriptionEndsDate: string
+  lastPostDate: string
+  lastPostTime: string
   payment: {
     regular: number
     sticky: number

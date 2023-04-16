@@ -40,7 +40,9 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
   const [stickyStatusToFilter, setStickyStatusToFilter] = useState<number>(0)
   const [userTypeToFilter, setUserTypeToFilter] = useState<string>('-')
   const [orderByToFilter, setOrderByToFilter] = useState<string>('Created')
-  const [postStatusToFilter, setPostStatusToFilter] = useState<string>('Active')
+  const [postStatusToFilter, setPostStatusToFilter] = useState<
+    string | undefined
+  >(undefined)
 
   useEffect(() => {
     setCount(totalPages)
@@ -60,9 +62,21 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
         url: '/admin/filter-posts',
         data: {
           offset: pageNumber ? pageNumber * 10 - 10 : 0,
-          postStatusToFilter
+          locationToFilter,
+          categoryToFilter,
+          propertyTypeToFilter,
+          fromPriceToFilter,
+          toPriceToFilter,
+          fromCreationDateToFilter,
+          toCreationDateToFilter,
+          stickyStatusToFilter,
+          userTypeToFilter,
+          orderByToFilter,
+          postStatusToFilter,
+          userId
         }
       })
+      setCount(data.totalPages)
       setPostList([...postList, { page: pageNumber, posts: data.posts ?? [] }])
       setCurrentItemList(data.posts ?? [])
       setIsLoading(false)
@@ -89,7 +103,7 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
     setStickyStatusToFilter(0)
     setUserTypeToFilter('-')
     setOrderByToFilter('Created')
-    setPostStatusToFilter('Active')
+    setPostStatusToFilter(undefined)
   }
 
   const handleFilter = async (e: FormEvent<HTMLButtonElement>) => {
@@ -316,7 +330,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         method: 'POST',
         url: '/admin/filter-posts',
         data: {
-          postStatusToFilter: 'Active',
+          postStatusToFilter: undefined,
           userId: query?.userId,
           offset: 0
         },

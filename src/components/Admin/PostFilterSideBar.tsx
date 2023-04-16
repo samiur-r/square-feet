@@ -39,7 +39,7 @@ interface FilterSideBarProps {
   handleSetStickyStatusToFilter: Dispatch<SetStateAction<number>>
   handleSetUserTypeToFilter: Dispatch<SetStateAction<string>>
   handleSetOrderByToFilter: Dispatch<SetStateAction<string>>
-  handleSetPostStatusToFilter: Dispatch<SetStateAction<string>>
+  handleSetPostStatusToFilter: Dispatch<SetStateAction<string | undefined>>
   reset: () => void
   handleFilter: (e: FormEvent<HTMLButtonElement>) => void
 }

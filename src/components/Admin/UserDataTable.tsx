@@ -291,7 +291,7 @@ const DataGrid: React.FC<DataGridProps> = ({
         <thead className="bg-primary text-custom-gray-2 text-sm">
           <tr>
             <th colSpan={4}> </th>
-            <th colSpan={7} className="border py-2">
+            <th colSpan={8} className="border py-2">
               Posts
             </th>
             <th colSpan={3}> </th>
@@ -314,6 +314,7 @@ const DataGrid: React.FC<DataGridProps> = ({
               <p>Payment History</p>
               <p className="text-xs">Regular / Sticky / Agent</p>
             </th>
+            <th className="py-3 px-3 text-left border">Last</th>
             <th className="py-3 px-3 text-left border">Subscription</th>
             <th className="py-3 px-3 text-left border">Registered</th>
             <th className="py-3 px-3 text-left border">Actions</th>
@@ -401,6 +402,15 @@ const DataGrid: React.FC<DataGridProps> = ({
                   </button>
                 </td>
                 <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
+                <td className="py-2.5 px-3 border">
+                  {item.lastPostDate ? (
+                    <Tooltip text={item.lastPostTime}>
+                      <p>{item.lastPostDate}</p>
+                    </Tooltip>
+                  ) : (
+                    '-'
+                  )}
+                </td>
                 <td className="py-2.5 px-3 border">
                   {item.is_agent ? (
                     <span>
