@@ -175,6 +175,13 @@ const DataGrid: React.FC<DataGridProps> = ({
     }
   ]
 
+  const getBgColor = (item: any) => {
+    if (item.is_blocked) return 'bg-gray-500'
+    if (item.status === 'not_verified') return 'bg-red-200'
+    if (item.is_agent) return 'bg-indigo-100'
+    if (item.has_zero_credits) return 'bg-orange-100'
+  }
+
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
       {/* admin comment modal */}
@@ -324,7 +331,10 @@ const DataGrid: React.FC<DataGridProps> = ({
           {data &&
             data.length > 0 &&
             data.map((item) => (
-              <tr key={item.id} className="text-sm text-center">
+              <tr
+                key={item.id}
+                className={`text-sm text-center ${getBgColor(item)}`}
+              >
                 <td className="py-2.5 px-3 border">{item.id}</td>
                 <td className="py-2.5 px-3 border">{item.phone}</td>
                 <td className="py-2.5 px-3 border">
