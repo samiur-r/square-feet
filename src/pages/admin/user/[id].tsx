@@ -1,9 +1,7 @@
-import { PencilSquareIcon } from '@heroicons/react/20/solid'
 import PostDataTable from 'components/Admin/PostDataTable'
 import UserDataTable from 'components/Admin/UserDataTable'
 import { AdminUser, PostsWithUser } from 'interfaces'
 import { GetServerSideProps, NextPage } from 'next'
-import Link from 'next/link'
 import Router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useStore } from 'store'
@@ -11,19 +9,12 @@ import ApiClient from 'utils/ApiClient'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface AdminPostProps {
-  activePosts: PostsWithUser[]
-  archivedPosts: PostsWithUser[]
-  deletedPosts: PostsWithUser[]
+  posts: PostsWithUser[]
   user: AdminUser[]
 }
 
-const User: NextPage<AdminPostProps> = ({
-  activePosts,
-  archivedPosts,
-  deletedPosts,
-  user
-}) => {
-  const [activePostList, setActivePostList] = useState<PostsWithUser[]>([])
+const User: NextPage<AdminPostProps> = ({ posts, user }) => {
+  const [postList, setPostList] = useState<PostsWithUser[]>([])
   const [archivedPostList, setArchivedPostList] = useState<PostsWithUser[]>([])
   const [deletedPostList, setDeletedPostList] = useState<PostsWithUser[]>([])
   const [userList, setUserList] = useState<AdminUser[]>([])
@@ -31,17 +22,11 @@ const User: NextPage<AdminPostProps> = ({
   const { updateToast } = useStore()
 
   useEffect(() => {
-    setActivePostList(activePosts)
+    setPostList(posts.filter((post) => post.post_type === 'active'))
+    setArchivedPostList(posts.filter((post) => post.post_type === 'archived'))
+    setDeletedPostList(posts.filter((post) => post.post_type === 'deleted'))
     setIsLoading(false)
-  }, [activePosts])
-
-  useEffect(() => {
-    setArchivedPostList(archivedPosts)
-  }, [archivedPosts])
-
-  useEffect(() => {
-    setDeletedPostList(deletedPosts)
-  }, [deletedPosts])
+  }, [posts])
 
   useEffect(() => {
     setUserList(user)
@@ -80,7 +65,7 @@ const User: NextPage<AdminPostProps> = ({
 
   const handleStickPost = async (postId: number) => {
     if (!postId) return
-    const post = activePostList.find((item) => item.id === postId)
+    const post = postList.find((item) => item.id === postId)
 
     if (!post) {
       updateToast(true, 'Error: Something went wrong', true)
@@ -308,7 +293,7 @@ const User: NextPage<AdminPostProps> = ({
       <div className="mt-16">
         <div className="mb-10 text-xl font-bold text-center">Active Posts</div>
         <PostDataTable
-          posts={activePostList}
+          posts={postList}
           handleStickPost={handleStickPost}
           handleDeletePost={handleDeleteActivePost}
           handleRePost={handleRePost}
@@ -354,9 +339,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const parsedCookie = req.cookies.token
   let token
-  let activePosts = []
-  let archivedPosts = []
-  let deletedPosts = []
+  let posts = []
   let user: any[] = []
 
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
@@ -371,28 +354,10 @@ export const getServerSideProps: GetServerSideProps = async ({
             permanent: false
           }
         }
-      const responseActivePosts = await ApiClient({
+      const responsePosts = await ApiClient({
         method: 'POST',
         url: '/admin/filter-posts',
-        data: { postStatusToFilter: 'Active', userId: params?.id },
-        withCredentials: true,
-        headers: {
-          Cookie: req.headers.cookie
-        }
-      })
-      const responseArchivedPosts = await ApiClient({
-        method: 'POST',
-        url: '/admin/filter-posts',
-        data: { postStatusToFilter: 'Archived', userId: params?.id },
-        withCredentials: true,
-        headers: {
-          Cookie: req.headers.cookie
-        }
-      })
-      const responseDeletedPosts = await ApiClient({
-        method: 'POST',
-        url: '/admin/filter-posts',
-        data: { postStatusToFilter: 'Deleted', userId: params?.id },
+        data: { postStatusToFilter: undefined, userId: params?.id, offset: 0 },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
@@ -408,16 +373,14 @@ export const getServerSideProps: GetServerSideProps = async ({
         }
       })
       user = responseUser.data?.user ? [responseUser.data?.user] : []
-      activePosts = responseActivePosts.data?.posts ?? []
-      archivedPosts = responseArchivedPosts.data?.posts ?? []
-      deletedPosts = responseDeletedPosts.data?.posts ?? []
+      posts = responsePosts.data?.posts ?? []
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { activePosts, archivedPosts, deletedPosts, user }
+    props: { posts, user }
   }
 }
 

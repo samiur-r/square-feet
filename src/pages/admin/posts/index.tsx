@@ -50,10 +50,13 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
 
   useEffect(() => {
     setPostList([{ page: 1, posts }])
+    setCurrentItemList(posts)
     setIsLoading(false)
   }, [posts])
 
   const fetchItems = async () => {
+    if (pageNumber === 1) return
+
     setCurrentItemList([])
     setIsLoading(true)
     try {
