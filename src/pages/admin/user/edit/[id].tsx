@@ -102,17 +102,13 @@ const EditUser: NextPage<AdminPostProps> = ({ user }) => {
       return
     }
 
-    if (!agentId) {
-      updateToast(true, 'Agent id is required', true)
-      return
-    }
-
     setIsLoading(true)
     try {
       await ApiClient({
         method: 'PUT',
         url: '/admin/edit-agent',
         data: {
+          userId: user?.id,
           agentId,
           name,
           email,

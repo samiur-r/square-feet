@@ -37,17 +37,27 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
 
   useEffect(() => {
     setUserList([{ page: 1, users }])
+    setCurrentItemList(users)
     setIsLoading(false)
   }, [users])
 
   const fetchItems = async () => {
+    if (pageNumber === 1) return
     setCurrentItemList([])
     setIsLoading(true)
     try {
       const { data } = await ApiClient({
         method: 'POST',
         url: '/admin/filter-users',
-        data: { offset: pageNumber ? pageNumber * 10 - 10 : 0 }
+        data: {
+          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          statusToFilter,
+          phoneToFilter,
+          adminCommentToFilter,
+          fromCreationDateToFilter,
+          toCreationDateToFilter,
+          orderByToFilter
+        }
       })
       setUserList([...userList, { page: pageNumber, users: data.users ?? [] }])
       setCurrentItemList(data.users ?? [])
@@ -138,7 +148,7 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
 
   const handleVerifyUser = async (id: number) => {
     if (!id) return
-    const user = userList?.find((item) => item.id === id)
+    const user = currentItemList?.find((item) => item.id === id)
 
     if (!user) {
       updateToast(true, 'Error: Something went wrong', true)
@@ -340,7 +350,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/filter-users',
-        data: { offset: 0 },
+        data: { offset: 0, orderByToFilter: 'Registered' },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
