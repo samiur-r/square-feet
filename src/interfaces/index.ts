@@ -29,6 +29,7 @@ export interface IAgent {
   facebook?: string
   logo_url?: string
   subscription_ends_date: Date
+  expiry_date: Date
   created_at: Date
   updated_at: Date
   phone?: string

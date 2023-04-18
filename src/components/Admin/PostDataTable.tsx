@@ -14,8 +14,8 @@ import Router from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Modal from 'components/Modal'
 import Tooltip from 'components/Tooltip'
-import DropDown from './Dropdown'
 import Link from 'next/link'
+import DropDown from './Dropdown'
 
 interface DataGridProps {
   posts: PostsWithUser[]

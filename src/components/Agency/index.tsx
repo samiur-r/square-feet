@@ -35,10 +35,10 @@ const packages = [
 
 const Agency: React.FC<{
   isLoggedIn?: boolean
-  agencyList: IAgent[]
+  agencyList: any
   totalRows: number | undefined
   thumbnailSmall?: boolean
-  agent: IAgent | null
+  agent: any
   credits: ICredit | null
 }> = ({
   isLoggedIn,

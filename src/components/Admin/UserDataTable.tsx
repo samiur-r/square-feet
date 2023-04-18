@@ -13,8 +13,8 @@ import {
 } from '@heroicons/react/20/solid'
 import Router from 'next/router'
 import Tooltip from 'components/Tooltip'
-import DropDown from './Dropdown'
 import Link from 'next/link'
+import DropDown from './Dropdown'
 
 interface DataGridProps {
   users: AdminUser[]

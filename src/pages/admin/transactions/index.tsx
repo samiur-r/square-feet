@@ -1,4 +1,3 @@
-import { AdjustmentsVerticalIcon } from '@heroicons/react/20/solid'
 import Pagination from 'components/Admin/Pagination'
 import TransactionDataTable from 'components/Admin/TransactionDataTable'
 import TransactionFilterSideBar from 'components/Admin/TransactionFilterSideBar'

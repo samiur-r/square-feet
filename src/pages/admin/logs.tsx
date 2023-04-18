@@ -95,6 +95,7 @@ const Log: NextPage<{
         </div>
         <div className="mt-16">
           <Pagination
+            pageNum={pageNumber}
             totalPages={count}
             handlePageNumberChange={setPageNumber}
           />
