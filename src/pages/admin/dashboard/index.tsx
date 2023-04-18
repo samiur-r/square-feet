@@ -80,16 +80,22 @@ const Dashboard: NextPage<DashboardProps> = ({
         )}
         <div className="mt-10 flex flex-col gap-10">
           <table className="min-w-full shadow-lg">
-            <thead className="bg-primary text-custom-gray-2 text-sm">
+            <thead className="bg-indigo-50 text-black text-sm">
               <tr>
-                <th colSpan={3} className="border py-2">
+                <th colSpan={3} className="border border-gray-300 py-2">
                   Summary
                 </th>
               </tr>
               <tr>
-                <th className="py-3 px-3 text-center border"> </th>
-                <th className="py-3 px-3 text-center border">Today</th>
-                <th className="py-3 px-3 text-center border">Yesterday</th>
+                <th className="py-3 px-3 text-center border border-gray-300 ">
+                  {' '}
+                </th>
+                <th className="py-3 px-3 text-center border border-gray-300 ">
+                  Today
+                </th>
+                <th className="py-3 px-3 text-center border border-gray-300 ">
+                  Yesterday
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -157,7 +163,7 @@ const Dashboard: NextPage<DashboardProps> = ({
             </tbody>
           </table>
           <table className="min-w-full shadow-lg">
-            <thead className="bg-custom-red text-white text-sm">
+            <thead className="bg-indigo-200 text-black text-sm">
               <tr>
                 <th colSpan={3} className="border py-2">
                   Transactions
@@ -216,9 +222,9 @@ const Dashboard: NextPage<DashboardProps> = ({
               </tr>
             </tbody>
           </table>
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             <table className="shadow-lg">
-              <thead className="bg-custom-green text-white text-sm">
+              <thead className="bg-indigo-200 text-black text-sm">
                 <tr>
                   <th colSpan={2} className="border py-2">
                     Posts
@@ -265,7 +271,7 @@ const Dashboard: NextPage<DashboardProps> = ({
               </tbody>
             </table>
             <table className="shadow-lg">
-              <thead className="bg-custom-green text-white text-sm">
+              <thead className="bg-indigo-200 text-black text-sm">
                 <tr>
                   <th colSpan={2} className="border py-2">
                     Users
@@ -293,36 +299,72 @@ const Dashboard: NextPage<DashboardProps> = ({
                 </tr>
               </tbody>
             </table>
-            <table className="shadow-lg">
-              <thead className="bg-custom-green text-white text-sm">
-                <tr>
-                  <th colSpan={2} className="border py-2">
-                    Credits
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="text-sm text-center">
-                  <td className="py-2.5 px-3 border">Total Regular</td>
-                  <td className="py-2.5 px-3 border">
-                    {creditSummary?.totalRegularCredits}
-                  </td>
-                </tr>
-                <tr className="text-sm text-center">
-                  <td className="py-2.5 px-3 border">Total Sticky</td>
-                  <td className="py-2.5 px-3 border">
-                    {creditSummary?.totalStickyCredits}
-                  </td>
-                </tr>
-                <tr className="text-sm text-center">
-                  <td className="py-2.5 px-3 border">Total Agent</td>
-                  <td className="py-2.5 px-3 border">
-                    {creditSummary?.totalAgentCredits}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
+          <table className="shadow-lg">
+            <thead className="bg-indigo-300 text-black text-sm">
+              <tr>
+                <th colSpan={4} className="border py-2">
+                  Credits
+                </th>
+              </tr>
+              <tr>
+                <th className="border py-2"> </th>
+                <th className="border py-2">Regular</th>
+                <th className="border py-2">Sticky</th>
+                <th className="border py-2">Agent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="text-sm text-center">
+                <td className="py-2.5 px-3 border">Users with history</td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.usersWithHistory.regular}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.usersWithHistory.sticky}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.usersWithHistory.agent}
+                </td>
+              </tr>
+              <tr className="text-sm text-center">
+                <td className="py-2.5 px-3 border">Total history</td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.totalHistory.regular}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.totalHistory.sticky}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.totalHistory.agent}
+                </td>
+              </tr>
+              <tr className="text-sm text-center">
+                <td className="py-2.5 px-3 border">Users with active</td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.userWithActive.regular}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.userWithActive.sticky}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.userWithActive.agent}
+                </td>
+              </tr>
+              <tr className="text-sm text-center">
+                <td className="py-2.5 px-3 border">Total active</td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.totalActive.regular}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.totalActive.sticky}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {creditSummary?.totalActive.agent}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

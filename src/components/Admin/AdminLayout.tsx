@@ -418,7 +418,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               </div>
             </div>
           </div>
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 mb-10">{children}</main>
         </div>
       </div>
     </>

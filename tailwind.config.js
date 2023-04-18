@@ -25,7 +25,7 @@ module.exports = {
       red: colors.red,
       rose: colors.rose,
       stone: colors.stone,
-      slate: colors.slate
+      slate: colors.slate,
     },
     extend: {
       minHeight: (theme) => ({
