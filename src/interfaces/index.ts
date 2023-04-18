@@ -76,6 +76,7 @@ export interface BreadcrumbType {
 }
 
 export interface PostsWithUser extends IPost {
+  user_id?: number
   user_phone?: string
   postedDate?: string
   postedTime?: string

@@ -14,6 +14,7 @@ import {
 import Router from 'next/router'
 import Tooltip from 'components/Tooltip'
 import DropDown from './Dropdown'
+import Link from 'next/link'
 
 interface DataGridProps {
   users: AdminUser[]
@@ -336,7 +337,11 @@ const DataGrid: React.FC<DataGridProps> = ({
                 className={`text-sm text-center ${getBgColor(item)}`}
               >
                 <td className="py-2.5 px-3 border">{item.id}</td>
-                <td className="py-2.5 px-3 border">{item.phone}</td>
+                <td className="py-2.5 px-3 border">
+                  <Link href={`/admin/user/${item.id}`}>
+                    <a className="text-primary">{item.phone}</a>
+                  </Link>
+                </td>
                 <td className="py-2.5 px-3 border">
                   <button
                     type="button"

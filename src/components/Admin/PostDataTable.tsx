@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react'
 import Modal from 'components/Modal'
 import Tooltip from 'components/Tooltip'
 import DropDown from './Dropdown'
+import Link from 'next/link'
 
 interface DataGridProps {
   posts: PostsWithUser[]
@@ -224,7 +225,11 @@ const DataGrid: React.FC<DataGridProps> = ({
               <td className="py-2.5 px-3 border">
                 {item.price ? item.price : '-'}
               </td>
-              <td className="py-2.5 px-3 border">{item.user_phone}</td>
+              <td className="py-2.5 px-3 border">
+                <Link href={`/admin/user/${item.user_id}`}>
+                  <a className="text-primary">{item.user_phone}</a>
+                </Link>
+              </td>
               <td className="py-2.5 px-3 border">{item.repost_count}</td>
               <td className="py-2.5 px-3 border">
                 {item.is_reposted ? (
