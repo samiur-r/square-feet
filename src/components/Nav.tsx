@@ -231,7 +231,7 @@ const socialLinks = [
   },
   {
     href: '/settings',
-    imagePath: '/images/global.svg'
+    imagePath: '/images/settings.png'
   }
 ]
 
@@ -710,17 +710,19 @@ const Nav: React.FC = () => {
             <div className="px-5 w-full flex justify-center gap-5 mb-5">
               {socialLinks.map((link) => (
                 <Link href={link.href} key={Math.random()}>
-                  <button
-                    type="submit"
-                    className="px-3 py-2 flex items-center bg-custom-gray-2 rounded-lg cursor-pointer"
-                  >
-                    <Image
-                      src={link.imagePath}
-                      width={21}
-                      height={24}
-                      alt="social_link"
-                    />
-                  </button>
+                  <a>
+                    <Popover.Button
+                      type="submit"
+                      className="px-3 py-2 flex items-center bg-custom-gray-2 rounded-lg cursor-pointer"
+                    >
+                      <Image
+                        src={link.imagePath}
+                        width={21}
+                        height={24}
+                        alt="social_link"
+                      />
+                    </Popover.Button>
+                  </a>
                 </Link>
               ))}
             </div>
