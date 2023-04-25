@@ -1,7 +1,7 @@
 const config = {
   nodeEnv: process.env.NEXT_PUBLIC_NODE_ENV ?? 'development',
   port: process.env.NEXT_PUBLIC_PORT ?? 3000,
-  domain: process.env.DOMAIN,
+  domain: process.env.NEXT_PUBLIC_DOMAIN ?? 'boshamlan.com',
   socketUrl: process.env.NEXT_PUBLIC_SOCKET_URL ?? 'http://localhost:5000',
   apiUrl:
     process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1/',

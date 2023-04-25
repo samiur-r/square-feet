@@ -115,7 +115,12 @@ const Actions: React.FC<{
       {!isArchive && (
         <>
           <div className="w-7 h-7 relative">
-            <Image src="/images/twitter.png" alt="twitter-icon" layout="fill" />
+            <Image
+              src="/images/twitter.png"
+              alt="twitter-icon"
+              layout="fill"
+              onClick={() => handleAction('shareOnTwitter')}
+            />
           </div>
           <div className="w-7 h-7 relative">
             <Image

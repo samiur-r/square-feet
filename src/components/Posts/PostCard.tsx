@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import { TwitterShareButton } from 'react-share'
+
 import Image from 'next/image'
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
@@ -8,6 +10,7 @@ import { useStore } from 'store'
 import Link from 'next/link'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import Actions from './Actions'
+import config from 'config'
 
 interface PostCardProps {
   post: IPost
@@ -20,6 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({
   showActions,
   isArchive
 }) => {
+  const twitterBtnRef = useRef(null)
   const { updateToast } = useStore()
   const [isCallingApiForStick, setIsCallingApiForStick] = useState(false)
   const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
@@ -91,6 +95,10 @@ const PostCard: React.FC<PostCardProps> = ({
     }
   }
 
+  const shareOnTwitter = () => {
+    twitterBtnRef.current.click()
+  }
+
   const handleAction = async (operation: string) => {
     switch (operation) {
       case 'edit':
@@ -104,6 +112,9 @@ const PostCard: React.FC<PostCardProps> = ({
         break
       case 'delete':
         await deletePost()
+        break
+      case 'shareOnTwitter':
+        shareOnTwitter()
         break
       default:
         break
@@ -195,6 +206,13 @@ const PostCard: React.FC<PostCardProps> = ({
             isCallingApiForDelete={isCallingApiForDelete}
             handleAction={handleAction}
           />
+          <TwitterShareButton
+            ref={twitterBtnRef}
+            title={`${post.title} ${post.description} `}
+            url={`${config.domain}/post/${post.id}`}
+          >
+            <p> </p>
+          </TwitterShareButton>
         </div>
       )}
     </div>
