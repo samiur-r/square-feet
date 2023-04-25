@@ -32,7 +32,7 @@ const DropDown: React.FC<DropDownProps> = ({
       const parsedItems = items
         .filter((item) => showDelete || item.title !== 'Delete')
         .filter((item) => showStick || item.title !== 'Stick')
-        .filter((item) => showRepost || item.title !== 'Repost')
+        .filter((item) => showRepost || item.title !== 'Re post')
         .filter((item) => showRestore || item.title !== 'Restore')
 
       setItemList(parsedItems)

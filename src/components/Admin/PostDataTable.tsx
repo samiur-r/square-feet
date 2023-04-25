@@ -314,7 +314,7 @@ const DataGrid: React.FC<DataGridProps> = ({
                       item.is_sticky === false && item.post_type === 'active'
                     }
                     showDelete={item.post_type !== 'deleted'}
-                    showRepost={item.post_type !== 'active'}
+                    showRepost={item.post_type !== 'deleted'}
                     showRestore={item.post_type === 'deleted'}
                   />
                 </td>
