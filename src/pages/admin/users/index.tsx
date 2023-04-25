@@ -7,14 +7,20 @@ import Router from 'next/router'
 import { FormEvent, useEffect, useState } from 'react'
 import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
+import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface AdminPostProps {
   users: AdminUser[]
   totalPages: number
+  totalResults: number
 }
 
-const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
+const Users: NextPage<AdminPostProps> = ({
+  users,
+  totalPages,
+  totalResults
+}) => {
   const { updateToast } = useStore()
   const [userList, setUserList] = useState<any[]>(users)
   const [isLoading, setIsLoading] = useState(true)
@@ -45,6 +51,7 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
     if (pageNumber === 1) return
     setCurrentItemList([])
     setIsLoading(true)
+
     try {
       const { data } = await ApiClient({
         method: 'POST',
@@ -54,8 +61,12 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
           statusToFilter,
           phoneToFilter,
           adminCommentToFilter,
-          fromCreationDateToFilter,
-          toCreationDateToFilter,
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
+            : undefined,
           orderByToFilter
         }
       })
@@ -96,8 +107,12 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
           statusToFilter,
           phoneToFilter,
           adminCommentToFilter,
-          fromCreationDateToFilter,
-          toCreationDateToFilter,
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
+            : undefined,
           orderByToFilter,
           offset: 0
         },
@@ -260,6 +275,60 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
     }
   }
 
+  const handleDeleteUser = async (userId: number | undefined) => {
+    if (!userId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/user',
+        data: { userId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User deleted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User delete attempt failed', true)
+    }
+  }
+
+  const handlePermanentDeleteUser = async (userId: number | undefined) => {
+    if (!userId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/admin/user-permanent',
+        data: { userId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User deleted permanently', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User permanent delete attempt failed', true)
+    }
+  }
+
+  const handleRestoreUser = async (userId: number | undefined) => {
+    if (!userId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/restore',
+        data: { userId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User restored successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User restore attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -307,7 +376,8 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
             </svg>
           </div>
         )}
-        <div className="mt-16">
+        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-5">
           <UserDataTable
             users={currentItemList}
             updateUserCredit={updateUserCredit}
@@ -315,6 +385,9 @@ const Users: NextPage<AdminPostProps> = ({ users, totalPages }) => {
             handleBlockUser={handleBlockUser}
             handleUnBlockUser={handleUnBlockUser}
             handleUpdateAdminComment={handleUpdateAdminComment}
+            handleDeleteUser={handleDeleteUser}
+            handlePermanentDeleteUser={handlePermanentDeleteUser}
+            handleRestoreUser={handleRestoreUser}
           />
         </div>
         <div className="mt-16">
@@ -335,6 +408,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let token
   let users = []
   let totalPages = null
+  let totalResults = 0
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (token) {
@@ -358,13 +432,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       })
       users = response.data?.users ?? []
       totalPages = response.data?.totalPages ?? null
+      totalResults = response.data?.totalResults ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { users, totalPages }
+    props: { users, totalPages, totalResults }
   }
 }
 

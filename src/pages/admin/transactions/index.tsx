@@ -6,18 +6,21 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { FormEvent, useEffect, useState } from 'react'
 import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
+import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface TransactionProps {
   transactions: TransactionType[]
   userId: number
   totalPages: number
+  totalResults: number
 }
 
 const Transactions: NextPage<TransactionProps> = ({
   transactions,
   userId,
-  totalPages
+  totalPages,
+  totalResults
 }) => {
   const { updateToast } = useStore()
   const [transactionList, setTransactionList] = useState<any[]>([])
@@ -51,7 +54,15 @@ const Transactions: NextPage<TransactionProps> = ({
         url: '/admin/get-transactions',
         data: {
           offset: pageNumber ? pageNumber * 10 - 10 : 0,
-          userId
+          userId,
+          statusToFilter,
+          typeToFilter,
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
+            : undefined
         }
       })
       setTransactionList([
@@ -93,8 +104,12 @@ const Transactions: NextPage<TransactionProps> = ({
         data: {
           statusToFilter,
           typeToFilter,
-          fromCreationDateToFilter,
-          toCreationDateToFilter,
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
+            : undefined,
           userId,
           offset: 0
         },
@@ -155,7 +170,8 @@ const Transactions: NextPage<TransactionProps> = ({
             </svg>
           </div>
         )}
-        <div className="mt-16">
+        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-5">
           <TransactionDataTable transactions={currentItemList} />
         </div>
         <div className="mt-16">
@@ -179,6 +195,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   let token
   let transactions = null
   let totalPages = null
+  let totalResults = 0
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (token) {
@@ -202,13 +219,19 @@ export const getServerSideProps: GetServerSideProps = async ({
       })
       transactions = response.data?.transactions ?? []
       totalPages = response.data?.totalPages ?? 0
+      totalResults = response.data?.totalResults ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { transactions, userId: query?.userId ?? null, totalPages }
+    props: {
+      transactions,
+      totalResults,
+      userId: query?.userId ?? null,
+      totalPages
+    }
   }
 }
 

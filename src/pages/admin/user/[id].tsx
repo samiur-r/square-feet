@@ -1,3 +1,4 @@
+import Pagination from 'components/Admin/Pagination'
 import PostDataTable from 'components/Admin/PostDataTable'
 import UserDataTable from 'components/Admin/UserDataTable'
 import { AdminUser, PostsWithUser } from 'interfaces'
@@ -10,58 +11,73 @@ import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface AdminPostProps {
   posts: PostsWithUser[]
+  totalPages: number
+  totalResults: number
+  userId: number | null
   user: AdminUser[]
 }
 
-const User: NextPage<AdminPostProps> = ({ posts, user }) => {
-  const [postList, setPostList] = useState<PostsWithUser[]>([])
-  const [archivedPostList, setArchivedPostList] = useState<PostsWithUser[]>([])
-  const [deletedPostList, setDeletedPostList] = useState<PostsWithUser[]>([])
+const User: NextPage<AdminPostProps> = ({
+  posts,
+  totalPages,
+  totalResults,
+  userId,
+  user
+}) => {
+  const { updateToast } = useStore()
+  const [postList, setPostList] = useState<any[]>(posts)
   const [userList, setUserList] = useState<AdminUser[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const { updateToast } = useStore()
 
-  useEffect(() => {
-    setPostList(posts.filter((post) => post.post_type === 'active'))
-    setArchivedPostList(posts.filter((post) => post.post_type === 'archived'))
-    setDeletedPostList(posts.filter((post) => post.post_type === 'deleted'))
-    setIsLoading(false)
-  }, [posts])
+  const [pageNumber, setPageNumber] = useState(1)
+  const [currentItemList, setCurrentItemList] = useState<any[]>([])
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     setUserList(user)
     setIsLoading(false)
   }, [user])
 
-  const updateUserCredit = async (
-    creditAmount: number | undefined,
-    creditType: string | undefined,
-    userId: number | undefined
-  ) => {
-    if (creditAmount === undefined || !creditType || !userId) return
-    setIsLoading(true)
+  useEffect(() => {
+    setCount(totalPages)
+  }, [totalPages])
 
+  useEffect(() => {
+    setPostList([{ page: 1, posts }])
+    setCurrentItemList(posts)
+    setIsLoading(false)
+  }, [posts])
+
+  const fetchItems = async () => {
+    if (pageNumber === 1) return
+
+    setCurrentItemList([])
+    setIsLoading(true)
     try {
-      await ApiClient({
+      const { data } = await ApiClient({
         method: 'POST',
-        url: '/admin/update-credit',
+        url: '/admin/filter-posts',
         data: {
-          creditAmount,
-          creditType,
+          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          postStatusToFilter: undefined,
           userId
-        },
-        headers: {
-          'content-type': 'application/json'
         }
       })
+      setCount(data.totalPages)
+      setPostList([...postList, { page: pageNumber, posts: data.posts ?? [] }])
+      setCurrentItemList(data.posts ?? [])
       setIsLoading(false)
-      updateToast(true, 'Success: Credit updated successfully', false)
-      Router.push('/admin/users')
     } catch (error) {
+      updateToast(true, 'Error: Something went wrong', true)
       setIsLoading(false)
-      updateToast(true, 'Success: Credit update attempt failed', true)
     }
   }
+
+  useEffect(() => {
+    const foundItem = postList.find((post) => post.page === pageNumber)
+    if (foundItem) setCurrentItemList(foundItem.posts)
+    else fetchItems()
+  }, [pageNumber])
 
   const handleStickPost = async (postId: number) => {
     if (!postId) return
@@ -91,14 +107,14 @@ const User: NextPage<AdminPostProps> = ({ posts, user }) => {
     }
   }
 
-  const handleDeleteActivePost = async (postId: number | undefined) => {
+  const handleDeletePost = async (postId: number | undefined) => {
     if (!postId) return
     setIsLoading(true)
     try {
       await ApiClient({
         method: 'DELETE',
         url: '/admin/delete-post',
-        data: { postId, isArchive: false }
+        data: { postId }
       })
       setIsLoading(false)
       updateToast(true, 'Success: Post deleted successfully', false)
@@ -106,109 +122,6 @@ const User: NextPage<AdminPostProps> = ({ posts, user }) => {
     } catch (error) {
       setIsLoading(false)
       updateToast(true, 'Error: Post delete attempt failed', true)
-    }
-  }
-
-  const handleDeleteArchivedPost = async (postId: number | undefined) => {
-    if (!postId) return
-    setIsLoading(true)
-    try {
-      await ApiClient({
-        method: 'DELETE',
-        url: '/admin/delete-post',
-        data: { postId, isArchive: true }
-      })
-      setIsLoading(false)
-      updateToast(true, 'Success: Post deleted successfully', false)
-      Router.reload()
-    } catch (error) {
-      setIsLoading(false)
-      updateToast(true, 'Error: Post delete attempt failed', true)
-    }
-  }
-
-  const handleBlockUser = async (id: number | undefined) => {
-    if (!id) return
-    const userItem = userList?.find((item) => item.id === id)
-
-    if (!userItem) {
-      updateToast(true, 'Error: Something went wrong', true)
-      return
-    }
-
-    if (userItem.is_blocked) {
-      updateToast(true, 'Error: User is already blocked', true)
-      return
-    }
-
-    setIsLoading(true)
-    try {
-      await ApiClient({
-        method: 'PUT',
-        url: '/admin/block-status',
-        data: { userId: id, status: true }
-      })
-      setIsLoading(false)
-      updateToast(true, 'Success: User blocked successfully', false)
-      Router.reload()
-    } catch (error) {
-      setIsLoading(false)
-      updateToast(true, 'Error: User block attempt failed', true)
-    }
-  }
-
-  const handleUnBlockUser = async (id: number | undefined) => {
-    if (!id) return
-    const userItem = userList?.find((item) => item.id === id)
-
-    if (!userItem) {
-      updateToast(true, 'Error: Something went wrong', true)
-      return
-    }
-
-    if (!userItem.is_blocked) {
-      updateToast(true, 'Error: User is not blocked', true)
-      return
-    }
-
-    setIsLoading(true)
-    try {
-      await ApiClient({
-        method: 'PUT',
-        url: '/admin/block-status',
-        data: { userId: id, status: false }
-      })
-      setIsLoading(false)
-      updateToast(true, 'Success: User unblocked successfully', false)
-      Router.reload()
-    } catch (error) {
-      setIsLoading(false)
-      updateToast(true, 'Error: User unblock attempt failed', true)
-    }
-  }
-
-  const handleUpdateAdminComment = async (
-    userId: number | undefined,
-    adminComment: string | undefined
-  ) => {
-    if (!userId) {
-      updateToast(true, 'Error: Something went wrong', true)
-      return
-    }
-
-    setIsLoading(true)
-    try {
-      await ApiClient({
-        method: 'PUT',
-        url: '/admin/admin-comment',
-        data: { userId, adminComment }
-      })
-      setIsLoading(false)
-      updateToast(true, 'Success: User comment updated successfully', false)
-      Router.reload()
-    } catch (error) {
-      setIsLoading(false)
-      updateToast(true, 'Error: User comment update attempt failed', true)
     }
   }
 
@@ -248,6 +161,150 @@ const User: NextPage<AdminPostProps> = ({ posts, user }) => {
     }
   }
 
+  const updateUserCredit = async (
+    creditAmount: number | undefined,
+    creditType: string | undefined,
+    _userId: number | undefined
+  ) => {
+    if (creditAmount === undefined || !creditType || !userId) return
+    setIsLoading(true)
+
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/update-credit',
+        data: {
+          creditAmount,
+          creditType,
+          userId: _userId
+        },
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Credit updated successfully', false)
+      Router.push('/admin/users')
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Success: Credit update attempt failed', true)
+    }
+  }
+
+  const handleVerifyUser = async (id: number) => {
+    if (!id) return
+    const userObj = userList?.find((item) => item.id === id)
+
+    if (!userObj) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (userObj.status === 'verified') {
+      updateToast(true, 'Error: User is already verified', true)
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/verify-user',
+        data: { userId: id }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User verified successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User verification attempt failed', true)
+    }
+  }
+
+  const handleBlockUser = async (id: number | undefined) => {
+    if (!id) return
+    const userObj = userList?.find((item) => item.id === id)
+
+    if (!userObj) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (userObj.is_blocked) {
+      updateToast(true, 'Error: User is already blocked', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/block-status',
+        data: { userId: id, status: true }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User blocked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User block attempt failed', true)
+    }
+  }
+
+  const handleUnBlockUser = async (id: number | undefined) => {
+    if (!id) return
+    const userObj = userList?.find((item) => item.id === id)
+
+    if (!userObj) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    if (!userObj.is_blocked) {
+      updateToast(true, 'Error: User is not blocked', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/block-status',
+        data: { userId: id, status: false }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User unblocked successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User unblock attempt failed', true)
+    }
+  }
+
+  const handleUpdateAdminComment = async (
+    _userId: number | undefined,
+    adminComment: string | undefined
+  ) => {
+    if (!_userId) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/admin-comment',
+        data: { userId: _userId, adminComment }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User comment updated successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User comment update attempt failed', true)
+    }
+  }
+
   return (
     <div className="mb-10">
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -284,50 +341,29 @@ const User: NextPage<AdminPostProps> = ({ posts, user }) => {
           <UserDataTable
             users={userList}
             updateUserCredit={updateUserCredit}
+            handleVerifyUser={handleVerifyUser}
             handleBlockUser={handleBlockUser}
             handleUnBlockUser={handleUnBlockUser}
             handleUpdateAdminComment={handleUpdateAdminComment}
           />
         </div>
-      </div>
-      <div className="mt-16">
-        <div className="mb-10 text-xl font-bold text-center">Active Posts</div>
-        <PostDataTable
-          posts={postList}
-          handleStickPost={handleStickPost}
-          handleDeletePost={handleDeleteActivePost}
-          handleRePost={handleRePost}
-          handlePermanentDeletePost={handlePermanentDeletePost}
-        />
-      </div>
-      <div className="mt-16">
-        <div className="mb-10 text-xl font-bold text-center">
-          Archived Posts
+        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-5">
+          <PostDataTable
+            posts={currentItemList}
+            handleStickPost={handleStickPost}
+            handleDeletePost={handleDeletePost}
+            handlePermanentDeletePost={handlePermanentDeletePost}
+            handleRePost={handleRePost}
+          />
         </div>
-        <PostDataTable
-          posts={archivedPostList}
-          handleStickPost={() =>
-            updateToast(true, 'Error: You can not stick a archived post', true)
-          }
-          handleDeletePost={handleDeleteArchivedPost}
-          handleRePost={handleRePost}
-          handlePermanentDeletePost={handlePermanentDeletePost}
-        />
-      </div>
-
-      <div className="mt-16">
-        <div className="mb-10 text-xl font-bold text-center">Deleted Posts</div>
-        <PostDataTable
-          posts={deletedPostList}
-          handleStickPost={() =>
-            updateToast(true, 'Error: You can not stick a deleted post', true)
-          }
-          handleDeletePost={() =>
-            updateToast(true, 'Error: The post is already deleted', true)
-          }
-          handleRePost={handleRePost}
-          handlePermanentDeletePost={handlePermanentDeletePost}
-        />
+        <div className="mt-16">
+          <Pagination
+            pageNum={pageNumber}
+            totalPages={count}
+            handlePageNumberChange={setPageNumber}
+          />
+        </div>
       </div>
     </div>
   )
@@ -340,7 +376,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   const parsedCookie = req.cookies.token
   let token
   let posts = []
+  let totalPages = null
+  let totalResults = 0
   let user: any[] = []
+  const userId = params?.id
 
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
@@ -357,7 +396,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       const responsePosts = await ApiClient({
         method: 'POST',
         url: '/admin/filter-posts',
-        data: { postStatusToFilter: undefined, userId: params?.id, offset: 0 },
+        data: { postStatusToFilter: undefined, userId, offset: 0 },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
@@ -366,7 +405,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       const responseUser = await ApiClient({
         method: 'POST',
         url: '/admin/filter-user',
-        data: { userId: params?.id },
+        data: { userId },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
@@ -374,13 +413,15 @@ export const getServerSideProps: GetServerSideProps = async ({
       })
       user = responseUser.data?.user ? [responseUser.data?.user] : []
       posts = responsePosts.data?.posts ?? []
+      totalPages = responsePosts.data?.totalPages ?? 0
+      totalResults = responsePosts.data?.totalResults ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { posts, user }
+    props: { posts, totalPages, totalResults, user, userId }
   }
 }
 

@@ -14,6 +14,7 @@ interface DropDownProps {
   showStick?: boolean
   showDelete?: boolean
   showRepost?: boolean
+  showRestore?: boolean
 }
 
 const DropDown: React.FC<DropDownProps> = ({
@@ -21,7 +22,8 @@ const DropDown: React.FC<DropDownProps> = ({
   postId,
   showStick,
   showDelete,
-  showRepost
+  showRepost,
+  showRestore
 }) => {
   const [itemList, setItemList] = useState<any>([])
 
@@ -30,7 +32,8 @@ const DropDown: React.FC<DropDownProps> = ({
       const parsedItems = items
         .filter((item) => showDelete || item.title !== 'Delete')
         .filter((item) => showStick || item.title !== 'Stick')
-        .filter((item) => showRepost || item.title !== 'Re post')
+        .filter((item) => showRepost || item.title !== 'Repost')
+        .filter((item) => showRestore || item.title !== 'Restore')
 
       setItemList(parsedItems)
     }

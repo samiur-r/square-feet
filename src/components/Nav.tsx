@@ -230,7 +230,7 @@ const socialLinks = [
     imagePath: '/images/instagram-dark.svg'
   },
   {
-    href: 'https://boshamlan.com',
+    href: '/settings',
     imagePath: '/images/global.svg'
   }
 ]

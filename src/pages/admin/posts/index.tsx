@@ -7,15 +7,22 @@ import Router from 'next/router'
 import { FormEvent, useEffect, useState } from 'react'
 import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
+import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 
 interface AdminPostProps {
   posts: PostsWithUser[]
   userId: number
   totalPages: number
+  totalResults: number
 }
 
-const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
+const Posts: NextPage<AdminPostProps> = ({
+  posts,
+  userId,
+  totalPages,
+  totalResults
+}) => {
   const { updateToast } = useStore()
   const [postList, setPostList] = useState<any[]>(posts)
   const [isLoading, setIsLoading] = useState(true)
@@ -70,8 +77,12 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
           propertyTypeToFilter,
           fromPriceToFilter,
           toPriceToFilter,
-          fromCreationDateToFilter,
-          toCreationDateToFilter,
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
+            : undefined,
           stickyStatusToFilter,
           userTypeToFilter,
           orderByToFilter,
@@ -124,8 +135,12 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
           propertyTypeToFilter,
           fromPriceToFilter,
           toPriceToFilter,
-          fromCreationDateToFilter,
-          toCreationDateToFilter,
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
+            : undefined,
           stickyStatusToFilter,
           userTypeToFilter,
           orderByToFilter,
@@ -183,7 +198,7 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
       await ApiClient({
         method: 'DELETE',
         url: '/admin/delete-post',
-        data: { postId, isArchive: postStatusToFilter === 'Archived' }
+        data: { postId }
       })
       setIsLoading(false)
       updateToast(true, 'Success: Post deleted successfully', false)
@@ -209,6 +224,24 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
     } catch (error) {
       setIsLoading(false)
       updateToast(true, 'Error: Post delete attempt failed', true)
+    }
+  }
+
+  const handleRestorePost = async (postId: number | undefined) => {
+    if (!postId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/post/restore',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post restored successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post restore attempt failed', true)
     }
   }
 
@@ -287,13 +320,15 @@ const Posts: NextPage<AdminPostProps> = ({ posts, userId, totalPages }) => {
             </svg>
           </div>
         )}
-        <div className="mt-16">
+        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-5">
           <PostDataTable
             posts={currentItemList}
             handleStickPost={handleStickPost}
             handleDeletePost={handleDeletePost}
             handlePermanentDeletePost={handlePermanentDeletePost}
             handleRePost={handleRePost}
+            handleRestorePost={handleRestorePost}
           />
         </div>
         <div className="mt-16">
@@ -317,6 +352,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   let token
   let posts = null
   let totalPages = null
+  let totalResults = 0
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
   if (token) {
@@ -344,13 +380,14 @@ export const getServerSideProps: GetServerSideProps = async ({
       })
       posts = response.data?.posts ?? []
       totalPages = response.data?.totalPages ?? 0
+      totalResults = response.data?.totalResults ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { posts, totalPages, userId: query?.userId ?? null }
+    props: { posts, totalPages, totalResults, userId: query?.userId ?? null }
   }
 }
 

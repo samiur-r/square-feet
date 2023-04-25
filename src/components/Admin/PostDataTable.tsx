@@ -7,6 +7,7 @@ import {
   ArrowPathIcon,
   CommandLineIcon,
   PencilSquareIcon,
+  ReceiptRefundIcon,
   TrashIcon
 } from '@heroicons/react/24/solid'
 import { PostsWithUser } from 'interfaces'
@@ -23,6 +24,7 @@ interface DataGridProps {
   handleDeletePost: (postId: number | undefined) => void
   handlePermanentDeletePost: (postId: number | undefined) => void
   handleRePost: (postId: number | undefined) => void
+  handleRestorePost: (postId: number | undefined) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
@@ -30,7 +32,8 @@ const DataGrid: React.FC<DataGridProps> = ({
   handleStickPost,
   handleDeletePost,
   handlePermanentDeletePost,
-  handleRePost
+  handleRePost,
+  handleRestorePost
 }) => {
   const [data, setData] = useState<PostsWithUser[]>([])
   const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -41,6 +44,9 @@ const DataGrid: React.FC<DataGridProps> = ({
     number | undefined
   >(undefined)
   const [postIdToRePost, setPostIdToRePost] = useState<number | undefined>(
+    undefined
+  )
+  const [postIdToRestore, setPostIdToRestore] = useState<number | undefined>(
     undefined
   )
   const [modalMsg, setModalMsg] = useState('')
@@ -79,6 +85,13 @@ const DataGrid: React.FC<DataGridProps> = ({
     setShowConfirmModal(true)
   }
 
+  const handleShowRestoreConfirmModal = (postId: number) => {
+    setOpt('restore')
+    setModalMsg('Are you sure you want to restore the post?')
+    setPostIdToRestore(postId)
+    setShowConfirmModal(true)
+  }
+
   const handleLogPost = (postId: number) => {
     Router.push(`/admin/logs?postId=${postId}`)
   }
@@ -89,6 +102,7 @@ const DataGrid: React.FC<DataGridProps> = ({
       setPostIdToPermanentDelete(undefined)
       setPostIdToDelete(undefined)
       setPostIdToRePost(undefined)
+      setPostIdToRestore(undefined)
       setOpt(undefined)
     }
   }, [showConfirmModal])
@@ -104,6 +118,9 @@ const DataGrid: React.FC<DataGridProps> = ({
         break
       case 'repost':
         handleRePost(postIdToRePost)
+        break
+      case 'restore':
+        handleRestorePost(postIdToRestore)
         break
       default:
         break
@@ -135,6 +152,11 @@ const DataGrid: React.FC<DataGridProps> = ({
       title: 'Re post',
       icon: ArrowPathIcon,
       handleClick: handleShowRepostConfirmModal
+    },
+    {
+      title: 'Restore',
+      icon: ReceiptRefundIcon,
+      handleClick: handleShowRestoreConfirmModal
     },
     {
       title: 'Delete',
@@ -207,94 +229,97 @@ const DataGrid: React.FC<DataGridProps> = ({
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
-            <tr
-              key={item.id}
-              className={`text-sm ${getRowBGColor(
-                item.post_type,
-                item.is_sticky
-              )}`}
-            >
-              <td className="py-2.5 px-3 border">{item.id}</td>
-              <td className="py-2.5 px-3 border text-xs truncate max-w-[100px] 2xl:max-w-[300px]">
-                {item.description}
-              </td>
-              <td className="py-2.5 px-3 border">{item.category_title}</td>
-              <td className="py-2.5 px-3 border">{item.property_title}</td>
-              <td className="py-2.5 px-3 border">{item.city_title}</td>
-              <td className="py-2.5 px-3 border">
-                {item.price ? item.price : '-'}
-              </td>
-              <td className="py-2.5 px-3 border">
-                <Link href={`/admin/user/${item.user_id}`}>
-                  <a className="text-primary">{item.user_phone}</a>
-                </Link>
-              </td>
-              <td className="py-2.5 px-3 border">{item.repost_count}</td>
-              <td className="py-2.5 px-3 border">
-                {item.is_reposted ? (
-                  <Tooltip text={item.repostedTime}>
-                    <p>{item.repostedDate}</p>
+          {data &&
+            data.length > 0 &&
+            data.map((item) => (
+              <tr
+                key={item.id}
+                className={`text-sm ${getRowBGColor(
+                  item.post_type,
+                  item.is_sticky
+                )}`}
+              >
+                <td className="py-2.5 px-3 border">{item.id}</td>
+                <td className="py-2.5 px-3 border text-xs truncate max-w-[100px] 2xl:max-w-[300px]">
+                  {item.description}
+                </td>
+                <td className="py-2.5 px-3 border">{item.category_title}</td>
+                <td className="py-2.5 px-3 border">{item.property_title}</td>
+                <td className="py-2.5 px-3 border">{item.city_title}</td>
+                <td className="py-2.5 px-3 border">
+                  {item.price ? item.price : '-'}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Link href={`/admin/user/${item.user_id}`}>
+                    <a className="text-primary">{item.user_phone}</a>
+                  </Link>
+                </td>
+                <td className="py-2.5 px-3 border">{item.repost_count}</td>
+                <td className="py-2.5 px-3 border">
+                  {item.is_reposted ? (
+                    <Tooltip text={item.repostedTime}>
+                      <p>{item.repostedDate}</p>
+                    </Tooltip>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {item.is_sticky ? (
+                    <Tooltip text={item.stickyTime}>
+                      <p>{item.stickyDate}</p>
+                    </Tooltip>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {item.is_sticky ? (
+                    <Tooltip text={item.unStickTime}>
+                      <p>{item.unStickDate}</p>
+                    </Tooltip>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Tooltip text={item.postedTime}>
+                    <p>{item.postedDate}</p>
                   </Tooltip>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="py-2.5 px-3 border">
-                {item.is_sticky ? (
-                  <Tooltip text={item.stickyTime}>
-                    <p>{item.stickyDate}</p>
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Tooltip text={item.publicTime}>
+                    <p>{item.publicDate}</p>
                   </Tooltip>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="py-2.5 px-3 border">
-                {item.is_sticky ? (
-                  <Tooltip text={item.unStickTime}>
-                    <p>{item.unStickDate}</p>
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {item.deletedDate ? (
+                    <Tooltip text={item.deletedTime}>
+                      <p>{item.deletedDate}</p>
+                    </Tooltip>
+                  ) : (
+                    '-'
+                  )}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Tooltip text={item.expiredTime}>
+                    <p>{item.expiredDate}</p>
                   </Tooltip>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="py-2.5 px-3 border">
-                <Tooltip text={item.postedTime}>
-                  <p>{item.postedDate}</p>
-                </Tooltip>
-              </td>
-              <td className="py-2.5 px-3 border">
-                <Tooltip text={item.publicTime}>
-                  <p>{item.publicDate}</p>
-                </Tooltip>
-              </td>
-              <td className="py-2.5 px-3 border">
-                {item.deletedDate ? (
-                  <Tooltip text={item.deletedTime}>
-                    <p>{item.deletedDate}</p>
-                  </Tooltip>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="py-2.5 px-3 border">
-                <Tooltip text={item.expiredTime}>
-                  <p>{item.expiredDate}</p>
-                </Tooltip>
-              </td>
-              <td className="py-2.5 px-3 border">
-                <DropDown
-                  items={dropDownItems}
-                  postId={item.id}
-                  showStick={
-                    item.is_sticky === false && item.post_type === 'active'
-                  }
-                  showDelete={item.post_type !== 'deleted'}
-                  showRepost={item.post_type !== 'active'}
-                />
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <DropDown
+                    items={dropDownItems}
+                    postId={item.id}
+                    showStick={
+                      item.is_sticky === false && item.post_type === 'active'
+                    }
+                    showDelete={item.post_type !== 'deleted'}
+                    showRepost={item.post_type !== 'active'}
+                    showRestore={item.post_type === 'deleted'}
+                  />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

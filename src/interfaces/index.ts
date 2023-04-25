@@ -112,6 +112,7 @@ export interface IUser {
   status: string
   is_admin: boolean
   is_agent: boolean
+  is_deleted: boolean
   admin_comment: string
   created_at: Date
   updated_at: Date
@@ -125,6 +126,7 @@ export interface AdminUser {
   registeredTime: string
   registeredDate: string
   is_blocked: boolean
+  is_deleted: boolean
   is_agent: boolean
   credits: {
     id: number

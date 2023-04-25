@@ -14,6 +14,12 @@ import {
 import Router from 'next/router'
 import Tooltip from 'components/Tooltip'
 import Link from 'next/link'
+import {
+  ArchiveBoxXMarkIcon,
+  PhoneIcon,
+  ReceiptRefundIcon,
+  TrashIcon
+} from '@heroicons/react/24/solid'
 import DropDown from './Dropdown'
 
 interface DataGridProps {
@@ -30,6 +36,9 @@ interface DataGridProps {
     userId: number | undefined,
     adminComment: string | undefined
   ) => void
+  handleDeleteUser: (id: number | undefined) => void
+  handlePermanentDeleteUser: (id: number | undefined) => void
+  handleRestoreUser: (id: number | undefined) => void
 }
 
 const DataGrid: React.FC<DataGridProps> = ({
@@ -38,7 +47,10 @@ const DataGrid: React.FC<DataGridProps> = ({
   handleVerifyUser,
   handleBlockUser,
   handleUnBlockUser,
-  handleUpdateAdminComment
+  handleUpdateAdminComment,
+  handleDeleteUser,
+  handlePermanentDeleteUser,
+  handleRestoreUser
 }) => {
   const [data, setData] = useState<AdminUser[]>([])
   const [creditAmount, setCreditAmount] = useState<number | undefined>(
@@ -57,9 +69,43 @@ const DataGrid: React.FC<DataGridProps> = ({
     undefined
   )
 
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false)
+  const [userIdToDelete, setUserIdToDelete] = useState<number | undefined>(
+    undefined
+  )
+
+  const [showPermanentDeleteConfirmModal, setShowPermanentDeleteConfirmModal] =
+    useState(false)
+  const [userIdToPermanentDelete, setUserIdToPermanentDelete] = useState<
+    number | undefined
+  >(undefined)
+
+  const [showRestoreConfirmModal, setShowRestoreConfirmModal] = useState(false)
+  const [userIdToRestore, setUserIdToRestore] = useState<number | undefined>(
+    undefined
+  )
+
   useEffect(() => {
     setData(users)
   }, [users])
+
+  useEffect(() => {
+    if (!showDeleteConfirmModal) {
+      setUserIdToDelete(undefined)
+    }
+  }, [showDeleteConfirmModal])
+
+  useEffect(() => {
+    if (!showPermanentDeleteConfirmModal) {
+      setUserIdToPermanentDelete(undefined)
+    }
+  }, [showPermanentDeleteConfirmModal])
+
+  useEffect(() => {
+    if (!showRestoreConfirmModal) {
+      setUserIdToRestore(undefined)
+    }
+  }, [showRestoreConfirmModal])
 
   useEffect(() => {
     if (!showCreditModal) {
@@ -128,9 +174,25 @@ const DataGrid: React.FC<DataGridProps> = ({
   }
 
   const getUserStatus = (user: AdminUser) => {
+    if (user.is_deleted) return 'deleted'
     if (user.is_blocked) return 'blocked'
     if (user.is_agent) return 'agent'
     return 'user'
+  }
+
+  const handleShowConfirmModalForRestore = (id: number) => {
+    setUserIdToRestore(id)
+    setShowRestoreConfirmModal(true)
+  }
+
+  const handleShowConfirmModalForDelete = (id: number) => {
+    setUserIdToDelete(id)
+    setShowDeleteConfirmModal(true)
+  }
+
+  const handleShowConfirmModalForPermanentDelete = (id: number) => {
+    setUserIdToPermanentDelete(id)
+    setShowPermanentDeleteConfirmModal(true)
   }
 
   const dropDownItems = [
@@ -173,18 +235,121 @@ const DataGrid: React.FC<DataGridProps> = ({
       title: 'Edit',
       icon: PencilSquareIcon,
       handleClick: handleEditUser
+    },
+    {
+      title: 'Restore',
+      icon: ReceiptRefundIcon,
+      handleClick: handleShowConfirmModalForRestore
+    },
+    {
+      title: 'Delete',
+      icon: TrashIcon,
+      handleClick: handleShowConfirmModalForDelete
+    },
+    {
+      title: 'Delete Permanently',
+      icon: ArchiveBoxXMarkIcon,
+      handleClick: handleShowConfirmModalForPermanentDelete
     }
   ]
 
   const getBgColor = (item: any) => {
+    if (item.is_deleted) return 'bg-yellow-800'
     if (item.is_blocked) return 'bg-gray-500'
     if (item.status === 'not_verified') return 'bg-red-200'
     if (item.is_agent) return 'bg-indigo-100'
-    if (item.has_zero_credits) return 'bg-orange-100'
+    if (item.has_zero_credits) return 'bg-orange-200'
   }
 
   return (
     <div className="overflow-x-scroll xl:overflow-x-hidden shadow-md">
+      {/* delete confirmation modal */}
+      <Modal
+        isModalOpen={showDeleteConfirmModal}
+        handleIsModalOpen={setShowDeleteConfirmModal}
+        type="warning"
+      >
+        <p className="font-semibold text-lg">
+          Are you sure you want delete the user?
+        </p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowDeleteConfirmModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              handleDeleteUser(userIdToDelete)
+              setShowDeleteConfirmModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
+      {/* permanent delete confirmation modal */}
+      <Modal
+        isModalOpen={showPermanentDeleteConfirmModal}
+        handleIsModalOpen={setShowPermanentDeleteConfirmModal}
+        type="warning"
+      >
+        <p className="font-semibold text-lg">
+          Are you sure you want permanently delete the user?
+        </p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowPermanentDeleteConfirmModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              handlePermanentDeleteUser(userIdToPermanentDelete)
+              setShowPermanentDeleteConfirmModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
+      {/* restore confirmation modal */}
+      <Modal
+        isModalOpen={showRestoreConfirmModal}
+        handleIsModalOpen={setShowRestoreConfirmModal}
+        type="warning"
+      >
+        <p className="font-semibold text-lg">
+          Are you sure you want restore the user?
+        </p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowRestoreConfirmModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => {
+              handleRestoreUser(userIdToRestore)
+              setShowRestoreConfirmModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
       {/* admin comment modal */}
       <Modal
         isModalOpen={showAdminCommentModal}
@@ -338,9 +503,17 @@ const DataGrid: React.FC<DataGridProps> = ({
               >
                 <td className="py-2.5 px-3 border">{item.id}</td>
                 <td className="py-2.5 px-3 border">
-                  <Link href={`/admin/user/${item.id}`}>
-                    <a className="text-primary">{item.phone}</a>
-                  </Link>
+                  <span className="flex gap-2 items-center">
+                    <a
+                      href={`https://wa.me/${item.phone}`}
+                      className="p-1 rounded-sm bg-custom-green"
+                    >
+                      <PhoneIcon className="w-3 h-3 text-white" />
+                    </a>
+                    <Link href={`/admin/user/${item.id}`}>
+                      <a className="text-primary">{item.phone}</a>
+                    </Link>
+                  </span>
                 </td>
                 <td className="py-2.5 px-3 border">
                   <button
@@ -352,7 +525,9 @@ const DataGrid: React.FC<DataGridProps> = ({
                       )
                     }
                   >
-                    {item.adminComment ?? '-'}
+                    {item.adminComment && item.adminComment !== ''
+                      ? item.adminComment
+                      : '-'}
                   </button>
                 </td>
                 <td className="py-2.5 px-3 border">{getUserStatus(item)}</td>
@@ -449,7 +624,12 @@ const DataGrid: React.FC<DataGridProps> = ({
                   </Tooltip>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  <DropDown items={dropDownItems} postId={item.id} />
+                  <DropDown
+                    items={dropDownItems}
+                    postId={item.id}
+                    showDelete={!item.is_deleted}
+                    showRestore={item.is_deleted}
+                  />
                 </td>
               </tr>
             ))}

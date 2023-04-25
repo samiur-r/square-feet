@@ -1,3 +1,4 @@
+import Tooltip from 'components/Tooltip'
 import { LogType } from 'interfaces'
 import React, { useEffect, useState } from 'react'
 
@@ -26,18 +27,26 @@ const DataGrid: React.FC<DataGridProps> = ({ logs }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
-            <tr key={item.id} className="text-sm">
-              <td className="py-2.5 px-3 border">{item.id}</td>
-              <td className="py-2.5 px-3 border">{item.user}</td>
-              <td className="py-2.5 px-3 border">{item.post_id ?? '-'}</td>
-              <td className="py-2.5 px-3 border">{item.transaction ?? '-'}</td>
-              <td className="py-2.5 px-3 border text-xs truncate max-w-[100px] 2xl:max-w-[300px]">
-                {item.activity}
-              </td>
-              <td className="py-2.5 px-3 border">{item.publish_date}</td>
-            </tr>
-          ))}
+          {data &&
+            data.length > 0 &&
+            data.map((item: any) => (
+              <tr key={item.id} className="text-sm">
+                <td className="py-2.5 px-3 border">{item.id}</td>
+                <td className="py-2.5 px-3 border">{item.user}</td>
+                <td className="py-2.5 px-3 border">{item.post_id ?? '-'}</td>
+                <td className="py-2.5 px-3 border">
+                  {item.transaction ?? '-'}
+                </td>
+                <td className="py-2.5 px-3 border text-xs truncate max-w-[100px] 2xl:max-w-[300px]">
+                  {item.activity}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Tooltip text={item.time}>
+                    <p>{item.date}</p>
+                  </Tooltip>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

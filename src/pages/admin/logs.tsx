@@ -12,7 +12,8 @@ const Log: NextPage<{
   totalPages: number
   postId: any
   user: any
-}> = ({ logs, totalPages, postId, user }) => {
+  totalResults: number
+}> = ({ logs, totalPages, postId, user, totalResults }) => {
   const { updateToast } = useStore()
   const [isLoading, setIsLoading] = useState(true)
   const [logList, setLogList] = useState<any>([])
@@ -90,7 +91,8 @@ const Log: NextPage<{
             </svg>
           </div>
         )}
-        <div className="mt-16">
+        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-5">
           <LogDataTable logs={currentItemList} />
         </div>
         <div className="mt-16">
@@ -113,6 +115,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   let token
   let logs = null
   let totalPages = null
+  let totalResults = 0
   let postId
   let user
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
@@ -141,13 +144,20 @@ export const getServerSideProps: GetServerSideProps = async ({
       })
       logs = response.data?.logs ?? []
       totalPages = response.data?.totalPages ?? null
+      totalResults = response.data?.totalResults ?? 0
     } catch (err) {
       /* empty */
     }
   }
 
   return {
-    props: { logs, totalPages, postId: postId ?? null, user: user ?? null }
+    props: {
+      logs,
+      totalPages,
+      totalResults,
+      postId: postId ?? null,
+      user: user ?? null
+    }
   }
 }
 

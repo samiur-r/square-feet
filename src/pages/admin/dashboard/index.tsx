@@ -187,15 +187,53 @@ const Dashboard: NextPage<DashboardProps> = ({
                 </td>
               </tr>
               <tr className="text-sm text-center">
-                <td className="py-2.5 px-3 border">Agent (2months/6months)</td>
+                <td className="py-2.5 px-3 border">Total - 6 months agent</td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.totalAgentTwoIncomeThisMonth} /{' '}
-                  {transactionSummary?.totalAgentSixIncomeThisMonth}
+                  {transactionSummary
+                    ? transactionSummary.totalIncomeThisMonth -
+                      transactionSummary.totalAgentSixIncomeThisMonth
+                    : ''}
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {transactionSummary?.totalAgentTwoIncomeLastMonth} /{' '}
-                  {transactionSummary?.totalAgentSixIncomeLastMonth}
+                  {transactionSummary
+                    ? transactionSummary.totalIncomeLastMonth -
+                      transactionSummary.totalAgentSixIncomeLastMonth
+                    : ''}
+                </td>
+              </tr>
+              <tr className="text-sm text-center">
+                <td className="py-2.5 px-3 border">Agent (2months/6months)</td>
+                <td className="py-2.5 px-3 border">
+                  {transactionSummary ? (
+                    <span className="flex gap-2 justify-center items-center">
+                      <p>
+                        {transactionSummary.totalAgentTwoIncomeThisMonth +
+                          transactionSummary.totalAgentSixIncomeThisMonth}
+                      </p>
+                      <p className="text-xs">
+                        {transactionSummary.totalAgentTwoIncomeThisMonth} /{' '}
+                        {transactionSummary.totalAgentSixIncomeThisMonth}
+                      </p>
+                    </span>
+                  ) : (
+                    ''
+                  )}
+                </td>
+                <td className="py-2.5 px-3 border">
+                  {transactionSummary ? (
+                    <span className="flex gap-2 justify-center items-center">
+                      <p>
+                        {transactionSummary.totalAgentTwoIncomeLastMonth +
+                          transactionSummary.totalAgentSixIncomeLastMonth}
+                      </p>
+                      <p className="text-xs">
+                        {transactionSummary.totalAgentTwoIncomeLastMonth} /{' '}
+                        {transactionSummary.totalAgentSixIncomeLastMonth}
+                      </p>
+                    </span>
+                  ) : (
+                    ''
+                  )}
                 </td>
               </tr>
               <tr className="text-sm text-center">
