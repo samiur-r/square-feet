@@ -30,6 +30,7 @@ const Transactions: NextPage<TransactionProps> = ({
   const [currentItemList, setCurrentItemList] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [count, setCount] = useState(0)
+  const [totalItems, setTotalItems] = useState(0)
 
   const [statusToFilter, setStatusToFilter] = useState<string>('-')
   const [typeToFilter, setTypeToFilter] = useState<string>('-')
@@ -51,6 +52,10 @@ const Transactions: NextPage<TransactionProps> = ({
   useEffect(() => {
     setCount(totalPages)
   }, [totalPages])
+
+  useEffect(() => {
+    setTotalItems(totalResults)
+  }, [totalResults])
 
   useEffect(() => {
     setTransactionList([{ page: 1, transactions }])
@@ -136,6 +141,7 @@ const Transactions: NextPage<TransactionProps> = ({
       setCurrentItemList(data.transactions)
       setPageNumber(1)
       setCount(data.totalPages)
+      setTotalItems(data.totalResults)
     } catch (error) {
       setIsLoading(false)
     }
@@ -184,7 +190,7 @@ const Transactions: NextPage<TransactionProps> = ({
             </svg>
           </div>
         )}
-        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-16 text-sm">Total result found: {totalItems}</div>
         <div className="mt-5">
           <TransactionDataTable transactions={currentItemList} />
         </div>

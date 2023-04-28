@@ -38,6 +38,7 @@ const Users: NextPage<AdminPostProps> = ({
     useState<Date | null>(null)
   const [orderByToFilter, setOrderByToFilter] = useState<string>('Registered')
   const [count, setCount] = useState(0)
+  const [totalItems, setTotalItems] = useState(0)
 
   useEffect(() => {
     const filterVals = JSON.parse(filterValues)
@@ -51,6 +52,10 @@ const Users: NextPage<AdminPostProps> = ({
   useEffect(() => {
     setCount(totalPages)
   }, [totalPages])
+
+  useEffect(() => {
+    setTotalItems(totalResults)
+  }, [totalResults])
 
   useEffect(() => {
     setUserList([{ page: 1, users }])
@@ -136,6 +141,7 @@ const Users: NextPage<AdminPostProps> = ({
       setCurrentItemList(data.users)
       setPageNumber(1)
       setCount(data.totalPages)
+      setTotalItems(data.totalResults)
     } catch (error) {
       setIsLoading(false)
       updateToast(true, 'Error: Something went wrong', true)
@@ -387,7 +393,7 @@ const Users: NextPage<AdminPostProps> = ({
             </svg>
           </div>
         )}
-        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-16 text-sm">Total result found: {totalItems}</div>
         <div className="mt-5">
           <UserDataTable
             users={currentItemList}

@@ -32,6 +32,7 @@ const Posts: NextPage<AdminPostProps> = ({
   const [pageNumber, setPageNumber] = useState(1)
   const [currentItemList, setCurrentItemList] = useState<any[]>([])
   const [count, setCount] = useState(0)
+  const [totalItems, setTotalItems] = useState(0)
 
   const [locationToFilter, setLocationToFilter] = useState<number>(0)
   const [categoryToFilter, setCategoryToFilter] = useState<number>(0)
@@ -66,6 +67,10 @@ const Posts: NextPage<AdminPostProps> = ({
   useEffect(() => {
     setCount(totalPages)
   }, [totalPages])
+
+  useEffect(() => {
+    setTotalItems(totalResults)
+  }, [totalResults])
 
   useEffect(() => {
     setPostList([{ page: 1, posts }])
@@ -169,6 +174,7 @@ const Posts: NextPage<AdminPostProps> = ({
       setCurrentItemList(data.posts)
       setPageNumber(1)
       setCount(data.totalPages)
+      setTotalItems(data.totalResults)
     } catch (error) {
       setIsLoading(false)
       updateToast(true, 'Error: Something went wrong', true)
@@ -332,7 +338,7 @@ const Posts: NextPage<AdminPostProps> = ({
             </svg>
           </div>
         )}
-        <div className="mt-16 text-sm">Total result found: {totalResults}</div>
+        <div className="mt-16 text-sm">Total result found: {totalItems}</div>
         <div className="mt-5">
           <PostDataTable
             posts={currentItemList}
