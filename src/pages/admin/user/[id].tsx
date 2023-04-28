@@ -305,6 +305,78 @@ const User: NextPage<AdminPostProps> = ({
     }
   }
 
+  const handleDeleteUser = async (id: number | undefined) => {
+    if (!id) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/user',
+        data: { userId: id }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User deleted successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User delete attempt failed', true)
+    }
+  }
+
+  const handlePermanentDeleteUser = async (id: number | undefined) => {
+    if (!id) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'DELETE',
+        url: '/admin/user-permanent',
+        data: { userId: id }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User deleted permanently', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User permanent delete attempt failed', true)
+    }
+  }
+
+  const handleRestoreUser = async (id: number | undefined) => {
+    if (!id) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/admin/restore',
+        data: { userId: id }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: User restored successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: User restore attempt failed', true)
+    }
+  }
+
+  const handleRestorePost = async (postId: number | undefined) => {
+    if (!postId) return
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'POST',
+        url: '/post/restore',
+        data: { postId }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Post restored successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Post restore attempt failed', true)
+    }
+  }
+
   return (
     <div className="mb-10">
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -345,6 +417,9 @@ const User: NextPage<AdminPostProps> = ({
             handleBlockUser={handleBlockUser}
             handleUnBlockUser={handleUnBlockUser}
             handleUpdateAdminComment={handleUpdateAdminComment}
+            handleDeleteUser={handleDeleteUser}
+            handlePermanentDeleteUser={handlePermanentDeleteUser}
+            handleRestoreUser={handleRestoreUser}
           />
         </div>
         <div className="mt-16 text-sm">Total result found: {totalResults}</div>
@@ -355,6 +430,7 @@ const User: NextPage<AdminPostProps> = ({
             handleDeletePost={handleDeletePost}
             handlePermanentDeletePost={handlePermanentDeletePost}
             handleRePost={handleRePost}
+            handleRestorePost={handleRestorePost}
           />
         </div>
         <div className="mt-16">

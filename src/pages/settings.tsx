@@ -12,8 +12,8 @@ const Settings: NextPage = () => {
 
   const { user, updateToast } = useStore()
 
-  const handleDeleteUser = async (userId: number | undefined) => {
-    if (!userId) return
+  const handleDeleteUser = async () => {
+    if (!user) return
     setIsCallingApi(true)
     try {
       await ApiClient({

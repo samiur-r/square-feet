@@ -9,8 +9,8 @@ import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 import Link from 'next/link'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
-import Actions from './Actions'
 import config from 'config'
+import Actions from './Actions'
 
 interface PostCardProps {
   post: IPost
@@ -23,7 +23,7 @@ const PostCard: React.FC<PostCardProps> = ({
   showActions,
   isArchive
 }) => {
-  const twitterBtnRef = useRef(null)
+  const twitterBtnRef: any = useRef(null)
   const { updateToast } = useStore()
   const [isCallingApiForStick, setIsCallingApiForStick] = useState(false)
   const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
@@ -96,7 +96,7 @@ const PostCard: React.FC<PostCardProps> = ({
   }
 
   const shareOnTwitter = () => {
-    twitterBtnRef.current.click()
+    if (twitterBtnRef && twitterBtnRef.current) twitterBtnRef.current.click()
   }
 
   const handleAction = async (operation: string) => {
