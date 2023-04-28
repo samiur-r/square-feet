@@ -48,7 +48,9 @@ const Agency: React.FC<{
   agent,
   credits
 }) => {
-  const expiredDate = agent ? new Date(agent?.expiry_date) : undefined
+  const expiredDate = agent
+    ? new Date(agent?.subscription_ends_date)
+    : undefined
   const hours = expiredDate?.getHours().toString().padStart(2, '0')
   const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
 
