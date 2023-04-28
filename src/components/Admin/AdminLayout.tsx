@@ -49,7 +49,7 @@ interface AdminLayoutProps {
 }
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const router = useRouter()
-  const currentUrl = router.asPath
+  const currentUrl = router.pathname
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [activeItem, setActiveItem] = useState(0)

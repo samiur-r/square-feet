@@ -15,13 +15,15 @@ interface AdminPostProps {
   userId: number
   totalPages: number
   totalResults: number
+  filterValues: any
 }
 
 const Posts: NextPage<AdminPostProps> = ({
   posts,
   userId,
   totalPages,
-  totalResults
+  totalResults,
+  filterValues
 }) => {
   const { updateToast } = useStore()
   const [postList, setPostList] = useState<any[]>(posts)
@@ -50,6 +52,16 @@ const Posts: NextPage<AdminPostProps> = ({
   const [postStatusToFilter, setPostStatusToFilter] = useState<
     string | undefined
   >(undefined)
+
+  useEffect(() => {
+    const filterVals = JSON.parse(filterValues)
+    if (filterVals.stickyStatusToFilter)
+      setStickyStatusToFilter(filterVals.stickyStatusToFilter)
+    if (filterVals.fromCreationDateToFilter)
+      setFromCreationDateToFilter(new Date(filterVals.fromCreationDateToFilter))
+    if (filterVals.toCreationDateToFilter)
+      setToCreationDateToFilter(new Date(filterVals.toCreationDateToFilter))
+  }, [filterValues])
 
   useEffect(() => {
     setCount(totalPages)
@@ -349,6 +361,27 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const parsedCookie = req.cookies.token
 
+  const filterValues: any = {
+    stickyStatusToFilter: 0,
+    fromCreationDateToFilter: null,
+    toCreationDateToFilter: null
+  }
+
+  const today = new Date()
+  const yesterday = new Date()
+  yesterday.setDate(today.getDate() - 1)
+
+  if (query) {
+    if (query.sticky && query.sticky === '1')
+      filterValues.stickyStatusToFilter = 1
+    if (query.created_at && query.created_at === 'today')
+      filterValues.fromCreationDateToFilter = today
+    if (query.created_at && query.created_at === 'yesterday') {
+      filterValues.fromCreationDateToFilter = yesterday
+      filterValues.toCreationDateToFilter = yesterday
+    }
+  }
+
   let token
   let posts = null
   let totalPages = null
@@ -371,7 +404,14 @@ export const getServerSideProps: GetServerSideProps = async ({
         data: {
           postStatusToFilter: undefined,
           userId: query?.userId,
-          offset: 0
+          offset: 0,
+          stickyStatusToFilter: filterValues.stickyStatusToFilter,
+          fromCreationDateToFilter: filterValues.fromCreationDateToFilter
+            ? getLocaleDate(filterValues.fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: filterValues.toCreationDateToFilter
+            ? getLocaleDate(filterValues.toCreationDateToFilter)
+            : undefined
         },
         withCredentials: true,
         headers: {
@@ -387,7 +427,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   return {
-    props: { posts, totalPages, totalResults, userId: query?.userId ?? null }
+    props: {
+      posts,
+      totalPages,
+      totalResults,
+      userId: query?.userId ?? null,
+      filterValues: JSON.stringify(filterValues)
+    }
   }
 }
 

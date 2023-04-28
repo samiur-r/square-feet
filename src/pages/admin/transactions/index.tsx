@@ -14,13 +14,15 @@ interface TransactionProps {
   userId: number
   totalPages: number
   totalResults: number
+  filterValues: any
 }
 
 const Transactions: NextPage<TransactionProps> = ({
   transactions,
   userId,
   totalPages,
-  totalResults
+  totalResults,
+  filterValues
 }) => {
   const { updateToast } = useStore()
   const [transactionList, setTransactionList] = useState<any[]>([])
@@ -37,15 +39,27 @@ const Transactions: NextPage<TransactionProps> = ({
     useState<Date | null>(null)
 
   useEffect(() => {
+    const filterVals = JSON.parse(filterValues)
+    setStatusToFilter(filterVals.status)
+    setTypeToFilter(filterVals.type)
+    if (filterVals.fromCreationDateToFilter)
+      setFromCreationDateToFilter(new Date(filterVals.fromCreationDateToFilter))
+    if (filterVals.toCreationDateToFilter)
+      setToCreationDateToFilter(new Date(filterVals.toCreationDateToFilter))
+  }, [filterValues])
+
+  useEffect(() => {
     setCount(totalPages)
   }, [totalPages])
 
   useEffect(() => {
     setTransactionList([{ page: 1, transactions }])
+    setCurrentItemList(transactions)
     setIsLoading(false)
   }, [transactions])
 
   const fetchItems = async () => {
+    if (pageNumber === 1) return
     setCurrentItemList([])
     setIsLoading(true)
     try {
@@ -192,6 +206,61 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const parsedCookie = req.cookies.token
 
+  const filterValues: any = {
+    status: '-',
+    type: '-',
+    fromCreationDateToFilter: null,
+    toCreationDateToFilter: null
+  }
+
+  if (query) {
+    const today = new Date()
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+    const firstDayOfLastMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      1
+    )
+    const lastDayOfLastMonth = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      0
+    )
+    const yesterday = new Date()
+    yesterday.setDate(today.getDate() - 1)
+
+    if (query.status) {
+      filterValues.status =
+        (query.status as string).charAt(0).toUpperCase() + query.status.slice(1)
+    }
+    if (query.type) {
+      let str = query.type as string
+      if (str.includes('_')) {
+        const words = str.split('_')
+        str = words
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
+      } else {
+        str = str.charAt(0).toUpperCase() + str.slice(1)
+      }
+      filterValues.type = str
+    }
+    if (query.created === 'this_month') {
+      filterValues.fromCreationDateToFilter = firstDayOfMonth
+    }
+    if (query.created === 'last_month') {
+      filterValues.fromCreationDateToFilter = firstDayOfLastMonth
+      filterValues.toCreationDateToFilter = lastDayOfLastMonth
+    }
+    if (query.created === 'today') {
+      filterValues.fromCreationDateToFilter = today
+    }
+    if (query.created === 'yesterday') {
+      filterValues.fromCreationDateToFilter = yesterday
+      filterValues.toCreationDateToFilter = yesterday
+    }
+  }
+
   let token
   let transactions = null
   let totalPages = null
@@ -211,7 +280,18 @@ export const getServerSideProps: GetServerSideProps = async ({
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/get-transactions',
-        data: { userId: query?.userId, offset: 0 },
+        data: {
+          userId: query?.userId,
+          offset: 0,
+          statusToFilter: filterValues.status,
+          typeToFilter: filterValues.type,
+          fromCreationDateToFilter: filterValues.fromCreationDateToFilter
+            ? getLocaleDate(filterValues.fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: filterValues.toCreationDateToFilter
+            ? getLocaleDate(filterValues.toCreationDateToFilter)
+            : undefined
+        },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
@@ -230,7 +310,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       transactions,
       totalResults,
       userId: query?.userId ?? null,
-      totalPages
+      totalPages,
+      filterValues: JSON.stringify(filterValues)
     }
   }
 }

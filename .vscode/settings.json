@@ -28,6 +28,7 @@
         "trandata",
         "tranid",
         "TRANPORTAL",
+        "Vals",
         "zustand"
     ]
 }

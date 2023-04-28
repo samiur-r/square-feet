@@ -14,12 +14,14 @@ interface AdminPostProps {
   users: AdminUser[]
   totalPages: number
   totalResults: number
+  filterValues: any
 }
 
 const Users: NextPage<AdminPostProps> = ({
   users,
   totalPages,
-  totalResults
+  totalResults,
+  filterValues
 }) => {
   const { updateToast } = useStore()
   const [userList, setUserList] = useState<any[]>(users)
@@ -36,6 +38,15 @@ const Users: NextPage<AdminPostProps> = ({
     useState<Date | null>(null)
   const [orderByToFilter, setOrderByToFilter] = useState<string>('Registered')
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const filterVals = JSON.parse(filterValues)
+    setStatusToFilter(filterVals.status)
+    if (filterVals.fromCreationDateToFilter)
+      setFromCreationDateToFilter(new Date(filterVals.fromCreationDateToFilter))
+    if (filterVals.toCreationDateToFilter)
+      setToCreationDateToFilter(new Date(filterVals.toCreationDateToFilter))
+  }, [filterValues])
 
   useEffect(() => {
     setCount(totalPages)
@@ -402,8 +413,58 @@ const Users: NextPage<AdminPostProps> = ({
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  query
+}) => {
   const parsedCookie = req.cookies.token
+
+  const filterValues: any = {
+    status: 0,
+    fromCreationDateToFilter: null,
+    toCreationDateToFilter: null
+  }
+
+  if (query) {
+    const today = new Date()
+    const yesterday = new Date()
+    yesterday.setDate(today.getDate() - 1)
+
+    if (query.status && query.status === 'not_verified')
+      filterValues.status = 'Not Verified'
+    if (query.status && query.status === 'active_today') {
+      filterValues.status = 'Active Today'
+      filterValues.fromCreationDateToFilter = today
+    }
+    if (query.status && query.status === 'active_yesterday') {
+      filterValues.status = 'Active Yesterday'
+      filterValues.fromCreationDateToFilter = yesterday
+      filterValues.toCreationDateToFilter = yesterday
+    }
+    if (query.status && query.status === 'zero_free')
+      filterValues.status = 'Zero Free'
+    if (query.status && query.status === 'has_regular_history')
+      filterValues.status = 'Has Regular Credit History'
+    if (query.status && query.status === 'has_sticky_history')
+      filterValues.status = 'Has Sticky Credit History'
+    if (query.status && query.status === 'has_direct_history')
+      filterValues.status = 'Has Direct Sticky Credit History'
+    if (query.status && query.status === 'has_agent_history')
+      filterValues.status = 'Has Agent History'
+    if (query.status && query.status === 'agent') filterValues.status = 'Agent'
+    if (query.status && query.status === 'has_regular_credits')
+      filterValues.status = 'Has Regular Credits'
+    if (query.status && query.status === 'has_sticky_credits')
+      filterValues.status = 'Has Sticky Credits'
+    if (query.status && query.status === 'has_agent_credits')
+      filterValues.status = 'Has Agent Credits'
+    if (query.created_at && query.created_at === 'today')
+      filterValues.fromCreationDateToFilter = today
+    if (query.created_at && query.created_at === 'yesterday') {
+      filterValues.fromCreationDateToFilter = yesterday
+      filterValues.toCreationDateToFilter = yesterday
+    }
+  }
 
   let token
   let users = []
@@ -424,7 +485,17 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       const response = await ApiClient({
         method: 'POST',
         url: '/admin/filter-users',
-        data: { offset: 0, orderByToFilter: 'Registered' },
+        data: {
+          offset: 0,
+          orderByToFilter: 'Registered',
+          statusToFilter: filterValues.status,
+          fromCreationDateToFilter: filterValues.fromCreationDateToFilter
+            ? getLocaleDate(filterValues.fromCreationDateToFilter)
+            : undefined,
+          toCreationDateToFilter: filterValues.toCreationDateToFilter
+            ? getLocaleDate(filterValues.toCreationDateToFilter)
+            : undefined
+        },
         withCredentials: true,
         headers: {
           Cookie: req.headers.cookie
@@ -439,7 +510,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   return {
-    props: { users, totalPages, totalResults }
+    props: {
+      users,
+      totalPages,
+      totalResults,
+      filterValues: JSON.stringify(filterValues)
+    }
   }
 }
 

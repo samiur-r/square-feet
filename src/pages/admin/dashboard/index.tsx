@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import ApiClient from 'utils/ApiClient'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
@@ -102,31 +103,50 @@ const Dashboard: NextPage<DashboardProps> = ({
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Not Verified</td>
                 <td className="py-2.5 px-3 border">
-                  {userSummary?.notVerifiedToday}
+                  <Link href="/admin/users?status=not_verified&created_at=today">
+                    <a className="text-primary">
+                      {userSummary?.notVerifiedToday}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {userSummary?.notVerifiedYesterday}
+                  <Link href="/admin/users?status=not_verified&created_at=yesterday">
+                    <a className="text-primary">
+                      {userSummary?.notVerifiedYesterday}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Registered</td>
                 <td className="py-2.5 px-3 border">
-                  {userSummary?.verifiedToday}
+                  <Link href="/admin/users?created_at=today">
+                    <a className="text-primary">
+                      {userSummary?.registeredToday}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {userSummary?.verifiedYesterday}
+                  <Link href="/admin/users?created_at=yesterday">
+                    <a className="text-primary">
+                      {userSummary?.registeredYesterday}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">New Posts</td>
                 <td className="py-2.5 px-3 border">
-                  {postSummary?.postsToday}
+                  <Link href="/admin/posts?created_at=today">
+                    <a className="text-primary">{postSummary?.postsToday}</a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {postSummary?.postsYesterday}
+                  <Link href="/admin/posts?created_at=yesterday">
+                    <a className="text-primary">
+                      {postSummary?.postsYesterday}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
@@ -140,24 +160,64 @@ const Dashboard: NextPage<DashboardProps> = ({
                 </td>
               </tr>
               <tr className="text-sm text-center">
-                <td className="py-2.5 px-3 border">Transactions</td>
+                <td className="py-2.5 px-3 border">Active Users</td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.completedTransactionsToday} /{' '}
-                  {transactionSummary?.totalTransactionsToday}
+                  <Link href="/admin/users?status=active_today">
+                    <a className="text-primary">{userSummary?.activeToday}</a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {transactionSummary?.completedTransactionsYesterday} /{' '}
-                  {transactionSummary?.totalTransactionsYesterday}
+                  <Link href="/admin/users?status=active_yesterday">
+                    <a className="text-primary">
+                      {userSummary?.activeYesterday}
+                    </a>
+                  </Link>
+                </td>
+              </tr>
+              <tr className="text-sm text-center">
+                <td className="py-2.5 px-3 border">Transactions</td>
+                <td className="py-2.5 px-3 border">
+                  <Link href="/admin/transactions?status=completed&created=today">
+                    <a className="text-primary">
+                      {transactionSummary?.completedTransactionsToday}
+                    </a>
+                  </Link>{' '}
+                  /{' '}
+                  <Link href="/admin/transactions?created=today">
+                    <a className="text-primary">
+                      {transactionSummary?.totalTransactionsToday}
+                    </a>
+                  </Link>
+                </td>
+                <td className="py-2.5 px-3 border">
+                  <Link href="/admin/transactions?status=completed&created=yesterday">
+                    <a className="text-primary">
+                      {transactionSummary?.completedTransactionsYesterday}
+                    </a>
+                  </Link>{' '}
+                  /{' '}
+                  <Link href="/admin/transactions?created=yesterday">
+                    <a className="text-primary">
+                      {transactionSummary?.totalTransactionsYesterday}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Income</td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.incomeToday}
+                  <Link href="/admin/transactions?created=today">
+                    <a className="text-primary">
+                      {transactionSummary?.incomeToday}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.incomeYesterday}
+                  <Link href="/admin/transactions?created=yesterday">
+                    <a className="text-primary">
+                      {transactionSummary?.incomeYesterday}
+                    </a>
+                  </Link>
                 </td>
               </tr>
             </tbody>
@@ -179,11 +239,18 @@ const Dashboard: NextPage<DashboardProps> = ({
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Total</td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.totalIncomeThisMonth}
+                  <Link href="/admin/transactions?status=completed&created=this_month">
+                    <a className="text-primary">
+                      {transactionSummary?.totalIncomeThisMonth}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {transactionSummary?.totalIncomeLastMonth}
+                  <Link href="/admin/transactions?status=completed&created=last_month">
+                    <a className="text-primary">
+                      {transactionSummary?.totalIncomeLastMonth}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
@@ -206,10 +273,14 @@ const Dashboard: NextPage<DashboardProps> = ({
                 <td className="py-2.5 px-3 border">
                   {transactionSummary ? (
                     <span className="flex gap-2 justify-center items-center">
-                      <p>
-                        {transactionSummary.totalAgentTwoIncomeThisMonth +
-                          transactionSummary.totalAgentSixIncomeThisMonth}
-                      </p>
+                      <Link href="/admin/transactions?status=completed&type=agent&created=this_month">
+                        <a className="text-primary">
+                          <p>
+                            {transactionSummary.totalAgentTwoIncomeThisMonth +
+                              transactionSummary.totalAgentSixIncomeThisMonth}
+                          </p>
+                        </a>
+                      </Link>
                       <p className="text-xs">
                         {transactionSummary.totalAgentTwoIncomeThisMonth} /{' '}
                         {transactionSummary.totalAgentSixIncomeThisMonth}
@@ -222,10 +293,14 @@ const Dashboard: NextPage<DashboardProps> = ({
                 <td className="py-2.5 px-3 border">
                   {transactionSummary ? (
                     <span className="flex gap-2 justify-center items-center">
-                      <p>
-                        {transactionSummary.totalAgentTwoIncomeLastMonth +
-                          transactionSummary.totalAgentSixIncomeLastMonth}
-                      </p>
+                      <Link href="/admin/transactions?status=completed&type=agent&created=last_month">
+                        <a className="text-primary">
+                          <p>
+                            {transactionSummary.totalAgentTwoIncomeLastMonth +
+                              transactionSummary.totalAgentSixIncomeLastMonth}
+                          </p>
+                        </a>
+                      </Link>
                       <p className="text-xs">
                         {transactionSummary.totalAgentTwoIncomeLastMonth} /{' '}
                         {transactionSummary.totalAgentSixIncomeLastMonth}
@@ -239,23 +314,75 @@ const Dashboard: NextPage<DashboardProps> = ({
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Regular</td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.totalRegularIncomeThisMonth}
+                  <Link href="/admin/transactions?status=completed&type=regular&created=this_month">
+                    <a className="text-primary">
+                      {transactionSummary?.totalRegularIncomeThisMonth}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {transactionSummary?.totalRegularIncomeLastMonth}
+                  <Link href="/admin/transactions?status=completed&type=regular&created=last_month">
+                    <a className="text-primary">
+                      {transactionSummary?.totalRegularIncomeLastMonth}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Sticky (direct/credit)</td>
                 <td className="py-2.5 px-3 border">
-                  {transactionSummary?.totalStickyDirectIncomeThisMonth} /{' '}
-                  {transactionSummary?.totalStickyIncomeThisMonth}
+                  {transactionSummary ? (
+                    <span className="flex gap-2 justify-center items-center">
+                      <p>
+                        {transactionSummary.totalStickyDirectIncomeThisMonth +
+                          transactionSummary.totalStickyIncomeThisMonth}
+                      </p>
+                      <p>
+                        <Link href="/admin/transactions?status=completed&type=sticky_direct&created=this_month">
+                          <a className="text-primary">
+                            {
+                              transactionSummary?.totalStickyDirectIncomeThisMonth
+                            }
+                          </a>
+                        </Link>{' '}
+                        /{' '}
+                        <Link href="/admin/transactions?status=completed&type=sticky&created=this_month">
+                          <a className="text-primary">
+                            {transactionSummary?.totalStickyIncomeThisMonth}
+                          </a>
+                        </Link>
+                      </p>
+                    </span>
+                  ) : (
+                    ''
+                  )}
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {' '}
-                  {transactionSummary?.totalStickyDirectIncomeLastMonth} /{' '}
-                  {transactionSummary?.totalStickyIncomeLastMonth}
+                  {transactionSummary ? (
+                    <span className="flex gap-2 justify-center items-center">
+                      <p>
+                        {transactionSummary.totalStickyDirectIncomeLastMonth +
+                          transactionSummary.totalStickyIncomeLastMonth}
+                      </p>
+                      <p>
+                        <Link href="/admin/transactions?status=completed&type=sticky_direct&created=last_month">
+                          <a className="text-primary">
+                            {
+                              transactionSummary?.totalStickyDirectIncomeLastMonth
+                            }{' '}
+                          </a>
+                        </Link>{' '}
+                        /{' '}
+                        <Link href="/admin/transactions?status=completed&type=sticky&created=last_month">
+                          <a className="text-primary">
+                            {transactionSummary?.totalStickyIncomeLastMonth}
+                          </a>
+                        </Link>
+                      </p>
+                    </span>
+                  ) : (
+                    ''
+                  )}
                 </td>
               </tr>
             </tbody>
@@ -273,7 +400,9 @@ const Dashboard: NextPage<DashboardProps> = ({
                 <tr className="text-sm text-center">
                   <td className="py-2.5 px-3 border">Total</td>
                   <td className="py-2.5 px-3 border">
-                    {postSummary?.totalPosts}
+                    <Link href="/admin/posts">
+                      <a className="text-primary">{postSummary?.totalPosts}</a>
+                    </Link>
                   </td>
                 </tr>
                 <tr className="text-sm text-center">
@@ -303,7 +432,11 @@ const Dashboard: NextPage<DashboardProps> = ({
                 <tr className="text-sm text-center">
                   <td className="py-2.5 px-3 border">Active Sticky</td>
                   <td className="py-2.5 px-3 border">
-                    {postSummary?.totalActiveStickyPosts}
+                    <Link href="/admin/posts?sticky=1">
+                      <a className="text-primary">
+                        {postSummary?.totalActiveStickyPosts}
+                      </a>
+                    </Link>
                   </td>
                 </tr>
               </tbody>
@@ -320,19 +453,29 @@ const Dashboard: NextPage<DashboardProps> = ({
                 <tr className="text-sm text-center">
                   <td className="py-2.5 px-3 border">Total</td>
                   <td className="py-2.5 px-3 border">
-                    {userSummary?.totalUsers}
+                    <Link href="/admin/users">
+                      <a className="text-primary">{userSummary?.totalUsers}</a>
+                    </Link>
                   </td>
                 </tr>
                 <tr className="text-sm text-center">
                   <td className="py-2.5 px-3 border">0 Free</td>
                   <td className="py-2.5 px-3 border">
-                    {creditSummary?.totalZeroFreeCredits}
+                    <Link href="/admin/users?status=zero_free">
+                      <a className="text-primary">
+                        {creditSummary?.totalZeroFreeCredits}
+                      </a>
+                    </Link>
                   </td>
                 </tr>
                 <tr className="text-sm text-center">
                   <td className="py-2.5 px-3 border">Active Agents</td>
                   <td className="py-2.5 px-3 border">
-                    {userSummary?.activeAgents}
+                    <Link href="/admin/users?status=agent">
+                      <a className="text-primary">
+                        {userSummary?.activeAgents}
+                      </a>
+                    </Link>
                   </td>
                 </tr>
               </tbody>
@@ -356,37 +499,85 @@ const Dashboard: NextPage<DashboardProps> = ({
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Users with history</td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.usersWithHistory.regular}
+                  <Link href="/admin/users?status=has_regular_history">
+                    <a className="text-primary">
+                      {creditSummary?.usersWithHistory.regular}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.usersWithHistory.sticky}
+                  <Link href="/admin/users?status=has_sticky_history">
+                    <a className="text-primary">
+                      {creditSummary?.usersWithHistory.sticky}
+                    </a>
+                  </Link>{' '}
+                  /{' '}
+                  <Link href="/admin/users?status=has_direct_history">
+                    <a className="text-primary">
+                      {creditSummary?.usersWithHistory.stickyDirect}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.usersWithHistory.agent}
+                  <Link href="/admin/users?status=has_agent_history">
+                    <a className="text-primary">
+                      {creditSummary?.usersWithHistory.agent}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Total history</td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.totalHistory.regular}
+                  <Link href="/admin/transactions?status=completed&type=regular">
+                    <a className="text-primary">
+                      {creditSummary?.totalHistory.regular}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.totalHistory.sticky}
+                  <Link href="/admin/transactions?status=completed&type=sticky">
+                    <a className="text-primary">
+                      {creditSummary?.totalHistory.sticky}
+                    </a>
+                  </Link>{' '}
+                  /{' '}
+                  <Link href="/admin/transactions?status=completed&type=sticky_direct">
+                    <a className="text-primary">
+                      {creditSummary?.totalHistory.stickyDirect}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.totalHistory.agent}
+                  <Link href="/admin/transactions?status=completed&type=agent">
+                    <a className="text-primary">
+                      {creditSummary?.totalHistory.agent}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Users with active</td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.userWithActive.regular}
+                  <Link href="/admin/users?status=has_regular_credits">
+                    <a className="text-primary">
+                      {creditSummary?.userWithActive.regular}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.userWithActive.sticky}
+                  <Link href="/admin/users?status=has_sticky_credits">
+                    <a className="text-primary">
+                      {creditSummary?.userWithActive.sticky}
+                    </a>
+                  </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  {creditSummary?.userWithActive.agent}
+                  <Link href="/admin/users?status=has_agent_credits">
+                    <a className="text-primary">
+                      {creditSummary?.userWithActive.agent}
+                    </a>
+                  </Link>
                 </td>
               </tr>
               <tr className="text-sm text-center">

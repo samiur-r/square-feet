@@ -11,6 +11,12 @@ const statusItems = [
   'Has Regular Credits',
   'Has Sticky Credits',
   'Has Agent Credits',
+  'Has Regular Credit History',
+  'Has Sticky Credit History',
+  'Has Direct Sticky Credit History',
+  'Has Agent History',
+  'Active Today',
+  'Active Yesterday',
   'Zero Free'
 ]
 
