@@ -26,6 +26,8 @@ interface FilterSideBarProps {
   toPriceToFilter: number | undefined
   fromCreationDateToFilter: Date | null
   toCreationDateToFilter: Date | null
+  fromPublicDateToFilter: Date | null
+  toPublicDateToFilter: Date | null
   stickyStatusToFilter: number
   userTypeToFilter: string
   orderByToFilter: string | undefined
@@ -37,6 +39,8 @@ interface FilterSideBarProps {
   handleSetToPriceToFilter: Dispatch<SetStateAction<number | undefined>>
   handleSetFromCreationDateToFilter: Dispatch<SetStateAction<Date | null>>
   handleSetToCreationDateToFilter: Dispatch<SetStateAction<Date | null>>
+  handleSetFromPublicDateToFilter: Dispatch<SetStateAction<Date | null>>
+  handleSetToPublicDateToFilter: Dispatch<SetStateAction<Date | null>>
   handleSetStickyStatusToFilter: Dispatch<SetStateAction<number>>
   handleSetUserTypeToFilter: Dispatch<SetStateAction<string>>
   handleSetOrderByToFilter: Dispatch<SetStateAction<string>>
@@ -53,6 +57,8 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
   toPriceToFilter,
   fromCreationDateToFilter,
   toCreationDateToFilter,
+  fromPublicDateToFilter,
+  toPublicDateToFilter,
   stickyStatusToFilter,
   userTypeToFilter,
   orderByToFilter,
@@ -64,6 +70,8 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
   handleSetToPriceToFilter,
   handleSetFromCreationDateToFilter,
   handleSetToCreationDateToFilter,
+  handleSetFromPublicDateToFilter,
+  handleSetToPublicDateToFilter,
   handleSetStickyStatusToFilter,
   handleSetUserTypeToFilter,
   handleSetOrderByToFilter,
@@ -327,6 +335,38 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                     selected={toCreationDateToFilter}
                     onChange={(date: any) =>
                       handleSetToCreationDateToFilter(date)
+                    }
+                    className="p-2 ml-5 bg-custom-gray-3 rounded-md"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="mt-5">
+              <label
+                htmlFor="date"
+                className="block text-sm font-semibold leading-6"
+              >
+                Public Date:
+              </label>
+              <div className="mt-2  md:ml-5 flex flex-col gap-3 items-center">
+                <div className="flex gap-2 items-center">
+                  <p className=" text-sm">From: </p>
+                  <DatePicker
+                    id="date"
+                    selected={fromPublicDateToFilter}
+                    onChange={(date: any) =>
+                      handleSetFromPublicDateToFilter(date)
+                    }
+                    className="p-2 bg-custom-gray-3 rounded-md"
+                  />
+                </div>
+                <div className="flex gap-2 items-center">
+                  <p className="text-sm">To: </p>
+                  <DatePicker
+                    id="date"
+                    selected={toPublicDateToFilter}
+                    onChange={(date: any) =>
+                      handleSetToPublicDateToFilter(date)
                     }
                     className="p-2 ml-5 bg-custom-gray-3 rounded-md"
                   />

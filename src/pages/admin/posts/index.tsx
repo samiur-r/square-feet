@@ -47,6 +47,11 @@ const Posts: NextPage<AdminPostProps> = ({
     useState<Date | null>(null)
   const [toCreationDateToFilter, setToCreationDateToFilter] =
     useState<Date | null>(null)
+  const [fromPublicDateToFilter, setFromPublicDateToFilter] =
+    useState<Date | null>(null)
+  const [toPublicDateToFilter, setToPublicDateToFilter] = useState<Date | null>(
+    null
+  )
   const [stickyStatusToFilter, setStickyStatusToFilter] = useState<number>(0)
   const [userTypeToFilter, setUserTypeToFilter] = useState<string>('-')
   const [orderByToFilter, setOrderByToFilter] = useState<string>('Created')
@@ -100,6 +105,12 @@ const Posts: NextPage<AdminPostProps> = ({
           toCreationDateToFilter: toCreationDateToFilter
             ? getLocaleDate(toCreationDateToFilter)
             : undefined,
+          fromPublicDateToFilter: fromPublicDateToFilter
+            ? getLocaleDate(fromPublicDateToFilter)
+            : undefined,
+          toPublicDateToFilter: toPublicDateToFilter
+            ? getLocaleDate(toPublicDateToFilter)
+            : undefined,
           stickyStatusToFilter,
           userTypeToFilter,
           orderByToFilter,
@@ -131,6 +142,8 @@ const Posts: NextPage<AdminPostProps> = ({
     setToPriceToFilter(undefined)
     setFromCreationDateToFilter(null)
     setToCreationDateToFilter(null)
+    setFromPublicDateToFilter(null)
+    setToPublicDateToFilter(null)
     setStickyStatusToFilter(0)
     setUserTypeToFilter('-')
     setOrderByToFilter('Created')
@@ -157,6 +170,12 @@ const Posts: NextPage<AdminPostProps> = ({
             : undefined,
           toCreationDateToFilter: toCreationDateToFilter
             ? getLocaleDate(toCreationDateToFilter)
+            : undefined,
+          fromPublicDateToFilter: fromPublicDateToFilter
+            ? getLocaleDate(fromPublicDateToFilter)
+            : undefined,
+          toPublicDateToFilter: toPublicDateToFilter
+            ? getLocaleDate(toPublicDateToFilter)
             : undefined,
           stickyStatusToFilter,
           userTypeToFilter,
@@ -299,6 +318,8 @@ const Posts: NextPage<AdminPostProps> = ({
           toPriceToFilter={toPriceToFilter}
           fromCreationDateToFilter={fromCreationDateToFilter}
           toCreationDateToFilter={toCreationDateToFilter}
+          fromPublicDateToFilter={fromPublicDateToFilter}
+          toPublicDateToFilter={toPublicDateToFilter}
           stickyStatusToFilter={stickyStatusToFilter}
           userTypeToFilter={userTypeToFilter}
           orderByToFilter={orderByToFilter}
@@ -310,6 +331,8 @@ const Posts: NextPage<AdminPostProps> = ({
           handleSetToPriceToFilter={setToPriceToFilter}
           handleSetFromCreationDateToFilter={setFromCreationDateToFilter}
           handleSetToCreationDateToFilter={setToCreationDateToFilter}
+          handleSetFromPublicDateToFilter={setFromPublicDateToFilter}
+          handleSetToPublicDateToFilter={setToPublicDateToFilter}
           handleSetStickyStatusToFilter={setStickyStatusToFilter}
           handleSetUserTypeToFilter={setUserTypeToFilter}
           handleSetOrderByToFilter={setOrderByToFilter}
