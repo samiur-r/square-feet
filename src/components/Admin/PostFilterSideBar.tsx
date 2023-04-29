@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const orderByItems = [
   'Created',
+  'Public Date',
   'Sticked',
   'Repost Date',
   'Repost Count',

@@ -53,7 +53,7 @@ const DataGrid: React.FC<DataGridProps> = ({ transactions }) => {
                 <td className="py-2.5 px-3 border">
                   <span className="flex gap-2 items-center">
                     <a
-                      href={`https://wa.me/${item.user.phone}`}
+                      href={`https://wa.me/+965${item.user.phone}`}
                       className="p-1 rounded-sm bg-custom-green"
                     >
                       <PhoneIcon className="w-3 h-3 text-white" />

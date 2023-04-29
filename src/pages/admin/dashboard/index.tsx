@@ -257,12 +257,14 @@ const Dashboard: NextPage<DashboardProps> = ({
                 <td className="py-2.5 px-3 border">Total - 6 months agent</td>
                 <td className="py-2.5 px-3 border">
                   {transactionSummary
-                    ? transactionSummary.totalAgentSixIncomeThisMonth
+                    ? transactionSummary.totalIncomeThisMonth -
+                      transactionSummary.totalAgentSixIncomeThisMonth
                     : ''}
                 </td>
                 <td className="py-2.5 px-3 border">
                   {transactionSummary
-                    ? transactionSummary.totalAgentSixIncomeLastMonth
+                    ? transactionSummary.totalIncomeLastMonth -
+                      transactionSummary.totalAgentSixIncomeLastMonth
                     : ''}
                 </td>
               </tr>
