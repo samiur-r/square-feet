@@ -176,6 +176,7 @@ const DataGrid: React.FC<DataGridProps> = ({
   const getUserStatus = (user: AdminUser) => {
     if (user.is_deleted) return 'deleted'
     if (user.is_blocked) return 'blocked'
+    if (user.status === 'not_verified') return 'not verified'
     if (user.is_agent) return 'agent'
     return 'user'
   }

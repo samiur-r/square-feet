@@ -204,7 +204,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
               </>
             )}
             <div className="relative">
-              <div className="flex flex-col py-3 px-2 gap-2 relative cursor-default overflow-hidden rounded-lg text-left md:shadow-md outline-none">
+              <div className="flex flex-col py-1 md:py-3 px-2 gap-2 relative cursor-default overflow-hidden rounded-lg text-left md:shadow-md outline-none">
                 <div className="flex gap-2 items-center relative">
                   <Combobox.Button
                     className="hidden md:flex items-center"

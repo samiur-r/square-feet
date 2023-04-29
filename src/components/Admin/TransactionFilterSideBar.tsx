@@ -3,7 +3,7 @@ import { Dispatch, FormEvent, SetStateAction } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const statusItems = ['Created', 'Completed', 'Failed', 'Cancelled']
+const statusItems = ['Created', 'Completed', 'Failed', 'Canceled']
 
 const typeItems = ['Regular', 'Sticky', 'Sticky Direct', 'Agent']
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import Router from 'next/router'
 
 const items = [
@@ -37,16 +36,6 @@ const Cards = () => {
           onClick={() => handleSearch(item.href)}
           className="block shadow-md rounded-lg px-5 md:px-12 bg-custom-gray-3 cursor-pointer"
         >
-          <div className="bg-primary-lighter p-3 md:p-5 rounded-full -mt-10">
-            <div className="w-10 h-8 md:w-16 md:h-14 relative">
-              <Image
-                src={item.icon}
-                layout="fill"
-                objectFit="contain"
-                alt="for-sale"
-              />
-            </div>
-          </div>
           <div className="font-DroidArabicKufiBold text-base md:text-2xl flex flex-col justify-center items-center my-5 md:mb-8 md:mt-5">
             <span>{item.row1}</span>
             <span>{item.row2}</span>
