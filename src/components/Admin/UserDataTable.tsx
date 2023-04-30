@@ -259,7 +259,12 @@ const DataGrid: React.FC<DataGridProps> = ({
     if (item.is_blocked) return 'bg-gray-500'
     if (item.status === 'not_verified') return 'bg-red-200'
     if (item.is_agent) return 'bg-indigo-100'
-    if (item.has_zero_credits) return 'bg-orange-200'
+    if (
+      item.has_zero_credits &&
+      item.credits.regular <= 0 &&
+      item.credits.sticky <= 0
+    )
+      return 'bg-orange-200'
   }
 
   return (
@@ -594,9 +599,9 @@ const DataGrid: React.FC<DataGridProps> = ({
                 </td>
                 <td className="py-2.5 px-3 border">{`${item.payment.regular} / ${item.payment.sticky} / ${item.payment.agent}`}</td>
                 <td className="py-2.5 px-3 border">
-                  {item.lastPostDate ? (
-                    <Tooltip text={item.lastPostTime}>
-                      <p>{item.lastPostDate}</p>
+                  {item.lastActivityDate ? (
+                    <Tooltip text={item.lastActivityTime}>
+                      <p>{item.lastActivityDate}</p>
                     </Tooltip>
                   ) : (
                     '-'

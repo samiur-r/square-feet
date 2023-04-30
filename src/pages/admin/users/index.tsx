@@ -440,12 +440,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       filterValues.status = 'Not Verified'
     if (query.status && query.status === 'active_today') {
       filterValues.status = 'Active Today'
-      filterValues.fromCreationDateToFilter = today
     }
     if (query.status && query.status === 'active_yesterday') {
       filterValues.status = 'Active Yesterday'
-      filterValues.fromCreationDateToFilter = yesterday
-      filterValues.toCreationDateToFilter = yesterday
     }
     if (query.status && query.status === 'zero_free')
       filterValues.status = 'Zero Free'

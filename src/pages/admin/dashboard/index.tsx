@@ -206,14 +206,14 @@ const Dashboard: NextPage<DashboardProps> = ({
               <tr className="text-sm text-center">
                 <td className="py-2.5 px-3 border">Income</td>
                 <td className="py-2.5 px-3 border">
-                  <Link href="/admin/transactions?created=today">
+                  <Link href="/admin/transactions?created=today&status=completed">
                     <a className="text-primary">
                       {transactionSummary?.incomeToday}
                     </a>
                   </Link>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  <Link href="/admin/transactions?created=yesterday">
+                  <Link href="/admin/transactions?created=yesterday&status=completed">
                     <a className="text-primary">
                       {transactionSummary?.incomeYesterday}
                     </a>

@@ -283,13 +283,13 @@ const DataGrid: React.FC<DataGridProps> = ({
                   )}
                 </td>
                 <td className="py-2.5 px-3 border">
-                  <Tooltip text={item.publicTime}>
-                    <p>{item.publicDate}</p>
+                  <Tooltip text={item.postedTime}>
+                    <p>{item.postedDate}</p>
                   </Tooltip>
                 </td>
                 <td className="py-2.5 px-3 border">
-                  <Tooltip text={item.postedTime}>
-                    <p>{item.postedDate}</p>
+                  <Tooltip text={item.publicTime}>
+                    <p>{item.publicDate}</p>
                   </Tooltip>
                 </td>
                 <td className="py-2.5 px-3 border">

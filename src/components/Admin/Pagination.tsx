@@ -63,7 +63,7 @@ const Pagination: React.FC<PaginationProps> = ({
         pageNumbers.push(
           <span
             key={i}
-            className={`inline-block mx-1 px-3 py-1 cursor-pointer hover:text-primary transition-all duration-200 ${
+            className={`inline-block mx-1 px-3 py-1 cursor-pointer hover:opacity-50 transition-all duration-200 ${
               i === currentPage
                 ? 'bg-primary text-white border rounded-lg shadow-lg'
                 : 'text-gray-700'
