@@ -9,6 +9,7 @@ import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
+import moment from 'moment-timezone'
 
 interface AdminPostProps {
   users: AdminUser[]
@@ -435,6 +436,11 @@ export const getServerSideProps: GetServerSideProps = async ({
     const today = new Date()
     const yesterday = new Date()
     yesterday.setDate(today.getDate() - 1)
+
+    const now = new Date()
+    const kuwaitOffset = 3 // Kuwait Standard Time is GMT+3
+    const kuwaitTime = new Date(now.getTime() + kuwaitOffset * 60 * 60 * 1000)
+    console.log(kuwaitTime)
 
     if (query.status && query.status === 'not_verified')
       filterValues.status = 'Not Verified'
