@@ -58,7 +58,7 @@ const DataGrid: React.FC<DataGridProps> = ({ transactions }) => {
                     >
                       <PhoneIcon className="w-3 h-3 text-white" />
                     </a>
-                    <Link href={`/admin/user/${item.id}`}>
+                    <Link href={`/admin/user/${item.user.id}`}>
                       <a className="text-primary">{item.user.phone}</a>
                     </Link>
                   </span>

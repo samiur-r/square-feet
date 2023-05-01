@@ -171,7 +171,6 @@ const DataGrid: React.FC<DataGridProps> = ({
   ]
 
   const getRowBGColor = (post_type: string | undefined, isSticky: boolean) => {
-    if (isSticky) return 'bg-green-100'
     switch (post_type) {
       case 'archived':
         return 'bg-gray-100'
@@ -180,6 +179,8 @@ const DataGrid: React.FC<DataGridProps> = ({
       default:
         break
     }
+
+    if (isSticky) return 'bg-green-100'
   }
 
   return (
