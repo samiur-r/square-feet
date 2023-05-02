@@ -8,6 +8,7 @@ import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
+import { getToday, getYesterday } from 'utils/timeUtils'
 
 interface TransactionProps {
   transactions: TransactionType[]
@@ -40,13 +41,55 @@ const Transactions: NextPage<TransactionProps> = ({
     useState<Date | null>(null)
 
   useEffect(() => {
-    const filterVals = JSON.parse(filterValues)
-    setStatusToFilter(filterVals.status)
-    setTypeToFilter(filterVals.type)
-    if (filterVals.fromCreationDateToFilter)
-      setFromCreationDateToFilter(new Date(filterVals.fromCreationDateToFilter))
-    if (filterVals.toCreationDateToFilter)
-      setToCreationDateToFilter(new Date(filterVals.toCreationDateToFilter))
+    setStatusToFilter(filterValues.status)
+    setTypeToFilter(filterValues.type)
+    if (
+      filterValues.fromCreationDateToFilter ||
+      filterValues.toCreationDateToFilter
+    ) {
+      const today = getToday()
+      const yesterday = getYesterday()
+      const firstDayOfMonth = getLocaleDate(
+        new Date(today.getFullYear(), today.getMonth(), 1)
+      )
+      const firstDayOfLastMonth = getLocaleDate(
+        new Date(today.getFullYear(), today.getMonth() - 1, 1)
+      )
+      const lastDayOfLastMonth = getLocaleDate(
+        new Date(today.getFullYear(), today.getMonth(), 0)
+      )
+
+      switch (filterValues.fromCreationDateToFilter) {
+        case 'today':
+          setFromCreationDateToFilter(today)
+          break
+        case 'yesterday':
+          setFromCreationDateToFilter(yesterday)
+          break
+        case 'firstDayOfMonth':
+          setFromCreationDateToFilter(new Date(firstDayOfMonth))
+          break
+        case 'firstDayOfLastMonth':
+          setFromCreationDateToFilter(new Date(firstDayOfLastMonth))
+          break
+        default:
+          break
+      }
+
+      switch (filterValues.toCreationDateToFilter) {
+        case 'today':
+          setToCreationDateToFilter(today)
+          break
+        case 'yesterday':
+          setToCreationDateToFilter(yesterday)
+          break
+        case 'lastDayOfLastMonth':
+          setToCreationDateToFilter(new Date(lastDayOfLastMonth))
+          break
+        default:
+          break
+      }
+    }
   }, [filterValues])
 
   useEffect(() => {
@@ -212,6 +255,9 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const parsedCookie = req.cookies.token
 
+  let fromCreationDateToFilter = null
+  let toCreationDateToFilter = null
+
   const filterValues: any = {
     status: '-',
     type: '-',
@@ -220,20 +266,19 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   if (query) {
-    const today = new Date()
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
-    const firstDayOfLastMonth = new Date(
-      today.getFullYear(),
-      today.getMonth() - 1,
-      1
-    )
-    const lastDayOfLastMonth = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      0
-    )
-    const yesterday = new Date()
+    const today = getToday()
+    const yesterday = getYesterday()
     yesterday.setDate(today.getDate() - 1)
+
+    const firstDayOfMonth = getLocaleDate(
+      new Date(today.getFullYear(), today.getMonth(), 1)
+    )
+    const firstDayOfLastMonth = getLocaleDate(
+      new Date(today.getFullYear(), today.getMonth() - 1, 1)
+    )
+    const lastDayOfLastMonth = getLocaleDate(
+      new Date(today.getFullYear(), today.getMonth(), 0)
+    )
 
     if (query.status) {
       filterValues.status =
@@ -252,18 +297,24 @@ export const getServerSideProps: GetServerSideProps = async ({
       filterValues.type = str
     }
     if (query.created === 'this_month') {
-      filterValues.fromCreationDateToFilter = firstDayOfMonth
+      filterValues.fromCreationDateToFilter = 'firstDayOfMonth'
+      fromCreationDateToFilter = firstDayOfMonth
     }
     if (query.created === 'last_month') {
-      filterValues.fromCreationDateToFilter = firstDayOfLastMonth
-      filterValues.toCreationDateToFilter = lastDayOfLastMonth
+      filterValues.fromCreationDateToFilter = 'firstDayOfLastMonth'
+      filterValues.toCreationDateToFilter = 'lastDayOfLastMonth'
+      fromCreationDateToFilter = firstDayOfLastMonth
+      toCreationDateToFilter = lastDayOfLastMonth
     }
     if (query.created === 'today') {
-      filterValues.fromCreationDateToFilter = today
+      filterValues.fromCreationDateToFilter = 'today'
+      fromCreationDateToFilter = today
     }
     if (query.created === 'yesterday') {
-      filterValues.fromCreationDateToFilter = yesterday
-      filterValues.toCreationDateToFilter = yesterday
+      filterValues.fromCreationDateToFilter = 'yesterday'
+      filterValues.toCreationDateToFilter = 'yesterday'
+      fromCreationDateToFilter = yesterday
+      toCreationDateToFilter = yesterday
     }
   }
 
@@ -291,11 +342,11 @@ export const getServerSideProps: GetServerSideProps = async ({
           offset: 0,
           statusToFilter: filterValues.status,
           typeToFilter: filterValues.type,
-          fromCreationDateToFilter: filterValues.fromCreationDateToFilter
-            ? getLocaleDate(filterValues.fromCreationDateToFilter)
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
             : undefined,
-          toCreationDateToFilter: filterValues.toCreationDateToFilter
-            ? getLocaleDate(filterValues.toCreationDateToFilter)
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
             : undefined
         },
         withCredentials: true,
@@ -317,7 +368,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       totalResults,
       userId: query?.userId ?? null,
       totalPages,
-      filterValues: JSON.stringify(filterValues)
+      filterValues
     }
   }
 }

@@ -9,6 +9,7 @@ import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
+import { getToday, getYesterday } from 'utils/timeUtils'
 
 interface AdminPostProps {
   posts: PostsWithUser[]
@@ -60,13 +61,37 @@ const Posts: NextPage<AdminPostProps> = ({
   >(undefined)
 
   useEffect(() => {
-    const filterVals = JSON.parse(filterValues)
-    if (filterVals.stickyStatusToFilter)
-      setStickyStatusToFilter(filterVals.stickyStatusToFilter)
-    if (filterVals.fromCreationDateToFilter)
-      setFromCreationDateToFilter(new Date(filterVals.fromCreationDateToFilter))
-    if (filterVals.toCreationDateToFilter)
-      setToCreationDateToFilter(new Date(filterVals.toCreationDateToFilter))
+    if (filterValues.stickyStatusToFilter)
+      setStickyStatusToFilter(filterValues.stickyStatusToFilter)
+    if (
+      filterValues.fromCreationDateToFilter ||
+      filterValues.toCreationDateToFilter
+    ) {
+      const today = getToday()
+      const yesterday = getYesterday()
+
+      switch (filterValues.fromCreationDateToFilter) {
+        case 'today':
+          setFromCreationDateToFilter(today)
+          break
+        case 'yesterday':
+          setFromCreationDateToFilter(yesterday)
+          break
+        default:
+          break
+      }
+
+      switch (filterValues.toCreationDateToFilter) {
+        case 'today':
+          setToCreationDateToFilter(today)
+          break
+        case 'yesterday':
+          setToCreationDateToFilter(yesterday)
+          break
+        default:
+          break
+      }
+    }
   }, [filterValues])
 
   useEffect(() => {
@@ -396,18 +421,24 @@ export const getServerSideProps: GetServerSideProps = async ({
     toCreationDateToFilter: null
   }
 
-  const today = new Date()
-  const yesterday = new Date()
-  yesterday.setDate(today.getDate() - 1)
+  let fromCreationDateToFilter = null
+  let toCreationDateToFilter = null
 
   if (query) {
+    const today = getToday()
+    const yesterday = getYesterday()
+
     if (query.sticky && query.sticky === '1')
       filterValues.stickyStatusToFilter = 1
-    if (query.created_at && query.created_at === 'today')
-      filterValues.fromCreationDateToFilter = today
+    if (query.created_at && query.created_at === 'today') {
+      filterValues.fromCreationDateToFilter = 'today'
+      fromCreationDateToFilter = today
+    }
     if (query.created_at && query.created_at === 'yesterday') {
-      filterValues.fromCreationDateToFilter = yesterday
-      filterValues.toCreationDateToFilter = yesterday
+      filterValues.fromCreationDateToFilter = 'yesterday'
+      filterValues.toCreationDateToFilter = 'yesterday'
+      fromCreationDateToFilter = yesterday
+      toCreationDateToFilter = yesterday
     }
   }
 
@@ -435,11 +466,11 @@ export const getServerSideProps: GetServerSideProps = async ({
           userId: query?.userId,
           offset: 0,
           stickyStatusToFilter: filterValues.stickyStatusToFilter,
-          fromCreationDateToFilter: filterValues.fromCreationDateToFilter
-            ? getLocaleDate(filterValues.fromCreationDateToFilter)
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
             : undefined,
-          toCreationDateToFilter: filterValues.toCreationDateToFilter
-            ? getLocaleDate(filterValues.toCreationDateToFilter)
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
             : undefined
         },
         withCredentials: true,
@@ -461,7 +492,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       totalPages,
       totalResults,
       userId: query?.userId ?? null,
-      filterValues: JSON.stringify(filterValues)
+      filterValues
     }
   }
 }

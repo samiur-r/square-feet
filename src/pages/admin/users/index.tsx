@@ -9,6 +9,7 @@ import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import getLocaleDate from 'utils/getLocaleDate'
 import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
+import { getToday, getYesterday } from 'utils/timeUtils'
 
 interface AdminPostProps {
   users: AdminUser[]
@@ -41,12 +42,36 @@ const Users: NextPage<AdminPostProps> = ({
   const [totalItems, setTotalItems] = useState(0)
 
   useEffect(() => {
-    const filterVals = JSON.parse(filterValues)
-    setStatusToFilter(filterVals.status)
-    if (filterVals.fromCreationDateToFilter)
-      setFromCreationDateToFilter(new Date(filterVals.fromCreationDateToFilter))
-    if (filterVals.toCreationDateToFilter)
-      setToCreationDateToFilter(new Date(filterVals.toCreationDateToFilter))
+    setStatusToFilter(filterValues.status)
+    if (
+      filterValues.fromCreationDateToFilter ||
+      filterValues.toCreationDateToFilter
+    ) {
+      const today = getToday()
+      const yesterday = getYesterday()
+
+      switch (filterValues.fromCreationDateToFilter) {
+        case 'today':
+          setFromCreationDateToFilter(today)
+          break
+        case 'yesterday':
+          setFromCreationDateToFilter(yesterday)
+          break
+        default:
+          break
+      }
+
+      switch (filterValues.toCreationDateToFilter) {
+        case 'today':
+          setToCreationDateToFilter(today)
+          break
+        case 'yesterday':
+          setToCreationDateToFilter(yesterday)
+          break
+        default:
+          break
+      }
+    }
   }, [filterValues])
 
   useEffect(() => {
@@ -425,6 +450,9 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
   const parsedCookie = req.cookies.token
 
+  let fromCreationDateToFilter = null
+  let toCreationDateToFilter = null
+
   const filterValues: any = {
     status: 0,
     fromCreationDateToFilter: null,
@@ -432,12 +460,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   if (query) {
-    const today = new Date()
-    const yesterday = new Date()
-    yesterday.setDate(today.getDate() - 1)
-
-    const kuwaitTime = new Date(new Date().getTime() + 3 * 60 * 60 * 1000)
-    console.log(kuwaitTime)
+    const today = getToday()
+    const yesterday = getYesterday()
 
     if (query.status && query.status === 'not_verified')
       filterValues.status = 'Not Verified'
@@ -464,11 +488,15 @@ export const getServerSideProps: GetServerSideProps = async ({
       filterValues.status = 'Has Sticky Credits'
     if (query.status && query.status === 'has_agent_credits')
       filterValues.status = 'Has Agent Credits'
-    if (query.created_at && query.created_at === 'today')
-      filterValues.fromCreationDateToFilter = today
+    if (query.created_at && query.created_at === 'today') {
+      filterValues.fromCreationDateToFilter = 'today'
+      fromCreationDateToFilter = today
+    }
     if (query.created_at && query.created_at === 'yesterday') {
-      filterValues.fromCreationDateToFilter = yesterday
-      filterValues.toCreationDateToFilter = yesterday
+      filterValues.fromCreationDateToFilter = 'yesterday'
+      filterValues.toCreationDateToFilter = 'yesterday'
+      fromCreationDateToFilter = yesterday
+      toCreationDateToFilter = yesterday
     }
   }
 
@@ -495,11 +523,11 @@ export const getServerSideProps: GetServerSideProps = async ({
           offset: 0,
           orderByToFilter: 'Registered',
           statusToFilter: filterValues.status,
-          fromCreationDateToFilter: filterValues.fromCreationDateToFilter
-            ? getLocaleDate(filterValues.fromCreationDateToFilter)
+          fromCreationDateToFilter: fromCreationDateToFilter
+            ? getLocaleDate(fromCreationDateToFilter)
             : undefined,
-          toCreationDateToFilter: filterValues.toCreationDateToFilter
-            ? getLocaleDate(filterValues.toCreationDateToFilter)
+          toCreationDateToFilter: toCreationDateToFilter
+            ? getLocaleDate(toCreationDateToFilter)
             : undefined
         },
         withCredentials: true,
@@ -520,7 +548,7 @@ export const getServerSideProps: GetServerSideProps = async ({
       users,
       totalPages,
       totalResults,
-      filterValues: JSON.stringify(filterValues)
+      filterValues
     }
   }
 }
