@@ -162,6 +162,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                         {navigation.map((item) => (
                           <Link key={item.name} href={item.href}>
                             <a
+                              key={item.name}
+                              href={item.href}
                               className={`
                             ${
                               activeItem === item.id
@@ -299,27 +301,25 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             <nav className="mt-6 px-3">
               <div className="space-y-1">
                 {navigation.map((item) => (
-                  <Link key={item.name} href={item.href}>
-                    <a
-                      key={item.name}
-                      href={item.href}
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className={`${
+                      activeItem === item.id
+                        ? 'bg-gray-200 text-gray-900'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    } group flex items-center rounded-md px-2 py-2 text-sm font-medium`}
+                  >
+                    <item.icon
                       className={`${
                         activeItem === item.id
-                          ? 'bg-gray-200 text-gray-900'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                      } group flex items-center rounded-md px-2 py-2 text-sm font-medium`}
-                    >
-                      <item.icon
-                        className={`${
-                          activeItem === item.id
-                            ? 'text-gray-500'
-                            : 'text-gray-400 group-hover:text-gray-500'
-                        } mr-3 h-6 w-6 flex-shrink-0`}
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </a>
-                  </Link>
+                          ? 'text-gray-500'
+                          : 'text-gray-400 group-hover:text-gray-500'
+                      } mr-3 h-6 w-6 flex-shrink-0`}
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </a>
                 ))}
               </div>
             </nav>
