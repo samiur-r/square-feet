@@ -98,7 +98,7 @@ const Users: NextPage<AdminPostProps> = ({
         method: 'POST',
         url: '/admin/filter-users',
         data: {
-          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          offset: pageNumber ? pageNumber * 50 - 50 : 0,
           statusToFilter,
           phoneToFilter,
           adminCommentToFilter,

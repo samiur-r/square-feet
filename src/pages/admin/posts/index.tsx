@@ -55,7 +55,7 @@ const Posts: NextPage<AdminPostProps> = ({
   )
   const [stickyStatusToFilter, setStickyStatusToFilter] = useState<number>(0)
   const [userTypeToFilter, setUserTypeToFilter] = useState<string>('-')
-  const [orderByToFilter, setOrderByToFilter] = useState<string>('Created')
+  const [orderByToFilter, setOrderByToFilter] = useState<string>('Public Date')
   const [postStatusToFilter, setPostStatusToFilter] = useState<
     string | undefined
   >(undefined)
@@ -118,7 +118,7 @@ const Posts: NextPage<AdminPostProps> = ({
         method: 'POST',
         url: '/admin/filter-posts',
         data: {
-          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          offset: pageNumber ? pageNumber * 50 - 50 : 0,
           locationToFilter,
           categoryToFilter,
           propertyTypeToFilter,
@@ -171,7 +171,7 @@ const Posts: NextPage<AdminPostProps> = ({
     setToPublicDateToFilter(null)
     setStickyStatusToFilter(0)
     setUserTypeToFilter('-')
-    setOrderByToFilter('Created')
+    setOrderByToFilter('Public Date')
     setPostStatusToFilter(undefined)
   }
 

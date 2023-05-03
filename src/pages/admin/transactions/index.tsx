@@ -115,7 +115,7 @@ const Transactions: NextPage<TransactionProps> = ({
         method: 'POST',
         url: '/admin/get-transactions',
         data: {
-          offset: pageNumber ? pageNumber * 10 - 10 : 0,
+          offset: pageNumber ? pageNumber * 50 - 50 : 0,
           userId,
           statusToFilter,
           typeToFilter,
