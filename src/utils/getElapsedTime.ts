@@ -1,8 +1,15 @@
 const getElapsedTime = (dateStr: string) => {
   if (!dateStr) return { unit: '-', timeElapsed: '-' }
 
-  const startDate = new Date(Date.parse(dateStr))
-  const currentDate = new Date()
+  const startDate = new Date(
+    new Date(Date.parse(dateStr)).toLocaleString('en-US', {
+      timeZone: 'Asia/Kuwait'
+    })
+  )
+  const currentDate = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuwait' })
+  )
+
   const differenceInTime = currentDate.getTime() - startDate.getTime()
   const differenceInDays = Math.floor(differenceInTime / (1000 * 60 * 60 * 24))
   const differenceInHours = Math.floor(
