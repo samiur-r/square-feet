@@ -67,11 +67,21 @@ export default async function middleware(req: NextRequest) {
         if (payload.admin_status) return NextResponse.next()
       } catch (err) {
         req.nextUrl.pathname = '/admin/login'
-        return NextResponse.redirect(req.nextUrl)
+        const response = NextResponse.redirect(req.nextUrl)
+        response.headers.append(
+          'Set-Cookie',
+          `redirectedFrom=${pathname}; Path=/; Max-Age=60`
+        )
+        return response
       }
     }
     req.nextUrl.pathname = '/admin/login'
-    return NextResponse.redirect(req.nextUrl)
+    const response = NextResponse.redirect(req.nextUrl)
+    response.headers.append(
+      'Set-Cookie',
+      `redirectedFrom=${pathname}; Path=/; Max-Age=60`
+    )
+    return response
   }
 
   if (pathname.startsWith('/admin/login')) {
@@ -79,7 +89,9 @@ export default async function middleware(req: NextRequest) {
       try {
         const { payload } = await verifyJwt(token)
         if (payload.admin_status) {
-          req.nextUrl.pathname = '/admin/dashboard'
+          if (req.cookies.get('redirectedFrom'))
+            req.nextUrl.pathname = `${req.cookies.get('redirectedFrom')}`
+          else req.nextUrl.pathname = '/admin/dashboard'
           return NextResponse.redirect(req.nextUrl)
         }
         req.nextUrl.pathname = '/account'

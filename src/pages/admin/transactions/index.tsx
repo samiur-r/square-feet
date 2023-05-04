@@ -1,3 +1,5 @@
+import Router from 'next/router'
+
 import Pagination from 'components/Admin/Pagination'
 import TransactionDataTable from 'components/Admin/TransactionDataTable'
 import TransactionFilterSideBar from 'components/Admin/TransactionFilterSideBar'
@@ -190,6 +192,31 @@ const Transactions: NextPage<TransactionProps> = ({
     }
   }
 
+  const handleUpdateTransactionStatus = async (
+    transactionId: number | undefined,
+    transactionStatus: string | undefined
+  ) => {
+    if (!transactionId) {
+      updateToast(true, 'Error: Something went wrong', true)
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      await ApiClient({
+        method: 'PUT',
+        url: '/admin/transaction-status',
+        data: { transactionId, transactionStatus }
+      })
+      setIsLoading(false)
+      updateToast(true, 'Success: Transaction updated successfully', false)
+      Router.reload()
+    } catch (error) {
+      setIsLoading(false)
+      updateToast(true, 'Error: Transaction update attempt failed', true)
+    }
+  }
+
   return (
     <div>
       <div className="border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between">
@@ -235,7 +262,10 @@ const Transactions: NextPage<TransactionProps> = ({
         )}
         <div className="mt-16 text-sm">Total result found: {totalItems}</div>
         <div className="mt-5">
-          <TransactionDataTable transactions={currentItemList} />
+          <TransactionDataTable
+            transactions={currentItemList}
+            handleUpdateTransactionStatus={handleUpdateTransactionStatus}
+          />
         </div>
         <div className="mt-16">
           <Pagination
