@@ -99,6 +99,7 @@ const DataGrid: React.FC<DataGridProps> = ({
             <th className="py-3 px-3 text-left">Admin Comment</th>
             <th className="py-3 px-3 text-left">Amount</th>
             <th className="py-3 px-3 text-left">Transaction Id</th>
+            <th className="py-3 px-3 text-left">Track Id</th>
             <th className="py-3 px-3 text-left">Created</th>
             <th className="py-3 px-3 text-left">Last Update</th>
           </tr>
@@ -140,6 +141,7 @@ const DataGrid: React.FC<DataGridProps> = ({
                 </td>
                 <td className="py-2.5 px-3 border">{item.amount}</td>
                 <td className="py-2.5 px-3 border">{item.tran_id}</td>
+                <td className="py-2.5 px-3 border">{item.track_id}</td>
                 <td className="py-2.5 px-3 border">
                   <Tooltip text={item.createdTime}>
                     <p>{item.createdDate}</p>

@@ -18,7 +18,7 @@ const DataGrid: React.FC<DataGridProps> = ({ logs }) => {
       <table className="min-w-full shadow-lg">
         <thead className="bg-primary text-custom-gray-2 text-sm">
           <tr>
-            <th className="py-3 px-3 text-left">ID</th>
+            {/* <th className="py-3 px-3 text-left">ID</th> */}
             <th className="py-3 px-3 text-left">User</th>
             <th className="py-3 px-3 text-left">Post Id</th>
             <th className="py-3 px-3 text-left">Transaction</th>
@@ -31,7 +31,7 @@ const DataGrid: React.FC<DataGridProps> = ({ logs }) => {
             data.length > 0 &&
             data.map((item: any) => (
               <tr key={item.id} className="text-sm">
-                <td className="py-2.5 px-3 border">{item.id}</td>
+                {/* <td className="py-2.5 px-3 border">{item.id}</td> */}
                 <td className="py-2.5 px-3 border">{item.user}</td>
                 <td className="py-2.5 px-3 border">{item.post_id ?? '-'}</td>
                 <td className="py-2.5 px-3 border">
