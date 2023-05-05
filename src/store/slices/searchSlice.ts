@@ -26,8 +26,8 @@ export const createSearchSlice: StateCreator<SearchSliceType> = (set) => ({
     title: 'الكل'
   },
   categorySelected: {
-    id: 1,
-    title: 'للبدل'
+    id: 3,
+    title: 'للايجار'
   },
   priceRangeSelected: [PRICE_RANGES.min, PRICE_RANGES.max],
   canFetchPosts: false,

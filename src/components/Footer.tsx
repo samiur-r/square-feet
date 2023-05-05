@@ -118,10 +118,6 @@ const items = [
 
 const socialLinks = [
   {
-    href: 'https://www.facebook.com/boshamlanKW/',
-    imagePath: '/images/facebook-filled.svg'
-  },
-  {
     href: 'https://twitter.com/boshamlankw',
     imagePath: '/images/twitter-filled.svg'
   },

@@ -2,6 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 import { Suspense, useState } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
+import { useSwipeable, SwipeableHandlers } from 'react-swipeable'
 
 import Breadcrumbs from 'components/Breadcrumbs'
 import isImage from 'utils/isImage'
@@ -19,6 +20,14 @@ const DynamicCarousel = dynamic(() => import('components/Carousel'), {
 const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const [showCarousel, setShowCarousel] = useState(false)
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
+
+  const handleSwipeRight = () => {
+    window.history.back()
+  }
+
+  const swipeHandlers: SwipeableHandlers = useSwipeable({
+    onSwipedRight: handleSwipeRight
+  })
 
   const breadcrumbsItems = [
     {
@@ -44,7 +53,8 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   ]
 
   return (
-    <div>
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <div {...swipeHandlers}>
       <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />
       <div className="dir-rtl grid gap-8 pb-10">
         <div className="bg-primary-light flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-10 rounded-b-lg md:rounded-none">

@@ -22,10 +22,10 @@ const Breadcrumbs: React.FC<{
     <nav
       className={`${
         items?.length ? 'block' : 'hidden'
-      } flex justify-center py-2 md:pr-10 dir-rtl border`}
+      } flex justify-center py-2 pr-2 md:pr-5 dir-rtl border`}
       aria-label="Breadcrumb"
     >
-      <div className="max-w-6xl w-full">
+      <div className="max-w-5xl w-full">
         {loading ? (
           <svg
             aria-hidden="true"
@@ -48,16 +48,16 @@ const Breadcrumbs: React.FC<{
           <ol className="flex items-center flex-wrap">
             {items &&
               items.map((item: BreadcrumbType, index) => (
-                <li key={Math.random()} className="flex gap-2 items-center">
+                <li key={Math.random()} className="flex gap-1 items-center">
                   <button
                     type="button"
-                    className="text-sm px-2 cursor-pointer hover:underline"
+                    className="text-xs px-1 cursor-pointer hover:underline text-custom-gray"
                     onClick={() => handleClick(item)}
                   >
                     {item.title}
                   </button>
                   {items.length - 1 > index && (
-                    <ChevronLeftIcon className="text-sm w-7 h-7 text-custom-gray" />
+                    <ChevronLeftIcon className="text-xs w-5 h-5 text-custom-gray" />
                   )}
                 </li>
               ))}

@@ -132,7 +132,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   </div>
                   <div className="py-5">
                     <div className="text-end">الغرض</div>
-                    <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
+                    <div className="flex flex-wrap flex-row justify-end gap-3 mt-3">
                       {categories &&
                         categories.map((category) => (
                           <button

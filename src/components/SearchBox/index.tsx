@@ -33,8 +33,8 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
   const [selectedCategory, setSelectedCategory] = useState<
     { id: number; title: string } | undefined
   >({
-    id: 1,
-    title: 'للبدل'
+    id: 3,
+    title: 'للايجار'
   })
   const [selectedPropertyType, setSelectedPropertyType] = useState<
     { id: number; title: string } | undefined
@@ -259,7 +259,7 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
         </div>
       </div>
       {showFilterCombobox && (
-        <div className="absolute md:hidden w-screen h-full z-20 pt-1 px-5 bg-white top-0 left-0">
+        <div className="absolute md:hidden w-screen h-full z-20 pt-3 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
             handleIsfilterComboboxOpen={setShowFilterCombobox}
