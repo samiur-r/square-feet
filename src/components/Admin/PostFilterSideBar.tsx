@@ -128,11 +128,14 @@ const PostFilterSideBar: React.FC<FilterSideBarProps> = ({
                 }
               >
                 <option value={0}>-</option>
-                {categories.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.title}
-                  </option>
-                ))}
+                {categories
+                  .slice()
+                  .reverse()
+                  .map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.title}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="mt-5">

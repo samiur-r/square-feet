@@ -374,7 +374,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
           </>
         )}
       </Combobox>
-      <Suspense fallback="Loading...">
+      <Suspense fallback="...">
         <FilterModal
           showFilterModal={showFilterModal}
           setShowFilterModal={setShowFilterModal}

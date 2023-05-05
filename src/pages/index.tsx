@@ -1,5 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
+import { LegacyRef, useCallback, useEffect, useRef } from 'react'
+import { useRouter } from 'next/router'
 
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
@@ -11,12 +13,41 @@ import Posts from 'components/Posts'
 import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
+import { useStore } from 'store'
 
 const Home: NextPage<{
   posts: IPost[]
   totalPosts: number
   locations: LocationType[]
 }> = ({ posts, totalPosts, locations }) => {
+  const { scrollTo, updateScrollTo } = useStore()
+
+  useEffect(() => {
+    if (scrollTo) {
+      updateScrollTo(false)
+    }
+  }, [])
+
+  const scroll = useCallback(
+    (
+      node: {
+        getBoundingClientRect: () => {
+          (): unknown
+          new (): unknown
+          top: number | undefined
+        }
+      } | null
+    ) => {
+      if (node !== null && scrollTo) {
+        window.scrollTo({
+          top: node.getBoundingClientRect().top,
+          behavior: 'smooth'
+        })
+      }
+    },
+    []
+  )
+
   return (
     <div className="bg-gray-50 md:bg-white">
       <Head>
@@ -35,6 +66,7 @@ const Home: NextPage<{
         </div>
         <Banner />
       </div>
+      <div ref={scroll as LegacyRef<HTMLDivElement>} />
       <Posts posts={posts} totalPosts={totalPosts} />
       <Guide />
       <Cards />

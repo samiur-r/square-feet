@@ -37,7 +37,7 @@ export const propertyTypes = [
 
 export const categories = [
   {
-    id: 1,
+    id: 3,
     title: 'للبدل'
   },
   {
@@ -45,7 +45,7 @@ export const categories = [
     title: 'للبيع'
   },
   {
-    id: 3,
+    id: 1,
     title: 'للايجار'
   }
 ]

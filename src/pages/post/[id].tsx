@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
+import { useRouter } from 'next/router'
 import { Suspense, useState } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
@@ -12,6 +13,7 @@ import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import { parseJwtFromCookie } from 'utils/jwtUtils'
+import { useStore } from 'store'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
@@ -21,8 +23,13 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const [showCarousel, setShowCarousel] = useState(false)
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
 
+  const { updateScrollTo } = useStore()
+
+  const router = useRouter()
+
   const handleSwipeRight = () => {
-    window.history.back()
+    updateScrollTo(true)
+    router.back()
   }
 
   const swipeHandlers: SwipeableHandlers = useSwipeable({

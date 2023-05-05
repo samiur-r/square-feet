@@ -1,5 +1,5 @@
 import type { GetServerSideProps, NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Popover } from '@headlessui/react'
 import Router from 'next/router'
 
@@ -28,6 +28,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   const [propertyTypeErrors, setPropertyTypeErrors] = useState<string[]>([])
   const [purposeErrors, setPurposeErrors] = useState<string[]>([])
   const [descriptionErrors, setDescriptionErrors] = useState<string[]>([])
+
+  const topRef = useRef<HTMLDivElement>(null)
 
   const [selectedLocation, setSelectedLocation] = useState<LocationType | any>(
     post
@@ -88,6 +90,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   const handleValidationError = (
     errors: Array<{ path: string; errors: string[] }>
   ) => {
+    if (topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' })
     errors?.forEach((err: { path: string; errors: string[] }) => {
       switch (err.path) {
         case 'cityId' || 'cityTitle':
@@ -286,7 +289,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       <div className="w-full md:text-center">
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
-      <form className="w-full max-w-md px-3 md:px-0 mt-8 md:mt-10">
+      <form className="w-full max-w-md px-3 md:px-0 mt-8 md:mt-10" ref={topRef}>
         <div className="relative">
           <Popover className="relative">
             <Popover.Panel className="absolute z-10 -top-14 right-2 text-secondary bg-custom-white-light shadow-md p-2 rounded-md">
@@ -361,7 +364,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
         <div className="mt-8 md:mt-10">
           <ListBox
             selectedOpt={selectedPurpose}
-            options={categories}
+            options={categories.slice().reverse()}
             placeholder="الغرض"
             isFloatingLabel
             handleSetItem={setSelectedPurpose}
