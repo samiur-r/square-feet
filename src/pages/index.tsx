@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { LegacyRef, useCallback, useEffect, useRef } from 'react'
-import { useRouter } from 'next/router'
+import { LegacyRef, useCallback, useEffect } from 'react'
 
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'

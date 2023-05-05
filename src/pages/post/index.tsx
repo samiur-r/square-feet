@@ -289,8 +289,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
       <div className="w-full md:text-center">
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
-      <form className="w-full max-w-md px-3 md:px-0 mt-8 md:mt-10" ref={topRef}>
-        <div className="relative">
+      <form className="w-full max-w-md px-3 md:px-0 mt-8 md:mt-10">
+        <div className="relative" ref={topRef}>
           <Popover className="relative">
             <Popover.Panel className="absolute z-10 -top-14 right-2 text-secondary bg-custom-white-light shadow-md p-2 rounded-md">
               Hey! You can not edit this field
