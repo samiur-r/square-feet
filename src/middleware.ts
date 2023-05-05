@@ -59,7 +59,8 @@ export default async function middleware(req: NextRequest) {
     pathname.startsWith('/admin/users') ||
     pathname.startsWith('/admin/user') ||
     pathname.startsWith('/admin/posts') ||
-    pathname.startsWith('/admin/transactions')
+    pathname.startsWith('/admin/transactions') ||
+    pathname.startsWith('/admin/logs')
   ) {
     if (token) {
       try {
