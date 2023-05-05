@@ -197,6 +197,7 @@ const EditUser: NextPage<AdminPostProps> = ({ user }) => {
                           id="admin_comment"
                           name="admin_comment"
                           type="text"
+                          autoComplete="off"
                           className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           value={adminComment}
                           onChange={(e) =>
@@ -217,6 +218,7 @@ const EditUser: NextPage<AdminPostProps> = ({ user }) => {
                           id="password"
                           name="password"
                           type="password"
+                          autoComplete="off"
                           className="block w-full pl-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           onChange={(e) => setPassword(e.target.value ?? '')}
                           placeholder="***"
