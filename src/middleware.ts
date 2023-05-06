@@ -29,11 +29,11 @@ export default async function middleware(req: NextRequest) {
         await verifyJwt(token)
         return NextResponse.next()
       } catch (err) {
-        req.nextUrl.pathname = '/login'
+        req.nextUrl.pathname = '/register'
         return NextResponse.redirect(req.nextUrl)
       }
     }
-    req.nextUrl.pathname = '/login'
+    req.nextUrl.pathname = '/register'
     return NextResponse.redirect(req.nextUrl)
   }
 

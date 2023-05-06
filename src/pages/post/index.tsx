@@ -404,6 +404,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
           <textarea
             name="description"
             rows={7}
+            maxLength={400}
             className={`${
               descriptionErrors.length
                 ? 'border-custom-red'
