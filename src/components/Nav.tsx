@@ -244,6 +244,7 @@ const Nav: React.FC = () => {
     else setIsLoggedIn(false)
   }, [user])
   const { pathname } = useRouter()
+  const router = useRouter()
   const [showSubRealState, setShowSubRealState] = useState([
     false,
     false,
@@ -254,6 +255,7 @@ const Nav: React.FC = () => {
     mobileNavItems[0].title
   )
   const [isFilterPage, setIsFilterPage] = useState(false)
+  const [isPostPage, setIsPostPage] = useState(false)
   const [isLocationDropDownOpen, setIsLocationDropDownOpen] = useState(false)
 
   const handleShowSubRealState = (index: number) => {
@@ -312,6 +314,7 @@ const Nav: React.FC = () => {
   useEffect(() => {
     handleActiveItem(pathname)
     setIsFilterPage(pathname === '/search' || pathname === '/[...slug]')
+    setIsPostPage(pathname === '/post/[id]')
   }, [pathname])
 
   const handleSearch = async (val: { title?: string; href: any }) => {
@@ -324,22 +327,22 @@ const Nav: React.FC = () => {
       <div
         className={`${
           isFilterPage ? 'max-w-[860px] md:left-10 md:relative' : 'max-w-6xl'
-        } container h-full items-center flex`}
+        } container h-full items-center flex relative`}
       >
         <div
-          className={`${
-            isFilterPage && 'border'
-          } w-full flex items-center justify-between md:space-x-10 rounded-lg md:border-0`}
+          className={`${isFilterPage && 'border'} ${
+            isPostPage ? 'justify-center' : 'justify-between'
+          } w-full flex items-center md:space-x-10 rounded-lg md:border-0`}
         >
           {isFilterPage && (
-            <Suspense fallback="Loading...">
+            <Suspense fallback="...">
               <DynamicFilterAutoComplete
                 locations={locations}
                 handleIsfilterComboboxOpen={setIsLocationDropDownOpen}
               />
             </Suspense>
           )}
-          {!isFilterPage && (
+          {!isFilterPage && !isPostPage && (
             <div className="hidden md:flex w-3/12">
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a href="/post?mode=create">
@@ -351,7 +354,7 @@ const Nav: React.FC = () => {
               </a>
             </div>
           )}
-          {!isFilterPage && (
+          {!isFilterPage && !isPostPage && (
             <Popover.Group
               as="nav"
               className="hidden md:flex justify-between w-7/12"
@@ -455,7 +458,7 @@ const Nav: React.FC = () => {
           )}
           <div
             className={`${
-              isFilterPage && 'hidden'
+              isFilterPage && 'hidden md:flex'
             } flex justify-center items-center pl-10 md:pl-0 w-full md:w-2/12`}
           >
             <span className="sr-only">Company Logo</span>
@@ -476,18 +479,35 @@ const Nav: React.FC = () => {
                 aria-hidden="true"
               />
             </div>
-            <Popover.Button
-              className={`${
-                isLocationDropDownOpen && 'hidden md:inline-flex'
-              } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 focus:outline-none`}
-            >
-              <span className="sr-only">Open menu</span>
-              <Bars3Icon
-                className="h-7 w-7 mt-px font-DroidArabicKufiBold"
-                aria-hidden="true"
-              />
-            </Popover.Button>
+            {pathname === '/' || isFilterPage ? (
+              <Popover.Button
+                className={`${
+                  isLocationDropDownOpen && 'hidden md:inline-flex'
+                } inline-flex items-center justify-center rounded-md bg-white p-2 text-black-400 hover:bg-black-100 focus:outline-none`}
+              >
+                <span className="sr-only">Open menu</span>
+                <Bars3Icon
+                  className="h-7 w-7 mt-px font-DroidArabicKufiBold"
+                  aria-hidden="true"
+                />
+              </Popover.Button>
+            ) : (
+              <div className={`${isFilterPage && 'hidden'}`}>
+                <ChevronRightIcon
+                  className="w-10 h-10 cursor-pointer"
+                  onClick={() => router.back()}
+                />
+              </div>
+            )}
           </div>
+          {isPostPage && (
+            <div className="absolute right-0 hidden md:block">
+              <ChevronRightIcon
+                className="w-10 h-10 cursor-pointer"
+                onClick={() => router.back()}
+              />
+            </div>
+          )}
         </div>
       </div>
 

@@ -25,7 +25,7 @@ const Breadcrumbs: React.FC<{
       } flex justify-center py-2 pr-2 md:pr-5 dir-rtl border`}
       aria-label="Breadcrumb"
     >
-      <div className="max-w-5xl w-full">
+      <div className="max-w-6xl w-full">
         {loading ? (
           <svg
             aria-hidden="true"
