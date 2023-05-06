@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic'
 
 import { locations } from 'constant'
 import { useStore } from 'store'
+import { Cog6ToothIcon } from '@heroicons/react/24/solid'
 import CTA from './CTA'
 
 const DynamicFilterAutoComplete = dynamic(
@@ -158,10 +159,16 @@ const mobileNavItems = [
     primaryIcon: '/images/mobile_nav_icons/home_search_primary.svg'
   },
   {
-    title: 'دخول / تسجيل',
+    title: 'دخول',
     href: '/login',
     icon: '/images/mobile_nav_icons/sign_in.svg',
     primaryIcon: '/images/mobile_nav_icons/sign_in_primary.svg'
+  },
+  {
+    title: 'تسجيل',
+    href: '/register',
+    icon: '/images/mobile_nav_icons/register-icon.svg',
+    primaryIcon: '/images/mobile_nav_icons/register-icon-primary.svg'
   },
   {
     title: 'إعلان مجانًا',
@@ -218,16 +225,16 @@ const mobileNavItemsAuth = [
 
 const socialLinks = [
   {
-    href: 'https://www.facebook.com/boshamlanKW/',
-    imagePath: '/images/facebook-dark.svg'
-  },
-  {
     href: 'https://twitter.com/boshamlankw',
     imagePath: '/images/twitter-dark.svg'
   },
   {
     href: 'https://www.instagram.com/boshamlankw/',
     imagePath: '/images/instagram-dark.svg'
+  },
+  {
+    href: '/',
+    imagePath: '/images/nav-en.svg'
   },
   {
     href: '/settings',
@@ -300,11 +307,11 @@ const Nav: React.FC = () => {
         break
       case '/login':
         setActiveItem('دخول')
-        setActiveItemOnMobile('دخول / تسجيل')
+        setActiveItemOnMobile('دخول')
         break
       case '/register':
         setActiveItem('تسجيل')
-        setActiveItemOnMobile('دخول / تسجيل')
+        setActiveItemOnMobile('تسجيل')
         break
       default:
         break
@@ -548,111 +555,109 @@ const Nav: React.FC = () => {
               <hr className="h-px bg-[#DCDCDC] border-0" />
 
               {/* nav items */}
-              <div className="mt-2 flex flex-col gap-3">
+              <div className="mt-2 flex flex-col md:gap-3">
                 {isLoggedIn
                   ? mobileNavItemsAuth.map((item) => (
-                      <Link href={item.href} key={item.title}>
-                        <a
-                          className={`${
-                            activeItemOnMobile === item.title &&
-                            'bg-primary-lighter text-primary'
-                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                      <a
+                        href={item.href}
+                        key={item.title}
+                        className={`${
+                          activeItemOnMobile === item.title &&
+                          'bg-primary-lighter text-primary'
+                        } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                      >
+                        <Popover.Button
+                          type="submit"
+                          onClick={() => handleMobileNavChange(item)}
+                          className="flex gap-4 items-center"
                         >
-                          <Popover.Button
-                            type="submit"
-                            onClick={() => handleMobileNavChange(item)}
-                            className="flex gap-4 items-center"
+                          <p
+                            className={`${
+                              item.title === 'إعلان مجانًا' && 'text-secondary'
+                            } font-DroidArabicKufiBold`}
                           >
-                            <p
-                              className={`${
-                                item.title === 'إعلان مجانًا' &&
-                                'text-secondary'
-                              } font-DroidArabicKufiBold`}
+                            {item.title}
+                          </p>
+                          {item.title === 'إعلان مجانًا' ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="2"
+                              stroke="currentColor"
+                              className="w-8 h-8 text-secondary"
                             >
-                              {item.title}
-                            </p>
-                            {item.title === 'إعلان مجانًا' ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="2"
-                                stroke="currentColor"
-                                className="w-8 h-8 text-secondary"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>
-                            ) : (
-                              <Image
-                                src={
-                                  activeItemOnMobile === item.title
-                                    ? item.primaryIcon
-                                    : item.icon
-                                }
-                                height={30}
-                                width={30}
-                                alt="nav_item"
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                               />
-                            )}
-                          </Popover.Button>
-                        </a>
-                      </Link>
+                            </svg>
+                          ) : (
+                            <Image
+                              src={
+                                activeItemOnMobile === item.title
+                                  ? item.primaryIcon
+                                  : item.icon
+                              }
+                              height={30}
+                              width={30}
+                              alt="nav_item"
+                            />
+                          )}
+                        </Popover.Button>
+                      </a>
                     ))
                   : mobileNavItems.map((item) => (
-                      <Link href={item.href} key={item.title}>
-                        <a
-                          className={`${
-                            activeItemOnMobile === item.title &&
-                            'bg-primary-lighter text-primary'
-                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                      <a
+                        href={item.href}
+                        key={item.title}
+                        className={`${
+                          activeItemOnMobile === item.title &&
+                          'bg-primary-lighter text-primary'
+                        } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
+                      >
+                        <Popover.Button
+                          type="submit"
+                          onClick={() => handleMobileNavChange(item)}
+                          className="flex items-center gap-4"
                         >
-                          <Popover.Button
-                            type="submit"
-                            onClick={() => handleMobileNavChange(item)}
-                            className="flex gap-4"
+                          <p
+                            className={`${
+                              item.title === 'إعلان مجانًا' && 'text-secondary'
+                            } font-DroidArabicKufiBold`}
                           >
-                            <p
-                              className={`${
-                                item.title === 'إعلان مجانًا' &&
-                                'text-secondary'
-                              } font-DroidArabicKufiBold`}
+                            {item.title}
+                          </p>
+                          {item.title === 'إعلان مجانًا' ? (
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="2"
+                              stroke="currentColor"
+                              className="w-8 h-8 text-secondary"
                             >
-                              {item.title}
-                            </p>
-                            {item.title === 'إعلان مجانًا' ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="2"
-                                stroke="currentColor"
-                                className="w-8 h-8 text-secondary"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>
-                            ) : (
-                              <Image
-                                src={
-                                  activeItemOnMobile === item.title
-                                    ? item.primaryIcon
-                                    : item.icon
-                                }
-                                height={30}
-                                width={30}
-                                alt="nav_item"
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                               />
-                            )}
-                          </Popover.Button>
-                        </a>
-                      </Link>
+                            </svg>
+                          ) : (
+                            <Image
+                              src={
+                                activeItemOnMobile === item.title
+                                  ? item.primaryIcon
+                                  : item.icon
+                              }
+                              height={item.href === '/register' ? 22 : 30}
+                              width={item.href === '/register' ? 22 : 30}
+                              alt="nav_item"
+                            />
+                          )}
+                        </Popover.Button>
+                      </a>
                     ))}
                 <Menu as="div" className="relative ml-5 rounded-l-2xl">
                   <div>
@@ -690,7 +695,7 @@ const Nav: React.FC = () => {
                           <div key={item.title}>
                             <button
                               type="button"
-                              className="rounded-lg w-full hover:bg-primary"
+                              className="rounded-lg w-full"
                               onClick={() => handleShowSubRealState(index)}
                             >
                               <div className="flex items-center justify-between">
@@ -735,12 +740,16 @@ const Nav: React.FC = () => {
                       type="submit"
                       className="px-3 py-2 flex items-center bg-custom-gray-2 rounded-lg cursor-pointer"
                     >
-                      <Image
-                        src={link.imagePath}
-                        width={21}
-                        height={24}
-                        alt="social_link"
-                      />
+                      {link.href !== '/settings' ? (
+                        <Image
+                          src={link.imagePath}
+                          width={21}
+                          height={24}
+                          alt="social_link"
+                        />
+                      ) : (
+                        <Cog6ToothIcon className="w-6 h-6 text-custom-gray-1" />
+                      )}
                     </Popover.Button>
                   </a>
                 </Link>
