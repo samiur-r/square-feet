@@ -13,7 +13,6 @@ import dynamic from 'next/dynamic'
 
 import { locations } from 'constant'
 import { useStore } from 'store'
-import { Cog6ToothIcon } from '@heroicons/react/24/solid'
 import CTA from './CTA'
 
 const DynamicFilterAutoComplete = dynamic(
@@ -226,19 +225,19 @@ const mobileNavItemsAuth = [
 const socialLinks = [
   {
     href: 'https://twitter.com/boshamlankw',
-    imagePath: '/images/twitter-dark.svg'
+    imagePath: '/images/mobile_nav_icons/twitter.svg'
   },
   {
     href: 'https://www.instagram.com/boshamlankw/',
-    imagePath: '/images/instagram-dark.svg'
+    imagePath: '/images/mobile_nav_icons/instagram.svg'
   },
   {
     href: '/',
-    imagePath: '/images/nav-en.svg'
+    imagePath: '/images/mobile_nav_icons/en.svg'
   },
   {
     href: '/settings',
-    imagePath: '/images/settings.png'
+    imagePath: '/images/mobile_nav_icons/settings.svg'
   }
 ]
 
@@ -486,7 +485,7 @@ const Nav: React.FC = () => {
                 aria-hidden="true"
               />
             </div>
-            {pathname === '/' || isFilterPage ? (
+            {pathname === '/' || isFilterPage || pathname === '/account' ? (
               <Popover.Button
                 className={`${
                   isLocationDropDownOpen && 'hidden md:inline-flex'
@@ -578,33 +577,16 @@ const Nav: React.FC = () => {
                           >
                             {item.title}
                           </p>
-                          {item.title === 'إعلان مجانًا' ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="2"
-                              stroke="currentColor"
-                              className="w-8 h-8 text-secondary"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                          ) : (
-                            <Image
-                              src={
-                                activeItemOnMobile === item.title
-                                  ? item.primaryIcon
-                                  : item.icon
-                              }
-                              height={30}
-                              width={30}
-                              alt="nav_item"
-                            />
-                          )}
+                          <Image
+                            src={
+                              activeItemOnMobile === item.title
+                                ? item.primaryIcon
+                                : item.icon
+                            }
+                            height={18}
+                            width={18}
+                            alt="nav_item"
+                          />
                         </Popover.Button>
                       </a>
                     ))
@@ -629,33 +611,16 @@ const Nav: React.FC = () => {
                           >
                             {item.title}
                           </p>
-                          {item.title === 'إعلان مجانًا' ? (
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="2"
-                              stroke="currentColor"
-                              className="w-8 h-8 text-secondary"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                              />
-                            </svg>
-                          ) : (
-                            <Image
-                              src={
-                                activeItemOnMobile === item.title
-                                  ? item.primaryIcon
-                                  : item.icon
-                              }
-                              height={item.href === '/register' ? 22 : 30}
-                              width={item.href === '/register' ? 22 : 30}
-                              alt="nav_item"
-                            />
-                          )}
+                          <Image
+                            src={
+                              activeItemOnMobile === item.title
+                                ? item.primaryIcon
+                                : item.icon
+                            }
+                            height={18}
+                            width={18}
+                            alt="nav_item"
+                          />
                         </Popover.Button>
                       </a>
                     ))}
@@ -666,14 +631,14 @@ const Nav: React.FC = () => {
                         className="text-base h-5 w-5 group-hover:text-custom-gray text-custom-gray-4"
                         aria-hidden="true"
                       />
-                      <div className="flex items-center gap-5 justify-end pr-6 py-2 ml-5 rounded-l-2xl cursor-pointer">
+                      <div className="flex items-center gap-4 justify-end pr-5 py-2 ml-5 rounded-l-2xl cursor-pointer">
                         <p className="font-DroidArabicKufiBold">
                           عقارات الكویت
                         </p>
                         <Image
                           src="/images/building-solid.svg"
-                          height={25}
-                          width={25}
+                          height={18}
+                          width={18}
                           alt="home_search"
                         />
                       </div>
@@ -740,16 +705,12 @@ const Nav: React.FC = () => {
                       type="submit"
                       className="px-3 py-2 flex items-center bg-custom-gray-2 rounded-lg cursor-pointer"
                     >
-                      {link.href !== '/settings' ? (
-                        <Image
-                          src={link.imagePath}
-                          width={21}
-                          height={24}
-                          alt="social_link"
-                        />
-                      ) : (
-                        <Cog6ToothIcon className="w-6 h-6 text-custom-gray-1" />
-                      )}
+                      <Image
+                        src={link.imagePath}
+                        width={18}
+                        height={20}
+                        alt="social_link"
+                      />
                     </Popover.Button>
                   </a>
                 </Link>

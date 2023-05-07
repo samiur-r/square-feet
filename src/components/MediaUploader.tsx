@@ -1,6 +1,7 @@
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useStore } from 'store'
 
 interface MediaUploaderType {
   maxMediaNum?: number
@@ -11,7 +12,7 @@ interface MediaUploaderType {
 }
 
 const MediaUploader: React.FC<MediaUploaderType> = ({
-  maxMediaNum = 20,
+  maxMediaNum = 10,
   mediaList,
   handleSetMediaList,
   mode,
@@ -20,6 +21,8 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   const [mediaCount, setMediaCount] = useState(0)
   const [showLoading, setShowLoading] = useState(false)
 
+  const { updateToast } = useStore()
+
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
 
@@ -27,6 +30,15 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
       return
     }
     const file = files[0]
+
+    if (
+      file.type.split('/')[0] !== 'image' &&
+      file.type.split('/')[0] !== 'video'
+    ) {
+      updateToast(true, 'You can only upload image or video files', true)
+      return
+    }
+
     const reader = new FileReader()
     reader.readAsDataURL(file)
 
@@ -84,6 +96,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
             <input
               id="dropzone-file"
               type="file"
+              accept="image/*, video/*"
               className="hidden"
               onChange={handleUpload}
             />

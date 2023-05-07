@@ -70,7 +70,36 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
 
   const handleAuth = async () => {
     setCanHandleAuth(false)
-    if (phoneErrors.length > 0 || passwordErrors.length > 0) return
+    if (phoneErrors.length > 0 || passwordErrors.length > 0) {
+      let adminComment = ''
+
+      if (phone) {
+        try {
+          const { data } = await ApiClient({
+            method: 'POST',
+            url: `/user/admin-comment`,
+            data: { phone }
+          })
+          adminComment = data.adminComment
+        } catch (error) {
+          /* empty */
+        }
+      }
+      const message = `${opt} attempt failed\n\n${
+        phone ? `User: <https://wa.me/965${phone}|${phone}>\n` : ''
+      }${
+        adminComment ? `Admin Comment: ${adminComment}\n` : 'Admin Comment: -\n'
+      }Errors:\n${
+        phoneErrors.length > 0 ? `${phoneErrors.join('\n')} \n` : ''
+      }${passwordErrors.length > 0 && passwordErrors.join('\n')}`
+
+      await ApiClient({
+        method: 'POST',
+        url: `/common/notify-slack`,
+        data: { message, channel: 'non-imp' }
+      })
+      return
+    }
     try {
       setIsCallingApi(true)
       const { data } = await ApiClient({

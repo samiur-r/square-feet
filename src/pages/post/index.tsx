@@ -84,14 +84,36 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
   }, [selectedPurpose])
 
   useEffect(() => {
-    if (description !== undefined) setDescriptionErrors([])
+    if (description && description?.length > 399)
+      setDescriptionErrors(['description can not be more than 400 characters'])
+    if (description !== undefined && description?.length <= 399)
+      setDescriptionErrors([])
   }, [description])
 
-  const handleValidationError = (
+  const handleValidationError = async (
     errors: Array<{ path: string; errors: string[] }>
   ) => {
+    let adminComment = ''
+    if (user?.phone) {
+      try {
+        const { data } = await ApiClient({
+          method: 'POST',
+          url: `/user/admin-comment`,
+          data: { phone: user.phone }
+        })
+        adminComment = data.adminComment
+      } catch (error) {
+        /* empty */
+      }
+    }
+    let message = `Failed to create post.\n\nUser: <https://wa.me/965${
+      user?.phone
+    }|${user?.phone}>\n${
+      adminComment ? `Admin Comment: ${adminComment}\n` : 'Admin Comment: -\n'
+    }`
     if (topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' })
     errors?.forEach((err: { path: string; errors: string[] }) => {
+      message += `${err.errors.join('\n')} \n`
       switch (err.path) {
         case 'cityId' || 'cityTitle':
           setCityErrors(err.errors)
@@ -108,6 +130,11 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
         default:
           break
       }
+    })
+    await ApiClient({
+      method: 'POST',
+      url: `/common/notify-slack`,
+      data: { message, channel: 'non-imp' }
     })
     return 0
   }
