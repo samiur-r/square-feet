@@ -14,6 +14,7 @@ import dynamic from 'next/dynamic'
 import { locations } from 'constant'
 import { useStore } from 'store'
 import CTA from './CTA'
+import ApiClient from 'utils/ApiClient'
 
 const DynamicFilterAutoComplete = dynamic(
   () => import('components/FilterAutoComplete'),
@@ -244,6 +245,7 @@ const socialLinks = [
 const Nav: React.FC = () => {
   const { user } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [newPostBtnText, setNewPostBtnText] = useState('إعلان جديد')
 
   useEffect(() => {
     if (user) setIsLoggedIn(true)
@@ -317,10 +319,26 @@ const Nav: React.FC = () => {
     }
   }
 
+  const getNewPostBtnText = async () => {
+    if (user) {
+      try {
+        const { data } = await ApiClient({
+          method: 'GET',
+          url: 'credits/free-credit'
+        })
+        if (data.success > 0) setNewPostBtnText('إعلان مجانًا')
+        else setNewPostBtnText('إعلان جديد')
+      } catch (error) {
+        /* empty */
+      }
+    }
+  }
+
   useEffect(() => {
     handleActiveItem(pathname)
     setIsFilterPage(pathname === '/search' || pathname === '/[...slug]')
     setIsPostPage(pathname === '/post/[id]')
+    getNewPostBtnText()
   }, [pathname])
 
   const handleSearch = async (val: { title?: string; href: any }) => {
@@ -575,7 +593,9 @@ const Nav: React.FC = () => {
                               item.title === 'إعلان مجانًا' && 'text-secondary'
                             } font-DroidArabicKufiBold`}
                           >
-                            {item.title}
+                            {item.title === 'إعلان مجانًا'
+                              ? newPostBtnText
+                              : item.title}
                           </p>
                           <Image
                             src={

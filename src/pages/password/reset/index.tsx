@@ -36,7 +36,7 @@ const PasswordReset: NextPage = () => {
     if (e.target.value.length <= 8) setPhone(e.target.value)
   }
 
-  const { updateToast } = useStore()
+  const { addUser, updateToast } = useStore()
 
   useEffect(() => {
     if (showPasswordField) setOtpVerified(true)
@@ -70,6 +70,7 @@ const PasswordReset: NextPage = () => {
         )
       } else {
         updateToast(true, `Error: ${errs.response.data}`, true)
+        Router.push('/register')
       }
     }
   }
@@ -87,8 +88,10 @@ const PasswordReset: NextPage = () => {
       })
 
       setIsCallingApi(false)
-      updateToast(true, `Success: ${data?.success}`, false)
-      Router.push('/login')
+      updateToast(true, `Success: Password reset successful`, false)
+      addUser(data.success)
+      if (data.success.userHasCredits) Router.push('/post?mode=create')
+      else Router.push('/topup')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (errs: any) {
       setIsCallingApi(false)

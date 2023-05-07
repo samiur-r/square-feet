@@ -17,17 +17,21 @@ import PackageModal from 'components/Package/PackageModal'
 import config from 'config'
 import aesEncrypt from 'utils/aesEncrypt'
 import createFileObjFromUrlStr from 'utils/createFileObjFromUrlStr'
+import Modal from 'components/Modal'
 
-const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
-  post,
-  mode
-}) => {
+const CreatePost: NextPage<{
+  post?: IPost | undefined
+  mode: string
+  isStickyOnly: undefined | boolean
+}> = ({ post, mode, isStickyOnly }) => {
   const [scrollToTop, setScrollToTop] = useState(false)
   const { admin, user, updateToast } = useStore()
   const [cityErrors, setCityErrors] = useState<string[]>([])
   const [propertyTypeErrors, setPropertyTypeErrors] = useState<string[]>([])
   const [purposeErrors, setPurposeErrors] = useState<string[]>([])
   const [descriptionErrors, setDescriptionErrors] = useState<string[]>([])
+  const [showStickyConfirmationModal, setShowStickyConfirmationModal] =
+    useState(false)
 
   const topRef = useRef<HTMLDivElement>(null)
 
@@ -250,7 +254,7 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
         response = await ApiClient({
           method: 'POST',
           url: '/post',
-          data: { postInfo },
+          data: { postInfo, isStickyOnly },
           headers: {
             'content-type': 'application/json'
           }
@@ -305,6 +309,37 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
 
   return (
     <div className="dir-rtl container max-w-6xl py-10 flex flex-col gap-3 items-center">
+      <Modal
+        isModalOpen={showStickyConfirmationModal}
+        handleIsModalOpen={setShowStickyConfirmationModal}
+        type="warning"
+      >
+        <p className="font-semibold text-lg">
+          Are you sure you want to create a sticky post?
+        </p>
+        <p className="font-semibold text-lg">
+          Your sticky credits will be deduce
+        </p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowStickyConfirmationModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={(e) => {
+              handleSubmit(e)
+              setShowStickyConfirmationModal(false)
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
       <PackageModal
         open={openPackageModal}
         setOpen={setOpenPackageModal}
@@ -475,6 +510,8 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
               value=""
               className="w-4 h-4 text-blue-600 bg-custom-gray rounded border-custom-gray-border focus:ring-blue-500 focus:ring-2"
               onChange={handleStickyDirect}
+              checked={!!isStickyOnly}
+              disabled={!!isStickyOnly}
             />
             <span className="font-medium">
               <a
@@ -495,7 +532,11 @@ const CreatePost: NextPage<{ post?: IPost | undefined; mode: string }> = ({
           <button
             type="submit"
             className="bg-secondary text-white rounded-lg w-full mt-8 py-3 md:py-4 hover:opacity-90 transition-opacity duration-300"
-            onClick={(e) => handleSubmit(e)}
+            onClick={(e) => {
+              e.preventDefault()
+              if (isStickyOnly) setShowStickyConfirmationModal(true)
+              else handleSubmit(e)
+            }}
           >
             إضافة الإعلان{' '}
             {isCallingApi && (
@@ -555,8 +596,24 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
   }
 
+  let isStickyOnly = false
+
+  try {
+    const { data } = await ApiClient({
+      method: 'GET',
+      url: `/credits/user-has-only-sticky`,
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie
+      }
+    })
+    isStickyOnly = !!data.isStickyOnly
+  } catch (error) {
+    /* empty */
+  }
+
   return {
-    props: { mode: query.mode }
+    props: { mode: query.mode, isStickyOnly }
   }
 }
 

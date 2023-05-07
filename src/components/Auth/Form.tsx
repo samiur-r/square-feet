@@ -108,6 +108,20 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
         data: { phone, password }
       })
 
+      if (data && data.isRedirectToRegister) {
+        setIsCallingApi(false)
+        updateToast(true, `Error: User doesn't exists. Please register`, true)
+        Router.push('/register')
+        return
+      }
+
+      if (data && data.isRedirectToLogin) {
+        setIsCallingApi(false)
+        updateToast(true, `Error: User already exists. Please login`, true)
+        Router.push('/login')
+        return
+      }
+
       if (data && data.nextOperation) {
         if (data.nextOperation === 'verify mobile') {
           await ApiClient({
@@ -127,7 +141,8 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
       }
       setIsCallingApi(false)
       addUser(data.success)
-      Router.push('/account')
+      if (data.success.userHasCredits) Router.push('/post?mode=create')
+      else Router.push('/topup')
     } catch (error: any) {
       setIsCallingApi(false)
       updateToast(true, `Error: ${error?.response?.data}`, true)

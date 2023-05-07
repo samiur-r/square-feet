@@ -30,7 +30,7 @@ const Otp: React.FC<OtpType> = ({
   const [isValidationDone, setIsValidationDone] = useState(false)
   const [isCallingApi, setIsCallingApi] = useState(false)
 
-  const { updateToast } = useStore()
+  const { addUser, updateToast } = useStore()
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -62,11 +62,16 @@ const Otp: React.FC<OtpType> = ({
       })
         .then((res) => {
           setIsCallingApi(false)
-          updateToast(true, `Success: ${res?.data?.success}`, false)
+          updateToast(true, `Success: Otp verified successfully`, false)
           handleIsOtpModalOpen(false)
           if (nextOperation && handleSetShowPasswordField)
             handleSetShowPasswordField(true)
-          else Router.push('/login')
+          else {
+            addUser(res.data.success)
+            if (res.data.success.userHasCredits)
+              Router.push('/post?mode=create')
+            else Router.push('/topup')
+          }
         })
         .catch((err) => {
           setIsCallingApi(false)
