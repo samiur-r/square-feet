@@ -13,8 +13,8 @@ import dynamic from 'next/dynamic'
 
 import { locations } from 'constant'
 import { useStore } from 'store'
-import CTA from './CTA'
 import ApiClient from 'utils/ApiClient'
+import CTA from './CTA'
 
 const DynamicFilterAutoComplete = dynamic(
   () => import('components/FilterAutoComplete'),
