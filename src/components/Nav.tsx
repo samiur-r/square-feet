@@ -352,7 +352,7 @@ const Nav: React.FC = () => {
 
     setTimeout(() => {
       router.reload()
-    }, 500)
+    }, 100)
   }
 
   return (
