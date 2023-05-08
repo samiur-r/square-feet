@@ -252,7 +252,6 @@ const Nav: React.FC = () => {
     else setIsLoggedIn(false)
   }, [user])
   const { pathname } = useRouter()
-  const router = useRouter()
   const [showSubRealState, setShowSubRealState] = useState([
     false,
     false,
