@@ -182,8 +182,8 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                       onClick={() => setShowCarousel(true)}
                     >
                       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-                      <video className="w-24 h-24" playsInline>
-                        <source src={`${src}#t=0.001`} />
+                      <video height={50} width={24} playsInline>
+                        <source src={`${src}#t=0.001`} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </button>
