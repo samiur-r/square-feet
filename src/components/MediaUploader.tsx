@@ -1,6 +1,6 @@
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useStore } from 'store'
 
 interface MediaUploaderType {
@@ -23,39 +23,71 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
 
   const { updateToast } = useStore()
 
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target
+  const handleUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { files } = e.target
 
-    if (!files || files.length === 0) {
-      return
-    }
+      if (!files || files.length === 0) {
+        return
+      }
 
-    Array.from(files).forEach((file: Blob) => {
-      if (
-        file.type.split('/')[0] !== 'image' &&
-        file.type.split('/')[0] !== 'video'
-      ) {
+      const mediaFiles = Array.from(files).filter(
+        (file) =>
+          file.type.split('/')[0] === 'image' ||
+          file.type.split('/')[0] === 'video'
+      )
+
+      if (mediaFiles.length === 0) {
         updateToast(true, 'You can only upload image or video files', true)
         return
       }
 
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
+      try {
+        const mediaItems = await Promise.all(
+          mediaFiles.map((file) => {
+            return new Promise<string>((resolve, reject) => {
+              const reader = new FileReader()
 
-      reader.onloadend = () => {
-        handleSetMediaList((prev) => [...prev, reader.result as string])
-        setMediaCount((prev) => prev + 1)
+              reader.onloadend = () => {
+                if (reader.result && typeof reader.result === 'string') {
+                  resolve(reader.result)
+                } else {
+                  reject(new Error('Unable to read file.'))
+                }
+              }
+
+              reader.onerror = () => {
+                reject(new Error('Unable to read file.'))
+              }
+
+              reader.readAsDataURL(file)
+            })
+          })
+        )
+
+        handleSetMediaList((prev) => [...prev, ...mediaItems])
+        setMediaCount((prev) => prev + mediaItems.length)
+      } catch (error) {
+        updateToast(
+          true,
+          'An error occurred while uploading the file(s). Please try again later.',
+          true
+        )
       }
-    })
-  }
+    },
+    [handleSetMediaList, mediaList]
+  )
 
-  const removeMedia = (index: number) => {
-    setMediaCount((prev) => prev - 1)
+  const removeMedia = useCallback(
+    (index: number) => {
+      setMediaCount((prev) => prev - 1)
 
-    const tempMediaList = [...mediaList]
-    tempMediaList.splice(index, 1)
-    handleSetMediaList(tempMediaList)
-  }
+      const tempMediaList = [...mediaList]
+      tempMediaList.splice(index, 1)
+      handleSetMediaList(tempMediaList)
+    },
+    [handleSetMediaList, mediaList]
+  )
 
   const getMediaType = (base64Str: string) => {
     let type = 'image'
@@ -66,7 +98,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
 
   useEffect(() => {
     if (mediaList.length && showLoading) setShowLoading(false)
-    console.log(mediaList)
   }, [mediaList])
 
   useEffect(() => {
@@ -157,4 +188,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   )
 }
 
-export default MediaUploader
+const MemoizedMediaUploader = React.memo(MediaUploader)
+
+export default MemoizedMediaUploader
