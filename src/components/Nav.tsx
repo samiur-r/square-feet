@@ -251,7 +251,8 @@ const Nav: React.FC = () => {
     if (user) setIsLoggedIn(true)
     else setIsLoggedIn(false)
   }, [user])
-  const { pathname } = useRouter()
+  const { pathname, query } = useRouter()
+  const router = useRouter()
   const [showSubRealState, setShowSubRealState] = useState([
     false,
     false,
@@ -343,16 +344,6 @@ const Nav: React.FC = () => {
   const handleSearch = async (val: { title?: string; href: any }) => {
     const parts = val.href.split('/')
     Router.push(`/${parts[0]}/${parts[1]}`)
-  }
-
-  const router = useRouter()
-
-  const goBack = () => {
-    router.back()
-
-    setTimeout(() => {
-      router.reload()
-    }, 100)
   }
 
   return (
@@ -512,7 +503,11 @@ const Nav: React.FC = () => {
                 aria-hidden="true"
               />
             </div>
-            {pathname === '/' || isFilterPage || pathname === '/account' ? (
+            {pathname === '/' ||
+            isFilterPage ||
+            pathname === '/account' ||
+            pathname === '/topup' ||
+            (query && query.mode && query.mode === 'create') ? (
               <Popover.Button
                 className={`${
                   isLocationDropDownOpen && 'hidden md:inline-flex'
@@ -528,7 +523,7 @@ const Nav: React.FC = () => {
               <div className={`${isFilterPage && 'hidden'}`}>
                 <ChevronRightIcon
                   className="w-10 h-10 cursor-pointer"
-                  onClick={() => goBack()}
+                  onClick={() => router.back()}
                 />
               </div>
             )}
@@ -537,7 +532,7 @@ const Nav: React.FC = () => {
             <div className="absolute right-0 hidden md:block">
               <ChevronRightIcon
                 className="w-10 h-10 cursor-pointer"
-                onClick={() => goBack()}
+                onClick={() => router.back()}
               />
             </div>
           )}

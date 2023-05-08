@@ -508,7 +508,7 @@ const CreatePost: NextPage<{
               value=""
               className="w-4 h-4 text-blue-600 bg-custom-gray rounded border-custom-gray-border focus:ring-blue-500 focus:ring-2"
               onChange={handleStickyDirect}
-              checked={!!isStickyOnly}
+              defaultChecked={!!isStickyOnly}
               disabled={!!isStickyOnly}
             />
             <span className="font-medium">
@@ -597,6 +597,24 @@ export const getServerSideProps: GetServerSideProps = async ({
   let isStickyOnly = false
 
   try {
+    const { data: creditData } = await ApiClient({
+      method: 'GET',
+      url: `/credits/user-has-no-credits`,
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie
+      }
+    })
+
+    if (creditData && creditData.hasNoCredits) {
+      return {
+        redirect: {
+          destination: '/topup',
+          permanent: false
+        }
+      }
+    }
+
     const { data } = await ApiClient({
       method: 'GET',
       url: `/credits/user-has-only-sticky`,
