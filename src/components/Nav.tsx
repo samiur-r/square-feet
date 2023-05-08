@@ -345,6 +345,16 @@ const Nav: React.FC = () => {
     Router.push(`/${parts[0]}/${parts[1]}`)
   }
 
+  const router = useRouter()
+
+  const goBack = () => {
+    router.back()
+
+    setTimeout(() => {
+      router.reload()
+    }, 500)
+  }
+
   return (
     <Popover className="sticky top-0 bg-white shadow-md md:shadow-sm w-full z-20 flex items-center min-h-20 md:min-h-24">
       <div
@@ -518,7 +528,7 @@ const Nav: React.FC = () => {
               <div className={`${isFilterPage && 'hidden'}`}>
                 <ChevronRightIcon
                   className="w-10 h-10 cursor-pointer"
-                  onClick={() => window.history.back()}
+                  onClick={() => goBack()}
                 />
               </div>
             )}
@@ -527,7 +537,7 @@ const Nav: React.FC = () => {
             <div className="absolute right-0 hidden md:block">
               <ChevronRightIcon
                 className="w-10 h-10 cursor-pointer"
-                onClick={() => window.history.back()}
+                onClick={() => goBack()}
               />
             </div>
           )}
