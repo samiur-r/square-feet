@@ -179,7 +179,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                   />
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
-                  <video className="w-20 h-20" playsInline>
+                  <video className="w-24 h-24" playsInline>
                     <source src={`${preview}#t=0.001`} type="video/mp4" />
                     <source src={`${preview}#t=0.001`} type="video/webm" />
                     <source src={`${preview}#t=0.001`} type="video/ogg" />
