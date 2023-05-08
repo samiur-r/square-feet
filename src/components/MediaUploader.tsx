@@ -29,23 +29,24 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     if (!files || files.length === 0) {
       return
     }
-    const file = files[0]
 
-    if (
-      file.type.split('/')[0] !== 'image' &&
-      file.type.split('/')[0] !== 'video'
-    ) {
-      updateToast(true, 'You can only upload image or video files', true)
-      return
-    }
+    Array.from(files).forEach((file: Blob) => {
+      if (
+        file.type.split('/')[0] !== 'image' &&
+        file.type.split('/')[0] !== 'video'
+      ) {
+        updateToast(true, 'You can only upload image or video files', true)
+        return
+      }
 
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
 
-    reader.onloadend = () => {
-      handleSetMediaList((prev) => [...prev, reader.result as string])
-      setMediaCount((prev) => prev + 1)
-    }
+      reader.onloadend = () => {
+        handleSetMediaList((prev) => [...prev, reader.result as string])
+        setMediaCount((prev) => prev + 1)
+      }
+    })
   }
 
   const removeMedia = (index: number) => {
@@ -65,6 +66,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
 
   useEffect(() => {
     if (mediaList.length && showLoading) setShowLoading(false)
+    console.log(mediaList)
   }, [mediaList])
 
   useEffect(() => {
@@ -97,6 +99,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
               id="dropzone-file"
               type="file"
               accept="image/*, video/*"
+              multiple
               className="hidden"
               onChange={handleUpload}
             />
@@ -127,7 +130,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
           </svg>
         )}
         {mediaList.length !== 0 && (
-          <div className="flex flex-wrap gap-3 mx-5 mt-5">
+          <div className="flex flex-wrap gap-3 justify-center mt-5">
             {mediaList.map((preview, index) => (
               <div className="relative border" key={Math.random()}>
                 {getMediaType(preview) === 'image' ? (

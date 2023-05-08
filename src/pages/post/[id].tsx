@@ -165,9 +165,9 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                       src={`${src}`}
                       width={100}
                       height={100}
-                      objectFit="contain"
+                      objectFit="cover"
                       alt="post_image"
-                      className="cursor-pointer"
+                      className="cursor-pointer overflow-hidden"
                       onClick={() => setShowCarousel(true)}
                       placeholder="blur"
                       blurDataURL={`data:image/svg+xml;base64,${toBase64(
@@ -175,11 +175,17 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                       )}`}
                     />
                   ) : (
-                    // eslint-disable-next-line jsx-a11y/media-has-caption
-                    <video className="w-24 h-24" controls key={Math.random()}>
-                      <source src={`${src}`} />
-                      Your browser does not support the video tag.
-                    </video>
+                    <button
+                      key={Math.random()}
+                      type="button"
+                      onClick={() => setShowCarousel(true)}
+                    >
+                      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                      <video className="w-24 h-24">
+                        <source src={`${src}`} />
+                        Your browser does not support the video tag.
+                      </video>
+                    </button>
                   )
                 )}
               </div>
@@ -187,7 +193,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
           ) : null}
           {post && post.media && post.media.length ? (
             <div>
-              <Suspense fallback="Loading...">
+              <Suspense fallback="...">
                 <DynamicCarousel
                   media={post.media}
                   open={showCarousel}
