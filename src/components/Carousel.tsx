@@ -111,7 +111,13 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                           controls
                           playsInline
                         >
-                          <source src={`${src}`} />
+                          <source src={`${src}#t=0.001`} type="video/mp4" />
+                          <source src={`${src}#t=0.001`} type="video/webm" />
+                          <source src={`${src}#t=0.001`} type="video/ogg" />
+                          <source
+                            src={`${src}#t=0.001`}
+                            type="video/quicktime"
+                          />
                           Your browser does not support the video tag.
                         </video>
                       )
