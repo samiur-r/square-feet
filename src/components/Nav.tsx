@@ -171,7 +171,7 @@ const mobileNavItems = [
     primaryIcon: '/images/mobile_nav_icons/register-icon-primary.svg'
   },
   {
-    title: 'إعلان مجانًا',
+    title: 'إعلان جديد',
     href: '/post?mode=create',
     icon: '/images/mobile_nav_icons/add_circle_outlined.svg',
     primaryIcon: '/images/mobile_nav_icons/add_circle_outlined_primary.svg'
@@ -210,7 +210,7 @@ const mobileNavItemsAuth = [
     primaryIcon: '/images/mobile_nav_icons/credit_card_add_primary.svg'
   },
   {
-    title: 'إعلان مجانًا',
+    title: 'إعلان جديد',
     href: '/post?mode=create',
     icon: '/images/mobile_nav_icons/add_circle_outlined.svg',
     primaryIcon: '/images/mobile_nav_icons/add_circle_outlined_primary.svg'
@@ -304,7 +304,7 @@ const Nav: React.FC = () => {
         break
       case '/post':
         setActiveItem('')
-        setActiveItemOnMobile('إعلان مجانًا')
+        setActiveItemOnMobile(newPostBtnText)
         break
       case '/login':
         setActiveItem('دخول')
@@ -371,7 +371,7 @@ const Nav: React.FC = () => {
               {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a href="/post?mode=create">
                 <CTA
-                  title="إضافة إعلان"
+                  title={newPostBtnText}
                   backgroundColor="primary"
                   Icon={<PlusCircleIcon className="h-6 w-6 ml-3 z-10" />}
                 />
@@ -519,7 +519,7 @@ const Nav: React.FC = () => {
               <div className={`${isFilterPage && 'hidden'}`}>
                 <ChevronRightIcon
                   className="w-10 h-10 cursor-pointer"
-                  onClick={() => router.back()}
+                  onClick={() => window.history.back()}
                 />
               </div>
             )}
@@ -528,7 +528,7 @@ const Nav: React.FC = () => {
             <div className="absolute right-0 hidden md:block">
               <ChevronRightIcon
                 className="w-10 h-10 cursor-pointer"
-                onClick={() => router.back()}
+                onClick={() => window.history.back()}
               />
             </div>
           )}
@@ -590,10 +590,13 @@ const Nav: React.FC = () => {
                         >
                           <p
                             className={`${
-                              item.title === 'إعلان مجانًا' && 'text-secondary'
+                              item.title === 'إعلان جديد' ||
+                              (item.title === 'إعلان مجانًا' &&
+                                'text-secondary')
                             } font-DroidArabicKufiBold`}
                           >
-                            {item.title === 'إعلان مجانًا'
+                            {item.title === 'إعلان جديد' ||
+                            item.title === 'إعلان مجانًا'
                               ? newPostBtnText
                               : item.title}
                           </p>
@@ -626,7 +629,9 @@ const Nav: React.FC = () => {
                         >
                           <p
                             className={`${
-                              item.title === 'إعلان مجانًا' && 'text-secondary'
+                              (item.title === 'إعلان جديد' ||
+                                item.title === 'إعلان مجانًا') &&
+                              'text-secondary'
                             } font-DroidArabicKufiBold`}
                           >
                             {item.title}

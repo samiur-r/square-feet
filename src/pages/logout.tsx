@@ -1,4 +1,3 @@
-import Router from 'next/router'
 import { useEffect } from 'react'
 import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
@@ -13,7 +12,7 @@ const Logout = () => {
         url: `/user/logout`
       })
       removeUser()
-      Router.push('/')
+      window.location.replace('/')
       // eslint-disable-next-line no-empty
     } catch (err) {}
   }
