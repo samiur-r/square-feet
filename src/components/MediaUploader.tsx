@@ -184,10 +184,12 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                     src={`${preview}#t=0.001`}
                     playsInline
                   >
-                    {/* <source src={`${preview}#t=0.001`} type="video/mp4" />
-                    <source src={`${preview}#t=0.001`} type="video/webm" />
-                    <source src={`${preview}#t=0.001`} type="video/ogg" />
-                    <source src={`${preview}#t=0.001`} type="video/quicktime" /> */}
+                    <source
+                      src={`${`data:video/mp4;base64,${btoa(
+                        preview
+                      )}`}#t=0.001`}
+                      type="video/mp4"
+                    />
                     Your browser does not support the video tag.
                   </video>
                 )}
