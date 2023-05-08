@@ -154,7 +154,6 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                     onClick={() => setShowCarousel(true)}
                   >
                     <source src={`${post.media[0]}#t=0.001`} type="video/mp4" />
-                    <source src={`${post.media[0]}#t=0.001`} type="video/mp4" />
                     <source
                       src={`${post.media[0]}#t=0.001`}
                       type="video/webm"
