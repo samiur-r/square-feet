@@ -18,7 +18,6 @@ import config from 'config'
 import aesEncrypt from 'utils/aesEncrypt'
 import createFileObjFromUrlStr from 'utils/createFileObjFromUrlStr'
 import Modal from 'components/Modal'
-import MediaUploader2 from 'components/MediaUploader2'
 
 const CreatePost: NextPage<{
   post?: IPost | undefined

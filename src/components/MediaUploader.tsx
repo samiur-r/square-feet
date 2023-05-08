@@ -1,6 +1,12 @@
 import { XCircleIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState
+} from 'react'
 import { useStore } from 'store'
 
 interface MediaUploaderType {
