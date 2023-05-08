@@ -179,7 +179,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                   />
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
-                  <video className="w-20 h-20">
+                  <video height={50} width={24}>
                     <source src={`${preview}`} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
