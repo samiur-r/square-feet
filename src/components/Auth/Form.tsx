@@ -85,11 +85,9 @@ const Form: React.FC<AuthFormProps> = ({ type, link }) => {
           /* empty */
         }
       }
-      const message = `${opt} attempt failed\n\n${
-        phone ? `User: <https://wa.me/965${phone}|${phone}>\n` : ''
-      }${
-        adminComment ? `Admin Comment: ${adminComment}\n` : 'Admin Comment: -\n'
-      }Errors:\n${
+      const message = `${opt} attempt failed\n${
+        phone ? `<https://wa.me/965${phone}|${phone}>` : ''
+      } - ${adminComment ? `${adminComment}` : ''}\nErrors:\n${
         phoneErrors.length > 0 ? `${phoneErrors.join('\n')} \n` : ''
       }${passwordErrors.length > 0 && passwordErrors.join('\n')}`
 

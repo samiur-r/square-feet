@@ -110,11 +110,9 @@ const CreatePost: NextPage<{
         /* empty */
       }
     }
-    let message = `Failed to create post.\n\nUser: <https://wa.me/965${
+    let message = `Failed to create post.\n<https://wa.me/965${user?.phone}|${
       user?.phone
-    }|${user?.phone}>\n${
-      adminComment ? `Admin Comment: ${adminComment}\n` : 'Admin Comment: -\n'
-    }`
+    }> - ${adminComment ? `${adminComment}` : ''}\n`
     if (topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' })
     errors?.forEach((err: { path: string; errors: string[] }) => {
       message += `${err.errors.join('\n')} \n`
