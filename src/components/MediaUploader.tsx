@@ -179,7 +179,10 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                   />
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
-                  <video className="w-20 h-20" src={preview} />
+                  <video className="w-20 h-20">
+                    <source src={`${preview}`} />
+                    Your browser does not support the video tag.
+                  </video>
                 )}
                 <XCircleIcon
                   className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
