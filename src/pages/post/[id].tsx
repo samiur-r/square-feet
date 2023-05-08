@@ -183,7 +183,11 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                     >
                       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                       <video className="w-24 h-24" playsInline>
-                        <source src={`${src}`} type="video/mp4" />
+                        <source src={`${src}#t=0.001`} type="video/mp4" />
+                        <source src={`${src}#t=0.001`} type="video/mp4" />
+                        <source src={`${src}#t=0.001`} type="video/webm" />
+                        <source src={`${src}#t=0.001`} type="video/ogg" />
+                        <source src={`${src}#t=0.001`} type="video/quicktime" />
                         Your browser does not support the video tag.
                       </video>
                     </button>
