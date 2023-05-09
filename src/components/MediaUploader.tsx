@@ -78,6 +78,16 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
           })
         )
 
+        mediaItems.forEach((media) => {
+          console.log(media)
+          if (getMediaType(media) === 'video') {
+            const video = document.createElement('video')
+            video.src = media
+            const container = document.getElementById('preview-video-container')
+            container?.appendChild(video)
+          }
+        })
+
         handleSetMediaList((prev) => [...prev, ...mediaItems])
         setMediaCount((prev) => prev + mediaItems.length)
       } catch (error) {
@@ -103,28 +113,23 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   )
 
   useEffect(() => {
-    if (mediaList.length && showLoading) setShowLoading(false)
-  }, [mediaList])
-
-  useEffect(() => {
     if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
   }, [hasMedia])
 
-  const renderVideo = (preview: string) => {
-    // const videoContainer = document.getElementById('preview-video')
-    // const videoEl = document.createElement('video')
-    // videoEl.setAttribute('src', preview)
-    // videoEl.controls = true
-    // videoEl.load()
-    // videoContainer?.appendChild(videoEl)
-    return (
-      // eslint-disable-next-line jsx-a11y/media-has-caption
-      <video className="w-20 h-20" playsInline controls>
-        <source src={`${preview}#t=0.001`} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    )
+  const renderVideo = () => {
+    const videoContainer = document.getElementById('preview-video-container')
+    const videoEl = document.createElement('video')
+    videoEl.setAttribute('src', mediaList[0])
+    videoEl.controls = true
+    videoEl.playsInline = true
+    videoEl.load()
+    videoContainer?.appendChild(videoEl)
   }
+
+  useEffect(() => {
+    if (mediaList.length && showLoading) setShowLoading(false)
+    if (mediaList.length) renderVideo()
+  }, [mediaList])
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">
@@ -194,7 +199,9 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                     objectFit="contain"
                   />
                 ) : (
-                  <div id="preview-video">{renderVideo(preview)}</div>
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <div id="preview-video-container" />
+                  // <div id="preview-video">{renderVideo(preview)}</div>
                   // // eslint-disable-next-line jsx-a11y/media-has-caption
                   // <video
                   //   className="w-20 h-20"
