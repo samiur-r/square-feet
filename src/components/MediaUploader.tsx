@@ -178,11 +178,22 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                     objectFit="contain"
                   />
                 ) : (
+                  <Image
+                    src="https://png.pngtree.com/png-vector/20190810/ourmid/pngtree-youtube-paly-video-player-abstract-circle-background-flat-col-png-image_1655120.jpg"
+                    width="80"
+                    height="80"
+                    objectFit="contain"
+                  />
                   // eslint-disable-next-line jsx-a11y/media-has-caption
-                  <video className="w-20 h-20" playsInline controls>
-                    <source src={`${preview}#t=0.001`} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
+                  // <video
+                  //   className="w-20 h-20"
+                  //   playsInline
+                  //   controls
+                  //   poster="https://smallseotools.com/designstudio/images/pm_video.svg"
+                  // >
+                  //   <source src={`${preview}#t=0.001`} type="video/mp4" />
+                  //   Your browser does not support the video tag.
+                  // </video>
                 )}
                 <XCircleIcon
                   className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"

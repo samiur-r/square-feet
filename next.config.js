@@ -6,7 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   images: {
-    domains: ['res.cloudinary.com']
+    domains: ['res.cloudinary.com', 'png.pngtree.com']
   },
   swcMinify: true,
   i18n: {
