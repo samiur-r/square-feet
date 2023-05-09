@@ -231,6 +231,7 @@ const CreatePost: NextPage<{
     }
 
     try {
+      updateToast(true, 'Hold on! It might take some time', false)
       await postSchema.validate(postInfo, { abortEarly: false })
       setIsCallingApi(true)
 
