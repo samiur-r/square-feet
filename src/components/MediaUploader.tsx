@@ -1,5 +1,3 @@
-import { XCircleIcon } from '@heroicons/react/24/outline'
-import Image from 'next/image'
 import React, {
   Dispatch,
   SetStateAction,
@@ -24,7 +22,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   mode,
   hasMedia
 }) => {
-  console.log('re-renders')
   const [mediaCount, setMediaCount] = useState(0)
   const [showLoading, setShowLoading] = useState(false)
 
