@@ -29,6 +29,13 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
 
   const { updateToast } = useStore()
 
+  const getMediaType = (base64Str: string) => {
+    let type = 'image'
+    // eslint-disable-next-line prefer-destructuring
+    if (base64Str) type = base64Str.split('/')[0].split(':')[1]
+    return type
+  }
+
   const handleUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const { files } = e.target
@@ -95,13 +102,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     [handleSetMediaList, mediaList]
   )
 
-  const getMediaType = (base64Str: string) => {
-    let type = 'image'
-    // eslint-disable-next-line prefer-destructuring
-    if (base64Str) type = base64Str.split('/')[0].split(':')[1]
-    return type
-  }
-
   useEffect(() => {
     if (mediaList.length && showLoading) setShowLoading(false)
   }, [mediaList])
@@ -109,6 +109,22 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   useEffect(() => {
     if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
   }, [hasMedia])
+
+  const renderVideo = (preview: string) => {
+    // const videoContainer = document.getElementById('preview-video')
+    // const videoEl = document.createElement('video')
+    // videoEl.setAttribute('src', preview)
+    // videoEl.controls = true
+    // videoEl.load()
+    // videoContainer?.appendChild(videoEl)
+    return (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
+      <video className="w-20 h-20" playsInline controls>
+        <source src={`${preview}#t=0.001`} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    )
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">
@@ -178,13 +194,8 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                     objectFit="contain"
                   />
                 ) : (
-                  <Image
-                    src="https://png.pngtree.com/png-vector/20190810/ourmid/pngtree-youtube-paly-video-player-abstract-circle-background-flat-col-png-image_1655120.jpg"
-                    width="80"
-                    height="80"
-                    objectFit="contain"
-                  />
-                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <div id="preview-video">{renderVideo(preview)}</div>
+                  // // eslint-disable-next-line jsx-a11y/media-has-caption
                   // <video
                   //   className="w-20 h-20"
                   //   playsInline
