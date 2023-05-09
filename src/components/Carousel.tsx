@@ -113,7 +113,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                         // eslint-disable-next-line jsx-a11y/media-has-caption
                         <video
                           key={Math.random()}
-                          className="max-w-sm"
+                          className="md:w-96 md:h-96 w-60 h-60 object-contain"
                           controls
                           playsInline
                         >
