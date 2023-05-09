@@ -24,6 +24,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   mode,
   hasMedia
 }) => {
+  console.log('re-renders')
   const [mediaCount, setMediaCount] = useState(0)
   const [showLoading, setShowLoading] = useState(false)
 
@@ -79,7 +80,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
         )
 
         mediaItems.forEach((media) => {
-          console.log(media)
           if (getMediaType(media) === 'video') {
             const video = document.createElement('video')
             video.src = media
@@ -116,19 +116,76 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
   }, [hasMedia])
 
-  const renderVideo = () => {
-    const videoContainer = document.getElementById('preview-video-container')
-    const videoEl = document.createElement('video')
-    videoEl.setAttribute('src', mediaList[0])
-    videoEl.controls = true
-    videoEl.playsInline = true
-    videoEl.load()
-    videoContainer?.appendChild(videoEl)
+  const removeMediaIcon = (index: number): any => {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    svg.setAttribute('fill', 'none')
+    svg.setAttribute('viewBox', '0 0 24 24')
+    svg.setAttribute('stroke-width', '1.5')
+    svg.setAttribute('stroke', 'currentColor')
+    svg.setAttribute(
+      'class',
+      'w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full'
+    )
+
+    svg.onclick = () => {
+      removeMedia(index)
+    }
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+    path.setAttribute('stroke-linecap', 'round')
+    path.setAttribute('stroke-linejoin', 'round')
+    path.setAttribute(
+      'd',
+      'M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+    )
+
+    svg.appendChild(path)
+    return svg
+  }
+
+  const renderPreview = () => {
+    const previewContainer = document.getElementById('preview-container')
+    if (previewContainer) previewContainer.innerHTML = ''
+    mediaList.forEach((media, index) => {
+      const xIcon = removeMediaIcon(index)
+      if (getMediaType(media) === 'image') {
+        const container = document.createElement('div')
+        container.style.position = 'relative'
+        const imageEl = document.createElement('img')
+        imageEl.setAttribute('src', media)
+        imageEl.alt = 'uploaded-img'
+        imageEl.style.width = '80px'
+        imageEl.style.height = '80px'
+        imageEl.style.objectFit = 'cover'
+        imageEl.style.overflow = 'hidden'
+        imageEl.style.border = '1px solid #DCDCDC'
+        container?.appendChild(imageEl)
+        container?.appendChild(xIcon)
+        previewContainer?.appendChild(container)
+      } else {
+        const container = document.createElement('div')
+        container.style.position = 'relative'
+        const videoEl = document.createElement('video')
+        videoEl.setAttribute('src', media)
+        videoEl.style.width = '80px'
+        videoEl.style.height = '80px'
+        videoEl.style.objectFit = 'cover'
+        videoEl.style.overflow = 'hidden'
+        videoEl.style.border = '1px solid #DCDCDC'
+        videoEl.controls = true
+        videoEl.playsInline = true
+        videoEl.load()
+        container?.appendChild(videoEl)
+        container?.appendChild(xIcon)
+        previewContainer?.appendChild(container)
+      }
+    })
   }
 
   useEffect(() => {
     if (mediaList.length && showLoading) setShowLoading(false)
-    if (mediaList.length) renderVideo()
+    if (mediaList) renderPreview()
   }, [mediaList])
 
   return (
@@ -187,40 +244,15 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
             />
           </svg>
         )}
-        {mediaList.length !== 0 && (
-          <div className="flex flex-wrap gap-3 justify-center mt-5">
-            {mediaList.map((preview, index) => (
-              <div className="relative border" key={Math.random()}>
-                {getMediaType(preview) === 'image' ? (
-                  <Image
-                    src={preview}
-                    width="80"
-                    height="80"
-                    objectFit="contain"
-                  />
-                ) : (
-                  // eslint-disable-next-line jsx-a11y/media-has-caption
-                  <div id="preview-video-container" />
-                  // <div id="preview-video">{renderVideo(preview)}</div>
-                  // // eslint-disable-next-line jsx-a11y/media-has-caption
-                  // <video
-                  //   className="w-20 h-20"
-                  //   playsInline
-                  //   controls
-                  //   poster="https://smallseotools.com/designstudio/images/pm_video.svg"
-                  // >
-                  //   <source src={`${preview}#t=0.001`} type="video/mp4" />
-                  //   Your browser does not support the video tag.
-                  // </video>
-                )}
-                <XCircleIcon
-                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
-                  onClick={() => removeMedia(index)}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+
+        <div
+          id="preview-container"
+          className="flex flex-wrap gap-3 justify-center mt-5 relative"
+        />
+        {/* <XCircleIcon
+          className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
+          onClick={() => removeMedia(1)}
+        /> */}
       </div>
     </div>
   )
