@@ -42,11 +42,16 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
         return
       }
 
-      const mediaFiles = Array.from(files).filter(
-        (file) =>
-          file.type.split('/')[0] === 'image' ||
-          file.type.split('/')[0] === 'video'
-      )
+      if (files.length > 10)
+        updateToast(true, 'You can not upload more than 10 files', true)
+
+      const mediaFiles = Array.from(files)
+        .filter(
+          (file) =>
+            file.type.split('/')[0] === 'image' ||
+            file.type.split('/')[0] === 'video'
+        )
+        .slice(0, 10 - files.length)
 
       if (mediaFiles.length === 0) {
         updateToast(true, 'You can only upload image or video files', true)
