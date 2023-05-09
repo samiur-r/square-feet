@@ -51,7 +51,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
             file.type.split('/')[0] === 'image' ||
             file.type.split('/')[0] === 'video'
         )
-        .slice(0, 10 - files.length)
+        .slice(0, Math.min(files.length, 10))
 
       if (mediaFiles.length === 0) {
         updateToast(true, 'You can only upload image or video files', true)
