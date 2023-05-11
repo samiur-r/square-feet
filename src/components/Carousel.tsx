@@ -46,7 +46,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           <div className="fixed inset-0 bg-stone-800 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 top-0 z-30 overflow-y-auto">
+        <div className="fixed inset-0 top-0 z-30">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -56,9 +56,9 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <Dialog.Panel className="bg-stone-800 transform transition-all">
-              <div className="dir-ltr h-screen">
-                <div className="h-screen fixed top-0 flex flex-col justify-center md:justify-between overflow-hidden">
+            <Dialog.Panel className="bg-stone-800 transform transition-all" style={{ border: '10px solid red' }}>
+              <div className="dir-ltr">
+                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-5">
                   <Carousel
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
