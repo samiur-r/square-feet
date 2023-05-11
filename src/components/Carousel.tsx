@@ -46,7 +46,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           <div className="fixed inset-0 bg-stone-800 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-30 overflow-y-auto">
+        <div className="fixed inset-0 top-0 z-30 overflow-y-auto">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -58,10 +58,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
-                <div
-                  className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-10"
-                  style={{ border: '10px solid red' }}
-                >
+                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-5">
                   <Carousel
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
@@ -108,8 +105,8 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                           key={Math.random()}
                           src={`${src}`}
                           alt="post_image"
-                          width={600}
-                          height={600}
+                          width={500}
+                          height={500}
                           objectFit="contain"
                         />
                       ) : (
