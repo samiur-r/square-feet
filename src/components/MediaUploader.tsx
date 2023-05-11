@@ -1,3 +1,5 @@
+import { XCircleIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 import React, {
   Dispatch,
   SetStateAction,
@@ -26,13 +28,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
   const [showLoading, setShowLoading] = useState(false)
 
   const { updateToast } = useStore()
-
-  const getMediaType = (base64Str: string) => {
-    let type = 'image'
-    // eslint-disable-next-line prefer-destructuring
-    if (base64Str) type = base64Str.split('/')[0].split(':')[1]
-    return type
-  }
 
   const handleUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,15 +76,6 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
           })
         )
 
-        mediaItems.forEach((media) => {
-          if (getMediaType(media) === 'video') {
-            const video = document.createElement('video')
-            video.src = media
-            const container = document.getElementById('preview-video-container')
-            container?.appendChild(video)
-          }
-        })
-
         handleSetMediaList((prev) => [...prev, ...mediaItems])
         setMediaCount((prev) => prev + mediaItems.length)
       } catch (error) {
@@ -114,81 +100,20 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
     [handleSetMediaList, mediaList]
   )
 
-  useEffect(() => {
-    if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
-  }, [hasMedia])
-
-  const removeMediaIcon = (index: number): any => {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-    svg.setAttribute('fill', 'none')
-    svg.setAttribute('viewBox', '0 0 24 24')
-    svg.setAttribute('stroke-width', '1.5')
-    svg.setAttribute('stroke', 'currentColor')
-    svg.setAttribute(
-      'class',
-      'w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full'
-    )
-
-    svg.onclick = () => {
-      removeMedia(index)
-    }
-
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-    path.setAttribute('stroke-linecap', 'round')
-    path.setAttribute('stroke-linejoin', 'round')
-    path.setAttribute(
-      'd',
-      'M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-    )
-
-    svg.appendChild(path)
-    return svg
-  }
-
-  const renderPreview = () => {
-    const previewContainer = document.getElementById('preview-container')
-    if (previewContainer) previewContainer.innerHTML = ''
-    mediaList.forEach((media, index) => {
-      const xIcon = removeMediaIcon(index)
-      if (getMediaType(media) === 'image') {
-        const container = document.createElement('div')
-        container.style.position = 'relative'
-        const imageEl = document.createElement('img')
-        imageEl.setAttribute('src', media)
-        imageEl.alt = 'uploaded-img'
-        imageEl.style.width = '80px'
-        imageEl.style.height = '80px'
-        imageEl.style.objectFit = 'cover'
-        imageEl.style.overflow = 'hidden'
-        imageEl.style.border = '1px solid #DCDCDC'
-        container?.appendChild(imageEl)
-        container?.appendChild(xIcon)
-        previewContainer?.appendChild(container)
-      } else {
-        const container = document.createElement('div')
-        container.style.position = 'relative'
-        const videoEl = document.createElement('video')
-        videoEl.setAttribute('src', media)
-        videoEl.style.width = '80px'
-        videoEl.style.height = '80px'
-        videoEl.style.objectFit = 'cover'
-        videoEl.style.overflow = 'hidden'
-        videoEl.style.border = '1px solid #DCDCDC'
-        videoEl.controls = true
-        videoEl.playsInline = true
-        videoEl.load()
-        container?.appendChild(videoEl)
-        container?.appendChild(xIcon)
-        previewContainer?.appendChild(container)
-      }
-    })
+  const getMediaType = (base64Str: string) => {
+    let type = 'image'
+    // eslint-disable-next-line prefer-destructuring
+    if (base64Str) type = base64Str.split('/')[0].split(':')[1]
+    return type
   }
 
   useEffect(() => {
     if (mediaList.length && showLoading) setShowLoading(false)
-    if (mediaList) renderPreview()
   }, [mediaList])
+
+  useEffect(() => {
+    if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
+  }, [hasMedia])
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">
@@ -246,15 +171,33 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
             />
           </svg>
         )}
-
-        <div
-          id="preview-container"
-          className="flex flex-wrap gap-3 justify-center mt-5 relative"
-        />
-        {/* <XCircleIcon
-          className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
-          onClick={() => removeMedia(1)}
-        /> */}
+        {mediaList.length !== 0 && (
+          <div className="flex flex-wrap gap-3 justify-center mt-5">
+            {mediaList.map((preview, index) => (
+              <div className="relative border" key={Math.random()}>
+                {getMediaType(preview) === 'image' ? (
+                  <Image
+                    src={preview}
+                    width="80"
+                    height="80"
+                    objectFit="contain"
+                  />
+                ) : (
+                  <Image
+                    src="https://png.pngtree.com/png-vector/20190810/ourmid/pngtree-youtube-paly-video-player-abstract-circle-background-flat-col-png-image_1655120.jpg"
+                    width="80"
+                    height="80"
+                    objectFit="contain"
+                  />
+                )}
+                <XCircleIcon
+                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
+                  onClick={() => removeMedia(index)}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
