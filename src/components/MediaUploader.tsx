@@ -174,7 +174,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
         {mediaList.length !== 0 && (
           <div className="flex flex-wrap gap-3 justify-center mt-5">
             {mediaList.map((preview, index) => (
-              <div className="relative border" key={Math.random()}>
+              <div className="relative" key={Math.random()}>
                 {getMediaType(preview) === 'image' ? (
                   <Image
                     src={preview}
@@ -184,7 +184,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                   />
                 ) : (
                   <Image
-                    src="https://png.pngtree.com/png-vector/20190810/ourmid/pngtree-youtube-paly-video-player-abstract-circle-background-flat-col-png-image_1655120.jpg"
+                    src="/images/video-thumbnail.png"
                     width="80"
                     height="80"
                     objectFit="contain"
