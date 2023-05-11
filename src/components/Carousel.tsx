@@ -58,7 +58,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
-                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden -mt-40 md:mt-0 md:pt-20">
+                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden -mt-36 md:mt-0 md:pt-20">
                   <Carousel
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
@@ -105,8 +105,8 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                           key={Math.random()}
                           src={`${src}`}
                           alt="post_image"
-                          width={500}
-                          height={500}
+                          width={450}
+                          height={450}
                           objectFit="contain"
                         />
                       ) : (
