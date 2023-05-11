@@ -58,9 +58,8 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
-                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-5">
+                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden -mt-40">
                   <Carousel
-                    className="-mt-20"
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
                     showIndicators={false}
@@ -131,7 +130,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                     )}
                   </Carousel>
                 </div>
-                <div className="absolute top-0 right-0 w-8 md:w-10 cursor-pointer m-2 z-10">
+                <div className="absolute top-0 right-0 w-8 md:w-10 cursor-pointer mt-44 mr-2 md:m-2 z-10">
                   <XMarkIcon
                     className="text-white"
                     onClick={() => setOpen(false)}
