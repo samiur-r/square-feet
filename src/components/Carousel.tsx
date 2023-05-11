@@ -58,7 +58,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
-                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden -mt-40 md:mt-0 md:pt-2">
+                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden -mt-40 md:mt-0 md:pt-20">
                   <Carousel
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
