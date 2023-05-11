@@ -1,4 +1,5 @@
 import { XCircleIcon } from '@heroicons/react/24/outline'
+import { PlayCircleIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import React, {
   Dispatch,
@@ -183,15 +184,12 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                     objectFit="contain"
                   />
                 ) : (
-                  <Image
-                    src="/images/video-thumbnail.svg"
-                    width="80"
-                    height="80"
-                    objectFit="contain"
-                  />
+                  <div className="w-20 h-20 flex justify-center items-center bg-primary">
+                    <PlayCircleIcon className="w-10 h-10 text-custom-gray-2" />
+                  </div>
                 )}
                 <XCircleIcon
-                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full"
+                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full cursor-pointer"
                   onClick={() => removeMedia(index)}
                 />
               </div>
