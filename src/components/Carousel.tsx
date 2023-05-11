@@ -58,7 +58,10 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
-                <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-10">
+                <div
+                  className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-10"
+                  style={{ border: '10px solid red' }}
+                >
                   <Carousel
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
@@ -113,7 +116,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                         // eslint-disable-next-line jsx-a11y/media-has-caption
                         <video
                           key={Math.random()}
-                          className="md:w-96 md:h-96 w-60 h-60 object-contain"
+                          className="md:w-96 md:h-96 w-80 h-80 object-contain"
                           controls
                           playsInline
                         >
