@@ -56,10 +56,11 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <Dialog.Panel className="bg-stone-800 transform transition-all" style={{ border: '10px solid red' }}>
+            <Dialog.Panel className="bg-stone-800 transform transition-all">
               <div className="dir-ltr">
                 <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden md:pt-5">
                   <Carousel
+                    className="-mt-20"
                     selectedItem={currentImageIndex}
                     onChange={updateCurrentImageIndex}
                     showIndicators={false}
