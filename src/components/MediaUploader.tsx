@@ -184,7 +184,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
                   />
                 ) : (
                   <Image
-                    src="/images/video-thumbnail.png"
+                    src="/images/video-thumbnail.svg"
                     width="80"
                     height="80"
                     objectFit="contain"
