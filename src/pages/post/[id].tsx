@@ -148,7 +148,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
                   <video
-                    className="max-w-lg"
+                    className="md:w-96 md:h-96 w-80 h-80 object-contain"
                     controls
                     playsInline
                     onClick={() => setShowCarousel(true)}
