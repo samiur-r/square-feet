@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState, useRef } from 'react'
 import Image from 'next/image'
 import { Dialog, Transition } from '@headlessui/react'
 import { Carousel } from 'react-responsive-carousel'
@@ -12,9 +12,17 @@ interface SliderProps {
   media: string[]
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  onTouchStart?: React.TouchEventHandler<HTMLDivElement>
+  onTouchEnd?: React.TouchEventHandler<HTMLDivElement>
 }
 
-const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
+const Slider: React.FC<SliderProps> = ({
+  media,
+  open,
+  setOpen,
+  onTouchStart,
+  onTouchEnd
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const next = () => {
@@ -29,6 +37,25 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
     if (currentImageIndex !== index) {
       setCurrentImageIndex(index)
     }
+  }
+
+  const touchStartY = useRef<any>(null)
+
+  const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (event) => {
+    touchStartY.current = event.touches[0].clientY
+    if (onTouchStart) onTouchStart(event)
+  }
+
+  const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = (event) => {
+    const touchEndY = event.changedTouches[0].clientY
+
+    if (touchStartY.current && touchEndY < touchStartY.current) {
+      alert('Swipe down detected!')
+    }
+
+    touchStartY.current = null
+
+    if (onTouchEnd) onTouchEnd(event)
   }
 
   return (
@@ -46,7 +73,11 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
           <div className="fixed inset-0 bg-stone-800 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 top-0 z-30">
+        <div
+          className="fixed inset-0 top-0 z-30"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
