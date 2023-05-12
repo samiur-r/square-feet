@@ -42,6 +42,7 @@ const Slider: React.FC<SliderProps> = ({
   const touchStartY = useRef<any>(null)
 
   const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (event) => {
+    console.log('touching')
     touchStartY.current = event.touches[0].clientY
     if (onTouchStart) onTouchStart(event)
   }
@@ -49,8 +50,8 @@ const Slider: React.FC<SliderProps> = ({
   const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = (event) => {
     const touchEndY = event.changedTouches[0].clientY
 
-    if (touchStartY.current && touchEndY < touchStartY.current) {
-      alert('Swipe down detected!')
+    if (touchStartY.current && touchEndY > touchStartY.current) {
+      setOpen(false)
     }
 
     touchStartY.current = null
