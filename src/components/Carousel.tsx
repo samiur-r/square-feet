@@ -78,6 +78,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                             height={100}
                             objectFit="contain"
                             alt="post_image"
+                            className="border-none"
                           />
                         ) : (
                           // eslint-disable-next-line jsx-a11y/media-has-caption
@@ -130,7 +131,7 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
                     )}
                   </Carousel>
                 </div>
-                <div className="absolute top-0 right-0 w-8 md:w-10 cursor-pointer mt-44 mr-2 md:m-2 z-10">
+                <div className="absolute top-0 right-0 w-8 md:w-10 cursor-pointer mt-40 mr-2 md:m-2 z-10">
                   <XMarkIcon
                     className="text-white"
                     onClick={() => setOpen(false)}
