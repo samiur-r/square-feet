@@ -42,9 +42,7 @@ const Slider: React.FC<SliderProps> = ({
   const touchStartY = useRef<any>(null)
 
   const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (event) => {
-    console.log('touching')
     touchStartY.current = event.touches[0].clientY
-    if (onTouchStart) onTouchStart(event)
   }
 
   const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = (event) => {
@@ -55,8 +53,6 @@ const Slider: React.FC<SliderProps> = ({
     }
 
     touchStartY.current = null
-
-    if (onTouchEnd) onTouchEnd(event)
   }
 
   return (
