@@ -1,4 +1,11 @@
-import { Dispatch, Fragment, SetStateAction, useState, useRef } from 'react'
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useState,
+  useRef,
+  useEffect
+} from 'react'
 import Image from 'next/image'
 import { Dialog, Transition } from '@headlessui/react'
 import { Carousel } from 'react-responsive-carousel'
@@ -12,24 +19,36 @@ interface SliderProps {
   media: string[]
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  carouselCurrentIndex: number
+  handleCarouselCurrentIndex: Dispatch<SetStateAction<number>>
   onTouchStart?: React.TouchEventHandler<HTMLDivElement>
   onTouchEnd?: React.TouchEventHandler<HTMLDivElement>
 }
 
-const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
+const Slider: React.FC<SliderProps> = ({
+  media,
+  open,
+  setOpen,
+  carouselCurrentIndex,
+  handleCarouselCurrentIndex
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
+  useEffect(() => {
+    setCurrentImageIndex(carouselCurrentIndex)
+  }, [carouselCurrentIndex])
+
   const next = () => {
-    setCurrentImageIndex((curr) => curr + 1)
+    handleCarouselCurrentIndex((curr) => curr + 1)
   }
 
   const prev = () => {
-    setCurrentImageIndex((curr) => curr - 1)
+    handleCarouselCurrentIndex((curr) => curr - 1)
   }
 
   const updateCurrentImageIndex = (index: number) => {
     if (currentImageIndex !== index) {
-      setCurrentImageIndex(index)
+      handleCarouselCurrentIndex(index)
     }
   }
 

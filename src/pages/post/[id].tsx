@@ -22,6 +22,7 @@ const DynamicCarousel = dynamic(() => import('components/Carousel'), {
 const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const [showCarousel, setShowCarousel] = useState(false)
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
+  const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
 
   const { updateScrollTo } = useStore()
 
@@ -138,7 +139,10 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                     height={500}
                     objectFit="contain"
                     className="cursor-pointer"
-                    onClick={() => setShowCarousel(true)}
+                    onClick={() => {
+                      setCarouselCurrentIndex(0)
+                      setShowCarousel(true)
+                    }}
                     placeholder="blur"
                     blurDataURL={`data:image/svg+xml;base64,${toBase64(
                       placeholderImg()
@@ -151,7 +155,10 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                     className="md:w-96 md:h-96 w-80 h-80 object-contain"
                     controls
                     playsInline
-                    onClick={() => setShowCarousel(true)}
+                    onClick={() => {
+                      setCarouselCurrentIndex(0)
+                      setShowCarousel(true)
+                    }}
                   >
                     <source src={`${post.media[0]}#t=0.001`} type="video/mp4" />
                     <source
@@ -168,7 +175,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                 )}
               </div>
               <div className="mt-5 flex flex-wrap justify-center gap-5">
-                {post.media.map((src) =>
+                {post.media.map((src, index) =>
                   isImage(src) ? (
                     <Image
                       key={Math.random()}
@@ -178,7 +185,10 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                       objectFit="cover"
                       alt="post_image"
                       className="cursor-pointer overflow-hidden"
-                      onClick={() => setShowCarousel(true)}
+                      onClick={() => {
+                        setCarouselCurrentIndex(index)
+                        setShowCarousel(true)
+                      }}
                       placeholder="blur"
                       blurDataURL={`data:image/svg+xml;base64,${toBase64(
                         placeholderImg()
@@ -188,7 +198,10 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                     <button
                       key={Math.random()}
                       type="button"
-                      onClick={() => setShowCarousel(true)}
+                      onClick={() => {
+                        setCarouselCurrentIndex(index)
+                        setShowCarousel(true)
+                      }}
                     >
                       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
                       <video className="w-24 h-24" playsInline>
@@ -211,6 +224,8 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                   media={post.media}
                   open={showCarousel}
                   setOpen={setShowCarousel}
+                  carouselCurrentIndex={carouselCurrentIndex}
+                  handleCarouselCurrentIndex={setCarouselCurrentIndex}
                 />
               </Suspense>
             </div>
