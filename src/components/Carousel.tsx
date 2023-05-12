@@ -33,20 +33,31 @@ const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
     }
   }
 
-  const touchStartY = useRef<any>(null)
+  const touchStartPos = useRef<{ x: number; y: number } | null>(null)
 
-  const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (event) => {
-    touchStartY.current = event.touches[0].clientY
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartPos.current = {
+      x: event.touches[0].clientX,
+      y: event.touches[0].clientY
+    }
   }
 
-  const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = (event) => {
-    const touchEndY = event.changedTouches[0].clientY
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStartPos.current) return
 
-    if (touchStartY.current && touchEndY > touchStartY.current) {
+    const touchEndPos = {
+      x: event.changedTouches[0].clientX,
+      y: event.changedTouches[0].clientY
+    }
+
+    const deltaX = touchEndPos.x - touchStartPos.current.x
+    const deltaY = touchEndPos.y - touchStartPos.current.y
+
+    if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY > 0) {
       setOpen(false)
     }
 
-    touchStartY.current = null
+    touchStartPos.current = null
   }
 
   return (
