@@ -106,6 +106,10 @@ body {
   box-shadow: 0px 0px 1px #9C9C9C;
 }
 
+.carousel .thumb.selected, .carousel .thumb:hover {
+  border: 1px solid #9C9C9C !important;
+}
+
 @media screen and (min-width: 1920px) {
   .carousel .thumb {
     flex-basis: 150px !important;

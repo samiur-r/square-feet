@@ -16,13 +16,7 @@ interface SliderProps {
   onTouchEnd?: React.TouchEventHandler<HTMLDivElement>
 }
 
-const Slider: React.FC<SliderProps> = ({
-  media,
-  open,
-  setOpen,
-  onTouchStart,
-  onTouchEnd
-}) => {
+const Slider: React.FC<SliderProps> = ({ media, open, setOpen }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const next = () => {
