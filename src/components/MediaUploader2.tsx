@@ -75,7 +75,6 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
         })
       }
 
-      // setMedia([...media, ...mediaFiles])
       handleSetMediaList([...mediaList, ...mediaFiles])
       setMediaCount((prev) => prev + mediaFiles.length)
     },
@@ -84,11 +83,9 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
 
   const removeMedia = useCallback(
     (index: number) => {
-      // Revoke the URL of the media item before removing it from the state
       URL.revokeObjectURL(mediaList[index].url)
       const newMedia = [...mediaList]
       newMedia.splice(index, 1)
-      // setMedia(newMedia)
       handleSetMediaList(newMedia)
       setMediaCount((prev) => prev - 1)
     },
@@ -153,7 +150,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
         )}
         <div className="flex flex-wrap gap-3 justify-center mt-5">
           {mediaList.map((mediaItem, index) => (
-            <div className="relative" key={Math.random()}>
+            <div className="relative" key={mediaItem.url}>
               {mediaItem.type === 'image' ? (
                 <Image
                   src={mediaItem.url}
