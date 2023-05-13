@@ -20,6 +20,11 @@ import aesEncrypt from 'utils/aesEncrypt'
 import createFileObjFromUrlStr from 'utils/createFileObjFromUrlStr'
 import Modal from 'components/Modal'
 
+interface Media {
+  url: string
+  type: 'image' | 'video'
+}
+
 const CreatePost: NextPage<{
   post?: IPost | undefined
   mode: string
@@ -58,7 +63,7 @@ const CreatePost: NextPage<{
   const [description, setDescription] = useState<string | undefined>(
     post && post.description !== null ? post.description : undefined
   )
-  const [mediaList, setMediaList] = useState<Array<string>>([])
+  const [mediaList, setMediaList] = useState<Media[]>([])
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [openPackageModal, setOpenPackageModal] = useState(false)
   const [isStickyDirectPost, setIsStickyDirectPost] = useState(false)
@@ -69,6 +74,7 @@ const CreatePost: NextPage<{
         return createFileObjFromUrlStr(f)
       })
     )
+    // @ts-ignore
     setMediaList(() => [...multimediaList])
   }
 
@@ -494,16 +500,20 @@ const CreatePost: NextPage<{
             ))}
           </div>
         )}
-        <div className="flex justify-center items-center w-full mt-8 md:mt-10">
+        {/* <div className="flex justify-center items-center w-full mt-8 md:mt-10">
           <MediaUploader
             handleSetMediaList={setMediaList}
             mediaList={mediaList}
             mode={mode}
             hasMedia={post?.media?.length}
           />
-        </div>
+        </div> */}
         <div className="flex justify-center items-center w-full mt-8 md:mt-10">
-          <MediaUploader2 handleMediaList={setMediaList} />
+          <MediaUploader2
+            handleSetMediaList={setMediaList}
+            mediaList={mediaList}
+            maxMediaNum={10}
+          />
         </div>
         {mode === 'create' && (
           <div className="flex items-center gap-3 mt-8 md:mt-10">
