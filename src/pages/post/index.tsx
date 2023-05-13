@@ -9,6 +9,7 @@ import Title from 'components/Title'
 import Description from 'components/Description'
 import { useStore } from 'store'
 import MediaUploader from 'components/MediaUploader'
+import MediaUploader2 from 'components/MediaUploader2'
 import { postSchema } from 'validations/PostValidation'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
@@ -500,6 +501,9 @@ const CreatePost: NextPage<{
             mode={mode}
             hasMedia={post?.media?.length}
           />
+        </div>
+        <div className="flex justify-center items-center w-full mt-8 md:mt-10">
+          <MediaUploader2 handleMediaList={setMediaList} />
         </div>
         {mode === 'create' && (
           <div className="flex items-center gap-3 mt-8 md:mt-10">

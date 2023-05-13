@@ -21,6 +21,8 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "jsx-a11y/media-has-caption": "off",
+    "no-plusplus": "off",
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
