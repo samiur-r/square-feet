@@ -5,7 +5,7 @@ import { Popover } from '@headlessui/react'
 import Title from 'components/Title'
 import Description from 'components/Description'
 import { useStore } from 'store'
-import MediaUploader from 'components/MediaUploader'
+import MediaUploader2 from 'components/MediaUploader2'
 import ApiClient from 'utils/ApiClient'
 import { agentSchema } from 'validations/AgentValidation'
 import Router from 'next/router'
@@ -44,10 +44,10 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [nameError, setNameError] = useState('')
 
-  const [mediaList, setMediaList] = useState<Array<string>>([])
+  const [mediaList, setMediaList] = useState<File[]>([])
 
   const handleMediaListForEdit = async (media: string[]) => {
-    const multimediaList: string[] = await Promise.all(
+    const multimediaList = await Promise.all(
       media.map((f) => {
         return createFileObjFromUrlStr(f)
       })
@@ -71,18 +71,19 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
       facebook,
       email,
       website,
-      logo: mediaList[0]
+      logo_url: mediaList
     }
 
     try {
       await agentSchema.validate(agentInfo)
       setIsCallingApi(true)
+
       const response = await ApiClient({
         method: 'POST',
         url: '/agent',
         data: { agentInfo },
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'multipart/form-data'
         }
       })
       setIsCallingApi(false)
@@ -265,11 +266,11 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
           </label>
         </div>
         <div className="w-full mt-8 md:mt-10">
-          <MediaUploader
+          <MediaUploader2
             mediaList={mediaList}
             handleSetMediaList={setMediaList}
             maxMediaNum={1}
-            mode="edit"
+            isEditable
             hasMedia={agent?.logo_url ? 1 : 0}
           />
         </div>

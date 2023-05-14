@@ -20,11 +20,6 @@ import aesEncrypt from 'utils/aesEncrypt'
 import createFileObjFromUrlStr from 'utils/createFileObjFromUrlStr'
 import Modal from 'components/Modal'
 
-interface Media {
-  url: string
-  type: 'image' | 'video'
-}
-
 const CreatePost: NextPage<{
   post?: IPost | undefined
   mode: string
@@ -63,18 +58,17 @@ const CreatePost: NextPage<{
   const [description, setDescription] = useState<string | undefined>(
     post && post.description !== null ? post.description : undefined
   )
-  const [mediaList, setMediaList] = useState<Media[]>([])
+  const [mediaList, setMediaList] = useState<File[]>([])
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [openPackageModal, setOpenPackageModal] = useState(false)
   const [isStickyDirectPost, setIsStickyDirectPost] = useState(false)
 
   const handleMediaListForEdit = async (media: string[]) => {
-    const multimediaList: string[] = await Promise.all(
+    const multimediaList = await Promise.all(
       media.map((f) => {
         return createFileObjFromUrlStr(f)
       })
     )
-    // @ts-ignore
     setMediaList(() => [...multimediaList])
   }
 
@@ -201,7 +195,7 @@ const CreatePost: NextPage<{
         url: '/post/temp',
         data: { postInfo },
         headers: {
-          'content-type': 'application/json'
+          'content-type': 'multipart/form-data'
         }
       })
       setIsCallingApi(false)
@@ -221,6 +215,7 @@ const CreatePost: NextPage<{
     const state = locations.filter(
       (location) => location.id === selectedLocation?.state_id
     )
+
     const postInfo = {
       cityId: selectedLocation?.id,
       cityTitle: selectedLocation?.title,
@@ -262,7 +257,7 @@ const CreatePost: NextPage<{
           url: '/post',
           data: { postInfo, isStickyOnly },
           headers: {
-            'content-type': 'application/json'
+            'Content-Type': 'multipart/form-data'
           }
         })
       } else {
@@ -271,7 +266,7 @@ const CreatePost: NextPage<{
           url: '/post',
           data: { postInfo, postId: post?.id },
           headers: {
-            'content-type': 'application/json'
+            'Content-Type': 'multipart/form-data'
           }
         })
       }
@@ -513,6 +508,8 @@ const CreatePost: NextPage<{
             handleSetMediaList={setMediaList}
             mediaList={mediaList}
             maxMediaNum={10}
+            isEditable={mode === 'edit'}
+            hasMedia={post?.media?.length}
           />
         </div>
         {mode === 'create' && (

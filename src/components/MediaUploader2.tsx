@@ -10,9 +10,11 @@ import { XCircleIcon } from '@heroicons/react/24/solid'
 import { useStore } from 'store'
 
 interface MediaUploaderProps {
-  handleSetMediaList: Dispatch<SetStateAction<Media[]>>
-  mediaList: Media[]
+  handleSetMediaList: Dispatch<SetStateAction<File[]>>
+  mediaList: File[]
   maxMediaNum: number
+  isEditable: boolean
+  hasMedia?: number | undefined
 }
 
 interface Media {
@@ -23,16 +25,19 @@ interface Media {
 const MediaUploader: React.FC<MediaUploaderProps> = ({
   mediaList,
   handleSetMediaList,
-  maxMediaNum
+  maxMediaNum,
+  isEditable,
+  hasMedia
 }) => {
-  const [showLoading] = useState(false)
+  const [showLoading, setShowLoading] = useState(false)
   const [mediaCount, setMediaCount] = useState(0)
+  const [media, setMedia] = useState<Media[]>([])
 
   const { updateToast } = useStore()
 
   useEffect(() => {
     return () => {
-      mediaList.forEach((mediaItem) => {
+      media.forEach((mediaItem) => {
         URL.revokeObjectURL(mediaItem.url)
       })
     }
@@ -48,7 +53,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
 
       if (
         files.length > maxMediaNum ||
-        mediaList.length + files.length > maxMediaNum
+        media.length + files.length > maxMediaNum
       )
         updateToast(true, 'You can not upload more than 10 files', true)
 
@@ -58,7 +63,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
             file.type.split('/')[0] === 'image' ||
             file.type.split('/')[0] === 'video'
         )
-        .slice(0, maxMediaNum - mediaList.length)
+        .slice(0, maxMediaNum - media.length)
 
       if (filteredFiles.length === 0) {
         updateToast(true, 'You can only upload image or video files', true)
@@ -75,22 +80,51 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
         })
       }
 
-      handleSetMediaList([...mediaList, ...mediaFiles])
+      setMedia([...media, ...mediaFiles])
+      handleSetMediaList([...mediaList, ...filteredFiles])
       setMediaCount((prev) => prev + mediaFiles.length)
     },
-    [handleSetMediaList, mediaList]
+    [media, setMedia]
   )
 
   const removeMedia = useCallback(
     (index: number) => {
-      URL.revokeObjectURL(mediaList[index].url)
-      const newMedia = [...mediaList]
+      URL.revokeObjectURL(media[index].url)
+      const newMedia = [...media]
+      const newMediaList = [...mediaList]
       newMedia.splice(index, 1)
-      handleSetMediaList(newMedia)
+      newMediaList.splice(index, 1)
+      setMedia(newMedia)
+      handleSetMediaList(newMediaList)
       setMediaCount((prev) => prev - 1)
     },
-    [handleSetMediaList, mediaList]
+    [setMedia, media]
   )
+
+  useEffect(() => {
+    if (isEditable && mediaList && mediaList.length) {
+      const mediaFiles: Media[] = []
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of mediaList) {
+        mediaFiles.push({
+          url: URL.createObjectURL(file),
+          type: file.type.split('/')[0] as 'image' | 'video'
+        })
+      }
+
+      setMedia(mediaFiles)
+      setMediaCount(mediaFiles.length)
+    }
+  }, [isEditable, mediaList])
+
+  useEffect(() => {
+    if (mediaList.length && showLoading) setShowLoading(false)
+  }, [mediaList])
+
+  useEffect(() => {
+    if (hasMedia && hasMedia > 0 && isEditable) setShowLoading(true)
+  }, [hasMedia])
 
   return (
     <div className="flex flex-col justify-center items-center w-full min-h-52 rounded-lg border border-custom-gray-border">
@@ -149,7 +183,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           </svg>
         )}
         <div className="flex flex-wrap gap-3 justify-center mt-5">
-          {mediaList.map((mediaItem, index) => (
+          {media.map((mediaItem, index) => (
             <div className="relative" key={mediaItem.url}>
               {mediaItem.type === 'image' ? (
                 <Image
