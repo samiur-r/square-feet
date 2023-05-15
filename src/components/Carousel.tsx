@@ -158,8 +158,8 @@ const Slider: React.FC<SliderProps> = ({
                           key={Math.random()}
                           src={`${src}`}
                           alt="post_image"
-                          width={450}
-                          height={450}
+                          width={500}
+                          height={500}
                           objectFit="contain"
                         />
                       ) : (
