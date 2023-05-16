@@ -8,9 +8,7 @@ import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
 import { useStore } from 'store'
-// import MediaUploader from 'components/MediaUploader'
 import MediaUploader2 from 'components/MediaUploader2'
-import { postSchema } from 'validations/PostValidation'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
 import { locations, propertyTypes, categories } from 'constant'
@@ -233,7 +231,7 @@ const CreatePost: NextPage<{
     }
 
     try {
-      await postSchema.validate(postInfo, { abortEarly: false })
+      // await postSchema.validate(postInfo, { abortEarly: false })
       updateToast(true, 'Hold on! It might take some time', false)
       setIsCallingApi(true)
 
@@ -547,8 +545,9 @@ const CreatePost: NextPage<{
               if (isStickyOnly) setShowStickyConfirmationModal(true)
               else handleSubmit(e)
             }}
+            disabled={isCallingApi}
           >
-            إضافة الإعلان{' '}
+            {isCallingApi ? 'تحميل ...' : 'إضافة الإعلان'}
             {isCallingApi && (
               <svg
                 aria-hidden="true"

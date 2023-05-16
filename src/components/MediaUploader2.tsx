@@ -7,8 +7,8 @@ import React, {
 } from 'react'
 import Image from 'next/image'
 import { XCircleIcon } from '@heroicons/react/24/solid'
+
 import { useStore } from 'store'
-import axios from 'axios'
 
 interface MediaUploaderProps {
   handleSetMediaList: Dispatch<SetStateAction<File[]>>
@@ -71,11 +71,6 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
         return
       }
 
-      // const promises = Array.from(filteredFiles).map((file) =>
-      //   optimizeVideo(file)
-      // )
-      // const optimizedFiles = await Promise.all(promises)
-
       const mediaFiles: Media[] = []
 
       // eslint-disable-next-line no-restricted-syntax
@@ -89,23 +84,6 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
       setMedia([...media, ...mediaFiles])
       handleSetMediaList([...mediaList, ...filteredFiles])
       setMediaCount((prev) => prev + mediaFiles.length)
-
-      const formData = new FormData()
-      formData.append('file', filteredFiles[0])
-      formData.append('upload_preset', 'boshamlan_upload_preset')
-      formData.append('width', '500')
-
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/ddvescqdb/video/upload`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      )
-
-      console.log(res.data)
     },
     [media, setMedia]
   )
