@@ -109,7 +109,7 @@ const Slider: React.FC<SliderProps> = ({
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <Dialog.Panel className="bg-stone-800 transform transition-all">
-              <div className="dir-ltr relative">
+              <div className="dir-ltr">
                 <div className="h-screen flex flex-col justify-center md:justify-between overflow-hidden -mt-36 md:mt-0 md:pt-20">
                   <Carousel
                     selectedItem={currentImageIndex}
