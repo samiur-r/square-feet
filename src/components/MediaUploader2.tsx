@@ -58,18 +58,34 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
       )
         updateToast(true, 'You can not upload more than 10 files', true)
 
-      const filteredFiles: any = Array.from(files)
-        .filter(
-          (file) =>
-            file.type.split('/')[0] === 'image' ||
-            file.type.split('/')[0] === 'video'
-        )
-        .slice(0, maxMediaNum - media.length)
+      // const filteredFiles: any = Array.from(files)
+      //   .filter(
+      //     (file) =>
+      //       (file.size <= 104857600 && file.type.split('/')[0] === 'image') ||
+      //       file.type.split('/')[0] === 'video'
+      //   )
+      //   .slice(0, maxMediaNum - media.length)
 
-      if (filteredFiles.length === 0) {
-        updateToast(true, 'You can only upload image or video files', true)
-        return
-      }
+      const filteredFiles: any = []
+
+      Array.from(files).forEach((file) => {
+        const isFileSizeValid = file.size <= 104857600
+        const isFileTypeValid =
+          file.type.split('/')[0] === 'image' ||
+          file.type.split('/')[0] === 'video'
+
+        if (!isFileSizeValid) {
+          updateToast(true, 'Max file size limit is 100mb', true)
+        }
+        if (!isFileTypeValid) {
+          updateToast(true, 'You can only upload images or videos', true)
+        }
+        if (isFileSizeValid && isFileTypeValid) {
+          filteredFiles.push(file)
+        }
+      })
+
+      filteredFiles.slice(0, maxMediaNum - media.length)
 
       const mediaFiles: Media[] = []
 
