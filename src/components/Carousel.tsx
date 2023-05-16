@@ -190,10 +190,16 @@ const Slider: React.FC<SliderProps> = ({
                   />
                 </div>
                 <div className="absolute top-0 left-0 h-full flex items-center w-16 cursor-pointer">
-                  <ChevronLeftIcon className="text-white" onClick={prev} />
+                  <ChevronLeftIcon
+                    className="text-white bg-stone-700 opacity-30"
+                    onClick={prev}
+                  />
                 </div>
                 <div className="absolute top-0 right-0 h-full flex items-center w-16 cursor-pointer">
-                  <ChevronRightIcon className="text-white" onClick={next} />
+                  <ChevronRightIcon
+                    className="text-white bg-stone-700 opacity-30"
+                    onClick={next}
+                  />
                 </div>
               </div>
             </Dialog.Panel>
