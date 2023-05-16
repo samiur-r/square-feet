@@ -189,7 +189,7 @@ const Slider: React.FC<SliderProps> = ({
                     onClick={() => setOpen(false)}
                   />
                 </div>
-                <div className="absolute top-0 left-0 h-full flex items-center w-10 md:w-16 cursor-pointer">
+                <div className="absolute top-0 left-0 h-full flex items-center w-10 md:w-16 cursor-pointer bg-rose-300">
                   <ChevronLeftIcon
                     className="text-white bg-stone-700 opacity-20"
                     onClick={prev}
