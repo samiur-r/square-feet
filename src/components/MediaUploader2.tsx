@@ -91,21 +91,26 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
         if (file) filteredFiles.push(file)
       }
 
-      filteredFiles.slice(0, maxMediaNum - media.length)
+      // if (mediaCount + filteredFiles.length > maxMediaNum) {
+      //   const end = maxMediaNum - mediaCount
+      //   filteredFiles.slice(0, end)
+      // }
+
+      const slicedFiles = filteredFiles.slice(0, maxMediaNum - mediaCount)
 
       const mediaFiles: Media[] = []
 
       // eslint-disable-next-line no-restricted-syntax
-      for (const file of filteredFiles) {
+      for (const file of slicedFiles) {
         mediaFiles.push({
           url: URL.createObjectURL(file),
           type: file.type.split('/')[0] as 'image' | 'video'
         })
       }
 
-      setMedia([...media, ...mediaFiles])
-      handleSetMediaList([...mediaList, ...filteredFiles])
       setMediaCount((prev) => prev + mediaFiles.length)
+      setMedia([...media, ...mediaFiles])
+      handleSetMediaList([...mediaList, ...slicedFiles])
     },
     [media, setMedia]
   )
