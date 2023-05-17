@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { XCircleIcon } from '@heroicons/react/24/solid'
 
 import { useStore } from 'store'
+import { convertHEICtoJPG } from 'utils/mediaUtils'
 
 interface MediaUploaderProps {
   handleSetMediaList: Dispatch<SetStateAction<File[]>>
@@ -64,7 +65,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
       const fileArray = Array.from(files)
 
       // eslint-disable-next-line no-restricted-syntax
-      for (const file of fileArray) {
+      for (let file of fileArray) {
         const isFileSizeValid = file.size <= 304857600
         const fileType = file.type.split('/')[0]
 
@@ -78,7 +79,16 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           break
         }
 
-        filteredFiles.push(file)
+        if (file.type.split('/')[1] === 'heif') {
+          setShowLoading(true)
+          // eslint-disable-next-line no-await-in-loop
+          const convertedFile = await convertHEICtoJPG(file)
+          if (convertedFile) file = convertedFile
+          else break
+          setShowLoading(false)
+        }
+
+        if (file) filteredFiles.push(file)
       }
 
       filteredFiles.slice(0, maxMediaNum - media.length)
