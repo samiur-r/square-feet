@@ -115,7 +115,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
       }
 
       setMedia([...media, ...mediaFiles])
-      handleSetMediaList([...mediaList, ...filteredFiles])
+      // handleSetMediaList([...mediaList, ...filteredFiles])
       setMediaCount((prev) => prev + mediaFiles.length)
     },
     [media, setMedia]
