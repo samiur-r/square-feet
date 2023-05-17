@@ -5,8 +5,8 @@ import React, {
   SetStateAction,
   useCallback
 } from 'react'
-// import Image from 'next/image'
-// import { XCircleIcon } from '@heroicons/react/24/solid'
+import Image from 'next/image'
+import { XCircleIcon } from '@heroicons/react/24/solid'
 
 import { useStore } from 'store'
 
@@ -31,18 +31,18 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
   hasMedia
 }) => {
   const [showLoading, setShowLoading] = useState(false)
-  const [mediaCount] = useState(0)
+  const [mediaCount, setMediaCount] = useState(0)
   const [media, setMedia] = useState<Media[]>([])
 
   const { updateToast } = useStore()
 
-  // useEffect(() => {
-  //   return () => {
-  //     media.forEach((mediaItem) => {
-  //       URL.revokeObjectURL(mediaItem.url)
-  //     })
-  //   }
-  // }, [])
+  useEffect(() => {
+    return () => {
+      media.forEach((mediaItem) => {
+        URL.revokeObjectURL(mediaItem.url)
+      })
+    }
+  }, [])
 
   const handleMediaUpload = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,49 +83,51 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
 
       filteredFiles.slice(0, maxMediaNum - media.length)
 
-      // const mediaFiles: Media[] = []
+      const mediaFiles: Media[] = []
 
-      // // eslint-disable-next-line no-restricted-syntax
-      // for (const file of filteredFiles) {
-      //   mediaFiles.push({
-      //     url: URL.createObjectURL(file),
-      //     type: file.type.split('/')[0] as 'image' | 'video'
-      //   })
-      // }
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of filteredFiles) {
+        mediaFiles.push({
+          url: URL.createObjectURL(file),
+          type: file.type.split('/')[0] as 'image' | 'video'
+        })
+      }
 
-      // setMedia([...media, ...mediaFiles])
+      setMedia([...media, ...mediaFiles])
       handleSetMediaList([...mediaList, ...filteredFiles])
-      // setMediaCount((prev) => prev + mediaFiles.length)
+      setMediaCount((prev) => prev + mediaFiles.length)
     },
     [media, setMedia]
   )
 
-  // const removeMedia = useCallback(
-  //   (index: number) => {
-  //     URL.revokeObjectURL(media[index].url)
-  //     const newMedia = [...media]
-  //     const newMediaList = [...mediaList]
-  //     newMedia.splice(index, 1)
-  //     newMediaList.splice(index, 1)
-  //     setMedia(newMedia)
-  //     handleSetMediaList(newMediaList)
-  //     setMediaCount((prev) => prev - 1)
-  //   },
-  //   [setMedia, media]
-  // )
+  const removeMedia = useCallback(
+    (index: number) => {
+      URL.revokeObjectURL(media[index].url)
+      const newMedia = [...media]
+      const newMediaList = [...mediaList]
+      newMedia.splice(index, 1)
+      newMediaList.splice(index, 1)
+      setMedia(newMedia)
+      handleSetMediaList(newMediaList)
+      setMediaCount((prev) => prev - 1)
+    },
+    [setMedia, media]
+  )
 
   useEffect(() => {
     if (isEditable && mediaList && mediaList.length) {
-      // const mediaFiles: Media[] = []
-      // // eslint-disable-next-line no-restricted-syntax
-      // for (const file of mediaList) {
-      //   mediaFiles.push({
-      //     url: URL.createObjectURL(file),
-      //     type: file.type.split('/')[0] as 'image' | 'video'
-      //   })
-      // }
-      // setMedia(mediaFiles)
-      // setMediaCount(mediaFiles.length)
+      const mediaFiles: Media[] = []
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of mediaList) {
+        mediaFiles.push({
+          url: URL.createObjectURL(file),
+          type: file.type.split('/')[0] as 'image' | 'video'
+        })
+      }
+
+      setMedia(mediaFiles)
+      setMediaCount(mediaFiles.length)
     }
   }, [isEditable, mediaList])
 
@@ -193,7 +195,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
             />
           </svg>
         )}
-        {/* <div className="flex flex-wrap gap-3 justify-center mt-5">
+        <div className="flex flex-wrap gap-3 justify-center mt-5">
           {media.map((mediaItem, index) => (
             <div className="relative" key={mediaItem.url}>
               {mediaItem.type === 'image' ? (
@@ -220,7 +222,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
               />
             </div>
           ))}
-        </div> */}
+        </div>
       </div>
     </div>
   )
