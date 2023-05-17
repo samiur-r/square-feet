@@ -104,6 +104,10 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
     [media, setMedia]
   )
 
+  useEffect(() => {
+    console.log(media)
+  }, [media])
+
   const removeMedia = useCallback(
     (index: number) => {
       URL.revokeObjectURL(media[index].url)
@@ -136,6 +140,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
   }, [isEditable, mediaList])
 
   useEffect(() => {
+    console.log(mediaList)
     if (mediaList.length && showLoading) setShowLoading(false)
   }, [mediaList])
 
@@ -168,7 +173,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
             <input
               id="dropzone-file"
               type="file"
-              accept="image/*, video/*"
+              accept="image/jpeg, image/png, video/*"
               multiple
               className="hidden"
               onChange={handleMediaUpload}
