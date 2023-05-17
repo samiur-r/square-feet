@@ -86,7 +86,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
 
       // eslint-disable-next-line no-restricted-syntax
       for (const file of fileArray) {
-        const isFileSizeValid = file.size <= 104857600
+        const isFileSizeValid = file.size <= 304857600
         const fileType = file.type.split('/')[0]
 
         if (!isFileSizeValid) {
