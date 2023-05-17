@@ -9,7 +9,6 @@ import Image from 'next/image'
 import { XCircleIcon } from '@heroicons/react/24/solid'
 
 import { useStore } from 'store'
-// import { convertHEICtoJPG } from 'utils/mediaOptimizationUtils'
 
 interface MediaUploaderProps {
   handleSetMediaList: Dispatch<SetStateAction<File[]>>
@@ -99,15 +98,6 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           updateToast(true, 'You can only upload images or videos', true)
           break
         }
-
-        // if (file.type.split('/')[1] === 'heif') {
-        //   setShowLoading(true)
-        //   // eslint-disable-next-line no-await-in-loop
-        //   const convertedFile = await convertHEICtoJPG(file)
-        //   if (convertedFile) file = convertedFile
-        //   else break
-        //   setShowLoading(false)
-        // }
 
         filteredFiles.push(file)
       }
@@ -236,6 +226,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
                   width="80"
                   height="80"
                   objectFit="contain"
+                  onLoad={() => URL.revokeObjectURL(mediaItem.url)}
                 />
               ) : (
                 <video
