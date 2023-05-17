@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { XCircleIcon } from '@heroicons/react/24/solid'
 
 import { useStore } from 'store'
-import { optimizeImage } from 'utils/mediaUtils'
+import { convertHEICtoJPG, optimizeImage } from 'utils/mediaUtils'
 
 interface MediaUploaderProps {
   handleSetMediaList: Dispatch<SetStateAction<File[]>>
@@ -81,12 +81,22 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
 
         if (file.type.split('/')[0] === 'image') {
           setShowLoading(true)
-          // eslint-disable-next-line no-await-in-loop
-          const optimizedImage = await optimizeImage(file)
-          if (optimizedImage) file = optimizedImage
-          else {
-            setShowLoading(false)
-            break
+          if (file.type.split('/')[1] === 'heif') {
+            // eslint-disable-next-line no-await-in-loop
+            const convertedFile = await convertHEICtoJPG(file)
+            if (convertedFile) file = convertedFile
+            else {
+              setShowLoading(false)
+              break
+            }
+          } else {
+            // eslint-disable-next-line no-await-in-loop
+            const optimizedImage = await optimizeImage(file)
+            if (optimizedImage) file = optimizedImage
+            else {
+              setShowLoading(false)
+              break
+            }
           }
           setShowLoading(false)
         }
