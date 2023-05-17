@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { XCircleIcon } from '@heroicons/react/24/solid'
 
 import { useStore } from 'store'
+import { convertHEICtoJPG } from 'utils/mediaOptimizationUtils'
 
 interface MediaUploaderProps {
   handleSetMediaList: Dispatch<SetStateAction<File[]>>
@@ -58,32 +59,58 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
       )
         updateToast(true, 'You can not upload more than 10 files', true)
 
-      // const filteredFiles: any = Array.from(files)
-      //   .filter(
-      //     (file) =>
-      //       (file.size <= 104857600 && file.type.split('/')[0] === 'image') ||
-      //       file.type.split('/')[0] === 'video'
-      //   )
-      //   .slice(0, maxMediaNum - media.length)
-
       const filteredFiles: any = []
+      const validFileTypes = new Set(['image', 'video'])
 
-      Array.from(files).forEach((file) => {
+      // Array.from(files).forEach(async (file: any) => {
+      //   const isFileSizeValid = file.size <= 104857600
+      //   const isFileTypeValid =
+      //     file.type.split('/')[0] === 'image' ||
+      //     file.type.split('/')[0] === 'video'
+
+      //   if (!isFileSizeValid) {
+      //     updateToast(true, 'Max file size limit is 100mb', true)
+      //   }
+      //   if (!isFileTypeValid) {
+      //     updateToast(true, 'You can only upload images or videos', true)
+      //   }
+      //   if (isFileSizeValid && isFileTypeValid) {
+      //     if (file.type.split('/')[1] === 'heif') {
+      //       // eslint-disable-next-line no-param-reassign
+      //       file = await convertHEICtoJPG(file)
+      //     }
+      //     if (file) filteredFiles.push(file)
+      //   }
+      // })
+
+      const fileArray = Array.from(files)
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (let file of fileArray) {
         const isFileSizeValid = file.size <= 104857600
-        const isFileTypeValid =
-          file.type.split('/')[0] === 'image' ||
-          file.type.split('/')[0] === 'video'
+        const fileType = file.type.split('/')[0]
 
         if (!isFileSizeValid) {
           updateToast(true, 'Max file size limit is 100mb', true)
+          break
         }
-        if (!isFileTypeValid) {
+
+        if (!validFileTypes.has(fileType)) {
           updateToast(true, 'You can only upload images or videos', true)
+          break
         }
-        if (isFileSizeValid && isFileTypeValid) {
-          filteredFiles.push(file)
+
+        if (file.type.split('/')[1] === 'heif') {
+          setShowLoading(true)
+          // eslint-disable-next-line no-await-in-loop
+          const convertedFile = await convertHEICtoJPG(file)
+          if (convertedFile) file = convertedFile
+          else break
+          setShowLoading(false)
         }
-      })
+
+        filteredFiles.push(file)
+      }
 
       filteredFiles.slice(0, maxMediaNum - media.length)
 
@@ -103,10 +130,6 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
     },
     [media, setMedia]
   )
-
-  useEffect(() => {
-    console.log(media)
-  }, [media])
 
   const removeMedia = useCallback(
     (index: number) => {
@@ -140,7 +163,6 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
   }, [isEditable, mediaList])
 
   useEffect(() => {
-    console.log(mediaList)
     if (mediaList.length && showLoading) setShowLoading(false)
   }, [mediaList])
 
