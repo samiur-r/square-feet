@@ -79,6 +79,8 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           break
         }
 
+        alert(file)
+
         if (file.type.split('/')[1] === 'heif') {
           alert('heic file')
           setShowLoading(true)
