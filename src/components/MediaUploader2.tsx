@@ -177,7 +177,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
             <input
               id="dropzone-file"
               type="file"
-              accept="image/jpeg, image/png, video/*"
+              accept="image/*, video/*"
               multiple
               className="hidden"
               onChange={handleMediaUpload}
