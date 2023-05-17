@@ -100,14 +100,14 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           break
         }
 
-        if (file.type.split('/')[1] === 'heif') {
-          setShowLoading(true)
-          // eslint-disable-next-line no-await-in-loop
-          const convertedFile = await convertHEICtoJPG(file)
-          if (convertedFile) file = convertedFile
-          else break
-          setShowLoading(false)
-        }
+        // if (file.type.split('/')[1] === 'heif') {
+        //   setShowLoading(true)
+        //   // eslint-disable-next-line no-await-in-loop
+        //   const convertedFile = await convertHEICtoJPG(file)
+        //   if (convertedFile) file = convertedFile
+        //   else break
+        //   setShowLoading(false)
+        // }
 
         filteredFiles.push(file)
       }
