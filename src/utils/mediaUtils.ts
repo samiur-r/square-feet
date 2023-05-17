@@ -1,6 +1,5 @@
 const convertHEICtoJPG = async (heicFile: any) => {
   if (typeof window !== 'undefined') {
-    alert('converting')
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
     const heic2any = require('heic2any')
     try {

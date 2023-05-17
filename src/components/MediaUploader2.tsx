@@ -79,10 +79,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           break
         }
 
-        alert(file.type)
-
-        if (file.type.split('/')[1] === 'heif') {
-          alert('heic file')
+        if (file.type.split('/')[0] === 'image') {
           setShowLoading(true)
           // eslint-disable-next-line no-await-in-loop
           const convertedFile = await convertHEICtoJPG(file)
