@@ -79,7 +79,7 @@ const MediaUploader: React.FC<MediaUploaderProps> = ({
           break
         }
 
-        alert(file)
+        alert(file.type)
 
         if (file.type.split('/')[1] === 'heif') {
           alert('heic file')
