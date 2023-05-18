@@ -8,7 +8,7 @@ import ListBox from 'components/ListBox'
 import Title from 'components/Title'
 import Description from 'components/Description'
 import { useStore } from 'store'
-import MediaUploader2 from 'components/MediaUploader2'
+import MediaUploader from 'components/MediaUploader'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
 import { locations, propertyTypes, categories } from 'constant'
@@ -493,16 +493,8 @@ const CreatePost: NextPage<{
             ))}
           </div>
         )}
-        {/* <div className="flex justify-center items-center w-full mt-8 md:mt-10">
-          <MediaUploader
-            handleSetMediaList={setMediaList}
-            mediaList={mediaList}
-            mode={mode}
-            hasMedia={post?.media?.length}
-          />
-        </div> */}
         <div className="flex justify-center items-center w-full mt-8 md:mt-10">
-          <MediaUploader2
+          <MediaUploader
             handleSetMediaList={setMediaList}
             mediaList={mediaList}
             maxMediaNum={10}

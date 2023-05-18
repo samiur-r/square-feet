@@ -5,7 +5,7 @@ import { Popover } from '@headlessui/react'
 import Title from 'components/Title'
 import Description from 'components/Description'
 import { useStore } from 'store'
-import MediaUploader2 from 'components/MediaUploader2'
+import MediaUploader from 'components/MediaUploader'
 import ApiClient from 'utils/ApiClient'
 import { agentSchema } from 'validations/AgentValidation'
 import Router from 'next/router'
@@ -266,7 +266,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
           </label>
         </div>
         <div className="w-full mt-8 md:mt-10">
-          <MediaUploader2
+          <MediaUploader
             mediaList={mediaList}
             handleSetMediaList={setMediaList}
             maxMediaNum={1}

@@ -81,8 +81,8 @@ const Topup: NextPage = () => {
 
     const { query } = router
 
-    if (query && query.redirect === 'true') Router.push('/agent/edit')
-    else if (query && query.success === 'true') {
+    // if (query && query.redirect === 'true') Router.push('/agent/edit')
+    if (query && query.success === 'true') {
       updateToast(true, 'Success: Your payment was successful', false)
     } else if (query && query.success === 'false') {
       updateToast(true, 'Error: Payment failed', true)

@@ -9,8 +9,10 @@ const Redirect = () => {
 
     const { query } = router
 
-    if (query && query.success)
-      router.push(`/account?success=${router.query.success}`)
+    if (query && query.success) {
+      if (query.redirect === 'true') router.push('/agent/edit')
+      else router.push(`/account?success=${router.query.success}`)
+    }
   }, [router.isReady, router.query])
 
   return (

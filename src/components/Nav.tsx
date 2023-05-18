@@ -171,7 +171,7 @@ const mobileNavItems = [
     primaryIcon: '/images/mobile_nav_icons/register-icon-primary.svg'
   },
   {
-    title: 'إعلان جديد',
+    title: 'إعلان مجانًا',
     href: '/post?mode=create',
     icon: '/images/mobile_nav_icons/add_circle_outlined.svg',
     primaryIcon: '/images/mobile_nav_icons/add_circle_outlined_primary.svg'
@@ -245,7 +245,7 @@ const socialLinks = [
 const Nav: React.FC = () => {
   const { user } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [newPostBtnText, setNewPostBtnText] = useState('إعلان جديد')
+  const [newPostBtnText, setNewPostBtnText] = useState('إعلان مجانًا')
 
   useEffect(() => {
     if (user) setIsLoggedIn(true)
@@ -595,8 +595,9 @@ const Nav: React.FC = () => {
                           <p
                             className={`${
                               item.title === 'إعلان جديد' ||
-                              (item.title === 'إعلان مجانًا' &&
-                                'text-secondary')
+                              item.title === 'إعلان مجانًا'
+                                ? 'text-secondary'
+                                : null
                             } font-DroidArabicKufiBold`}
                           >
                             {item.title === 'إعلان جديد' ||

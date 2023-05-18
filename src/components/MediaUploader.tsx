@@ -1,122 +1,165 @@
-import { XCircleIcon } from '@heroicons/react/24/outline'
-import { PlayCircleIcon } from '@heroicons/react/24/solid'
-import Image from 'next/image'
 import React, {
+  useState,
+  useEffect,
   Dispatch,
   SetStateAction,
-  useCallback,
-  useEffect,
-  useState
+  useCallback
 } from 'react'
-import { useStore } from 'store'
+import Image from 'next/image'
+import { XCircleIcon } from '@heroicons/react/24/solid'
 
-interface MediaUploaderType {
-  maxMediaNum?: number
-  mediaList: Array<string>
-  handleSetMediaList: Dispatch<SetStateAction<Array<string>>>
-  mode?: string
+import { useStore } from 'store'
+import { convertHEICtoJPG, optimizeImage } from 'utils/mediaUtils'
+
+interface MediaUploaderProps {
+  handleSetMediaList: Dispatch<SetStateAction<File[]>>
+  mediaList: File[]
+  maxMediaNum: number
+  isEditable: boolean
   hasMedia?: number | undefined
 }
 
-const MediaUploader: React.FC<MediaUploaderType> = ({
-  maxMediaNum = 10,
+interface Media {
+  url: string
+  type: 'image' | 'video'
+}
+
+const MediaUploader: React.FC<MediaUploaderProps> = ({
   mediaList,
   handleSetMediaList,
-  mode,
+  maxMediaNum,
+  isEditable,
   hasMedia
 }) => {
-  const [mediaCount, setMediaCount] = useState(0)
   const [showLoading, setShowLoading] = useState(false)
+  const [mediaCount, setMediaCount] = useState(0)
+  const [media, setMedia] = useState<Media[]>([])
 
   const { updateToast } = useStore()
 
-  const handleUpload = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { files } = e.target
+  useEffect(() => {
+    return () => {
+      media.forEach((mediaItem) => {
+        URL.revokeObjectURL(mediaItem.url)
+      })
+    }
+  }, [])
 
-      if (!files || files.length === 0) {
+  const handleMediaUpload = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { files } = event.target
+
+      if (!files) {
         return
       }
 
       if (
         files.length > maxMediaNum ||
-        mediaList.length + files.length > maxMediaNum
+        media.length + files.length > maxMediaNum
       )
         updateToast(true, 'You can not upload more than 10 files', true)
 
-      const mediaFiles = Array.from(files)
-        .filter(
-          (file) =>
-            file.type.split('/')[0] === 'image' ||
-            file.type.split('/')[0] === 'video'
-        )
-        .slice(0, maxMediaNum - mediaList.length)
+      const filteredFiles: any = []
+      const validFileTypes = new Set(['image', 'video'])
 
-      if (mediaFiles.length === 0) {
-        updateToast(true, 'You can only upload image or video files', true)
-        return
+      const fileArray = Array.from(files)
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (let file of fileArray) {
+        const isFileSizeValid = file.size <= 304857600
+        const fileType = file.type.split('/')[0]
+
+        if (!isFileSizeValid) {
+          updateToast(true, 'Max file size limit is 100mb', true)
+          break
+        }
+
+        if (!validFileTypes.has(fileType)) {
+          updateToast(true, 'You can only upload images or videos', true)
+          break
+        }
+
+        if (file.type.split('/')[0] === 'image') {
+          setShowLoading(true)
+          if (file.type.split('/')[1] === 'heif') {
+            // eslint-disable-next-line no-await-in-loop
+            const convertedFile = await convertHEICtoJPG(file)
+            if (convertedFile) file = convertedFile
+            else {
+              setShowLoading(false)
+              break
+            }
+          } else {
+            // eslint-disable-next-line no-await-in-loop
+            const optimizedImage = await optimizeImage(file)
+            if (optimizedImage) file = optimizedImage
+            else {
+              setShowLoading(false)
+              break
+            }
+          }
+          setShowLoading(false)
+        }
+
+        if (file) filteredFiles.push(file)
       }
 
-      try {
-        const mediaItems = await Promise.all(
-          mediaFiles.map((file) => {
-            return new Promise<string>((resolve, reject) => {
-              const reader = new FileReader()
+      const slicedFiles = filteredFiles.slice(0, maxMediaNum - mediaCount)
 
-              reader.onloadend = () => {
-                if (reader.result && typeof reader.result === 'string') {
-                  resolve(reader.result)
-                } else {
-                  reject(new Error('Unable to read file.'))
-                }
-              }
+      const mediaFiles: Media[] = []
 
-              reader.onerror = () => {
-                reject(new Error('Unable to read file.'))
-              }
-
-              reader.readAsDataURL(file)
-            })
-          })
-        )
-
-        handleSetMediaList((prev) => [...prev, ...mediaItems])
-        setMediaCount((prev) => prev + mediaItems.length)
-      } catch (error) {
-        updateToast(
-          true,
-          'An error occurred while uploading the file(s). Please try again later.',
-          true
-        )
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of slicedFiles) {
+        mediaFiles.push({
+          url: URL.createObjectURL(file),
+          type: file.type.split('/')[0] as 'image' | 'video'
+        })
       }
+
+      setMediaCount((prev) => prev + mediaFiles.length)
+      setMedia([...media, ...mediaFiles])
+      handleSetMediaList([...mediaList, ...slicedFiles])
     },
-    [handleSetMediaList, mediaList]
+    [media, setMedia]
   )
 
   const removeMedia = useCallback(
     (index: number) => {
+      URL.revokeObjectURL(media[index].url)
+      const newMedia = [...media]
+      const newMediaList = [...mediaList]
+      newMedia.splice(index, 1)
+      newMediaList.splice(index, 1)
+      setMedia(newMedia)
+      handleSetMediaList(newMediaList)
       setMediaCount((prev) => prev - 1)
-
-      const tempMediaList = [...mediaList]
-      tempMediaList.splice(index, 1)
-      handleSetMediaList(tempMediaList)
     },
-    [handleSetMediaList, mediaList]
+    [setMedia, media]
   )
 
-  const getMediaType = (base64Str: string) => {
-    let type = 'image'
-    // eslint-disable-next-line prefer-destructuring
-    if (base64Str) type = base64Str.split('/')[0].split(':')[1]
-    return type
-  }
+  useEffect(() => {
+    if (isEditable && mediaList && mediaList.length) {
+      const mediaFiles: Media[] = []
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const file of mediaList) {
+        mediaFiles.push({
+          url: URL.createObjectURL(file),
+          type: file.type.split('/')[0] as 'image' | 'video'
+        })
+      }
+
+      setMedia(mediaFiles)
+      setMediaCount(mediaFiles.length)
+    }
+  }, [isEditable, mediaList])
 
   useEffect(() => {
     if (mediaList.length && showLoading) setShowLoading(false)
   }, [mediaList])
 
   useEffect(() => {
-    if (hasMedia && hasMedia > 0 && mode === 'edit') setShowLoading(true)
+    if (hasMedia && hasMedia > 0 && isEditable) setShowLoading(true)
   }, [hasMedia])
 
   return (
@@ -147,7 +190,7 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
               accept="image/*, video/*"
               multiple
               className="hidden"
-              onChange={handleUpload}
+              onChange={handleMediaUpload}
             />
           )}
 
@@ -175,30 +218,34 @@ const MediaUploader: React.FC<MediaUploaderType> = ({
             />
           </svg>
         )}
-        {mediaList.length !== 0 && (
-          <div className="flex flex-wrap gap-3 justify-center mt-5">
-            {mediaList.map((preview, index) => (
-              <div className="relative" key={Math.random()}>
-                {getMediaType(preview) === 'image' ? (
-                  <Image
-                    src={preview}
-                    width="80"
-                    height="80"
-                    objectFit="contain"
-                  />
-                ) : (
-                  <div className="w-20 h-20 flex justify-center items-center bg-primary">
-                    <PlayCircleIcon className="w-10 h-10 text-custom-gray-2" />
-                  </div>
-                )}
-                <XCircleIcon
-                  className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full cursor-pointer"
-                  onClick={() => removeMedia(index)}
+        <div className="flex flex-wrap gap-3 justify-center mt-5">
+          {media.map((mediaItem, index) => (
+            <div className="relative" key={mediaItem.url}>
+              {mediaItem.type === 'image' ? (
+                <Image
+                  src={mediaItem.url}
+                  alt="uploaded media"
+                  width="80"
+                  height="80"
+                  objectFit="contain"
+                  onLoad={() => URL.revokeObjectURL(mediaItem.url)}
                 />
-              </div>
-            ))}
-          </div>
-        )}
+              ) : (
+                // eslint-disable-next-line react/self-closing-comp
+                <video
+                  src={mediaItem.url}
+                  // type="video/mp4"
+                  controls
+                  className="w-20 h-20 object-contain"
+                ></video>
+              )}
+              <XCircleIcon
+                className="w-5 h-5 absolute -top-2 -right-2 text-primary font-bold bg-white rounded-full cursor-pointer"
+                onClick={() => removeMedia(index)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
