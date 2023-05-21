@@ -10,7 +10,7 @@ import { IAgent, IPost } from 'interfaces'
 import { useEffect, useRef, useState } from 'react'
 import { useOnScreen } from 'hooks/useOnScreen'
 import { toBase64, placeholderImg } from 'utils/strToBase64'
-import config from 'config'
+// import config from 'config'
 
 interface AgentProps {
   agent: IAgent
@@ -24,6 +24,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
   const [offset, setOffset] = useState(10)
   const [limit] = useState(10)
   const [isCallingApi, setIsCallingAPi] = useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [whatsappMsg, setWhatsappMsg] = useState('')
 
   const ref = useRef<HTMLDivElement>(null)
