@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { LegacyRef, useCallback, useEffect } from 'react'
