@@ -26,12 +26,12 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
   const [whatsappMsg, setWhatsappMsg] = useState('')
 
-  const { updateScrollTo } = useStore()
+  const { updateHighlightedPost } = useStore()
 
   const router = useRouter()
 
   const handleSwipeRight = () => {
-    updateScrollTo(true)
+    // updateScrollTo(true)
     router.back()
   }
 
@@ -71,18 +71,18 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
           url: `${config.domain}/post/${post.id}`
         })
       } catch (error: any) {
-        console.error('Share failed')
+        /* empty */
       }
-    } else {
-      console.log('Web Share API not supported')
     }
   }
 
   useEffect(() => {
-    if (post)
+    if (post) {
       setWhatsappMsg(
         `${config.domain}/post/${post.id} السلام عليكم اذا ممكن ترسل تفاصيل هذا الإعلان في بو شملان وشكرا`
       )
+      updateHighlightedPost(post.id)
+    }
   }, [post])
 
   return (

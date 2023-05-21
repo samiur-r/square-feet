@@ -19,33 +19,33 @@ const Home: NextPage<{
   totalPosts: number
   locations: LocationType[]
 }> = ({ posts, totalPosts, locations }) => {
-  const { scrollTo, updateScrollTo } = useStore()
+  // const { scrollTo, updateScrollTo } = useStore()
 
-  useEffect(() => {
-    if (scrollTo) {
-      updateScrollTo(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (scrollTo) {
+  //     updateScrollTo(false)
+  //   }
+  // }, [])
 
-  const scroll = useCallback(
-    (
-      node: {
-        getBoundingClientRect: () => {
-          (): unknown
-          new (): unknown
-          top: number | undefined
-        }
-      } | null
-    ) => {
-      if (node !== null && scrollTo) {
-        window.scrollTo({
-          top: node.getBoundingClientRect().top,
-          behavior: 'smooth'
-        })
-      }
-    },
-    []
-  )
+  // const scroll = useCallback(
+  //   (
+  //     node: {
+  //       getBoundingClientRect: () => {
+  //         (): unknown
+  //         new (): unknown
+  //         top: number | undefined
+  //       }
+  //     } | null
+  //   ) => {
+  //     if (node !== null && scrollTo) {
+  //       window.scrollTo({
+  //         top: node.getBoundingClientRect().top,
+  //         behavior: 'smooth'
+  //       })
+  //     }
+  //   },
+  //   []
+  // )
 
   return (
     <div className="bg-gray-50 md:bg-white">
@@ -65,7 +65,7 @@ const Home: NextPage<{
         </div>
         <Banner />
       </div>
-      <div ref={scroll as LegacyRef<HTMLDivElement>} />
+      {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
       <Posts posts={posts} totalPosts={totalPosts} />
       <Guide />
       <Cards />
