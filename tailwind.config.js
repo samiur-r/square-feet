@@ -25,7 +25,7 @@ module.exports = {
       red: colors.red,
       rose: colors.rose,
       stone: colors.stone,
-      slate: colors.slate,
+      slate: colors.slate
     },
     extend: {
       minHeight: (theme) => ({
@@ -68,5 +68,5 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [require('@tailwindcss/line-clamp')]
 }

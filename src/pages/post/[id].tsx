@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useSwipeable, SwipeableHandlers } from 'react-swipeable'
@@ -14,6 +14,7 @@ import getElapsedTime from 'utils/getElapsedTime'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import { parseJwtFromCookie } from 'utils/jwtUtils'
 import { useStore } from 'store'
+import config from 'config'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
@@ -23,6 +24,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const [showCarousel, setShowCarousel] = useState(false)
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
   const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
+  const [whatsappMsg, setWhatsappMsg] = useState('')
 
   const { updateScrollTo } = useStore()
 
@@ -60,6 +62,29 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
     }
   ]
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          // title: 'Shared from My App',
+          // text: 'Check out this cool content!',
+          url: `${config.domain}/post/${post.id}`
+        })
+      } catch (error: any) {
+        console.error('Share failed')
+      }
+    } else {
+      console.log('Web Share API not supported')
+    }
+  }
+
+  useEffect(() => {
+    if (post)
+      setWhatsappMsg(
+        `${config.domain}/post/${post.id} السلام عليكم اذا ممكن ترسل تفاصيل هذا الإعلان في بو شملان وشكرا`
+      )
+  }, [post])
+
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <div {...swipeHandlers}>
@@ -71,12 +96,13 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
             {post?.price} دك
           </div>
           <div className="flex gap-3 dir-ltr mt-5 md:mt-0">
-            <div className="flex items-center bg-primary-dark px-2 py-1 rounded-lg">
+            <div className="flex items-center bg-primary-dark px-2 py-1 rounded-lg cursor-pointer">
               <Image
                 src="/images/share.svg"
                 width={17}
                 height={17}
                 alt="share_icon"
+                onClick={handleShare}
               />
             </div>
             <div className="flex flex-nowrap gap-2 items-center bg-primary-dark px-2 py-1 rounded-lg">
@@ -119,14 +145,20 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
                 alt="phone_icon"
               />
             </a>
-            <div className="shadow-md rounded-md p-3 flex items-center justify-center">
-              <Image
-                src="/images/whatsapp-logo-green.svg"
-                width={24}
-                height={24}
-                alt="whatsapp"
-              />
-            </div>
+            <a
+              href={`https://wa.me/+965${post.phone}?text=${whatsappMsg}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className="shadow-md rounded-md p-3 flex items-center justify-center">
+                <Image
+                  src="/images/whatsapp-logo-green.svg"
+                  width={24}
+                  height={24}
+                  alt="whatsapp"
+                />
+              </div>
+            </a>
           </div>
           {post && post.media && post.media.length ? (
             <div className="mt-10 relative flex flex-col items-center">

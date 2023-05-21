@@ -10,6 +10,7 @@ import { IAgent, IPost } from 'interfaces'
 import { useEffect, useRef, useState } from 'react'
 import { useOnScreen } from 'hooks/useOnScreen'
 import { toBase64, placeholderImg } from 'utils/strToBase64'
+import config from 'config'
 
 interface AgentProps {
   agent: IAgent
@@ -23,6 +24,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
   const [offset, setOffset] = useState(10)
   const [limit] = useState(10)
   const [isCallingApi, setIsCallingAPi] = useState(false)
+  const [whatsappMsg, setWhatsappMsg] = useState('')
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
@@ -68,6 +70,13 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
     }
   ]
 
+  // useEffect(() => {
+  //   if (agent)
+  //     setWhatsappMsg(
+  //       `${config.domain}/agent${agent.id} السلام عليكم اذا ممكن ترسل تفاصيل هذا الإعلان في بو شملان وشكرا`
+  //     )
+  // }, [agent])
+
   return (
     <div>
       <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />
@@ -111,14 +120,20 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
                   alt="phone_icon"
                 />
               </a>
-              <div className="shadow-md bg-white rounded-md p-3 flex items-center justify-center">
-                <Image
-                  src="/images/whatsapp-logo-green.svg"
-                  width={24}
-                  height={24}
-                  alt="whatsapp"
-                />
-              </div>
+              <a
+                href={`https://wa.me/+965${agent?.phone}?text=${whatsappMsg}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <div className="shadow-md bg-white rounded-md p-3 flex items-center justify-center">
+                  <Image
+                    src="/images/whatsapp-logo-green.svg"
+                    width={24}
+                    height={24}
+                    alt="whatsapp"
+                  />
+                </div>
+              </a>
             </div>
             {agent && agent.instagram && (
               <div className="flex gap-3 justify-center mt-4">
