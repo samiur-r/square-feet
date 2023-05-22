@@ -199,7 +199,7 @@ const PostCard: React.FC<PostCardProps> = ({
                 )}
               </div>
               <div className="hidden md:block mt-3">
-                <p className="text-sm text-custom-gray-1 line-clamp-2">
+                <p className="text-sm text-custom-gray-1 post-description">
                   {post.description}
                 </p>
               </div>
@@ -210,7 +210,7 @@ const PostCard: React.FC<PostCardProps> = ({
       <Link href={isArchive ? '#' : `/post/${post.id}`}>
         <a>
           <div className="md:hidden mt-3">
-            <p className="text-xs text-custom-gray-1 line-clamp-2">
+            <p className="text-xs text-custom-gray-1 post-description">
               {post.description}
             </p>
           </div>

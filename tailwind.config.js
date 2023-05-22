@@ -67,6 +67,5 @@ module.exports = {
         '4xl': '2600px'
       }
     }
-  },
-  plugins: [require('@tailwindcss/line-clamp')]
+  }
 }
