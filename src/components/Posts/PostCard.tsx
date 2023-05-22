@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { TwitterShareButton } from 'react-share'
-
+import TextTruncate from 'react-text-truncate'
 import Image from 'next/image'
+
 import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
 import Router from 'next/router'
@@ -28,6 +29,11 @@ const PostCard: React.FC<PostCardProps> = ({
   const [isCallingApiForStick, setIsCallingApiForStick] = useState(false)
   const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
   const [isCallingApiForDelete, setIsCallingApiForDelete] = useState(false)
+  const [isPreviouslyClicked, setIsPreviouslyClicked] = useState(false)
+
+  useEffect(() => {
+    if (post && post.id === highlightedPost) setIsPreviouslyClicked(true)
+  }, [post])
 
   const getMediaType = (base64Str: string) => {
     const pathSegments = base64Str.split('/')
@@ -138,7 +144,7 @@ const PostCard: React.FC<PostCardProps> = ({
 							after:rounded-sm after:px-2 after:pb-[3.5px] after:pt-[2.5px] after:md:pb-[4px] after:md:pt-[3px] after:text-center before:absolute before:top-[13px] before:md:top-[18px] before:-right-[3.5px] before:md:-right-[4px] before:content-[""] before:border-t-8 before:border-t-transparent 
 							before:border-b-8 before:border-b-transparent before:border-l-8 before:border-l-[#CE3552] before:p-1`
       } 
-      ${highlightedPost === post.id ? 'shadow-lg' : ''}
+      ${isPreviouslyClicked ? 'shadow-lg' : ''}
       rounded-lg border cursor-pointer mt-3 py-2.5 px-2.5 relative`}
     >
       <Link href={isArchive ? '#' : `/post/${post.id}`}>
@@ -198,10 +204,13 @@ const PostCard: React.FC<PostCardProps> = ({
                   </div>
                 )}
               </div>
-              <div className="hidden md:block mt-3">
-                <p className="text-sm text-custom-gray-1 post-description">
-                  {post.description}
-                </p>
+              <div className="hidden md:block mt-3 text-sm text-custom-gray-1">
+                <TextTruncate
+                  line={2}
+                  element="p"
+                  truncateText="…"
+                  text={post.description}
+                />
               </div>
             </div>
           </div>
@@ -209,10 +218,13 @@ const PostCard: React.FC<PostCardProps> = ({
       </Link>
       <Link href={isArchive ? '#' : `/post/${post.id}`}>
         <a>
-          <div className="md:hidden mt-3">
-            <p className="text-xs text-custom-gray-1 post-description">
-              {post.description}
-            </p>
+          <div className="md:hidden mt-3 text-xs text-custom-gray-1">
+            <TextTruncate
+              line={2}
+              element="p"
+              truncateText="…"
+              text={post.description}
+            />
           </div>
         </a>
       </Link>
