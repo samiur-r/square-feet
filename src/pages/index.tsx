@@ -41,11 +41,15 @@ const Home: NextPage<{
   }, [])
 
   useEffect(() => {
-    alert(scrollYTo)
-    alert(scrollPosition)
+    // alert(scrollYTo)
+    // alert(scrollPosition)
     if (scrollYTo) {
-      alert(typeof window !== 'undefined')
-      window.scrollTo(0, scrollPosition)
+      window.scrollTo({
+        top: scrollPosition,
+        left: 0,
+        behavior: 'smooth'
+      })
+      // window.scrollTo(0, scrollPosition)
     }
   }, [])
 
