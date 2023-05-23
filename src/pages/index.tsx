@@ -41,6 +41,8 @@ const Home: NextPage<{
   }, [])
 
   useEffect(() => {
+    alert(scrollYTo)
+    alert(scrollPosition)
     if (scrollYTo) {
       window.scrollTo(0, scrollPosition)
     }
