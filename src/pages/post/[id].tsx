@@ -15,6 +15,7 @@ import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import { parseJwtFromCookie } from 'utils/jwtUtils'
 import { useStore } from 'store'
 import config from 'config'
+import Link from 'next/link'
 
 const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
@@ -24,7 +25,8 @@ const Posts: NextPage<{
   post: IPost
   isActive: boolean
   inactivePostText: string
-}> = ({ post, isActive, inactivePostText }) => {
+  relevantSearch: string
+}> = ({ post, isActive, inactivePostText, relevantSearch }) => {
   const [showCarousel, setShowCarousel] = useState(false)
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
   const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
@@ -171,8 +173,13 @@ const Posts: NextPage<{
               </a>
             </div>
           ) : (
-            <div className="text-sm md:text-lg text-custom-red mt-3">
-              {inactivePostText}
+            <div className="text-sm md:text-lg mt-3">
+              <p className="text-custom-red">{inactivePostText}</p>
+              <p>
+                <Link href={relevantSearch}>
+                  <a className="text-custom-gray mt-2">Relevant searches</a>
+                </Link>
+              </p>
             </div>
           )}
           {post && post.media && post.media.length && isActivePost ? (
@@ -309,7 +316,8 @@ export const getServerSideProps: GetServerSideProps = async ({
       props: {
         post: response?.data?.success,
         isActive: response?.data?.isActive,
-        inactivePostText: response?.data?.inactivePostText
+        inactivePostText: response?.data?.inactivePostText,
+        relevantSearch: response?.data?.relevantSearch
       }
     }
   } catch (error) {
