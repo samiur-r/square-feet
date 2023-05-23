@@ -20,11 +20,16 @@ const DynamicCarousel = dynamic(() => import('components/Carousel'), {
   suspense: true
 })
 
-const Posts: NextPage<{ post: IPost }> = ({ post }) => {
+const Posts: NextPage<{
+  post: IPost
+  isActive: boolean
+  inactivePostText: string
+}> = ({ post, isActive, inactivePostText }) => {
   const [showCarousel, setShowCarousel] = useState(false)
   const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
   const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
   const [whatsappMsg, setWhatsappMsg] = useState('')
+  const [isActivePost, setIsActivePost] = useState(true)
 
   const { updateScrollYTo, updateHighlightedPost } = useStore()
 
@@ -85,6 +90,10 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
     }
   }, [post])
 
+  useEffect(() => {
+    setIsActivePost(isActive)
+  }, [isActive])
+
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <div {...swipeHandlers}>
@@ -131,35 +140,41 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
         </div>
         <div className="container max-w-6xl text-center">
           <div className="text-sm md:text-lg">{post?.description}</div>
-          <div className="flex gap-3 justify-center mt-5">
-            <a
-              href={`tel:+965${post?.phone}`}
-              className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-1 text-center text-white rounded-md"
-            >
-              {post?.phone}
-              <Image
-                src="/images/call-white.svg"
-                height={24}
-                width={24}
-                className="text-white font-DroidArabicKufiBold"
-                alt="phone_icon"
-              />
-            </a>
-            <a
-              href={`https://wa.me/+965${post?.phone}?text=${whatsappMsg}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className="shadow-md rounded-md p-3 flex items-center justify-center">
+          {isActivePost ? (
+            <div className="flex gap-3 justify-center mt-5">
+              <a
+                href={`tel:+965${post?.phone}`}
+                className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-1 text-center text-white rounded-md"
+              >
+                {post?.phone}
                 <Image
-                  src="/images/whatsapp-logo-green.svg"
-                  width={24}
+                  src="/images/call-white.svg"
                   height={24}
-                  alt="whatsapp"
+                  width={24}
+                  className="text-white font-DroidArabicKufiBold"
+                  alt="phone_icon"
                 />
-              </div>
-            </a>
-          </div>
+              </a>
+              <a
+                href={`https://wa.me/+965${post?.phone}?text=${whatsappMsg}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <div className="shadow-md rounded-md p-3 flex items-center justify-center">
+                  <Image
+                    src="/images/whatsapp-logo-green.svg"
+                    width={24}
+                    height={24}
+                    alt="whatsapp"
+                  />
+                </div>
+              </a>
+            </div>
+          ) : (
+            <div className="text-sm md:text-lg text-custom-red mt-3">
+              {inactivePostText}
+            </div>
+          )}
           {post && post.media && post.media.length ? (
             <div className="mt-10 relative flex flex-col items-center">
               <div className="relative">
@@ -292,7 +307,9 @@ export const getServerSideProps: GetServerSideProps = async ({
     }
     return {
       props: {
-        post: response?.data?.success
+        post: response?.data?.success,
+        isActive: response?.data?.isActive,
+        inactivePostText: response?.data?.inactivePostText
       }
     }
   } catch (error) {
