@@ -175,7 +175,7 @@ const Posts: NextPage<{
               {inactivePostText}
             </div>
           )}
-          {post && post.media && post.media.length ? (
+          {post && post.media && post.media.length && isActivePost ? (
             <div className="mt-10 relative flex flex-col items-center">
               <div className="relative">
                 {isImage(post.media[0]) ? (
