@@ -56,7 +56,11 @@ const Search: NextPage = () => {
 
   useEffect(() => {
     if (scrollYTo) {
-      window.scrollTo(0, scrollPosition)
+      window.scrollTo({
+        top: scrollPosition,
+        left: 0,
+        behavior: 'smooth'
+      })
     }
   }, [])
 
