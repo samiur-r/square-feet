@@ -2,6 +2,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { LegacyRef, useCallback, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
@@ -20,33 +21,34 @@ const Home: NextPage<{
   totalPosts: number
   locations: LocationType[]
 }> = ({ posts, totalPosts, locations }) => {
-  // const { scrollTo, updateScrollTo } = useStore()
+  const router = useRouter()
 
-  // useEffect(() => {
-  //   if (scrollTo) {
-  //     updateScrollTo(false)
-  //   }
-  // }, [])
+  const { scrollYTo, updateScrollYTo } = useStore()
 
-  // const scroll = useCallback(
-  //   (
-  //     node: {
-  //       getBoundingClientRect: () => {
-  //         (): unknown
-  //         new (): unknown
-  //         top: number | undefined
-  //       }
-  //     } | null
-  //   ) => {
-  //     if (node !== null && scrollTo) {
-  //       window.scrollTo({
-  //         top: node.getBoundingClientRect().top,
-  //         behavior: 'smooth'
-  //       })
-  //     }
-  //   },
-  //   []
-  // )
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Save the current scroll position to local storage
+      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      updateScrollYTo(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const scrollPosition = JSON.parse(
+      localStorage.getItem('scrollPosition') || 'null'
+    )
+
+    if (typeof scrollPosition === 'number' && scrollYTo) {
+      window.scrollTo(0, scrollPosition)
+    }
+  }, [])
 
   return (
     <div className="bg-gray-50 md:bg-white">

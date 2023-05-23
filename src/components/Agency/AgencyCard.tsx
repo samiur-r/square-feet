@@ -52,7 +52,7 @@ const AgencyCard = React.forwardRef(
           <div className="mt-2 w-full flex items-center justify-center gap-2">
             <div className="w-28">
               <a
-                href="tel:+96599491575"
+                href={`+965${phone}`}
                 className="bg-primary text-sm flex items-center justify-center gap-2 text-center text-white w-full py-2 rounded-md"
               >
                 {phone}{' '}

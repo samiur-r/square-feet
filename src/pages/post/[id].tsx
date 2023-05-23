@@ -26,12 +26,12 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
   const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
   const [whatsappMsg, setWhatsappMsg] = useState('')
 
-  const { updateHighlightedPost } = useStore()
+  const { updateScrollYTo, updateHighlightedPost } = useStore()
 
   const router = useRouter()
 
   const handleSwipeRight = () => {
-    // updateScrollTo(true)
+    updateScrollYTo(true)
     router.back()
   }
 
@@ -133,7 +133,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
           <div className="text-sm md:text-lg">{post?.description}</div>
           <div className="flex gap-3 justify-center mt-5">
             <a
-              href="tel:+96599491575"
+              href={`tel:+965${post?.phone}`}
               className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-1 text-center text-white rounded-md"
             >
               {post?.phone}
@@ -146,7 +146,7 @@ const Posts: NextPage<{ post: IPost }> = ({ post }) => {
               />
             </a>
             <a
-              href={`https://wa.me/+965${post.phone}?text=${whatsappMsg}`}
+              href={`https://wa.me/+965${post?.phone}?text=${whatsappMsg}`}
               target="_blank"
               rel="noreferrer"
             >

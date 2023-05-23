@@ -243,7 +243,7 @@ const socialLinks = [
 ]
 
 const Nav: React.FC = () => {
-  const { user } = useStore()
+  const { user, updateScrollYTo } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [newPostBtnText, setNewPostBtnText] = useState('إعلان مجانًا')
 
@@ -523,7 +523,10 @@ const Nav: React.FC = () => {
               <div className={`${isFilterPage && 'hidden'}`}>
                 <ChevronRightIcon
                   className="w-10 h-10 cursor-pointer"
-                  onClick={() => router.back()}
+                  onClick={() => {
+                    router.back()
+                    updateScrollYTo(true)
+                  }}
                 />
               </div>
             )}
@@ -532,7 +535,10 @@ const Nav: React.FC = () => {
             <div className="absolute right-0 hidden md:block">
               <ChevronRightIcon
                 className="w-10 h-10 cursor-pointer"
-                onClick={() => router.back()}
+                onClick={() => {
+                  router.back()
+                  updateScrollYTo(true)
+                }}
               />
             </div>
           )}

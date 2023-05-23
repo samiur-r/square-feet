@@ -29,7 +29,7 @@ const MyPosts: NextPage<AccountType> = ({
   totalArchivePosts
 }) => {
   const [showArchivedPosts, setShowArchivedPosts] = useState(false)
-  const { updateToast } = useStore()
+  const { scrollYTo, updateScrollYTo, updateToast } = useStore()
   const router = useRouter()
   const expiredDate = agent
     ? new Date(agent?.subscription_ends_date)
@@ -51,6 +51,31 @@ const MyPosts: NextPage<AccountType> = ({
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Save the current scroll position to local storage
+      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      updateScrollYTo(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const scrollPosition = JSON.parse(
+      localStorage.getItem('scrollPosition') || 'null'
+    )
+
+    if (typeof scrollPosition === 'number' && scrollYTo) {
+      window.scrollTo(0, scrollPosition)
+    }
+  }, [])
 
   const fetchPosts = async () => {
     try {

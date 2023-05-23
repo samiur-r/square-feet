@@ -12,6 +12,7 @@ import { useStore } from 'store'
 import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
+import { useRouter } from 'next/router'
 
 const getStateTitleFromCity = (locationObj: LocationType) => {
   if (locationObj?.id === undefined) return ''
@@ -51,11 +52,13 @@ const Search: NextPage<PageProps> = ({
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
+    scrollYTo,
     setLocationsSelected,
     setPropertyTypeSelected,
     setCategorySelected,
     updateFilteredPostsCount,
-    updateFilteredPosts
+    updateFilteredPosts,
+    updateScrollYTo
   } = useStore()
   const [posts, setPosts] = useState<IPost[]>(retrievedPosts)
   const [totalPosts] = useState<number | undefined>(count)
@@ -82,6 +85,33 @@ const Search: NextPage<PageProps> = ({
   useEffect(() => {
     updateFilteredPostsCount(count)
   }, [count])
+
+  const router = useRouter()
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Save the current scroll position to local storage
+      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      updateScrollYTo(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const scrollPosition = JSON.parse(
+      localStorage.getItem('scrollPosition') || 'null'
+    )
+
+    if (typeof scrollPosition === 'number' && scrollYTo) {
+      window.scrollTo(0, scrollPosition)
+    }
+  }, [])
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)

@@ -10,6 +10,8 @@ import { IAgent, IPost } from 'interfaces'
 import { useEffect, useRef, useState } from 'react'
 import { useOnScreen } from 'hooks/useOnScreen'
 import { toBase64, placeholderImg } from 'utils/strToBase64'
+import { useRouter } from 'next/router'
+import { useStore } from 'store'
 // import config from 'config'
 
 interface AgentProps {
@@ -29,6 +31,35 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
+
+  const router = useRouter()
+
+  const { scrollYTo, updateScrollYTo } = useStore()
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Save the current scroll position to local storage
+      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      updateScrollYTo(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const scrollPosition = JSON.parse(
+      localStorage.getItem('scrollPosition') || 'null'
+    )
+
+    if (typeof scrollPosition === 'number' && scrollYTo) {
+      window.scrollTo(0, scrollPosition)
+    }
+  }, [])
 
   const fetchPosts = async () => {
     try {
@@ -109,7 +140,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
             )}
             <div className="flex gap-3 justify-center mt-5">
               <a
-                href={`tel:+${agent?.phone}`}
+                href={`tel:+965${agent?.phone}`}
                 className="bg-custom-green hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-1 text-center text-white py-3 rounded-md"
               >
                 {agent?.phone}{' '}
