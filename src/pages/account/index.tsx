@@ -29,7 +29,13 @@ const MyPosts: NextPage<AccountType> = ({
   totalArchivePosts
 }) => {
   const [showArchivedPosts, setShowArchivedPosts] = useState(false)
-  const { scrollYTo, updateScrollYTo, updateToast } = useStore()
+  const {
+    scrollYTo,
+    scrollPosition,
+    updateScrollYTo,
+    updateToast,
+    updateScrollPosition
+  } = useStore()
   const router = useRouter()
   const expiredDate = agent
     ? new Date(agent?.subscription_ends_date)
@@ -54,8 +60,7 @@ const MyPosts: NextPage<AccountType> = ({
 
   useEffect(() => {
     const handleRouteChange = () => {
-      // Save the current scroll position to local storage
-      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+      updateScrollPosition(window.scrollY)
     }
 
     router.events.on('routeChangeStart', handleRouteChange)
@@ -68,11 +73,7 @@ const MyPosts: NextPage<AccountType> = ({
   }, [])
 
   useEffect(() => {
-    const scrollPosition = JSON.parse(
-      localStorage.getItem('scrollPosition') || 'null'
-    )
-
-    if (typeof scrollPosition === 'number' && scrollYTo) {
+    if (scrollYTo) {
       window.scrollTo(0, scrollPosition)
     }
   }, [])

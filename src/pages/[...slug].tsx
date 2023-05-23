@@ -53,12 +53,14 @@ const Search: NextPage<PageProps> = ({
     propertyTypeSelected,
     categorySelected,
     scrollYTo,
+    scrollPosition,
     setLocationsSelected,
     setPropertyTypeSelected,
     setCategorySelected,
     updateFilteredPostsCount,
     updateFilteredPosts,
-    updateScrollYTo
+    updateScrollYTo,
+    updateScrollPosition
   } = useStore()
   const [posts, setPosts] = useState<IPost[]>(retrievedPosts)
   const [totalPosts] = useState<number | undefined>(count)
@@ -90,8 +92,7 @@ const Search: NextPage<PageProps> = ({
 
   useEffect(() => {
     const handleRouteChange = () => {
-      // Save the current scroll position to local storage
-      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+      updateScrollPosition(window.scrollY)
     }
 
     router.events.on('routeChangeStart', handleRouteChange)
@@ -104,11 +105,7 @@ const Search: NextPage<PageProps> = ({
   }, [])
 
   useEffect(() => {
-    const scrollPosition = JSON.parse(
-      localStorage.getItem('scrollPosition') || 'null'
-    )
-
-    if (typeof scrollPosition === 'number' && scrollYTo) {
+    if (scrollYTo) {
       window.scrollTo(0, scrollPosition)
     }
   }, [])

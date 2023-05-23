@@ -34,12 +34,12 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
 
   const router = useRouter()
 
-  const { scrollYTo, updateScrollYTo } = useStore()
+  const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
+    useStore()
 
   useEffect(() => {
     const handleRouteChange = () => {
-      // Save the current scroll position to local storage
-      localStorage.setItem('scrollPosition', JSON.stringify(window.scrollY))
+      updateScrollPosition(window.scrollY)
     }
 
     router.events.on('routeChangeStart', handleRouteChange)
@@ -52,11 +52,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
   }, [])
 
   useEffect(() => {
-    const scrollPosition = JSON.parse(
-      localStorage.getItem('scrollPosition') || 'null'
-    )
-
-    if (typeof scrollPosition === 'number' && scrollYTo) {
+    if (scrollYTo) {
       window.scrollTo(0, scrollPosition)
     }
   }, [])
