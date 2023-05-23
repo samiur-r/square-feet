@@ -44,6 +44,7 @@ const Home: NextPage<{
     alert(scrollYTo)
     alert(scrollPosition)
     if (scrollYTo) {
+      alert(typeof window !== 'undefined')
       window.scrollTo(0, scrollPosition)
     }
   }, [])
