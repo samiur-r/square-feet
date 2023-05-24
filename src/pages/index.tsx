@@ -47,7 +47,7 @@ const Home: NextPage<{
           left: 0,
           behavior: 'smooth'
         })
-      }, 100)
+      }, 1000)
     }
   }, [])
 
