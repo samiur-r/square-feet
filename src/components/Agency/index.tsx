@@ -182,7 +182,7 @@ const Agency: React.FC<{
             </React.Fragment>
           ))}
       </div>
-      {totalRows && totalAgents >= totalRows ? (
+      {(totalRows && totalAgents >= totalRows) || totalRows === 0 ? (
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
           انتهت نتائج البحث ولا يوجد المزيد من الاعلانات
         </p>
