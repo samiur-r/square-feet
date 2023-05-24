@@ -11,8 +11,8 @@ import { useStore } from 'store'
 import Link from 'next/link'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import config from 'config'
-import Actions from './Actions'
 import Modal from 'components/Modal'
+import Actions from './Actions'
 
 interface PostCardProps {
   post: IPost
