@@ -33,7 +33,6 @@ const Home: NextPage<{
 
     router.events.on('routeChangeStart', handleRouteChange)
 
-    // Cleanup the event listener
     return () => {
       router.events.off('routeChangeStart', handleRouteChange)
       updateScrollYTo(false)
@@ -42,11 +41,13 @@ const Home: NextPage<{
 
   useEffect(() => {
     if (scrollYTo) {
-      window.scrollTo({
-        top: scrollPosition,
-        left: 0,
-        behavior: 'smooth'
-      })
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }, 0)
     }
   }, [])
 
