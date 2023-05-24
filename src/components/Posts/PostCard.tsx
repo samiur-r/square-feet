@@ -147,7 +147,7 @@ const PostCard: React.FC<PostCardProps> = ({
       ${isPreviouslyClicked ? 'shadow-lg' : ''}
       rounded-lg border cursor-pointer mt-3 py-2.5 px-2.5 relative`}
     >
-      <Link href={isArchive ? '#' : `/post/${post.id}`}>
+      <Link href={`/post/${post.id}`}>
         <a>
           <div className="flex md:items-center gap-3 md:gap-4">
             <div className="rounded-lg overflow-hidden h-full w-full max-w-fit flex items-center border">
