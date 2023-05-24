@@ -1,11 +1,12 @@
 const getElapsedTime = (dateStr: string) => {
-  if (!dateStr) return { unit: '-', timeElapsed: '-' }
+  if (!dateStr) return { unitVal: '-', timeElapsedVal: '-' }
 
   const startDate = new Date(
     new Date(Date.parse(dateStr)).toLocaleString('en-US', {
       timeZone: 'Asia/Kuwait'
     })
   )
+
   const currentDate = new Date(
     new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuwait' })
   )
@@ -33,7 +34,7 @@ const getElapsedTime = (dateStr: string) => {
 
   if (timeElapsed <= 0) timeElapsed = 1
 
-  return { unit, timeElapsed }
+  return { unitVal: unit, timeElapsedVal: timeElapsed }
 }
 
 export default getElapsedTime

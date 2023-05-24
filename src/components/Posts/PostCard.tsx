@@ -32,9 +32,19 @@ const PostCard: React.FC<PostCardProps> = ({
   const [isCallingApiForDelete, setIsCallingApiForDelete] = useState(false)
   const [isPreviouslyClicked, setIsPreviouslyClicked] = useState(false)
   const [showRedirectModal, setShowRedirectModal] = useState(false)
+  const [unit, setUnit] = useState<any>('-')
+  const [timeElapsed, setTimeElapsed] = useState<any>('-')
 
   useEffect(() => {
     if (post && post.id === highlightedPost) setIsPreviouslyClicked(true)
+
+    if (post) {
+      const { unitVal, timeElapsedVal } = getElapsedTime(
+        post?.public_date as unknown as string
+      )
+      setUnit(unitVal)
+      setTimeElapsed(timeElapsedVal)
+    }
   }, [post])
 
   const getMediaType = (base64Str: string) => {
@@ -49,8 +59,6 @@ const PostCard: React.FC<PostCardProps> = ({
       ? `${post.media[0]}`
       : '/images/nopic-ar.jpg'
     : '/images/nopic-ar.jpg'
-
-  const { unit, timeElapsed } = getElapsedTime(post?.public_date?.toString())
 
   const stickPost = async () => {
     setIsCallingApiForStick(true)
