@@ -157,7 +157,10 @@ const PackageCard: React.FC<PackageCardType> = ({
         </div>
       </div>
       <div className="flex flex-col gap-2 md:gap-5 justify-center items-center text-center w-full">
-        <Title value={packageItem.title} />
+        {/* <Title value={packageItem.title} /> */}
+        <p className="font-DroidArabicKufiBold text-base md:text-lg">
+          {packageItem.title}
+        </p>
         <div className="grid gap-3 md:w-full">
           {packageItem &&
             packageItem.list.map((item) => (
