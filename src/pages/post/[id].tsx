@@ -28,7 +28,8 @@ const Posts: NextPage<{
   relevantSearch: string
 }> = ({ post, isActive, inactivePostText, relevantSearch }) => {
   const [showCarousel, setShowCarousel] = useState(false)
-  const { unit, timeElapsed } = getElapsedTime(post?.updated_at?.toString())
+  const [unit, setUnit] = useState<any>('-')
+  const [timeElapsed, setTimeElapsed] = useState<any>('-')
   const [carouselCurrentIndex, setCarouselCurrentIndex] = useState(0)
   const [whatsappMsg, setWhatsappMsg] = useState('')
   const [isActivePost, setIsActivePost] = useState(true)
@@ -89,6 +90,11 @@ const Posts: NextPage<{
         `${config.domain}/post/${post.id} السلام عليكم اذا ممكن ترسل تفاصيل هذا الإعلان في بو شملان وشكرا`
       )
       updateHighlightedPost(post.id)
+      const { unitVal, timeElapsedVal } = getElapsedTime(
+        post?.public_date as unknown as string
+      )
+      setUnit(unitVal)
+      setTimeElapsed(timeElapsedVal)
     }
   }, [post])
 
