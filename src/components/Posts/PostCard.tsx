@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { placeholderImg, toBase64 } from 'utils/strToBase64'
 import config from 'config'
 import Actions from './Actions'
+import Modal from 'components/Modal'
 
 interface PostCardProps {
   post: IPost
@@ -30,6 +31,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const [isCallingApiForRepost, setIsCallingApiForRepost] = useState(false)
   const [isCallingApiForDelete, setIsCallingApiForDelete] = useState(false)
   const [isPreviouslyClicked, setIsPreviouslyClicked] = useState(false)
+  const [showRedirectModal, setShowRedirectModal] = useState(false)
 
   useEffect(() => {
     if (post && post.id === highlightedPost) setIsPreviouslyClicked(true)
@@ -63,6 +65,10 @@ const PostCard: React.FC<PostCardProps> = ({
       Router.reload()
     } catch (error: any) {
       setIsCallingApiForStick(false)
+      if (error?.response?.status === 402) {
+        setShowRedirectModal(true)
+        return
+      }
       updateToast(true, `Error: ${error?.response?.data}`, true)
     }
   }
@@ -80,6 +86,10 @@ const PostCard: React.FC<PostCardProps> = ({
       Router.reload()
     } catch (error: any) {
       setIsCallingApiForRepost(false)
+      if (error?.response?.status === 402) {
+        setShowRedirectModal(true)
+        return
+      }
       updateToast(true, `Error: ${error?.response?.data}`, true)
     }
   }
@@ -147,6 +157,31 @@ const PostCard: React.FC<PostCardProps> = ({
       ${isPreviouslyClicked ? 'shadow-lg' : ''}
       rounded-lg border cursor-pointer mt-3 py-2.5 px-2.5 relative`}
     >
+      <Modal
+        type="warning"
+        isModalOpen={showRedirectModal}
+        handleIsModalOpen={setShowRedirectModal}
+      >
+        <p className="font-semibold text-lg">
+          You do not have enough credits. Do you want to topup
+        </p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowRedirectModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => Router.push('/topup')}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
       <Link href={`/post/${post.id}`}>
         <a>
           <div className="flex md:items-center gap-3 md:gap-4">
