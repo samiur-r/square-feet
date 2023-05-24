@@ -209,7 +209,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
             </svg>
           </div>
         )}
-        {((totalPosts && postCount >= totalPosts) || postCount === 0) && (
+        {typeof totalPosts === 'number' && postCount >= totalPosts && (
           <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
             انتهت نتائج البحث ولا يوجد المزيد من الاعلانات
           </p>

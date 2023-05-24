@@ -6,8 +6,12 @@ export interface SearchSliceType {
   locationsSelected: LocationType[]
   propertyTypeSelected: { id: number; title: string } | undefined
   categorySelected: { id: number; title: string } | undefined
-  priceRangeSelected: Array<number>
+  archivedLocationsSelected: LocationType[]
+  archivedPropertyTypeSelected: { id: number; title: string } | undefined
+  archivedCategorySelected: { id: number; title: string } | undefined
   canFetchPosts: boolean
+  canFetchArchivedPosts: boolean
+  priceRangeSelected: Array<number>
   setLocationsSelected: (locations: LocationType[]) => void
   setPropertyTypeSelected: (
     propertyType: { id: number; title: string } | undefined
@@ -15,8 +19,16 @@ export interface SearchSliceType {
   setCategorySelected: (
     category: { id: number; title: string } | undefined
   ) => void
+  setArchivedLocationsSelected: (locations: LocationType[]) => void
+  setArchivedPropertyTypeSelected: (
+    propertyType: { id: number; title: string } | undefined
+  ) => void
+  setArchivedCategorySelected: (
+    category: { id: number; title: string } | undefined
+  ) => void
   setPriceRangeSelected: (price: Array<number>) => void
   updateCanFetchPosts: (val: boolean) => void
+  updateCanFetchArchivedPosts: (val: boolean) => void
 }
 
 export const createSearchSlice: StateCreator<SearchSliceType> = (set) => ({
@@ -29,8 +41,18 @@ export const createSearchSlice: StateCreator<SearchSliceType> = (set) => ({
     id: 1,
     title: 'للايجار'
   },
+  archivedLocationsSelected: [],
+  archivedPropertyTypeSelected: {
+    id: 0,
+    title: 'الكل'
+  },
+  archivedCategorySelected: {
+    id: 1,
+    title: 'للايجار'
+  },
   priceRangeSelected: [PRICE_RANGES.min, PRICE_RANGES.max],
   canFetchPosts: false,
+  canFetchArchivedPosts: false,
   setLocationsSelected: (locations: LocationType[]) =>
     set(() => ({
       locationsSelected: locations
@@ -45,6 +67,22 @@ export const createSearchSlice: StateCreator<SearchSliceType> = (set) => ({
     set(() => ({
       categorySelected: category
     })),
+  setArchivedLocationsSelected: (locations: LocationType[]) =>
+    set(() => ({
+      archivedLocationsSelected: locations
+    })),
+  setArchivedPropertyTypeSelected: (
+    propertyType: { id: number; title: string } | undefined
+  ) =>
+    set(() => ({
+      archivedPropertyTypeSelected: propertyType
+    })),
+  setArchivedCategorySelected: (
+    category: { id: number; title: string } | undefined
+  ) =>
+    set(() => ({
+      archivedCategorySelected: category
+    })),
   setPriceRangeSelected: (price: Array<number>) =>
     set(() => ({
       priceRangeSelected: price
@@ -52,5 +90,9 @@ export const createSearchSlice: StateCreator<SearchSliceType> = (set) => ({
   updateCanFetchPosts: (val: boolean) =>
     set(() => ({
       canFetchPosts: val
+    })),
+  updateCanFetchArchivedPosts: (val: boolean) =>
+    set(() => ({
+      canFetchArchivedPosts: val
     }))
 })
