@@ -58,7 +58,7 @@ const Actions: React.FC<{
           />
         </div>
       )}
-      {!isSticky && !isArchive && (
+      {!isSticky && (
         <div className="p-1 bg-[#F8D8D7] rounded-md flex items-center">
           {isCallingApiForStick ? (
             <svg

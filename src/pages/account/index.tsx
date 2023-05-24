@@ -10,7 +10,6 @@ import { useStore } from 'store'
 import { useEffect, useRef, useState } from 'react'
 import { IAgent, ICredit, IPost } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
-import { PlusIcon } from '@heroicons/react/24/solid'
 
 interface AccountType {
   agent: IAgent | null
@@ -261,20 +260,24 @@ const MyPosts: NextPage<AccountType> = ({
         </p>
       </div>
       <div className="w-12 h-12 rounded-full bg-primary fixed right-3 bottom-10 w-50 flex justify-center items-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          stroke="currentColor"
-          className="w-6 h-6 text-white"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-          />
-        </svg>
+        <Link href="/post?mode=create">
+          <a>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              className="w-6 h-6 text-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </a>
+        </Link>
       </div>
     </div>
   )
