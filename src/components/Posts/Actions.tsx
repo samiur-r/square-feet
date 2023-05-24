@@ -4,8 +4,9 @@ import {
   TrashIcon
 } from '@heroicons/react/20/solid'
 import { PencilIcon } from '@heroicons/react/24/solid'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import Modal from 'components/Modal'
 
 const Actions: React.FC<{
   isArchive?: boolean | undefined
@@ -22,8 +23,77 @@ const Actions: React.FC<{
   isCallingApiForDelete,
   handleAction
 }) => {
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [modalMsg, setModalMsg] = useState('')
+  const [opt, setOpt] = useState<string | undefined>(undefined)
+
+  const handleShowDeleteConfirmModal = () => {
+    setOpt('delete')
+    setModalMsg('Are you sure you want to delete the post?')
+    setShowConfirmModal(true)
+  }
+
+  const handleShowRepostConfirmModal = () => {
+    setOpt('repost')
+    setModalMsg('Are you sure you want to repost the post?')
+    setShowConfirmModal(true)
+  }
+
+  const handleShowStickConfirmModal = () => {
+    setOpt('stick')
+    setModalMsg('Are you sure you want to stick the post?')
+    setShowConfirmModal(true)
+  }
+
+  useEffect(() => {
+    if (!showConfirmModal) {
+      setModalMsg('')
+      setOpt(undefined)
+    }
+  }, [showConfirmModal])
+
+  const handleOpt = () => {
+    setShowConfirmModal(false)
+    switch (opt) {
+      case 'delete':
+        handleAction('delete')
+        break
+      case 'repost':
+        handleAction('repost')
+        break
+      case 'stick':
+        handleAction('stick')
+        break
+      default:
+        break
+    }
+  }
+
   return (
     <div className="flex flex-row-reverse gap-3">
+      <Modal
+        type="warning"
+        isModalOpen={showConfirmModal}
+        handleIsModalOpen={setShowConfirmModal}
+      >
+        <p className="font-semibold text-lg">{modalMsg}</p>
+        <div className="flex justify-end mt-10 gap-3">
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-custom-gray"
+            onClick={() => setShowConfirmModal(false)}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="flex justify-center items-center py-2 px-6 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300 bg-red-400"
+            onClick={() => handleOpt()}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
       <div className="p-1 bg-[#ECEEF0] rounded-md flex items-center">
         {isCallingApiForDelete ? (
           <svg
@@ -46,7 +116,7 @@ const Actions: React.FC<{
         ) : (
           <TrashIcon
             className="w-5 h-5 text-[#939FAE]"
-            onClick={() => handleAction('delete')}
+            onClick={() => handleShowDeleteConfirmModal()}
           />
         )}
       </div>
@@ -81,7 +151,7 @@ const Actions: React.FC<{
           ) : (
             <RocketLaunchIcon
               className="w-5 h-5 text-[#D2110C]"
-              onClick={() => handleAction('stick')}
+              onClick={() => handleShowStickConfirmModal()}
             />
           )}
         </div>
@@ -109,7 +179,7 @@ const Actions: React.FC<{
           ) : (
             <ArrowPathIcon
               className="w-5 h-5 text-[#2BAA90]"
-              onClick={() => handleAction('repost')}
+              onClick={() => handleShowRepostConfirmModal()}
             />
           )}
         </div>
