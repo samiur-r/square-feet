@@ -3,7 +3,6 @@ import { TwitterShareButton } from 'react-share'
 import TextTruncate from 'react-text-truncate'
 import Image from 'next/image'
 
-import { IPost } from 'interfaces'
 import getElapsedTime from 'utils/getElapsedTime'
 import Router from 'next/router'
 import ApiClient from 'utils/ApiClient'
@@ -15,7 +14,7 @@ import Modal from 'components/Modal'
 import Actions from './Actions'
 
 interface PostCardProps {
-  post: IPost
+  post: any
   showActions?: boolean
   isArchive?: boolean
 }
@@ -53,12 +52,12 @@ const PostCard: React.FC<PostCardProps> = ({
     return resourceType
   }
 
-  // eslint-disable-next-line no-nested-ternary
-  const thumbnail = post?.media?.length
-    ? getMediaType(post.media[0]) === 'image'
-      ? `${post.media[0]}`
-      : '/images/nopic-ar.jpg'
-    : '/images/nopic-ar.jpg'
+  const getThumbnail = () => {
+    if (post?.media?.length && getMediaType(post.media[0]) === 'image')
+      return post.media[0]
+    if (post?.agent_logo) return post.agent_logo
+    return '/images/nopic-ar.jpg'
+  }
 
   const stickPost = async () => {
     setIsCallingApiForStick(true)
@@ -205,7 +204,7 @@ const PostCard: React.FC<PostCardProps> = ({
                   blurDataURL={`data:image/svg+xml;base64,${toBase64(
                     placeholderImg()
                   )}`}
-                  src={thumbnail}
+                  src={getThumbnail()}
                 />
                 {/* </a>
                 </Link> */}

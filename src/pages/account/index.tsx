@@ -10,6 +10,7 @@ import { useStore } from 'store'
 import { useEffect, useRef, useState } from 'react'
 import { IAgent, ICredit, IPost } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
+import calculateTimeLeft from 'utils/calculateTimeLeft'
 
 interface AccountType {
   agent: IAgent | null
@@ -37,11 +38,11 @@ const MyPosts: NextPage<AccountType> = ({
     updateScrollPosition
   } = useStore()
   const router = useRouter()
-  const expiredDate = agent
-    ? new Date(agent?.subscription_ends_date)
-    : undefined
-  const hours = expiredDate?.getHours().toString().padStart(2, '0')
-  const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
+  // const expiredDate = agent
+  //   ? new Date(agent?.subscription_ends_date)
+  //   : undefined
+  // const hours = expiredDate?.getHours().toString().padStart(2, '0')
+  // const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
 
   const [postList, setPostList] = useState(posts)
   const [postCount, setPostCount] = useState(posts?.length || 0)
@@ -54,6 +55,7 @@ const MyPosts: NextPage<AccountType> = ({
   const [offset, setOffset] = useState(10)
   const [limit] = useState(10)
   const [isCallingApi, setIsCallingAPi] = useState(false)
+  const [expiring, setExpiring] = useState('')
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
@@ -81,6 +83,15 @@ const MyPosts: NextPage<AccountType> = ({
       })
     }
   }, [])
+
+  useEffect(() => {
+    if (agent) {
+      const timeLeft = calculateTimeLeft(
+        agent.subscription_ends_date.toString()
+      )
+      setExpiring(timeLeft)
+    }
+  }, [agent])
 
   const fetchPosts = async () => {
     try {
@@ -154,12 +165,12 @@ const MyPosts: NextPage<AccountType> = ({
     },
     {
       title: 'تاريخ الإنتهاء',
-      value: expiredDate ? expiredDate.toISOString().substring(0, 10) : '-'
-    },
-    {
-      title: 'وقت الإنتهاء',
-      value: hours && minutes ? `${hours}:${minutes}م` : '-'
+      value: expiring
     }
+    // {
+    //   title: 'وقت الإنتهاء',
+    //   value: hours && minutes ? `${hours}:${minutes}م` : '-'
+    // }
   ]
 
   useEffect(() => {
