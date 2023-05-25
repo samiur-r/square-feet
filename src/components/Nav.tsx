@@ -449,34 +449,38 @@ const Nav: React.FC = () => {
               </Popover>
               {isLoggedIn
                 ? navItemsAuth.map((item) => (
-                    <a href={`${item.href}`} key={item.title}>
-                      <button
-                        type="submit"
-                        onClick={() => handleNavChange(item)}
-                        className={`${
-                          activeItem === item.title
-                            ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
-                            : 'text-base'
-                        } font-medium hover:text-primary relative`}
-                      >
-                        {item.title}
-                      </button>
-                    </a>
+                    <Link href={`${item.href}`} key={item.title}>
+                      <a href={`${item.href}`}>
+                        <button
+                          type="submit"
+                          onClick={() => handleNavChange(item)}
+                          className={`${
+                            activeItem === item.title
+                              ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
+                              : 'text-base'
+                          } font-medium hover:text-primary relative`}
+                        >
+                          {item.title}
+                        </button>
+                      </a>
+                    </Link>
                   ))
                 : navItems.map((item) => (
-                    <a href={`${item.href}`} key={item.title}>
-                      <button
-                        type="submit"
-                        onClick={() => handleNavChange(item)}
-                        className={`${
-                          activeItem === item.title
-                            ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
-                            : 'text-base'
-                        } font-medium hover:text-primary relative`}
-                      >
-                        {item.title}
-                      </button>
-                    </a>
+                    <Link href={`${item.href}`} key={item.title}>
+                      <a href={`${item.href}`}>
+                        <button
+                          type="submit"
+                          onClick={() => handleNavChange(item)}
+                          className={`${
+                            activeItem === item.title
+                              ? "text-primary after:content-['.'] after:text-primary after:text-3xl after:font-DroidArabicKufiBold after:absolute after:-bottom-4 after:w-full after:left-0"
+                              : 'text-base'
+                          } font-medium hover:text-primary relative`}
+                        >
+                          {item.title}
+                        </button>
+                      </a>
+                    </Link>
                   ))}
             </Popover.Group>
           )}
@@ -585,80 +589,82 @@ const Nav: React.FC = () => {
               <div className="mt-2 flex flex-col md:gap-3">
                 {isLoggedIn
                   ? mobileNavItemsAuth.map((item) => (
-                      <a
-                        href={item.href}
-                        key={item.title}
-                        className={`${
-                          activeItemOnMobile === item.title &&
-                          'bg-primary-lighter text-primary'
-                        } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
-                      >
-                        <Popover.Button
-                          type="submit"
-                          onClick={() => handleMobileNavChange(item)}
-                          className="flex gap-4 items-center"
+                      <Link href={`${item.href}`} key={item.title}>
+                        <a
+                          href={item.href}
+                          className={`${
+                            activeItemOnMobile === item.title &&
+                            'bg-primary-lighter text-primary'
+                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                         >
-                          <p
-                            className={`${
-                              item.title === 'إعلان جديد' ||
-                              item.title === 'إعلان مجانًا'
-                                ? 'text-secondary'
-                                : null
-                            } font-DroidArabicKufiBold`}
+                          <Popover.Button
+                            type="submit"
+                            onClick={() => handleMobileNavChange(item)}
+                            className="flex gap-4 items-center"
                           >
-                            {item.title === 'إعلان جديد' ||
-                            item.title === 'إعلان مجانًا'
-                              ? newPostBtnText
-                              : item.title}
-                          </p>
-                          <Image
-                            src={
-                              activeItemOnMobile === item.title
-                                ? item.primaryIcon
-                                : item.icon
-                            }
-                            height={18}
-                            width={18}
-                            alt="nav_item"
-                          />
-                        </Popover.Button>
-                      </a>
+                            <p
+                              className={`${
+                                item.title === 'إعلان جديد' ||
+                                item.title === 'إعلان مجانًا'
+                                  ? 'text-secondary'
+                                  : null
+                              } font-DroidArabicKufiBold`}
+                            >
+                              {item.title === 'إعلان جديد' ||
+                              item.title === 'إعلان مجانًا'
+                                ? newPostBtnText
+                                : item.title}
+                            </p>
+                            <Image
+                              src={
+                                activeItemOnMobile === item.title
+                                  ? item.primaryIcon
+                                  : item.icon
+                              }
+                              height={18}
+                              width={18}
+                              alt="nav_item"
+                            />
+                          </Popover.Button>
+                        </a>
+                      </Link>
                     ))
                   : mobileNavItems.map((item) => (
-                      <a
-                        href={item.href}
-                        key={item.title}
-                        className={`${
-                          activeItemOnMobile === item.title &&
-                          'bg-primary-lighter text-primary'
-                        } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
-                      >
-                        <Popover.Button
-                          type="submit"
-                          onClick={() => handleMobileNavChange(item)}
-                          className="flex items-center gap-4"
+                      <Link href={`${item.href}`} key={item.title}>
+                        <a
+                          href={item.href}
+                          className={`${
+                            activeItemOnMobile === item.title &&
+                            'bg-primary-lighter text-primary'
+                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                         >
-                          <p
-                            className={`${
-                              (item.title === 'إعلان جديد' ||
-                                item.title === 'إعلان مجانًا') &&
-                              'text-secondary'
-                            } font-DroidArabicKufiBold`}
+                          <Popover.Button
+                            type="submit"
+                            onClick={() => handleMobileNavChange(item)}
+                            className="flex items-center gap-4"
                           >
-                            {item.title}
-                          </p>
-                          <Image
-                            src={
-                              activeItemOnMobile === item.title
-                                ? item.primaryIcon
-                                : item.icon
-                            }
-                            height={18}
-                            width={18}
-                            alt="nav_item"
-                          />
-                        </Popover.Button>
-                      </a>
+                            <p
+                              className={`${
+                                (item.title === 'إعلان جديد' ||
+                                  item.title === 'إعلان مجانًا') &&
+                                'text-secondary'
+                              } font-DroidArabicKufiBold`}
+                            >
+                              {item.title}
+                            </p>
+                            <Image
+                              src={
+                                activeItemOnMobile === item.title
+                                  ? item.primaryIcon
+                                  : item.icon
+                              }
+                              height={18}
+                              width={18}
+                              alt="nav_item"
+                            />
+                          </Popover.Button>
+                        </a>
+                      </Link>
                     ))}
                 <Menu as="div" className="relative ml-5 rounded-l-2xl">
                   <div>
