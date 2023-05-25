@@ -17,12 +17,12 @@ const calculateTimeLeft = (dateString: string) => {
   const minutesLeft = Math.floor((timeDiff % oneHour) / oneMinute)
 
   if (daysLeft > 0) {
-    return `${daysLeft} أيام`
+    return `${daysLeft} يوم`
   }
   if (hoursLeft > 0) {
-    return `${hoursLeft} ساعات`
+    return `${hoursLeft} ساعة`
   }
-  return `${minutesLeft} دقائق`
+  return `${minutesLeft} دقيقة`
 }
 
 export default calculateTimeLeft

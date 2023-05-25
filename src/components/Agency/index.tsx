@@ -95,7 +95,7 @@ const Agency: React.FC<{
       value: credits?.agent || 0
     },
     {
-      title: 'تاريخ الإنتهاء',
+      title: 'إنتهاء الإشتراك',
       value: expiring
     }
     // {

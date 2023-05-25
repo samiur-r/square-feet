@@ -164,7 +164,7 @@ const MyPosts: NextPage<AccountType> = ({
       value: credits?.agent || 0
     },
     {
-      title: 'تاريخ الإنتهاء',
+      title: 'إنتهاء الإشتراك',
       value: expiring
     }
     // {
