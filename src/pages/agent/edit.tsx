@@ -82,7 +82,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
       })
       setIsCallingApi(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
-      Router.push(`/agent/${agent.id}`)
+      if (agent) Router.push(`/agent/${agent.id}`)
     } catch (error: any) {
       setIsCallingApi(false)
       if (error.message === 'Name is a required field')
