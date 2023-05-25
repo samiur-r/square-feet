@@ -26,7 +26,6 @@ export interface IAgent {
   email?: string
   instagram?: string
   twitter?: string
-  facebook?: string
   logo_url?: string
   subscription_ends_date: Date
   expiry_date: Date

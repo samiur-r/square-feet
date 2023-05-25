@@ -130,25 +130,29 @@ const Agency: React.FC<{
             />
           ))
         ) : (
-          <div
-            className={`${
-              agent && 'md:grid-cols-2 md:w-auto'
-            } grid grid-cols-1 gap-10 w-full place-items-center`}
-          >
+          <div className="md:grid-cols-2 md:w-auto grid grid-cols-1 gap-10 w-full place-items-center">
             <BalanceCard
               headline="رصيدك من الاعلانات"
               items={balanceItems}
               ctaList={[{ title: 'اشحن الرصيد', href: '/topup' }]}
             />
-            {agent && (
+            {agent ? (
               <BalanceCard
                 headline="رصيد اشتراك المكتب"
                 items={agencyItems}
                 ctaList={[
                   { title: 'بياناتي', href: '/agent/edit' },
-                  { title: 'صفحتي', href: '/agent' }
+                  { title: 'صفحتي', href: `/agent/${agent.id}` }
                 ]}
               />
+            ) : (
+              packages.map((item) => (
+                <PackageCard
+                  key={Math.random()}
+                  packageItem={item}
+                  thumbnailSmall={thumbnailSmall}
+                />
+              ))
             )}
           </div>
         )}

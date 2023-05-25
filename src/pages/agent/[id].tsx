@@ -102,13 +102,6 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
     }
   ]
 
-  // useEffect(() => {
-  //   if (agent)
-  //     setWhatsappMsg(
-  //       `${config.domain}/agent${agent.id} السلام عليكم اذا ممكن ترسل تفاصيل هذا الإعلان في بو شملان وشكرا`
-  //     )
-  // }, [agent])
-
   return (
     <div>
       <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />
@@ -128,15 +121,12 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
               }
             />
           </div>
-          <div className="flex flex-col items-center text-center">
+          <div className="flex flex-col items-center text-center max-w-4xl">
             <div className="mb-3 md:mb-5">
               <Title value={agent?.name} />
             </div>
             {agent && agent.description && (
               <p className="text-xs md:text-base">{agent?.description}</p>
-            )}
-            {agent && agent.instagram && (
-              <p className="mt-2">instagram: @{agent.instagram}</p>
             )}
             <div className="flex gap-3 justify-center mt-5">
               <a
@@ -167,7 +157,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
                 </div>
               </a>
             </div>
-            {agent && agent.instagram && (
+            {/* {agent && agent.instagram && (
               <div className="flex gap-3 justify-center mt-4">
                 <Link href={`https://instagram.com/${agent?.instagram}`}>
                   <a className="p-2 rounded-full bg-primary-dark flex items-center ">
@@ -179,6 +169,22 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
                     />
                   </a>
                 </Link>
+              </div>
+            )} */}
+            {agent && agent.socialLinks && agent.socialLinks.length > 0 && (
+              <div className="flex gap-3 justify-center mt-4">
+                {agent.socialLinks.map((socialLink) => (
+                  <Link href={socialLink.href} key={Math.random()}>
+                    <a className="p-2 rounded-full bg-primary-dark flex items-center ">
+                      <Image
+                        src={socialLink.image}
+                        width={18}
+                        height={18}
+                        alt="instagram_icon"
+                      />
+                    </a>
+                  </Link>
+                ))}
               </div>
             )}
           </div>
