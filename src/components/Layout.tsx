@@ -4,11 +4,12 @@ import Head from 'next/head'
 import Router, { useRouter } from 'next/router'
 // import { io, Socket } from 'socket.io-client'
 
-// import { useStore } from 'store'
+import { useStore } from 'store'
 // import config from 'config'
 import Nav from './Nav'
 import Footer from './Footer'
 import Toast from './Toast'
+import AdminBanner from './Admin/Banner'
 
 const footerPages = ['/', '/agencies', '/agent/[id]']
 
@@ -18,13 +19,16 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { pathname } = useRouter()
-  // const { user } = useStore()
+  const { admin } = useStore()
   const [showFooter, setShowFooter] = useState(false)
+  const [showBanner, setShowBanner] = useState(false)
   // const socket: Socket = io(config.socketUrl)
 
   useEffect(() => {
     if (pathname && footerPages.includes(pathname)) setShowFooter(true)
     else setShowFooter(false)
+
+    if (admin) setShowBanner(true)
   }, [pathname])
 
   // useEffect(() => {
@@ -56,6 +60,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           crossOrigin=""
         />
       </Head>
+      {showBanner && <AdminBanner />}
       <Nav />
       <Toast />
       <main>{children}</main>

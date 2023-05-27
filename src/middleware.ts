@@ -44,7 +44,11 @@ export default async function middleware(req: NextRequest) {
   ) {
     if (token) {
       try {
-        await verifyJwt(token)
+        const { payload } = await verifyJwt(token)
+        if (payload.admin_status) {
+          req.nextUrl.pathname = '/admin/dashboard'
+          return NextResponse.redirect(req.nextUrl)
+        }
         req.nextUrl.pathname = '/account'
         return NextResponse.redirect(req.nextUrl)
       } catch (err) {
