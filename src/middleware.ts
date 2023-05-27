@@ -29,12 +29,15 @@ export default async function middleware(req: NextRequest) {
         await verifyJwt(token)
         return NextResponse.next()
       } catch (err) {
-        req.nextUrl.pathname = '/register'
-        return NextResponse.redirect(req.nextUrl)
+        const url = req.nextUrl.clone()
+        return NextResponse.redirect(`${url.origin}/register`)
       }
     }
-    req.nextUrl.pathname = '/register'
-    return NextResponse.redirect(req.nextUrl)
+    const url = req.nextUrl.clone()
+    return NextResponse.redirect(`${url.origin}/register`)
+
+    // req.nextUrl.pathname = '/register/'
+    // return NextResponse.redirect(req.nextUrl)
   }
 
   if (
