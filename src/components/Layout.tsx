@@ -11,7 +11,7 @@ import Footer from './Footer'
 import Toast from './Toast'
 import AdminBanner from './Admin/Banner'
 
-const footerPages = ['/', '/agencies', '/agent/[id]']
+const footerPages = ['/', '/agencies', '/agent/[phone]']
 
 interface LayoutProps {
   children: React.ReactNode

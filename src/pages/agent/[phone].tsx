@@ -6,7 +6,7 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import PostCard from 'components/Posts/PostCard'
 import Title from 'components/Title'
 import ApiClient from 'utils/ApiClient'
-import { IAgent, IPost } from 'interfaces'
+import { IPost } from 'interfaces'
 import { useEffect, useRef, useState } from 'react'
 import { useOnScreen } from 'hooks/useOnScreen'
 import { toBase64, placeholderImg } from 'utils/strToBase64'
@@ -15,7 +15,7 @@ import { useStore } from 'store'
 // import config from 'config'
 
 interface AgentProps {
-  agent: IAgent
+  agent: any
   postList: IPost[]
   totalPosts: number
 }
@@ -98,7 +98,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
     },
     {
       title: agent?.name || '',
-      href: `/agent/${agent?.id}`
+      href: `/المكاتب/${agent?.user?.phone}`
     }
   ]
 
@@ -173,7 +173,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
             )} */}
             {agent && agent.socialLinks && agent.socialLinks.length > 0 && (
               <div className="flex gap-3 justify-center mt-4">
-                {agent.socialLinks.map((socialLink) => (
+                {agent.socialLinks.map((socialLink: any) => (
                   <Link href={socialLink.href} key={Math.random()}>
                     <a className="p-2 rounded-full bg-primary-dark flex items-center ">
                       <Image
@@ -229,7 +229,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const response = await ApiClient({
       method: 'GET',
-      url: `/agent/${params?.id}`
+      url: `/agent/${params?.phone}`
     })
 
     return {

@@ -27,7 +27,7 @@ export interface IAgent {
 }
 
 interface EditAgentProps {
-  agent?: IAgent
+  agent?: any
 }
 
 const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
@@ -82,7 +82,7 @@ const EditAgent: NextPage<EditAgentProps> = ({ agent }) => {
       })
       setIsCallingApi(false)
       updateToast(true, `Success: ${response?.data.success}`, false)
-      if (agent) Router.push(`/agent/${agent.id}`)
+      if (agent) Router.push(`/المكاتب/${agent.user.phone}`)
     } catch (error: any) {
       setIsCallingApi(false)
       if (error.message === 'Name is a required field')

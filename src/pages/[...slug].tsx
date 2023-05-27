@@ -388,7 +388,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   if (
     params.slug[0] === 'post' ||
     params.slug[0] === 'agent' ||
-    params.slug[0] === 'admin'
+    params.slug[0] === 'admin' ||
+    params.slug[0] === 'المكاتب'
   )
     return {
       notFound: true // return a 404 page

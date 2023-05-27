@@ -5,11 +5,15 @@ import { parseJwtFromCookie, verifyJwt } from 'utils/jwtUtils'
 export default async function middleware(req: NextRequest) {
   const parsedCookie = req.cookies.get('token')
   const { pathname } = req.nextUrl
+
   let token
 
   if (parsedCookie) token = parseJwtFromCookie(parsedCookie)
 
-  if (pathname.startsWith('/account') || pathname.startsWith('/agent/edit')) {
+  if (
+    pathname.startsWith('/account') ||
+    pathname.startsWith('/%D8%A7%D9%84%D9%85%D9%83%D8%A7%D8%AA%D8%A8/edit')
+  ) {
     if (token) {
       try {
         await verifyJwt(token)

@@ -10,7 +10,7 @@ const Redirect = () => {
     const { query } = router
 
     if (query && query.success) {
-      if (query.redirect === 'true') router.push('/agent/edit')
+      if (query.redirect === 'true') router.push('/المكاتب/edit')
       else router.push(`/account?success=${router.query.success}`)
     }
   }, [router.isReady, router.query])

@@ -8,12 +8,12 @@ import ApiClient from 'utils/ApiClient'
 import { useRouter } from 'next/router'
 import { useStore } from 'store'
 import { useEffect, useRef, useState } from 'react'
-import { IAgent, ICredit, IPost } from 'interfaces'
+import { ICredit, IPost } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import calculateTimeLeft from 'utils/calculateTimeLeft'
 
 interface AccountType {
-  agent: IAgent | null
+  agent: any
   credits: ICredit
   posts: IPost[]
   archivedPosts: IPost[]
@@ -203,8 +203,8 @@ const MyPosts: NextPage<AccountType> = ({
               headline="رصيد اشتراك المكتب"
               items={agencyItems}
               ctaList={[
-                { title: 'بياناتي', href: '/agent/edit' },
-                { title: 'صفحتي', href: `/agent/${agent?.id}` }
+                { title: 'بياناتي', href: '/المكاتب/edit' },
+                { title: 'صفحتي', href: `/المكاتب/${agent?.user?.phone}` }
               ]}
             />
           )}

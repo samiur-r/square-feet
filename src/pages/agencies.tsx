@@ -86,6 +86,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
           Cookie: req.headers.cookie
         }
       })
+
       agent = response.data?.success?.agent
       credits = response.data?.success?.credits
     } catch (err) {

@@ -6,13 +6,11 @@ import { toBase64, placeholderImg } from 'utils/strToBase64'
 const AgencyCard = React.forwardRef(
   (
     {
-      id,
       name,
       phone,
       logo_url,
       socialLinks
     }: {
-      id: number
       name: string
       phone: string | undefined
       logo_url: string | undefined
@@ -23,7 +21,7 @@ const AgencyCard = React.forwardRef(
   ) => {
     return (
       <div className="grid grid-cols-3 md:grid-cols-1 place-items-center bg-white p-2 rounded-lg border border-gray-300 shadow-sm cursor-pointer w-max">
-        <Link href={`/agent/${id}`}>
+        <Link href={`/المكاتب/${phone}`}>
           <a>
             <div className="w-full flex justify-center md:mb-2">
               <div className="w-28 h-28 rounded-lg overflow-hidden relative">
@@ -43,7 +41,7 @@ const AgencyCard = React.forwardRef(
         </Link>
         <div className="col-span-2 place-items-center">
           <div className="w-full text-center">
-            <Link href={`/agent/${id}`}>
+            <Link href={`/المكاتب/${phone}`}>
               <a className="font-DroidArabicKufiBold text-sm md:text-base hover:text-primary hover:underline cursor-pointer">
                 {name}
               </a>

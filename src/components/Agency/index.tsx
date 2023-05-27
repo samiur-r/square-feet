@@ -152,8 +152,8 @@ const Agency: React.FC<{
                 headline="رصيد اشتراك المكتب"
                 items={agencyItems}
                 ctaList={[
-                  { title: 'بياناتي', href: '/agent/edit' },
-                  { title: 'صفحتي', href: `/agent/${agent.id}` }
+                  { title: 'بياناتي', href: '/المكاتب/edit' },
+                  { title: 'صفحتي', href: `/المكاتب/${agent.user.phone}` }
                 ]}
               />
             ) : (
@@ -188,7 +188,7 @@ const Agency: React.FC<{
           agents.map((agency: IAgent) => (
             <React.Fragment key={agency.id}>
               <AgencyCard
-                id={agency.id}
+                // id={agency.id}
                 name={agency.name}
                 phone={agency.phone}
                 logo_url={agency.logo_url}
