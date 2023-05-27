@@ -1,6 +1,16 @@
 const calculateTimeLeft = (dateString: string) => {
-  const targetDate = new Date(dateString)
-  const currentDate = new Date()
+  // const targetDate = new Date(dateString)
+  // const currentDate = new Date()
+
+  const targetDate = new Date(
+    new Date(Date.parse(dateString)).toLocaleString('en-US', {
+      timeZone: 'Asia/Kuwait'
+    })
+  )
+
+  const currentDate = new Date(
+    new Date().toLocaleString('en-US', { timeZone: 'Asia/Kuwait' })
+  )
 
   const timeDiff = targetDate.getTime() - currentDate.getTime()
 
