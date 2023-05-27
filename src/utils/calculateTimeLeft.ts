@@ -15,7 +15,7 @@ const calculateTimeLeft = (dateString: string) => {
   const timeDiff = targetDate.getTime() - currentDate.getTime()
 
   if (timeDiff <= 0) {
-    return 'Date has already passed.'
+    return '0 دقيقة'
   }
 
   const oneDay = 24 * 60 * 60 * 1000
