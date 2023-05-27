@@ -242,7 +242,7 @@ const Search: NextPage = () => {
   }
 
   return (
-    <div>
+    <div className="bg-custom-white-light min-h-screen">
       <Breadcrumbs
         breadcrumbsItems={
           locationsSelected && locationsSelected.length

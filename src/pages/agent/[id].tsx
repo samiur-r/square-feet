@@ -105,7 +105,7 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
   return (
     <div>
       <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />
-      <div className="dir-rtl pb-8">
+      <div className="dir-rtl pb-8 bg-custom-white-light">
         <div className="bg-primary-light flex flex-col md:flex-row gap-5 md:gap-10 justify-center items-center text-white px-5 py-8 rounded-b-lg md:rounded-none">
           <div className="w-40 h-32 md:w-46 md:h-32 rounded-lg overflow-hidden relative border">
             <Image
