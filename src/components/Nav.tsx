@@ -590,17 +590,14 @@ const Nav: React.FC = () => {
                 {isLoggedIn
                   ? mobileNavItemsAuth.map((item) => (
                       <Link href={`${item.href}`} key={item.title}>
-                        <a
-                          href={item.href}
-                          className={`${
-                            activeItemOnMobile === item.title &&
-                            'bg-primary-lighter text-primary'
-                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
-                        >
+                        <a href={item.href}>
                           <Popover.Button
                             type="submit"
                             // onClick={() => handleMobileNavChange(item)}
-                            className="flex gap-4 items-center"
+                            className={`${
+                              activeItemOnMobile === item.title &&
+                              'bg-primary-lighter text-primary'
+                            } w-full flex gap-4 font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                           >
                             <p
                               className={`${
@@ -631,17 +628,14 @@ const Nav: React.FC = () => {
                     ))
                   : mobileNavItems.map((item) => (
                       <Link href={`${item.href}`} key={item.title}>
-                        <a
-                          href={item.href}
-                          className={`${
-                            activeItemOnMobile === item.title &&
-                            'bg-primary-lighter text-primary'
-                          } flex font-DroidArabicKufiBold items-center justify-end pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
-                        >
+                        <a href={item.href}>
                           <Popover.Button
                             type="submit"
                             // onClick={() => handleMobileNavChange(item)}
-                            className="flex items-center gap-4"
+                            className={`${
+                              activeItemOnMobile === item.title &&
+                              'bg-primary-lighter text-primary'
+                            } flex items-center justify-end gap-4 w-full pr-5 py-3 ml-2 rounded-l-2xl hover:bg-primary-lighter cursor-pointer transition-colors ease-in-out duration-500`}
                           >
                             <p
                               className={`${
