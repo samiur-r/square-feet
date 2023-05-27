@@ -276,13 +276,13 @@ const Nav: React.FC = () => {
     setActiveItem(item.title)
   }
 
-  const handleMobileNavChange = (item: {
-    title: string
-    href: string
-    icon: string
-  }) => {
-    // setActiveItemOnMobile(item.title)
-  }
+  // const handleMobileNavChange = (item: {
+  //   title: string
+  //   href: string
+  //   icon: string
+  // }) => {
+  //   // setActiveItemOnMobile(item.title)
+  // }
 
   const handleActiveItem = (pathStr: string) => {
     switch (pathStr) {
@@ -640,7 +640,7 @@ const Nav: React.FC = () => {
                         >
                           <Popover.Button
                             type="submit"
-                            onClick={() => handleMobileNavChange(item)}
+                            // onClick={() => handleMobileNavChange(item)}
                             className="flex items-center gap-4"
                           >
                             <p

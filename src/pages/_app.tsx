@@ -25,7 +25,7 @@ const MyApp = ({
 
   return (
     <Provider createStore={createStore}>
-      <NextNProgress />
+      <NextNProgress options={{ showSpinner: false }} />
       {getLayout(<Component {...pageProps} />)}
     </Provider>
   )
