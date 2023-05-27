@@ -294,6 +294,10 @@ const Nav: React.FC = () => {
         setActiveItem('المكاتب')
         setActiveItemOnMobile('المكاتب')
         break
+      case '/agent/[phone]':
+        setActiveItem('المكاتب')
+        setActiveItemOnMobile('المكاتب')
+        break
       case '/account':
         setActiveItem('إعلاناتي')
         setActiveItemOnMobile('إعلاناتي')
