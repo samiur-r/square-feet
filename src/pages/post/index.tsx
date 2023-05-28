@@ -186,7 +186,7 @@ const CreatePost: NextPage<{
       await ApiClient({
         url: '/transaction',
         method: 'POST',
-        data: { payload }
+        data: { payload, postInfo }
       })
       await ApiClient({
         method: 'POST',

@@ -34,6 +34,8 @@ const Posts: NextPage<{
   const [whatsappMsg, setWhatsappMsg] = useState('')
   const [isActivePost, setIsActivePost] = useState(true)
 
+  const [postInfo, setPostInfo] = useState<IPost | undefined>(undefined)
+
   const { updateScrollYTo, updateHighlightedPost } = useStore()
 
   const router = useRouter()
@@ -76,7 +78,7 @@ const Posts: NextPage<{
         await navigator.share({
           // title: 'Shared from My App',
           // text: 'Check out this cool content!',
-          url: `${config.domain}/post/${post.id}`
+          url: `${config.domain}/post/${post?.id}`
         })
       } catch (error: any) {
         /* empty */
@@ -86,6 +88,7 @@ const Posts: NextPage<{
 
   useEffect(() => {
     if (post) {
+      setPostInfo(post)
       setWhatsappMsg(
         `${config.domain}/post/${post.id} السلام عليكم اذا ممكن ترسل تفاصيل هذا الإعلان في بو شملان وشكرا`
       )
@@ -105,12 +108,12 @@ const Posts: NextPage<{
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <div {...swipeHandlers}>
-      <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />
+      {postInfo && <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />}
       <div className="dir-rtl grid gap-8 pb-10">
         <div className="bg-primary-light flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-10 rounded-b-lg md:rounded-none">
-          <Title value={post?.title} light />
+          <Title value={postInfo?.title ?? ''} light />
           <div className="font-DroidArabicKufiBold font-bold text-lg md:text-xl">
-            {post?.price} دك
+            {postInfo?.price} دك
           </div>
           <div className="flex gap-3 dir-ltr mt-5 md:mt-0">
             <div className="flex items-center bg-primary-dark px-2 py-1 rounded-lg cursor-pointer">
@@ -124,7 +127,7 @@ const Posts: NextPage<{
             </div>
             <div className="flex flex-nowrap gap-2 items-center bg-primary-dark px-2 py-1 rounded-lg">
               <div className="md:text-base text-sm">
-                {post ? Math.floor(post.views) : ''}
+                {postInfo ? Math.floor(postInfo.views) : ''}
               </div>
               <Image
                 src="/images/eye-white.svg"
@@ -147,14 +150,14 @@ const Posts: NextPage<{
           </div>
         </div>
         <div className="container max-w-6xl text-center">
-          <div className="text-sm md:text-lg">{post?.description}</div>
+          <div className="text-sm md:text-lg">{postInfo?.description}</div>
           {isActivePost ? (
             <div className="flex gap-3 justify-center mt-5">
               <a
-                href={`tel:+965${post?.phone}`}
+                href={`tel:+965${postInfo?.phone}`}
                 className="bg-custom-green py-3 hover:opacity-90 transition-opacity duration-300 w-32 flex items-center justify-center gap-1 text-center text-white rounded-md"
               >
-                {post?.phone}
+                {postInfo?.phone}
                 <Image
                   src="/images/call-white.svg"
                   height={24}
@@ -164,7 +167,7 @@ const Posts: NextPage<{
                 />
               </a>
               <a
-                href={`https://wa.me/+965${post?.phone}?text=${whatsappMsg}`}
+                href={`https://wa.me/+965${postInfo?.phone}?text=${whatsappMsg}`}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -180,18 +183,21 @@ const Posts: NextPage<{
             </div>
           ) : (
             <div className="text-sm md:text-lg mt-3">
-              <p className="text-custom-red">{inactivePostText}</p>
+              <p className="text-custom-red">{inactivePostText ?? ''}</p>
               <p>
-                <Link href={relevantSearch}>
+                <Link href={relevantSearch ?? '#'}>
                   <a className="text-custom-gray mt-2">Relevant searches</a>
                 </Link>
               </p>
             </div>
           )}
-          {post && post.media && post.media.length && isActive ? (
+          {postInfo &&
+          postInfo.media &&
+          postInfo.media.length &&
+          isActivePost ? (
             <div className="mt-10 relative flex flex-col items-center">
               <div className="relative">
-                {isImage(post.media[0]) ? (
+                {isImage(postInfo.media[0]) ? (
                   <Image
                     key={Math.random()}
                     alt="post_image"
@@ -207,7 +213,7 @@ const Posts: NextPage<{
                     blurDataURL={`data:image/svg+xml;base64,${toBase64(
                       placeholderImg()
                     )}`}
-                    src={`${post.media[0]}`}
+                    src={`${postInfo.media[0]}`}
                   />
                 ) : (
                   // eslint-disable-next-line jsx-a11y/media-has-caption
@@ -220,14 +226,20 @@ const Posts: NextPage<{
                       setShowCarousel(true)
                     }}
                   >
-                    <source src={`${post.media[0]}#t=0.001`} type="video/mp4" />
                     <source
-                      src={`${post.media[0]}#t=0.001`}
+                      src={`${postInfo.media[0]}#t=0.001`}
+                      type="video/mp4"
+                    />
+                    <source
+                      src={`${postInfo.media[0]}#t=0.001`}
                       type="video/webm"
                     />
-                    <source src={`${post.media[0]}#t=0.001`} type="video/ogg" />
                     <source
-                      src={`${post.media[0]}#t=0.001`}
+                      src={`${postInfo.media[0]}#t=0.001`}
+                      type="video/ogg"
+                    />
+                    <source
+                      src={`${postInfo.media[0]}#t=0.001`}
                       type="video/quicktime"
                     />
                     Your browser does not support the video tag.
@@ -235,7 +247,7 @@ const Posts: NextPage<{
                 )}
               </div>
               <div className="mt-5 flex flex-wrap justify-center gap-5">
-                {post.media.map((src, index) =>
+                {postInfo.media.map((src, index) =>
                   isImage(src) ? (
                     <Image
                       key={Math.random()}
@@ -277,11 +289,11 @@ const Posts: NextPage<{
               </div>
             </div>
           ) : null}
-          {post && post.media && post.media.length ? (
+          {postInfo && postInfo.media && postInfo.media.length ? (
             <div>
               <Suspense fallback="...">
                 <DynamicCarousel
-                  media={post.media}
+                  media={postInfo.media}
                   open={showCarousel}
                   setOpen={setShowCarousel}
                   carouselCurrentIndex={carouselCurrentIndex}
