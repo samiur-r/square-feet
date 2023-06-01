@@ -137,8 +137,8 @@ const Search: NextPage = () => {
     ) => {
       if (node !== null) {
         window.scrollTo({
-          top: node.getBoundingClientRect().top,
-          behavior: 'smooth'
+          top: node.getBoundingClientRect().top
+          // behavior: 'smooth'
         })
       }
     },
