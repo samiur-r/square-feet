@@ -7,15 +7,19 @@ import Router from 'next/router'
 import { useStore } from 'store'
 import { Range, getTrackBackground } from 'react-range'
 
-import { PRICE_RANGES, propertyTypes, categories } from 'constant'
+import {
+  PRICE_RANGES,
+  propertyTypes as propertyTypeList,
+  categories
+} from 'constant'
 import ApiClient from 'utils/ApiClient'
 
-// const allProperTypeObj = {
-//   id: 0,
-//   title: 'الكل'
-// }
+const allProperTypeObj = {
+  id: 0,
+  title: 'الكل'
+}
 
-// propertyTypes.unshift(allProperTypeObj)
+const propertyTypes = [allProperTypeObj, ...propertyTypeList]
 
 interface FilterModalProps {
   showFilterModal: boolean

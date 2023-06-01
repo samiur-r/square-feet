@@ -175,6 +175,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                       onChange={(event) => setQuery(event.target.value)}
                       onFocus={onInputFocus}
                       onBlur={onInputBlur}
+                      defaultValue={selected?.title}
                     />
                     {!isHomePage && (
                       <label

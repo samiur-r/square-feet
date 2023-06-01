@@ -125,6 +125,7 @@ const Search: NextPage<PageProps> = ({
 
   const fetchPosts = async () => {
     setIsCallingApi(true)
+
     try {
       const response = await ApiClient({
         method: 'POST',
@@ -207,12 +208,16 @@ const Search: NextPage<PageProps> = ({
       href: `${selectedCategory?.title}`
     },
     {
-      title: `${selectedCategory?.title} في ${getStateTitleFromCity(
-        selectedLocations[0]
-      )}`,
-      href: `${selectedCategory?.title}/${getStateTitleFromCity(
-        selectedLocations[0]
-      )}`
+      title: `${selectedCategory?.title} في ${
+        selectedLocations && selectedLocations.length
+          ? getStateTitleFromCity(selectedLocations[0])
+          : ''
+      }`,
+      href: `${selectedCategory?.title}/${
+        selectedLocations && selectedLocations.length
+          ? getStateTitleFromCity(selectedLocations[0])
+          : ''
+      }`
     },
     selectedLocations &&
     selectedLocations.length &&
@@ -289,11 +294,11 @@ const Search: NextPage<PageProps> = ({
           <div ref={scroll as LegacyRef<HTMLDivElement>}>
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col flex-wrap gap-3 max-h-52">
             {similarSearches &&
               similarSearches.map((item) => (
                 <Link key={Math.random()} href={item.href}>
-                  <a className="text-primary cursor-pointer hover: underline w-28">
+                  <a className="text-primary cursor-pointer hover:underline">
                     {item.title}
                   </a>
                 </Link>
@@ -479,7 +484,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       data: {
         limit: 10,
         offset: 0,
-        location,
+        location: location ? [location] : null,
         propertyType,
         category
       }

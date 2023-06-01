@@ -275,38 +275,41 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                 </div>
                 <div
                   className={`${
-                    locationsSelected.length ? 'my-1' : 'm-0 hidden'
+                    locationsSelected && locationsSelected.length
+                      ? 'my-1'
+                      : 'm-0 hidden'
                   } flex flex-wrap justify-start`}
                 >
-                  {locationsSelected.map((location: LocationType) => (
-                    <div
-                      key={location.id}
-                      className="rounded-lg mt-2 ml-2 py-1 px-2 border border-primary text-primary bg-primary-lighter text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease"
-                    >
-                      {location.title}
-                      <button
-                        type="submit"
-                        className="bg-transparent hover focus:outline-none"
-                        // @ts-ignore
-                        onClick={() => removeLocation(location.id)}
+                  {locationsSelected &&
+                    locationsSelected.map((location: LocationType) => (
+                      <div
+                        key={location.id}
+                        className="rounded-lg mt-2 ml-2 py-1 px-2 border border-primary text-primary bg-primary-lighter text-sm flex align-center cursor-pointer active:bg-gray-300 transition duration-300 ease"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-4 h-4 ml-1"
+                        {location.title}
+                        <button
+                          type="submit"
+                          className="bg-transparent hover focus:outline-none"
+                          // @ts-ignore
+                          onClick={() => removeLocation(location.id)}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                      </button>
-                    </div>
-                  ))}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-4 h-4 ml-1"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
                 </div>
               </div>
               <Transition
@@ -327,7 +330,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                     <>
                       <Combobox.Option
                         className="relative cursor-default select-none"
-                        value="all"
+                        value=""
                         onClick={() => handleIsfilterComboboxOpen(false)}
                       >
                         <span

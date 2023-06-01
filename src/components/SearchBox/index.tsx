@@ -162,6 +162,7 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
           category: selectedCategory
         }
       })
+
       setIsCallingApi(false)
       updateFilteredPostsCount(response?.data?.count)
       updateFilteredPosts(response?.data?.posts)
