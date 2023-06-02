@@ -319,10 +319,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                 leaveTo="opacity-0"
                 afterLeave={() => setQuery('')}
               >
-                <Combobox.Options
-                  style={{ border: '10px solid red' }}
-                  className="fixed md:absolute pb-16 pr-2 overflow-y-scroll mt-0 top-16 left-0 h-screen w-screen md:max-h-96 md:w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
-                >
+                <Combobox.Options className="fixed md:absolute pb-16 pr-2 overflow-y-scroll mt-0 top-16 left-0 h-screen w-screen md:max-h-96 md:w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                   {filteredLocations &&
                   filteredLocations.length === 0 &&
                   query !== '' ? (
