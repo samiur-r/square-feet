@@ -126,7 +126,6 @@ const Search: NextPage<PageProps> = ({
   const isIntersecting = useOnScreen(ref)
 
   const fetchPosts = async () => {
-    console.log('fetching')
     setIsCallingApi(true)
 
     try {
@@ -294,9 +293,10 @@ const Search: NextPage<PageProps> = ({
       <div className="dir-rtl container max-w-5xl py-10 flex flex-col">
         <div className="flex flex-col gap-5">
           <FilterArticle articles={articles} />
-          <div ref={scroll as LegacyRef<HTMLDivElement>}>
+          <div>
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>
+          <div ref={scroll as LegacyRef<HTMLDivElement>} />
           <div className="flex flex-col flex-wrap gap-3 max-h-52">
             {similarSearches &&
               similarSearches.map((item) => (
