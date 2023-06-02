@@ -296,7 +296,6 @@ const Search: NextPage<PageProps> = ({
           <div>
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>
-          <div ref={scroll as LegacyRef<HTMLDivElement>} />
           <div className="flex flex-col flex-wrap gap-3 max-h-52">
             {similarSearches &&
               similarSearches.map((item) => (
