@@ -47,7 +47,6 @@ const Search: NextPage<PageProps> = ({
   selectedCategory,
   similarSearches
 }) => {
-  let offset = 10
   const {
     locationsSelected,
     propertyTypeSelected,
@@ -68,10 +67,11 @@ const Search: NextPage<PageProps> = ({
     updateFilteredArchivedPosts
   } = useStore()
   const [posts, setPosts] = useState<IPost[]>(retrievedPosts)
-  const [totalPosts] = useState<number | undefined>(count)
+  const [totalPosts, setTotalPosts] = useState<number | undefined>(undefined)
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [limit] = useState(10)
+  const [offset, setOffset] = useState(10)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
 
   useEffect(() => {
@@ -88,10 +88,12 @@ const Search: NextPage<PageProps> = ({
 
   useEffect(() => {
     updateFilteredPosts(posts)
+    setPostCount(posts.length)
   }, [posts])
 
   useEffect(() => {
     updateFilteredPostsCount(count)
+    setTotalPosts(count)
   }, [count])
 
   const router = useRouter()
@@ -124,6 +126,7 @@ const Search: NextPage<PageProps> = ({
   const isIntersecting = useOnScreen(ref)
 
   const fetchPosts = async () => {
+    console.log('fetching')
     setIsCallingApi(true)
 
     try {
@@ -139,7 +142,7 @@ const Search: NextPage<PageProps> = ({
         }
       })
       setIsCallingApi(false)
-      offset += 10
+      setOffset((curr) => curr + 10)
       setPosts([...posts, ...response.data.posts])
       setPostCount((curr) =>
         response.data?.posts?.length ? curr + response.data.posts.length : curr
@@ -425,6 +428,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       location = locations.find((element) => element.title === locationTitle)
     }
   })
+
+  if (!category)
+    return {
+      notFound: true // return a 404 page
+    }
 
   const similarSearches: Array<{ title: string; href: string }> = [
     {

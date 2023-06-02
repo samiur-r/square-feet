@@ -294,7 +294,7 @@ const CreatePost: NextPage<{
         behavior: 'smooth'
       })
       window.scrollTo({
-        top: 150,
+        top: 200,
         left: 0,
         behavior: 'smooth'
       })
