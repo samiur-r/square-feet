@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronRightIcon } from '@heroicons/react/20/solid'
@@ -7,28 +7,19 @@ import Router from 'next/router'
 import { useStore } from 'store'
 import { Range, getTrackBackground } from 'react-range'
 
-import {
-  PRICE_RANGES,
-  propertyTypes as propertyTypeList,
-  categories
-} from 'constant'
+import { PRICE_RANGES, categories } from 'constant'
 import ApiClient from 'utils/ApiClient'
-
-const allProperTypeObj = {
-  id: 0,
-  title: 'الكل'
-}
-
-const propertyTypes = [allProperTypeObj, ...propertyTypeList]
 
 interface FilterModalProps {
   showFilterModal: boolean
+  propertyTypeList: any
   setShowFilterModal: Dispatch<SetStateAction<boolean>>
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({
   showFilterModal,
+  propertyTypeList,
   setShowFilterModal,
   handleIsfilterComboboxOpen
 }) => {
@@ -44,6 +35,19 @@ const FilterModal: React.FC<FilterModalProps> = ({
   } = useStore()
   const [keyword, setKeyword] = useState('')
   const [isCallingApi, setIsCallingApi] = useState(false)
+  const [propertyTypes, setPropertyTypes] = useState<any>([])
+
+  useEffect(() => {
+    if (propertyTypeList) {
+      setPropertyTypes([
+        {
+          id: 0,
+          title: 'الكل'
+        },
+        ...propertyTypeList
+      ])
+    }
+  }, [propertyTypeList])
 
   const handleSearch = async () => {
     setIsCallingApi(true)
@@ -163,7 +167,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
                     <div className="text-end">نوع العقار</div>
                     <div className="flex flex-wrap flex-row-reverse gap-3 mt-3">
                       {propertyTypes &&
-                        propertyTypes.map((type) => (
+                        propertyTypes.map((type: any) => (
                           <button
                             type="submit"
                             key={type.id}

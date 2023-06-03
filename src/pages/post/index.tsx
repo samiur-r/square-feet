@@ -11,7 +11,7 @@ import { useStore } from 'store'
 import MediaUploader from 'components/MediaUploader'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
-import { locations, propertyTypes, categories } from 'constant'
+import { categories } from 'constant'
 import PackageModal from 'components/Package/PackageModal'
 import config from 'config'
 import aesEncrypt from 'utils/aesEncrypt'
@@ -22,7 +22,9 @@ const CreatePost: NextPage<{
   post?: IPost | undefined
   mode: string
   isStickyOnly: undefined | boolean
-}> = ({ post, mode, isStickyOnly }) => {
+  locationList: any
+  propertyTypes: any
+}> = ({ post, mode, isStickyOnly, locationList, propertyTypes }) => {
   const [scrollToTop, setScrollToTop] = useState(false)
   const { admin, user, updateToast } = useStore()
   const [cityErrors, setCityErrors] = useState<string[]>([])
@@ -210,8 +212,8 @@ const CreatePost: NextPage<{
   const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
 
-    const state = locations.filter(
-      (location) => location.id === selectedLocation?.state_id
+    const state = locationList.filter(
+      (location: any) => location.id === selectedLocation?.state_id
     )
 
     const postInfo = {
@@ -377,7 +379,7 @@ const CreatePost: NextPage<{
           }}
         >
           <AutoComplete
-            locations={locations}
+            locations={locationList}
             selectedLocation={selectedLocation}
             handleSetSelectedLocation={setSelectedLocation}
             isError={cityErrors.length >= 1}
@@ -565,6 +567,16 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   query
 }) => {
+  let responseLocations: any = []
+  try {
+    responseLocations = await ApiClient({
+      method: 'GET',
+      url: '/locations'
+    })
+  } catch (error) {
+    /* empty */
+  }
+
   if (query?.mode === 'edit') {
     try {
       const response = await ApiClient({
@@ -579,7 +591,9 @@ export const getServerSideProps: GetServerSideProps = async ({
       return {
         props: {
           post: response?.data?.success ? response?.data?.success : undefined,
-          mode: query.mode
+          mode: query.mode,
+          locationList: responseLocations.data?.locations || null,
+          propertyTypes: responseLocations.data?.propertyTypes || null
         }
       }
     } catch (error) {
@@ -627,7 +641,12 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 
   return {
-    props: { mode: query.mode, isStickyOnly }
+    props: {
+      mode: query.mode,
+      isStickyOnly,
+      locationList: responseLocations.data?.locations || null,
+      propertyTypes: responseLocations.data?.propertyTypes || null
+    }
   }
 }
 

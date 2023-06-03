@@ -2,22 +2,26 @@ import React, { useEffect, useState } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
 
 import Title from 'components/Title'
-import { IPost } from 'interfaces'
 import ApiClient from 'utils/ApiClient'
+import { useStore } from 'store'
 import PostCard from './PostCard'
 
-const Posts: React.FC<{ posts: IPost[]; totalPosts: number }> = ({
-  posts,
-  totalPosts
-}) => {
-  const [postList, setPostList] = useState(posts)
-  const [postCount, setPostCount] = useState(posts?.length || 0)
-  const [offset, setOffset] = useState(10)
-  const [limit] = useState(10)
+const Posts: React.FC<{ totalPosts: number }> = ({ totalPosts }) => {
+  const { indexPostCount, updateIndexPostCount } = useStore()
+
+  const [postList, setPostList] = useState<any>([])
+  const [postCount, setPostCount] = useState(0)
   const [isCallingApi, setIsCallingAPi] = useState(false)
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
+
+    let count = indexPostCount
+
+    if (offset === 0) {
+      updateIndexPostCount(0)
+      count = 0
+    }
 
     setIsCallingAPi(true)
     try {
@@ -28,21 +32,35 @@ const Posts: React.FC<{ posts: IPost[]; totalPosts: number }> = ({
 
       setIsCallingAPi(false)
       setPostList([...postList, ...response.data.posts])
-      setOffset((curr) => curr + 10)
+      updateIndexPostCount(count + response.data.posts.length)
     } catch (error) {
       /* empty */
     }
   }
 
   useEffect(() => {
-    setPostCount(postList?.length)
+    fetchPosts(indexPostCount ? Math.ceil(indexPostCount / 10) * 10 : 10, 0)
+
+    const handleBeforeUnload = (e: any) => {
+      e.preventDefault()
+      updateIndexPostCount(0)
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (postList && postList.length) setPostCount(postList.length)
   }, [postList])
 
   return (
     <div className="dir-rtl container max-w-3xl pt-5 md:pt-0 pb-10 bg-custom-white-light md:bg-white">
       <Title value="أحدث الإعلانات" />
       {postList &&
-        postList.map((post) => <PostCard key={post.id} post={post} />)}
+        postList.map((post: any) => <PostCard key={post.id} post={post} />)}
       {typeof totalPosts === 'number' && postCount >= totalPosts ? (
         <p className="text-center text-secondary font-DroidArabicKufiBold text-sm md:text-lg mt-8">
           انتهت نتائج البحث ولا يوجد المزيد من الاعلانات
@@ -52,7 +70,12 @@ const Posts: React.FC<{ posts: IPost[]; totalPosts: number }> = ({
           <button
             type="submit"
             className="bg-secondary rounded-lg w-full md:w-auto flex justify-center items-center py-3 md:py-4 px-8 text-white md:rounded-lg hover:opacity-90 transition-opacity duration-300"
-            onClick={fetchPosts}
+            onClick={() =>
+              fetchPosts(
+                10,
+                indexPostCount ? Math.ceil(indexPostCount / 10) * 10 : 10
+              )
+            }
           >
             <span>المزيد</span>
             {isCallingApi ? (

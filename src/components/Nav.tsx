@@ -11,7 +11,6 @@ import Image from 'next/image'
 import Router, { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
-import { locations } from 'constant'
 import { useStore } from 'store'
 import ApiClient from 'utils/ApiClient'
 import CTA from './CTA'
@@ -246,6 +245,8 @@ const Nav: React.FC = () => {
   const { user, updateScrollYTo } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [newPostBtnText, setNewPostBtnText] = useState('إعلان مجانًا')
+  const [propertyTypes, setPropertyTypes] = useState<any>([])
+  const [locations, setLocations] = useState<any>([])
 
   useEffect(() => {
     if (user) setIsLoggedIn(true)
@@ -338,11 +339,26 @@ const Nav: React.FC = () => {
     }
   }
 
+  const fetchPropertyTypesAndLocations = async () => {
+    if (propertyTypes.length || locations.length) return
+    try {
+      const responseLocations = await ApiClient({
+        method: 'GET',
+        url: '/locations'
+      })
+      setLocations(responseLocations.data?.locations || [])
+      setPropertyTypes(responseLocations.data?.propertyTypes || [])
+    } catch (error) {
+      /* empty */
+    }
+  }
+
   useEffect(() => {
     handleActiveItem(pathname)
     setIsFilterPage(pathname === '/search' || pathname === '/[...slug]')
     setIsPostPage(pathname === '/post/[id]')
     getNewPostBtnText()
+    fetchPropertyTypesAndLocations()
   }, [pathname])
 
   const handleSearch = async (val: { title?: string; href: any }) => {
@@ -365,6 +381,7 @@ const Nav: React.FC = () => {
           {isFilterPage && (
             <Suspense fallback="...">
               <DynamicFilterAutoComplete
+                propertyTypes={propertyTypes}
                 locations={locations}
                 handleIsfilterComboboxOpen={setIsLocationDropDownOpen}
               />

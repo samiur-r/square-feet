@@ -10,6 +10,7 @@ import { Combobox, Transition } from '@headlessui/react'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
 import { LocationType } from 'interfaces'
+import { useStore } from 'store'
 
 interface AutoCompleteProps {
   locations: LocationType[]
@@ -32,6 +33,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   handleCanUpdateFilterAutoCompleteShow,
   handleSetSelectedLocation
 }) => {
+  const { updateToast } = useStore()
+
   const [selected, setSelected] = useState<LocationType | undefined>(
     selectedLocation as LocationType
   )
@@ -48,8 +51,9 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   }, [selected])
 
   useEffect(() => {
-    if (isHomePage && handleSetSelectedLocation)
+    if (isHomePage && handleSetSelectedLocation) {
       handleSetSelectedLocation(locationsSelected)
+    }
   }, [locationsSelected])
 
   const removeLocation = (id: number) => {
@@ -62,10 +66,19 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const handleLocationChanged = (
     id: number,
     title: string,
-    stateId: number | null
+    stateId: number | null,
+    count: number
   ) => {
+    if (count === 0 && isHomePage) {
+      updateToast(
+        true,
+        'Your selected city has zero post. Please choose another',
+        true
+      )
+      return
+    }
     if (stateId === null)
-      setLocationsSelected([{ id, title, state_id: stateId }])
+      setLocationsSelected([{ id, title, state_id: stateId, count }])
     else {
       const isExists = locationsSelected.find(
         // @ts-ignore
@@ -79,7 +92,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
         (location: { state_id: number | null }) => location.state_id !== null
       )
 
-      setLocationsSelected([...onlyCities, { id, title, state_id: stateId }])
+      setLocationsSelected([
+        ...onlyCities,
+        { id, title, state_id: stateId, count }
+      ])
     }
   }
 
@@ -305,7 +321,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
                                 // TODO: fix
                                 location?.id as number,
                                 location.title as string,
-                                (location.state_id as number) || null
+                                (location.state_id as number) || null,
+                                location?.count as number
                               )
                             }
                           >

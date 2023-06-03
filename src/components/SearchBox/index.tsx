@@ -5,20 +5,15 @@ import ListBox from 'components/ListBox'
 import AutoComplete from 'components/AutoComplete'
 import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
-import { propertyTypes, categories } from 'constant'
+import { categories } from 'constant'
 import { LocationType } from 'interfaces'
 import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 
-const propertyTypeList = [
-  {
-    id: 0,
-    title: 'الكل'
-  },
-  ...propertyTypes
-]
-
-const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
+const SearchBox: React.FC<{
+  locations: LocationType[]
+  propertyTypes: any
+}> = ({ locations, propertyTypes }) => {
   const {
     locationsSelected,
     propertyTypeSelected,
@@ -27,7 +22,8 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
     setPropertyTypeSelected,
     setCategorySelected,
     updateFilteredPosts,
-    updateFilteredPostsCount
+    updateFilteredPostsCount,
+    updateToast
   } = useStore()
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -52,6 +48,19 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isSearchDone, setIsSearchDone] = useState(false)
+  const [propertyTypeList, setPropertyTypeList] = useState<any>([])
+
+  useEffect(() => {
+    if (propertyTypes) {
+      setPropertyTypeList([
+        {
+          id: 0,
+          title: 'الكل'
+        },
+        ...propertyTypes
+      ])
+    }
+  }, [propertyTypes])
 
   useEffect(() => {
     setSelectedLocation(locationsSelected)
@@ -68,8 +77,17 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
   const handleLocationChanged = (
     id: number,
     title: string,
-    stateId: number | null
+    stateId: number | null,
+    count: number
   ) => {
+    if (count === 0) {
+      updateToast(
+        true,
+        'Your selected city has zero post. Please choose another',
+        true
+      )
+      return
+    }
     if (stateId === null)
       setSelectedLocation([{ id, title, state_id: stateId }])
     else {
@@ -264,6 +282,7 @@ const SearchBox: React.FC<{ locations: LocationType[] }> = ({ locations }) => {
         <div className="fixed md:hidden w-screen h-full z-20 pt-3 px-5 bg-white top-0 left-0">
           <FilterAutoComplete
             locations={locations}
+            propertyTypes={propertyTypes}
             handleIsfilterComboboxOpen={setShowFilterCombobox}
             showOptions
             handleLocationChanged={handleLocationChanged}

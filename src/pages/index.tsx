@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { LegacyRef, useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import Hero from 'components/Home/Hero'
@@ -17,10 +17,10 @@ import { IPost, LocationType } from 'interfaces'
 import { useStore } from 'store'
 
 const Home: NextPage<{
-  posts: IPost[]
   totalPosts: number
   locations: LocationType[]
-}> = ({ posts, totalPosts, locations }) => {
+  propertyTypes: any
+}> = ({ totalPosts, locations, propertyTypes }) => {
   const router = useRouter()
 
   const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
@@ -65,12 +65,12 @@ const Home: NextPage<{
       <div className="h-[calc(100vh_-_8rem)] md:h-[calc(100vh_-_6rem)] md:mb-10 overflow-hidden flex flex-col justify-between bg-custom-white-lighter">
         <div>
           <Hero />
-          <SearchBox locations={locations} />
+          <SearchBox locations={locations} propertyTypes={propertyTypes} />
         </div>
         <Banner />
       </div>
       {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
-      <Posts posts={posts} totalPosts={totalPosts} />
+      <Posts totalPosts={totalPosts} />
       <Guide />
       <Cards />
       <div className="bg-primary grid gap-8 py-8">
@@ -97,9 +97,9 @@ export const getStaticProps: GetServerSideProps = async () => {
       props: {
         posts: response.data.posts,
         totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0,
-        locations: responseLocations.data?.locations || null
+        propertyTypes: responseLocations.data?.propertyTypes || null
       },
-      revalidate: 60
+      revalidate: 20
     }
   } catch (error) {
     /* empty */

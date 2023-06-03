@@ -25,17 +25,20 @@ import { useStore } from 'store'
 
 interface FilterAutoCompleteProps {
   locations: LocationType[]
+  propertyTypes: any
   handleIsfilterComboboxOpen: Dispatch<SetStateAction<boolean>>
   handleLocationChanged?: (
     id: number,
     title: string,
-    state_id: number | null
+    state_id: number | null,
+    count: number
   ) => void
   showOptions?: boolean
 }
 
 const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   locations,
+  propertyTypes,
   handleIsfilterComboboxOpen,
   handleLocationChanged,
   showOptions
@@ -45,7 +48,8 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     propertyTypeSelected,
     categorySelected,
     updateCanFetchPosts,
-    setLocationsSelected: updateLocationsSelected
+    setLocationsSelected: updateLocationsSelected,
+    updateToast
   } = useStore()
 
   const [selected, setSelected] = useState(undefined)
@@ -101,8 +105,17 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const handleChangeLocation = (
     id: number,
     title: string,
-    stateId: number | null
+    stateId: number | null,
+    count: number
   ) => {
+    if (count === 0) {
+      updateToast(
+        true,
+        'Your selected city has zero post. Please choose another',
+        true
+      )
+      return
+    }
     if (firstRender) setFirstRender(false)
     if (stateId === null)
       setLocationsSelected([{ id, title, state_id: stateId }])
@@ -154,10 +167,21 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const handleLocationChoosed = (location: LocationType) => {
     handleIsfilterComboboxOpen(false)
     if (handleLocationChanged)
-      // @ts-ignore
-      handleLocationChanged(location.id, location.title, location.state_id)
-    // @ts-ignore
-    else handleChangeLocation(location.id, location.title, location.state_id)
+      handleLocationChanged(
+        // @ts-ignore
+        location.id,
+        location.title,
+        location.state_id,
+        location.count
+      )
+    else
+      handleChangeLocation(
+        // @ts-ignore
+        location.id,
+        location.title,
+        location.state_id,
+        location.count
+      )
   }
 
   useEffect(() => {
@@ -380,6 +404,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
       </Combobox>
       <Suspense fallback="...">
         <FilterModal
+          propertyTypeList={propertyTypes}
           showFilterModal={showFilterModal}
           setShowFilterModal={setShowFilterModal}
           handleIsfilterComboboxOpen={handleIsfilterComboboxOpen}
