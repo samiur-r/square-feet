@@ -25,7 +25,6 @@ const getStateTitleFromCity = (locationObj: LocationType) => {
 }
 
 interface PageProps {
-  retrievedPosts: IPost[]
   count: number
   articles: string[]
   metaTitle: string
@@ -37,7 +36,6 @@ interface PageProps {
 }
 
 const Search: NextPage<PageProps> = ({
-  retrievedPosts,
   count,
   articles,
   metaTitle,
@@ -53,11 +51,11 @@ const Search: NextPage<PageProps> = ({
     categorySelected,
     scrollYTo,
     scrollPosition,
+    filterPostCount,
+    updateFilterPostCount,
     setLocationsSelected,
     setPropertyTypeSelected,
     setCategorySelected,
-    updateFilteredPostsCount,
-    updateFilteredPosts,
     updateScrollYTo,
     updateScrollPosition,
     setArchivedLocationsSelected,
@@ -66,12 +64,11 @@ const Search: NextPage<PageProps> = ({
     updateFilteredArchivedPostsCount,
     updateFilteredArchivedPosts
   } = useStore()
-  const [posts, setPosts] = useState<IPost[]>(retrievedPosts)
+  const [posts, setPosts] = useState<IPost[]>([])
   const [totalPosts, setTotalPosts] = useState<number | undefined>(undefined)
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
-  const [limit] = useState(10)
-  const [offset, setOffset] = useState(10)
+  const [isFirstRender, setIsFirstRender] = useState(true)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
 
   useEffect(() => {
@@ -87,12 +84,10 @@ const Search: NextPage<PageProps> = ({
   }, [selectedCategory])
 
   useEffect(() => {
-    updateFilteredPosts(posts)
     setPostCount(posts.length)
   }, [posts])
 
   useEffect(() => {
-    updateFilteredPostsCount(count)
     setTotalPosts(count)
   }, [count])
 
@@ -112,21 +107,19 @@ const Search: NextPage<PageProps> = ({
     }
   }, [])
 
-  useEffect(() => {
-    if (scrollYTo) {
-      window.scrollTo({
-        top: scrollPosition,
-        left: 0,
-        behavior: 'smooth'
-      })
-    }
-  }, [])
-
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (limit: number, offset: number) => {
+    if (totalPosts && postCount >= totalPosts) return
     setIsCallingApi(true)
+
+    let countPost = filterPostCount
+
+    if (offset === 0) {
+      updateFilterPostCount(0)
+      countPost = 0
+    }
 
     try {
       const response = await ApiClient({
@@ -141,24 +134,49 @@ const Search: NextPage<PageProps> = ({
         }
       })
       setIsCallingApi(false)
-      setOffset((curr) => curr + 10)
       setPosts([...posts, ...response.data.posts])
-      setPostCount((curr) =>
-        response.data?.posts?.length ? curr + response.data.posts.length : curr
-      )
+      updateFilterPostCount(countPost + response.data.posts.length)
+      setIsFirstRender(false)
     } catch (error) {
       setIsCallingApi(false)
     }
   }
 
   useEffect(() => {
-    if (isIntersecting) {
+    if (isIntersecting && !isFirstRender) {
       if (totalPosts && postCount < totalPosts) {
         setIsCallingApi(true)
-        fetchPosts()
+        fetchPosts(
+          10,
+          filterPostCount ? Math.ceil(filterPostCount / 10) * 10 : 10
+        )
       }
     }
   }, [isIntersecting])
+
+  useEffect(() => {
+    if (scrollYTo) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }, 200)
+    }
+
+    fetchPosts(filterPostCount ? Math.ceil(filterPostCount / 10) * 10 : 10, 0)
+
+    const handleBeforeUnload = (e: any) => {
+      e.preventDefault()
+      updateFilterPostCount(0)
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [])
 
   const scroll = useCallback(
     (
@@ -296,7 +314,6 @@ const Search: NextPage<PageProps> = ({
           <div>
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>
-          {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
           <div className="flex flex-col flex-wrap gap-3 max-h-52">
             {similarSearches &&
               similarSearches.map((item) => (
@@ -489,10 +506,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   try {
     const response = await ApiClient({
       method: 'POST',
-      url: '/search',
+      url: '/search/count',
       data: {
-        limit: 10,
-        offset: 0,
         location: location ? [location] : null,
         propertyType,
         category
@@ -509,15 +524,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       }
     })
 
-    const retrievedPosts = response.data?.posts || []
-    const count = response.data?.count || 0
+    const count = response.data?.totalPosts || 0
     const articles = responseArticleAndMeta.data?.articles || []
     const metaTitle = responseArticleAndMeta.data?.meta_title || ''
     const metaDescription = responseArticleAndMeta.data?.meta_description || ''
 
     return {
       props: {
-        retrievedPosts,
         count,
         articles,
         metaTitle,

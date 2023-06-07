@@ -15,7 +15,6 @@ import calculateTimeLeft from 'utils/calculateTimeLeft'
 interface AccountType {
   agent: any
   credits: ICredit
-  posts: IPost[]
   archivedPosts: IPost[]
   totalPosts: number
   totalArchivePosts: number
@@ -24,7 +23,6 @@ interface AccountType {
 const MyPosts: NextPage<AccountType> = ({
   agent,
   credits,
-  posts,
   archivedPosts,
   totalPosts,
   totalArchivePosts
@@ -33,9 +31,11 @@ const MyPosts: NextPage<AccountType> = ({
   const {
     scrollYTo,
     scrollPosition,
+    accountPostCount,
     updateScrollYTo,
     updateToast,
-    updateScrollPosition
+    updateScrollPosition,
+    updateAccountPostCount
   } = useStore()
   const router = useRouter()
   // const expiredDate = agent
@@ -44,8 +44,9 @@ const MyPosts: NextPage<AccountType> = ({
   // const hours = expiredDate?.getHours().toString().padStart(2, '0')
   // const minutes = expiredDate?.getMinutes().toString().padStart(2, '0')
 
-  const [postList, setPostList] = useState(posts)
-  const [postCount, setPostCount] = useState(posts?.length || 0)
+  const [postList, setPostList] = useState<any>([])
+  const [postCount, setPostCount] = useState(0)
+  const [isFirstRender, setIsFirstRender] = useState(true)
 
   const [archivePostList, setArchivePostList] = useState(archivedPosts)
   const [archivePostCount, setArchivePostCount] = useState(
@@ -61,30 +62,6 @@ const MyPosts: NextPage<AccountType> = ({
   const isIntersecting = useOnScreen(ref)
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
-    }
-
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    // Cleanup the event listener
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      updateScrollYTo(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (scrollYTo) {
-      window.scrollTo({
-        top: scrollPosition,
-        left: 0,
-        behavior: 'smooth'
-      })
-    }
-  }, [])
-
-  useEffect(() => {
     if (agent) {
       const timeLeft = calculateTimeLeft(
         agent.subscription_ends_date.toString()
@@ -93,15 +70,26 @@ const MyPosts: NextPage<AccountType> = ({
     }
   }, [agent])
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (limitNum: number, offsetNum: number) => {
+    if (totalPosts && postCount >= totalPosts) return
+    setIsCallingAPi(true)
+
+    let countPost = accountPostCount
+
+    if (offset === 0) {
+      updateAccountPostCount(0)
+      countPost = 0
+    }
+
     try {
       const response = await ApiClient({
         method: 'POST',
-        url: `/post/get-many?limit=${limit}&offset=${offset}`
+        url: `/post/get-many?limit=${limitNum}&offset=${offsetNum}`
       })
       setIsCallingAPi(false)
       setPostList([...postList, ...response.data.posts])
-      setOffset((curr) => curr + 10)
+      updateAccountPostCount(countPost + response.data.posts.length)
+      setIsFirstRender(false)
     } catch (error) {
       /* empty */
     }
@@ -122,7 +110,38 @@ const MyPosts: NextPage<AccountType> = ({
   }
 
   useEffect(() => {
-    if (isIntersecting) {
+    if (scrollYTo) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }, 200)
+    }
+
+    fetchPosts(accountPostCount ? Math.ceil(accountPostCount / 10) * 10 : 10, 0)
+
+    const handleRouteChange = () => {
+      updateScrollPosition(window.scrollY)
+    }
+    const handleBeforeUnload = (e: any) => {
+      e.preventDefault()
+      updateAccountPostCount(0)
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      updateScrollYTo(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isIntersecting && !isFirstRender) {
       if (showArchivedPosts) {
         if (totalArchivePosts && archivePostCount < totalArchivePosts) {
           setIsCallingAPi(true)
@@ -130,7 +149,10 @@ const MyPosts: NextPage<AccountType> = ({
         }
       } else if (totalPosts && postCount < totalPosts) {
         setIsCallingAPi(true)
-        fetchPosts()
+        fetchPosts(
+          10,
+          accountPostCount ? Math.ceil(accountPostCount / 10) * 10 : 10
+        )
       }
     }
   }, [isIntersecting])
@@ -242,7 +264,7 @@ const MyPosts: NextPage<AccountType> = ({
               ))
             : postList &&
               postList.length > 0 &&
-              postList.map((post) => (
+              postList.map((post: any) => (
                 <PostCard key={post.id} post={post} showActions />
               ))}
           <div ref={ref} />
@@ -311,7 +333,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       props: {
         agent: response.data?.success?.agent,
         credits: response.data?.success?.credits,
-        posts: response.data?.success?.posts,
         archivedPosts: response.data?.success?.archivePosts,
         totalPosts: response.data?.success?.totalPosts
           ? response.data?.success?.totalPosts

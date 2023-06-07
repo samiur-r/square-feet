@@ -49,7 +49,9 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     categorySelected,
     updateCanFetchPosts,
     setLocationsSelected: updateLocationsSelected,
-    updateToast
+    updateToast,
+    updateFilterPostCount,
+    updateIsSearchFromFilterModal
   } = useStore()
 
   const [selected, setSelected] = useState(undefined)
@@ -63,6 +65,7 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
   const [locationsSelected, setLocationsSelected] = useState<LocationType[]>([])
 
   const removeLocation = (id: number) => {
+    if (firstRender) setFirstRender(false)
     setLocationsSelected(
       // @ts-ignore
       locationsSelected.filter((location: { id: number }) => location.id !== id)
@@ -82,16 +85,18 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
 
   useEffect(() => {
     if (!showOptions && !firstRender) {
+      updateLocationsSelected(locationsSelected)
+      updateIsSearchFromFilterModal(false)
       if (
         locationsSelected &&
         locationsSelected.length <= 1 &&
         locationsSelected[0]
       ) {
+        updateFilterPostCount(0)
         redirectToFilter(locationsSelected[0].title as string)
       }
 
       updateCanFetchPosts(true)
-      updateLocationsSelected(locationsSelected)
       Router.push('/search')
     }
   }, [locationsSelected])
@@ -370,30 +375,31 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
                           كل مناطق الكويت
                         </span>
                       </Combobox.Option>
-                      {filteredLocations.map((location) => (
-                        <Combobox.Option
-                          key={location.id}
-                          className="relative cursor-default select-none"
-                          value={location}
-                          onClick={() => handleLocationChoosed(location)}
-                        >
-                          {location.state_id !== null && (
-                            <span className="absolute left-5 top-1 text-primary">
-                              ({location.count})
-                            </span>
-                          )}
-                          <span
-                            className={`${
-                              location.state_id === null
-                                ? 'text-black'
-                                : 'text-primary'
-                            } 
-                             hover:bg-gray-100 font-DroidArabicKufiBold text-base block truncate py-2 pr-4 cursor-pointer`}
+                      {filteredLocations &&
+                        filteredLocations.map((location) => (
+                          <Combobox.Option
+                            key={location.id}
+                            className="relative cursor-default select-none"
+                            value={location}
+                            onClick={() => handleLocationChoosed(location)}
                           >
-                            {location.title}
-                          </span>
-                        </Combobox.Option>
-                      ))}
+                            {location.state_id !== null && (
+                              <span className="absolute left-5 top-1 text-primary">
+                                ({location.count})
+                              </span>
+                            )}
+                            <span
+                              className={`${
+                                location.state_id === null
+                                  ? 'text-black'
+                                  : 'text-primary'
+                              } 
+                             hover:bg-gray-100 font-DroidArabicKufiBold text-base block truncate py-2 pr-4 cursor-pointer`}
+                            >
+                              {location.title}
+                            </span>
+                          </Combobox.Option>
+                        ))}
                     </>
                   )}
                 </Combobox.Options>

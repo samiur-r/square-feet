@@ -7,7 +7,6 @@ import FilterAutoComplete from 'components/FilterAutoComplete'
 import CTA from 'components/CTA'
 import { categories } from 'constant'
 import { LocationType } from 'interfaces'
-import ApiClient from 'utils/ApiClient'
 import { useStore } from 'store'
 
 const SearchBox: React.FC<{
@@ -21,9 +20,8 @@ const SearchBox: React.FC<{
     setLocationsSelected,
     setPropertyTypeSelected,
     setCategorySelected,
-    updateFilteredPosts,
-    updateFilteredPostsCount,
-    updateToast
+    updateToast,
+    updateIsSearchFromFilterModal
   } = useStore()
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -47,7 +45,6 @@ const SearchBox: React.FC<{
     useState(false)
   const [showFilterCombobox, setShowFilterCombobox] = useState(false)
   const [isCallingApi, setIsCallingApi] = useState(false)
-  const [isSearchDone, setIsSearchDone] = useState(false)
   const [propertyTypeList, setPropertyTypeList] = useState<any>([])
 
   useEffect(() => {
@@ -111,15 +108,15 @@ const SearchBox: React.FC<{
     if (canUpdateFilterAutoCompleteShow) setShowFilterCombobox(true)
   }, [canUpdateFilterAutoCompleteShow])
 
-  const nextUrl = () => {
+  const nextUrl = (locationObj: any) => {
     let url = ''
-    if (locationsSelected && locationsSelected?.length < 2) {
+    if ((locationObj && locationObj?.length < 2) || !locationObj) {
       url = `/${categorySelected?.title}`
       if (propertyTypeSelected && propertyTypeSelected.id !== 0)
         url = `${url}/${propertyTypeSelected?.title}`
-      if (locationsSelected.length === 1) {
-        const location = locationsSelected[0].title
-          ? locationsSelected[0].title.replace(/\s+/g, '-')
+      if (locationObj.length === 1) {
+        const location = locationObj[0].title
+          ? locationObj[0].title.replace(/\s+/g, '-')
           : ''
         url = `${url}/${location}`
       }
@@ -130,7 +127,6 @@ const SearchBox: React.FC<{
 
   const handleSearch = async () => {
     setIsCallingApi(true)
-    setIsSearchDone(false)
 
     let location: string | any[] | undefined
     let propertyType: { id: number; title: string } | undefined
@@ -144,9 +140,10 @@ const SearchBox: React.FC<{
     if (selectedPropertyType?.id === 0) propertyType = undefined
     else propertyType = selectedPropertyType
 
-    setLocationsSelected(selectedLocation)
+    setLocationsSelected(location || [])
     setPropertyTypeSelected(selectedPropertyType)
     setCategorySelected(selectedCategory)
+    updateIsSearchFromFilterModal(false)
 
     if (!location || (location && location.length <= 1)) {
       setIsCallingApi(false)
@@ -167,35 +164,10 @@ const SearchBox: React.FC<{
       Router.push(url)
       return
     }
-
-    try {
-      const response = await ApiClient({
-        method: 'POST',
-        url: '/search',
-        data: {
-          limit: 10,
-          offset: 0,
-          location,
-          propertyType,
-          category: selectedCategory
-        }
-      })
-
-      setIsCallingApi(false)
-      updateFilteredPostsCount(response?.data?.count)
-      updateFilteredPosts(response?.data?.posts)
-      setIsSearchDone(true)
-    } catch (error) {
-      setIsCallingApi(false)
-    }
+    const url = nextUrl(location)
+    setIsCallingApi(false)
+    Router.push(encodeURI(url))
   }
-
-  useEffect(() => {
-    if (isSearchDone) {
-      const url = nextUrl()
-      Router.push(encodeURI(url))
-    }
-  }, [isSearchDone])
 
   return (
     <>

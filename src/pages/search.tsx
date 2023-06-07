@@ -13,19 +13,18 @@ import { locations } from 'constant'
 import Router, { useRouter } from 'next/router'
 
 const Search: NextPage = () => {
-  let resetFilteredPosts = false
-  let offset = 10
   const {
-    filteredPosts,
-    totalFilteredPosts,
+    searchPostCount,
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
     canFetchPosts,
     scrollYTo,
     scrollPosition,
-    updateFilteredPostsCount,
-    updateFilteredPosts,
+    priceRangeSelected,
+    keyword,
+    isSearchFromFilterModal,
+    updateSearchPostCount,
     updateCanFetchPosts,
     updateScrollYTo,
     updateScrollPosition,
@@ -33,54 +32,33 @@ const Search: NextPage = () => {
     setArchivedPropertyTypeSelected,
     setArchivedCategorySelected,
     updateFilteredArchivedPostsCount,
-    updateFilteredArchivedPosts
+    updateFilteredArchivedPosts,
+    updateIsSearchFromFilterModal
   } = useStore()
   const [posts, setPosts] = useState<IPost[]>([])
   const [totalPosts, setTotalPosts] = useState<number | undefined>()
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
-  const [limit] = useState(10)
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
   const router = useRouter()
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
-    }
+    setPostCount(posts.length)
+  }, [posts])
 
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    // Cleanup the event listener
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      updateScrollYTo(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (scrollYTo) {
-      window.scrollTo({
-        top: scrollPosition,
-        left: 0,
-        behavior: 'smooth'
-      })
-    }
-  }, [])
-
-  useEffect(() => {
-    setPosts(filteredPosts)
-    setPostCount(filteredPosts.length)
-  }, [filteredPosts])
-
-  useEffect(() => {
-    setTotalPosts(totalFilteredPosts)
-  }, [totalFilteredPosts])
-
-  const fetchPosts = async () => {
+  const fetchPosts = async (limit: number, offset: number) => {
+    if (!canFetchPosts && totalPosts && postCount >= totalPosts) return
     setIsCallingApi(true)
+    let countPost = searchPostCount
+
+    if (offset === 0) {
+      updateSearchPostCount(0)
+      countPost = 0
+    }
+
     try {
       const response = await ApiClient({
         method: 'POST',
@@ -90,17 +68,21 @@ const Search: NextPage = () => {
           offset,
           location: locationsSelected,
           propertyType: propertyTypeSelected,
-          category: categorySelected
+          category: categorySelected,
+          keyword: isSearchFromFilterModal ? keyword : undefined,
+          priceRange: isSearchFromFilterModal
+            ? {
+                min: priceRangeSelected[0],
+                max: priceRangeSelected[1]
+              }
+            : undefined
         }
       })
       setIsCallingApi(false)
-      offset += 10
-      updateFilteredPostsCount(response?.data?.count)
-      updateFilteredPosts(
-        resetFilteredPosts
-          ? response.data.posts
-          : [...filteredPosts, ...response.data.posts]
-      )
+      if (canFetchPosts) setPosts(response.data.posts)
+      else setPosts([...posts, ...response.data.posts])
+      setTotalPosts(response?.data?.count)
+      updateSearchPostCount(countPost + response.data.posts.length)
       updateCanFetchPosts(false)
     } catch (error) {
       setIsCallingApi(false)
@@ -110,18 +92,19 @@ const Search: NextPage = () => {
   useEffect(() => {
     if (isIntersecting && !canFetchPosts) {
       if (totalPosts && postCount < totalPosts) {
-        resetFilteredPosts = false
         setIsCallingApi(true)
-        fetchPosts()
+        fetchPosts(
+          10,
+          searchPostCount ? Math.ceil(searchPostCount / 10) * 10 : 10
+        )
       }
     }
   }, [isIntersecting])
 
   useEffect(() => {
     if (canFetchPosts) {
-      offset = 0
-      resetFilteredPosts = true
-      fetchPosts()
+      setPosts([])
+      fetchPosts(10, 0)
     }
   }, [canFetchPosts])
 
@@ -144,6 +127,38 @@ const Search: NextPage = () => {
     },
     []
   )
+
+  useEffect(() => {
+    if (scrollYTo) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }, 200)
+    }
+
+    fetchPosts(searchPostCount ? Math.ceil(searchPostCount / 10) * 10 : 10, 0)
+
+    const handleRouteChange = () => {
+      updateScrollPosition(window.scrollY)
+    }
+    const handleBeforeUnload = (e: any) => {
+      e.preventDefault()
+      updateSearchPostCount(0)
+      updateIsSearchFromFilterModal(false)
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      updateScrollYTo(false)
+    }
+  }, [])
 
   const getStateTitleFromCity = (locationObj: LocationType) => {
     if (locationObj?.id === undefined) return ''

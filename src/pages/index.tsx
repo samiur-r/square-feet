@@ -95,8 +95,8 @@ export const getStaticProps: GetServerSideProps = async () => {
 
     return {
       props: {
-        posts: response.data.posts,
         totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0,
+        locations: responseLocations.data?.locations || null,
         propertyTypes: responseLocations.data?.propertyTypes || null
       },
       revalidate: 20

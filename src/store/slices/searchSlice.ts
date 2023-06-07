@@ -12,7 +12,11 @@ export interface SearchSliceType {
   canFetchPosts: boolean
   canFetchArchivedPosts: boolean
   priceRangeSelected: Array<number>
-  setLocationsSelected: (locations: LocationType[]) => void
+  keyword: string | undefined
+  isSearchFromFilterModal: boolean
+  updateIsSearchFromFilterModal: (value: boolean) => void
+  updateKeyword: (keyword: string | undefined) => void
+  setLocationsSelected: (locations: any) => void
   setPropertyTypeSelected: (
     propertyType: { id: number; title: string } | undefined
   ) => void
@@ -51,8 +55,18 @@ export const createSearchSlice: StateCreator<SearchSliceType> = (set) => ({
     title: 'للايجار'
   },
   priceRangeSelected: [PRICE_RANGES.min, PRICE_RANGES.max],
+  keyword: undefined,
   canFetchPosts: false,
   canFetchArchivedPosts: false,
+  isSearchFromFilterModal: false,
+  updateIsSearchFromFilterModal: (value: boolean) =>
+    set(() => ({
+      isSearchFromFilterModal: value
+    })),
+  updateKeyword: (value: string | undefined) =>
+    set(() => ({
+      keyword: value
+    })),
   setLocationsSelected: (locations: LocationType[]) =>
     set(() => ({
       locationsSelected: locations

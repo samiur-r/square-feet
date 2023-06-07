@@ -8,7 +8,6 @@ import { useStore } from 'store'
 import { Range, getTrackBackground } from 'react-range'
 
 import { PRICE_RANGES, categories } from 'constant'
-import ApiClient from 'utils/ApiClient'
 
 interface FilterModalProps {
   showFilterModal: boolean
@@ -30,8 +29,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setPropertyTypeSelected,
     setCategorySelected,
     setPriceRangeSelected,
-    updateFilteredPosts,
-    updateFilteredPostsCount
+    updateIsSearchFromFilterModal,
+    updateKeyword,
+    updateSearchPostCount
   } = useStore()
   const [keyword, setKeyword] = useState('')
   const [isCallingApi, setIsCallingApi] = useState(false)
@@ -56,30 +56,13 @@ const FilterModal: React.FC<FilterModalProps> = ({
     if (propertyTypeSelected?.id === 0) propertyType = undefined
     else propertyType = propertyTypeSelected
 
-    try {
-      const response = await ApiClient({
-        method: 'POST',
-        url: '/search',
-        data: {
-          limit: 10,
-          offset: 0,
-          propertyType,
-          category: categorySelected,
-          priceRange: {
-            min: priceRangeSelected[0],
-            max: priceRangeSelected[1]
-          },
-          keyword
-        }
-      })
-      setIsCallingApi(false)
-      updateFilteredPostsCount(response?.data?.count)
-      updateFilteredPosts(response?.data?.posts)
-      setShowFilterModal(false)
-      Router.push('/search')
-    } catch (error) {
-      setIsCallingApi(false)
-    }
+    updateIsSearchFromFilterModal(true)
+    updateKeyword(keyword)
+    setPropertyTypeSelected(propertyType)
+    updateSearchPostCount(0)
+    setIsCallingApi(false)
+    setShowFilterModal(false)
+    Router.push('/search')
   }
 
   return (

@@ -3,13 +3,19 @@ import { StateCreator } from 'zustand'
 
 export interface FilteredPostSliceType {
   indexPostCount: number
-  filteredPosts: IPost[]
-  totalFilteredPosts: number | undefined
+  filterPostCount: number
+  searchPostCount: number
+  agentPostCount: number
+  accountPostCount: number
+  totalFilteredPosts: number
   filteredArchivedPosts: IPost[]
   totalFilteredArchivedPosts: number | undefined
+  updateTotalFilteredPost: (count: number) => void
+  updateFilterPostCount: (count: number) => void
+  updateSearchPostCount: (count: number) => void
+  updateAgentPostCount: (count: number) => void
+  updateAccountPostCount: (count: number) => void
   updateIndexPostCount: (count: number) => void
-  updateFilteredPosts: (posts: IPost[]) => void
-  updateFilteredPostsCount: (numOfPosts: number) => void
   updateFilteredArchivedPosts: (posts: IPost[]) => void
   updateFilteredArchivedPostsCount: (numOfPosts: number) => void
 }
@@ -18,21 +24,36 @@ export const createFilteredPostSlice: StateCreator<FilteredPostSliceType> = (
   set
 ) => ({
   indexPostCount: 0,
-  filteredPosts: [],
-  totalFilteredPosts: undefined,
+  filterPostCount: 0,
+  searchPostCount: 0,
   filteredArchivedPosts: [],
   totalFilteredArchivedPosts: undefined,
+  totalFilteredPosts: 0,
+  agentPostCount: 0,
+  accountPostCount: 0,
+  updateTotalFilteredPost: (count: number) =>
+    set(() => ({
+      totalFilteredPosts: count
+    })),
   updateIndexPostCount: (count: number) =>
     set(() => ({
       indexPostCount: count
     })),
-  updateFilteredPosts: (posts: IPost[]) =>
+  updateAgentPostCount: (count: number) =>
     set(() => ({
-      filteredPosts: posts
+      agentPostCount: count
     })),
-  updateFilteredPostsCount: (numOfPosts: number) =>
+  updateAccountPostCount: (count: number) =>
     set(() => ({
-      totalFilteredPosts: numOfPosts
+      accountPostCount: count
+    })),
+  updateFilterPostCount: (count: number) =>
+    set(() => ({
+      filterPostCount: count
+    })),
+  updateSearchPostCount: (count: number) =>
+    set(() => ({
+      searchPostCount: count
     })),
   updateFilteredArchivedPosts: (posts: IPost[]) =>
     set(() => ({

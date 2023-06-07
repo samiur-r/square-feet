@@ -6,7 +6,6 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import PostCard from 'components/Posts/PostCard'
 import Title from 'components/Title'
 import ApiClient from 'utils/ApiClient'
-import { IPost } from 'interfaces'
 import { useEffect, useRef, useState } from 'react'
 import { useOnScreen } from 'hooks/useOnScreen'
 import { toBase64, placeholderImg } from 'utils/strToBase64'
@@ -16,52 +15,45 @@ import { useStore } from 'store'
 
 interface AgentProps {
   agent: any
-  postList: IPost[]
-  totalPosts: number
+  count: number
 }
 
-const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
-  const [posts, setPosts] = useState(postList)
-  const [postCount, setPostCount] = useState(postList?.length || 0)
-  const [offset, setOffset] = useState(10)
-  const [limit] = useState(10)
+const Agency: NextPage<AgentProps> = ({ agent, count }) => {
+  const [posts, setPosts] = useState<any>([])
+  const [postCount, setPostCount] = useState(0)
   const [isCallingApi, setIsCallingAPi] = useState(false)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [whatsappMsg, setWhatsappMsg] = useState('')
+  const [whatsappMsg] = useState('')
+  const [isFirstRender, setIsFirstRender] = useState(true)
+  const [totalPosts, setTotalPosts] = useState<number | undefined>(undefined)
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
-
   const router = useRouter()
 
-  const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
-    useStore()
+  const {
+    scrollYTo,
+    scrollPosition,
+    agentPostCount,
+    updateScrollYTo,
+    updateScrollPosition,
+    updateAgentPostCount
+  } = useStore()
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
+    setTotalPosts(count)
+  }, [count])
+
+  const fetchPosts = async (limit: number, offset: number) => {
+    if (totalPosts && postCount >= totalPosts) return
+    setIsCallingAPi(true)
+
+    let countPost = agentPostCount
+
+    if (offset === 0) {
+      updateAgentPostCount(0)
+      countPost = 0
     }
 
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    // Cleanup the event listener
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      updateScrollYTo(false)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (scrollYTo) {
-      window.scrollTo({
-        top: scrollPosition,
-        left: 0,
-        behavior: 'smooth'
-      })
-    }
-  }, [])
-
-  const fetchPosts = async () => {
     try {
       const response = await ApiClient({
         method: 'GET',
@@ -70,16 +62,53 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
 
       setIsCallingAPi(false)
       setPosts([...posts, ...response.data.posts])
-      setOffset((curr) => curr + 10)
+      updateAgentPostCount(countPost + response.data.posts.length)
+      setIsFirstRender(false)
     } catch (error) {
       /* empty */
     }
   }
 
   useEffect(() => {
-    if (isIntersecting && totalPosts && postCount < totalPosts) {
+    if (scrollYTo) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }, 200)
+    }
+
+    fetchPosts(agentPostCount ? Math.ceil(agentPostCount / 10) * 10 : 10, 0)
+
+    const handleRouteChange = () => {
+      updateScrollPosition(window.scrollY)
+    }
+    const handleBeforeUnload = (e: any) => {
+      e.preventDefault()
+      updateAgentPostCount(0)
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    // Cleanup the event listener
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+      updateScrollYTo(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (
+      isIntersecting &&
+      !isFirstRender &&
+      totalPosts &&
+      postCount < totalPosts
+    ) {
       setIsCallingAPi(true)
-      fetchPosts()
+      fetchPosts(10, agentPostCount ? Math.ceil(agentPostCount / 10) * 10 : 10)
     }
   }, [isIntersecting])
 
@@ -191,7 +220,8 @@ const Agency: NextPage<AgentProps> = ({ agent, postList, totalPosts }) => {
         </div>
         <div className="container max-w-3xl mt-8">
           <Title value="اعلانات المكتب" />
-          {posts && posts.map((post) => <PostCard key={post.id} post={post} />)}
+          {posts &&
+            posts.map((post: any) => <PostCard key={post.id} post={post} />)}
         </div>
         <div ref={ref} />
         {isCallingApi && (
@@ -235,8 +265,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     return {
       props: {
         agent: response?.data?.agent,
-        postList: response?.data?.posts,
-        totalPosts: response?.data?.totalPosts ? response?.data?.totalPosts : 0
+        count: response?.data?.count ? response?.data?.count : 0
       }
     }
   } catch (error) {
