@@ -126,7 +126,7 @@ const MyPosts: NextPage<AccountType> = ({
           left: 0,
           behavior: 'smooth'
         })
-      }, 200)
+      }, 300)
     }
 
     fetchPosts(accountPostCount ? Math.ceil(accountPostCount / 10) * 10 : 10, 0)

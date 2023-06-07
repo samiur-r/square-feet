@@ -86,7 +86,7 @@ const Agency: NextPage<AgentProps> = ({ agent, count }) => {
           left: 0,
           behavior: 'smooth'
         })
-      }, 200)
+      }, 300)
     }
 
     fetchPosts(agentPostCount ? Math.ceil(agentPostCount / 10) * 10 : 10, 0)

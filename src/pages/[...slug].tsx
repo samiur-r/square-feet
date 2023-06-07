@@ -162,7 +162,7 @@ const Search: NextPage<PageProps> = ({
           left: 0,
           behavior: 'smooth'
         })
-      }, 200)
+      }, 300)
     }
 
     fetchPosts(filterPostCount ? Math.ceil(filterPostCount / 10) * 10 : 10, 0)
