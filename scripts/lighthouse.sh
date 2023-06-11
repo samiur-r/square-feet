@@ -4,7 +4,7 @@ mkdir -p temp
 THRESH=0.90
 
 if [ ! -d dist ]; then
-  GZIP=true yarn build
+  GZIP=true npm build
 fi
 
 nohup npm start >/dev/null 2>&1 &
