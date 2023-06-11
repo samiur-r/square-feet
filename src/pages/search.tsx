@@ -136,7 +136,7 @@ const Search: NextPage = () => {
           left: 0,
           behavior: 'smooth'
         })
-      }, 300)
+      }, 500)
     }
 
     fetchPosts(searchPostCount ? Math.ceil(searchPostCount / 10) * 10 : 10, 0)

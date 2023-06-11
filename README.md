@@ -22,8 +22,8 @@
 ```
 git clone https://github.com/q8villa/boshamlan-frontend.git
 cd boshamlan-frontend
-yarn install
-yarn run dev
+npm install
+npm run dev
 ```
 
 Then open `http://localhost:3000/` to see the app.
@@ -33,7 +33,7 @@ Then open `http://localhost:3000/` to see the app.
 Builds the production application in the .next folder.
 
 ```bash
-yarn run build
+npm run build
 ```
 
 ### start
@@ -41,7 +41,7 @@ yarn run build
 Starts the application in production mode.
 
 ```bash
-yarn run start
+npm run start
 ```
 
 ### lint
@@ -49,7 +49,7 @@ yarn run start
 Runs ESLint static code analysis based on your `.eslintrc` configuration
 
 ```bash
-yarn run lint
+npm run lint
 ```
 
 ### test
@@ -57,7 +57,7 @@ yarn run lint
 Runs Jest unit tests to validate changes between commits
 
 ```bash
-yarn run test
+npm run test
 ```
 
 ### Contributing
