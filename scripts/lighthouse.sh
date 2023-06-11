@@ -4,10 +4,10 @@ mkdir -p temp
 THRESH=0.90
 
 if [ ! -d dist ]; then
-  GZIP=true npm build
+  GZIP=true npm run build
 fi
 
-nohup npm start >/dev/null 2>&1 &
+nohup npm run start >/dev/null 2>&1 &
 
 sleep 2
 
