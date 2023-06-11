@@ -244,7 +244,7 @@ const socialLinks = [
 const Nav: React.FC = () => {
   const { user, updateScrollYTo } = useStore()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [newPostBtnText, setNewPostBtnText] = useState('إعلان مجانًا')
+  const [newPostBtnText, setNewPostBtnText] = useState('')
   const [propertyTypes, setPropertyTypes] = useState<any>([])
   const [locations, setLocations] = useState<any>([])
 
@@ -336,7 +336,7 @@ const Nav: React.FC = () => {
       } catch (error) {
         /* empty */
       }
-    }
+    } else setNewPostBtnText('إعلان جديد')
   }
 
   const fetchPropertyTypesAndLocations = async () => {
