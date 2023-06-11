@@ -185,7 +185,7 @@ const Search: NextPage<PageProps> = ({
       if (node !== null) {
         window.scrollTo({
           top: node.getBoundingClientRect().top,
-          behavior: 'smooth'
+          behavior: undefined
         })
       }
     },
