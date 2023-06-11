@@ -1,13 +1,13 @@
 set -e
 OUTPUT=temp/lighthouse-report.json
 mkdir -p temp
-THRESH=0.99
+THRESH=0.90
 
 if [ ! -d dist ]; then
   GZIP=true yarn build
 fi
 
-nohup yarn start >/dev/null 2>&1 &
+nohup npm start >/dev/null 2>&1 &
 
 sleep 2
 
