@@ -183,10 +183,12 @@ const Search: NextPage<PageProps> = ({
       } | null
     ) => {
       if (node !== null) {
-        window.scrollTo({
-          top: node.getBoundingClientRect().top,
-          behavior: undefined
-        })
+        setTimeout(() => {
+          window.scrollTo({
+            top: node.getBoundingClientRect().top,
+            behavior: undefined
+          })
+        }, 0)
       }
     },
     []
