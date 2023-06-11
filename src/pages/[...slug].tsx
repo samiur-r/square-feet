@@ -93,20 +93,6 @@ const Search: NextPage<PageProps> = ({
 
   const router = useRouter()
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
-    }
-
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    // Cleanup the event listener
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      updateScrollYTo(false)
-    }
-  }, [])
-
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
 
@@ -165,6 +151,12 @@ const Search: NextPage<PageProps> = ({
       }, 500)
     }
 
+    const handleRouteChange = () => {
+      updateScrollPosition(window.scrollY)
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
     fetchPosts(filterPostCount ? Math.ceil(filterPostCount / 10) * 10 : 10, 0)
 
     const handleBeforeUnload = (e: any) => {
@@ -175,6 +167,8 @@ const Search: NextPage<PageProps> = ({
 
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
+      router.events.off('routeChangeStart', handleRouteChange)
+      updateScrollYTo(false)
     }
   }, [])
 
