@@ -141,7 +141,6 @@ const Search: NextPage<PageProps> = ({
   }, [isIntersecting])
 
   useEffect(() => {
-    console.log(scrollYTo)
     if (scrollYTo) {
       setTimeout(() => {
         window.scrollTo({
@@ -337,14 +336,13 @@ const Search: NextPage<PageProps> = ({
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
           {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
-          <div className="w-full">
+          <div ref={scroll as LegacyRef<HTMLDivElement>} className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
                 <PostCard key={post.id} post={post} />
               ))}
           </div>
-          <div ref={scroll as LegacyRef<HTMLDivElement>} />
         </div>
         <div ref={ref} />
         {isCallingApi && (
