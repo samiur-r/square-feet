@@ -141,15 +141,15 @@ const Search: NextPage<PageProps> = ({
   }, [isIntersecting])
 
   useEffect(() => {
-    if (scrollYTo) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: scrollPosition,
-          left: 0,
-          behavior: 'smooth'
-        })
-      }, 500)
-    }
+    // if (scrollYTo) {
+    //   setTimeout(() => {
+    //     window.scrollTo({
+    //       top: scrollPosition,
+    //       left: 0,
+    //       behavior: 'smooth'
+    //     })
+    //   }, 500)
+    // }
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
