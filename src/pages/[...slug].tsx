@@ -95,14 +95,16 @@ const Search: NextPage<PageProps> = ({
   }, [posts])
 
   useEffect(() => {
+    scrollRef.current.scrollIntoView({ behavior: 'auto' })
     setTotalPosts(count)
-    setTimeout(() => {
-      if (scrollRef.current)
-        scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    }, 1000)
-    setTimeout(() => {
-      setShowPageData(true)
-    }, 1500)
+    // setShowPageData(true)
+    // setTimeout(() => {
+    //   if (scrollRef.current)
+    //     scrollRef.current.scrollIntoView({ behavior: 'auto' })
+    // }, 1000)
+    // setTimeout(() => {
+    //   setShowPageData(true)
+    // }, 700)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
@@ -135,6 +137,7 @@ const Search: NextPage<PageProps> = ({
     } catch (error) {
       setIsCallingApi(false)
     }
+    if (!showPageData) setShowPageData(true)
   }
 
   useEffect(() => {
@@ -180,8 +183,8 @@ const Search: NextPage<PageProps> = ({
       e.preventDefault()
       updateFilterPostCount(0)
     }
-    window.addEventListener('beforeunload', handleBeforeUnload)
 
+    window.addEventListener('beforeunload', handleBeforeUnload)
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
       router.events.off('routeChangeStart', handleRouteChange)
@@ -308,7 +311,7 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div className="bg-custom-white-light min-h-screen">
+    <div className="bg-custom-white-light">
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />
