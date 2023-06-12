@@ -320,7 +320,6 @@ const Search: NextPage<PageProps> = ({
                 </Link>
               ))}
           </div>
-          <div ref={scroll as LegacyRef<HTMLDivElement>} />
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div className="self-start flex gap-2 items-center">
@@ -337,6 +336,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
+          <div ref={scroll as LegacyRef<HTMLDivElement>} />
           <div className="w-full">
             {posts &&
               posts.length > 0 &&
