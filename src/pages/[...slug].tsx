@@ -96,9 +96,7 @@ const Search: NextPage<PageProps> = ({
   }, [posts])
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    }, 500)
+    scrollRef.current.scrollIntoView({ behavior: 'auto' })
     setTotalPosts(count)
   }, [count])
 
@@ -133,7 +131,10 @@ const Search: NextPage<PageProps> = ({
     } catch (error) {
       setIsCallingApi(false)
     }
-    if (!showPageData) setShowPageData(true)
+    if (!showPageData)
+      setTimeout(() => {
+        setShowPageData(true)
+      }, 1000)
   }
 
   useEffect(() => {
