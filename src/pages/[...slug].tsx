@@ -100,7 +100,7 @@ const Search: NextPage<PageProps> = ({
       scrollRef.current.scrollIntoView({ behavior: 'auto' })
     setTimeout(() => {
       setShowPageData(true)
-    }, 1000)
+    }, 500)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
@@ -306,7 +306,7 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div className="bg-custom-white-light min-h-screen">
+    <div className="bg-custom-white-light" style={{ minHeight: '200vh' }}>
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />
@@ -340,7 +340,11 @@ const Search: NextPage<PageProps> = ({
           </div>
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
-          <div className="self-start flex gap-2 items-center">
+          <div
+            className={`${
+              showPageData ? 'opacity-1' : 'opacity-0'
+            } self-start flex gap-2 items-center`}
+          >
             <Title
               value={`${
                 selectedPropertyType && selectedPropertyType.id !== 0
@@ -363,7 +367,7 @@ const Search: NextPage<PageProps> = ({
           </div>
         </div>
         <div ref={ref} />
-        {isCallingApi && (
+        {isCallingApi && showPageData && (
           <div className="flex justify-center mt-10">
             <svg
               aria-hidden="true"
