@@ -96,9 +96,7 @@ const Search: NextPage<PageProps> = ({
   }, [posts])
 
   useEffect(() => {
-    // setTimeout(() => {
     scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    // }, 500)
     setTotalPosts(count)
   }, [count])
 
@@ -351,7 +349,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
-          <div ref={scrollRef} className="w-full">
+          <div className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
@@ -359,6 +357,7 @@ const Search: NextPage<PageProps> = ({
               ))}
           </div>
         </div>
+        <div ref={scrollRef} />
         <div ref={ref} />
         {isCallingApi && showPageData && (
           <div className="flex justify-center mt-10">
