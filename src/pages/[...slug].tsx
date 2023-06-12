@@ -336,7 +336,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
-          <div ref={scroll as LegacyRef<HTMLDivElement>} />
+          {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
           <div className="w-full">
             {posts &&
               posts.length > 0 &&
@@ -344,6 +344,7 @@ const Search: NextPage<PageProps> = ({
                 <PostCard key={post.id} post={post} />
               ))}
           </div>
+          <div ref={scroll as LegacyRef<HTMLDivElement>} />
         </div>
         <div ref={ref} />
         {isCallingApi && (
