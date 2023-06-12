@@ -98,7 +98,9 @@ const Search: NextPage<PageProps> = ({
     setTotalPosts(count)
     if (scrollRef.current)
       scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    setShowPageData(true)
+    setTimeout(() => {
+      setShowPageData(true)
+    }, 500)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
