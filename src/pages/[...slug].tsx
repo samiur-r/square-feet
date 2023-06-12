@@ -344,7 +344,7 @@ const Search: NextPage<PageProps> = ({
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div
             className={`${
-              showPageData ? 'opacity-1' : 'opacity-0'
+              posts.length ? 'opacity-1' : 'opacity-0'
             } self-start flex gap-2 items-center`}
           >
             <Title
