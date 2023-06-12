@@ -96,7 +96,9 @@ const Search: NextPage<PageProps> = ({
   }, [posts])
 
   useEffect(() => {
+    // setTimeout(() => {
     scrollRef.current.scrollIntoView({ behavior: 'auto' })
+    // }, 500)
     setTotalPosts(count)
   }, [count])
 
@@ -297,7 +299,7 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div className="bg-custom-white-light">
+    <div className="bg-custom-white-light" style={{ minHeight: '200vh' }}>
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />
