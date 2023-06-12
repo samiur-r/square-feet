@@ -49,8 +49,8 @@ const Search: NextPage<PageProps> = ({
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
-    // scrollYTo,
-    // scrollPosition,
+    scrollYTo,
+    scrollPosition,
     filterPostCount,
     updateFilterPostCount,
     setLocationsSelected,
@@ -141,15 +141,16 @@ const Search: NextPage<PageProps> = ({
   }, [isIntersecting])
 
   useEffect(() => {
-    // if (scrollYTo) {
-    //   setTimeout(() => {
-    //     window.scrollTo({
-    //       top: scrollPosition,
-    //       left: 0,
-    //       behavior: 'smooth'
-    //     })
-    //   }, 500)
-    // }
+    console.log(scrollYTo)
+    if (scrollYTo) {
+      setTimeout(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          left: 0,
+          behavior: 'smooth'
+        })
+      }, 500)
+    }
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
@@ -183,12 +184,10 @@ const Search: NextPage<PageProps> = ({
       } | null
     ) => {
       if (node !== null) {
-        setTimeout(() => {
-          window.scrollTo({
-            top: node.getBoundingClientRect().top,
-            behavior: 'smooth'
-          })
-        }, 0)
+        window.scrollTo({
+          top: node.getBoundingClientRect().top,
+          behavior: 'smooth'
+        })
       }
     },
     []
