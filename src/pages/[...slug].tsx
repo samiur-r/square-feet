@@ -99,10 +99,10 @@ const Search: NextPage<PageProps> = ({
     setTimeout(() => {
       if (scrollRef.current)
         scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    }, 300)
+    }, 1000)
     setTimeout(() => {
       setShowPageData(true)
-    }, 1000)
+    }, 2000)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
@@ -150,15 +150,15 @@ const Search: NextPage<PageProps> = ({
   }, [isIntersecting])
 
   useEffect(() => {
-    if (scrollYTo) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: scrollPosition,
-          left: 0,
-          behavior: 'smooth'
-        })
-      }, 500)
-    }
+    // if (scrollYTo) {
+    //   setTimeout(() => {
+    //     window.scrollTo({
+    //       top: scrollPosition,
+    //       left: 0,
+    //       behavior: 'smooth'
+    //     })
+    //   }, 500)
+    // }
     // else if (scrollRef.current)
     //   setTimeout(() => {
     //     scrollRef.current.scrollIntoView({ behavior: 'auto' })
@@ -308,7 +308,7 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div className="bg-custom-white-light" style={{ minHeight: '200vh' }}>
+    <div className="bg-custom-white-light min-h-screen">
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />
@@ -360,7 +360,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
-          <div ref={scrollRef} className="w-full">
+          <div className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
@@ -368,6 +368,7 @@ const Search: NextPage<PageProps> = ({
               ))}
           </div>
         </div>
+        <div ref={scrollRef} />
         <div ref={ref} />
         {isCallingApi && showPageData && (
           <div className="flex justify-center mt-10">
