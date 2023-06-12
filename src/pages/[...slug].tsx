@@ -49,8 +49,8 @@ const Search: NextPage<PageProps> = ({
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
-    scrollYTo,
-    scrollPosition,
+    // scrollYTo,
+    // scrollPosition,
     filterPostCount,
     updateFilterPostCount,
     setLocationsSelected,
@@ -102,7 +102,7 @@ const Search: NextPage<PageProps> = ({
     }, 1000)
     setTimeout(() => {
       setShowPageData(true)
-    }, 2000)
+    }, 1500)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
