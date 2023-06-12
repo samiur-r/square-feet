@@ -94,6 +94,7 @@ const Search: NextPage<PageProps> = ({
   const router = useRouter()
 
   const ref = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<any>(null)
   const isIntersecting = useOnScreen(ref)
 
   const fetchPosts = async (limit: number, offset: number) => {
@@ -149,7 +150,8 @@ const Search: NextPage<PageProps> = ({
           behavior: 'smooth'
         })
       }, 500)
-    }
+    } else if (scrollRef.current)
+      scrollRef.current.scrollIntoView({ behavior: 'auto' })
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
@@ -172,26 +174,26 @@ const Search: NextPage<PageProps> = ({
     }
   }, [])
 
-  const scroll = useCallback(
-    (
-      node: {
-        getBoundingClientRect: () => {
-          (): unknown
-          new (): unknown
-          top: number | undefined
-        }
-      } | null
-    ) => {
-      if (node !== null) {
-        window.scrollTo({
-          top: node.getBoundingClientRect().top,
-          // @ts-ignore
-          behavior: 'smooth'
-        })
-      }
-    },
-    []
-  )
+  // const scroll = useCallback(
+  //   (
+  //     node: {
+  //       getBoundingClientRect: () => {
+  //         (): unknown
+  //         new (): unknown
+  //         top: number | undefined
+  //       }
+  //     } | null
+  //   ) => {
+  //     if (node !== null) {
+  //       window.scrollTo({
+  //         top: node.getBoundingClientRect().top,
+  //         // @ts-ignore
+  //         behavior: 'smooth'
+  //       })
+  //     }
+  //   },
+  //   []
+  // )
 
   const breadcrumbsItems = [
     {
@@ -336,7 +338,7 @@ const Search: NextPage<PageProps> = ({
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
           {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
-          <div ref={scroll as LegacyRef<HTMLDivElement>} className="w-full">
+          <div ref={scrollRef} className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
