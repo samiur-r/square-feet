@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 import { locations, categories, propertyTypes } from 'constant'
