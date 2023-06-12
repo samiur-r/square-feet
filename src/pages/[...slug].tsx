@@ -153,7 +153,7 @@ const Search: NextPage<PageProps> = ({
     } else if (scrollRef.current)
       setTimeout(() => {
         scrollRef.current.scrollIntoView({ behavior: 'auto' })
-      }, 500)
+      }, 300)
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
@@ -325,7 +325,7 @@ const Search: NextPage<PageProps> = ({
           </div>
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
-          <div className="self-start flex gap-2 items-center">
+          <div ref={scrollRef} className="self-start flex gap-2 items-center">
             <Title
               value={`${
                 selectedPropertyType && selectedPropertyType.id !== 0
@@ -339,8 +339,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
-          {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
-          <div ref={scrollRef} className="w-full">
+          <div className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
