@@ -69,6 +69,7 @@ const Search: NextPage<PageProps> = ({
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isFirstRender, setIsFirstRender] = useState(true)
+  const [showPageData, setShowPageData] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
 
   useEffect(() => {
@@ -153,7 +154,9 @@ const Search: NextPage<PageProps> = ({
     } else if (scrollRef.current)
       setTimeout(() => {
         scrollRef.current.scrollIntoView({ behavior: 'auto' })
-      }, 100)
+      }, 300)
+
+    setShowPageData(true)
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
@@ -308,22 +311,24 @@ const Search: NextPage<PageProps> = ({
         }
       />
       <div className="dir-rtl container max-w-5xl py-10 flex flex-col">
-        <div className="flex flex-col gap-5">
-          <FilterArticle articles={articles} />
-          <div>
-            <Title value="قد تهمك نتائج بحث مشابهة" />
+        {showPageData && (
+          <div className="flex flex-col gap-5">
+            <FilterArticle articles={articles} />
+            <div>
+              <Title value="قد تهمك نتائج بحث مشابهة" />
+            </div>
+            <div className="flex flex-col flex-wrap gap-3 max-h-52">
+              {similarSearches &&
+                similarSearches.map((item) => (
+                  <Link key={Math.random()} href={item.href}>
+                    <a className="text-primary cursor-pointer hover:underline">
+                      {item.title}
+                    </a>
+                  </Link>
+                ))}
+            </div>
           </div>
-          <div className="flex flex-col flex-wrap gap-3 max-h-52">
-            {similarSearches &&
-              similarSearches.map((item) => (
-                <Link key={Math.random()} href={item.href}>
-                  <a className="text-primary cursor-pointer hover:underline">
-                    {item.title}
-                  </a>
-                </Link>
-              ))}
-          </div>
-        </div>
+        )}
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div ref={scrollRef} className="self-start flex gap-2 items-center">
             <Title
