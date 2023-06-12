@@ -151,7 +151,9 @@ const Search: NextPage<PageProps> = ({
         })
       }, 500)
     } else if (scrollRef.current)
-      scrollRef.current.scrollIntoView({ behavior: 'auto' })
+      setTimeout(() => {
+        scrollRef.current.scrollIntoView({ behavior: 'auto' })
+      }, 500)
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
