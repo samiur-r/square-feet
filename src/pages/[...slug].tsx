@@ -70,6 +70,7 @@ const Search: NextPage<PageProps> = ({
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isFirstRender, setIsFirstRender] = useState(true)
   const [showPageData, setShowPageData] = useState(false)
+  const [showPostTitle, setShowPostTile] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
 
   const router = useRouter()
@@ -97,14 +98,6 @@ const Search: NextPage<PageProps> = ({
   useEffect(() => {
     scrollRef.current.scrollIntoView({ behavior: 'auto' })
     setTotalPosts(count)
-    // setShowPageData(true)
-    // setTimeout(() => {
-    //   if (scrollRef.current)
-    //     scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    // }, 1000)
-    // setTimeout(() => {
-    //   setShowPageData(true)
-    // }, 700)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
@@ -131,6 +124,7 @@ const Search: NextPage<PageProps> = ({
         }
       })
       setIsCallingApi(false)
+      if (!showPostTitle) setShowPostTile(true)
       setPosts([...posts, ...response.data.posts])
       updateFilterPostCount(countPost + response.data.posts.length)
       setIsFirstRender(false)
@@ -162,14 +156,6 @@ const Search: NextPage<PageProps> = ({
     //     })
     //   }, 500)
     // }
-    // else if (scrollRef.current)
-    //   setTimeout(() => {
-    //     scrollRef.current.scrollIntoView({ behavior: 'auto' })
-    //   }, 500)
-
-    // setTimeout(() => {
-    //   setShowPageData(true)
-    // }, 1000)
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
@@ -347,7 +333,7 @@ const Search: NextPage<PageProps> = ({
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div
             className={`${
-              posts.length ? 'opacity-1' : 'opacity-0'
+              showPostTitle ? 'opacity-1' : 'opacity-0'
             } self-start flex gap-2 items-center`}
           >
             <Title
