@@ -72,6 +72,12 @@ const Search: NextPage<PageProps> = ({
   const [showPageData, setShowPageData] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
 
+  const router = useRouter()
+
+  const ref = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<any>(null)
+  const isIntersecting = useOnScreen(ref)
+
   useEffect(() => {
     setLocationsSelected(selectedLocations)
   }, [selectedLocations])
@@ -90,13 +96,10 @@ const Search: NextPage<PageProps> = ({
 
   useEffect(() => {
     setTotalPosts(count)
+    if (scrollRef.current)
+      scrollRef.current.scrollIntoView({ behavior: 'auto' })
+    setShowPageData(true)
   }, [count])
-
-  const router = useRouter()
-
-  const ref = useRef<HTMLDivElement>(null)
-  const scrollRef = useRef<any>(null)
-  const isIntersecting = useOnScreen(ref)
 
   const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
@@ -151,14 +154,15 @@ const Search: NextPage<PageProps> = ({
           behavior: 'smooth'
         })
       }, 500)
-    } else if (scrollRef.current)
-      setTimeout(() => {
-        scrollRef.current.scrollIntoView({ behavior: 'auto' })
-      }, 500)
+    }
+    // else if (scrollRef.current)
+    //   setTimeout(() => {
+    //     scrollRef.current.scrollIntoView({ behavior: 'auto' })
+    //   }, 500)
 
-    setTimeout(() => {
-      setShowPageData(true)
-    }, 1000)
+    // setTimeout(() => {
+    //   setShowPageData(true)
+    // }, 1000)
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
