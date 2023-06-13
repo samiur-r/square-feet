@@ -146,7 +146,7 @@ const Search: NextPage<PageProps> = ({
     if (!showPageData)
       setTimeout(() => {
         setShowPageData(true)
-      }, 1000)
+      }, 500)
   }
 
   useEffect(() => {
