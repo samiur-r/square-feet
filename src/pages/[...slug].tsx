@@ -100,7 +100,11 @@ const Search: NextPage<PageProps> = ({
   }, [count])
 
   // useEffect(() => {
-  //   if (isFirstRender) scrollRef.current.scrollIntoView({ behavior: 'auto' })
+  //   if (isFirstRender) {
+  //     setTimeout(() => {
+  //       scrollRef.current.scrollIntoView({ behavior: 'smooth' })
+  //     }, 1000)
+  //   }
   // }, [isFirstRender])
 
   const fetchPosts = async (limit: number, offset: number) => {
@@ -127,9 +131,13 @@ const Search: NextPage<PageProps> = ({
         }
       })
       setIsCallingApi(false)
-      if (isFirstRender) scrollRef.current.scrollIntoView({ behavior: 'auto' })
       if (!showPostTitle) setShowPostTile(true)
       setPosts([...posts, ...response.data.posts])
+      if (isFirstRender) {
+        setTimeout(() => {
+          scrollRef.current.scrollIntoView({ behavior: 'auto' })
+        }, 100)
+      }
       updateFilterPostCount(countPost + response.data.posts.length)
       setIsFirstRender(false)
     } catch (error) {
