@@ -350,6 +350,7 @@ const Search: NextPage<PageProps> = ({
             className={`${
               showPostTitle ? 'opacity-1' : 'opacity-0'
             } self-start flex gap-2 items-center`}
+            ref={scrollRef}
           >
             <Title
               value={`${
@@ -364,7 +365,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
-          <div ref={scrollRef} className="w-full">
+          <div className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
