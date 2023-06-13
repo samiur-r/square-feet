@@ -100,6 +100,10 @@ const Search: NextPage<PageProps> = ({
     setTotalPosts(count)
   }, [count])
 
+  useEffect(() => {
+    if (isFirstRender) scrollRef.current.scrollIntoView({ behavior: 'auto' })
+  }, [isFirstRender])
+
   const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
     setIsCallingApi(true)
@@ -132,9 +136,9 @@ const Search: NextPage<PageProps> = ({
       setIsCallingApi(false)
     }
     if (!showPageData)
-      setTimeout(() => {
-        setShowPageData(true)
-      }, 1000)
+      // setTimeout(() => {
+      setShowPageData(true)
+    // }, 1000)
   }
 
   useEffect(() => {
