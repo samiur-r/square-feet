@@ -312,7 +312,7 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div className="bg-custom-white-light min-h-[200vh]">
+    <div className="bg-custom-white-light min-h-screen">
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />
