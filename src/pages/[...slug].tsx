@@ -345,12 +345,12 @@ const Search: NextPage<PageProps> = ({
               ))}
           </div>
         </div>
+        <div ref={scrollRef} />
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div
             className={`${
               showPostTitle ? 'opacity-1' : 'opacity-0'
             } self-start flex gap-2 items-center`}
-            ref={scrollRef}
           >
             <Title
               value={`${
