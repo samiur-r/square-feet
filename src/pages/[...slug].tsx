@@ -99,9 +99,9 @@ const Search: NextPage<PageProps> = ({
     setTotalPosts(count)
   }, [count])
 
-  useEffect(() => {
-    if (isFirstRender) scrollRef.current.scrollIntoView({ behavior: 'auto' })
-  }, [isFirstRender])
+  // useEffect(() => {
+  //   if (isFirstRender) scrollRef.current.scrollIntoView({ behavior: 'auto' })
+  // }, [isFirstRender])
 
   const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
@@ -127,6 +127,7 @@ const Search: NextPage<PageProps> = ({
         }
       })
       setIsCallingApi(false)
+      if (isFirstRender) scrollRef.current.scrollIntoView({ behavior: 'auto' })
       if (!showPostTitle) setShowPostTile(true)
       setPosts([...posts, ...response.data.posts])
       updateFilterPostCount(countPost + response.data.posts.length)
@@ -355,7 +356,7 @@ const Search: NextPage<PageProps> = ({
             />
             <p className="text-lg md:text-xl">({totalPosts || 0} إعلان)</p>
           </div>
-          <div className="w-full">
+          <div ref={scrollRef} className="w-full">
             {posts &&
               posts.length > 0 &&
               posts.map((post: IPost) => (
@@ -363,7 +364,6 @@ const Search: NextPage<PageProps> = ({
               ))}
           </div>
         </div>
-        <div ref={scrollRef} className="h-10 bg-red-600" />
         <div ref={ref} />
         {isCallingApi && showPageData && (
           <div className="flex justify-center mt-10">
