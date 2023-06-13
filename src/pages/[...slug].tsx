@@ -344,7 +344,7 @@ const Search: NextPage<PageProps> = ({
                 </Link>
               ))}
           </div>
-          <div ref={scrollRef} />
+          <div ref={scrollRef} className="-mt-10" />
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div
