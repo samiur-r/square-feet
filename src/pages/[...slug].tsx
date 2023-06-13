@@ -335,6 +335,7 @@ const Search: NextPage<PageProps> = ({
             <Title value="قد تهمك نتائج بحث مشابهة" />
           </div>
           <div className="flex flex-col flex-wrap gap-3 max-h-52">
+            <div ref={scrollRef} />
             {similarSearches &&
               similarSearches.map((item) => (
                 <Link key={Math.random()} href={item.href}>
@@ -344,7 +345,6 @@ const Search: NextPage<PageProps> = ({
                 </Link>
               ))}
           </div>
-          <div ref={scrollRef} />
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
           <div
