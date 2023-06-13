@@ -45,9 +45,9 @@ const Home: NextPage<{
         window.scrollTo({
           top: scrollPosition,
           left: 0,
-          behavior: 'smooth'
+          behavior: 'auto'
         })
-      }, 300)
+      }, 100)
     }
   }, [])
 
