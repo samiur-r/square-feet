@@ -290,7 +290,7 @@ const CreatePost: NextPage<{
 
   useEffect(() => {
     if (scrollToTop) {
-      window.scrollTo(0, 0)
+      if (topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' })
       setScrollToTop(false)
     }
   }, [scrollToTop])
