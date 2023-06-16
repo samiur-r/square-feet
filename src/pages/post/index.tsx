@@ -291,7 +291,7 @@ const CreatePost: NextPage<{
   useEffect(() => {
     if (scrollToTop) {
       window.scrollTo({
-        top: 200,
+        top: 100,
         left: 0,
         behavior: 'smooth'
       })
