@@ -290,7 +290,6 @@ const CreatePost: NextPage<{
 
   useEffect(() => {
     if (scrollToTop) {
-      alert('here')
       window.scrollTo(0, 0)
       setScrollToTop(false)
     }
