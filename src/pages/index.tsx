@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import Hero from 'components/Home/Hero'
@@ -15,6 +15,7 @@ import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
 import { useStore } from 'store'
+import { delay, scrollToPrevPosition } from 'utils/scrollUtils'
 
 const Home: NextPage<{
   totalPosts: number
@@ -25,6 +26,7 @@ const Home: NextPage<{
 
   const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
     useStore()
+  const [showPage, setShowPage] = useState(false)
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -39,20 +41,33 @@ const Home: NextPage<{
     }
   }, [])
 
+  // useEffect(() => {
+  //   if (scrollYTo) {
+  //     setTimeout(() => {
+  //       window.scrollTo({
+  //         top: scrollPosition,
+  //         left: 0,
+  //         behavior: 'auto'
+  //       })
+  //     }, 100)
+  //     setTimeout(() => {
+  //       setShowPage(true)
+  //     }, 200)
+  //   } else setShowPage(true)
+  // }, [])
+
   useEffect(() => {
     if (scrollYTo) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: scrollPosition,
-          left: 0,
-          behavior: 'auto'
-        })
-      }, 1000)
-    }
+      scrollToPrevPosition(scrollPosition, setShowPage)
+    } else setShowPage(true)
   }, [])
 
   return (
-    <div className="bg-gray-50 md:bg-white">
+    <div
+      className={`${
+        showPage ? 'opacity-1' : 'opacity-0'
+      } bg-gray-50 md:bg-white`}
+    >
       <Head>
         <title>
           شقق للايجار ✔️ بيوت للبيع ✔️ بوشملان دليل عقارات الكويت #1
