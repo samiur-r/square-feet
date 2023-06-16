@@ -375,6 +375,7 @@ const CreatePost: NextPage<{
         <div
           className="mt-8 md:mt-10"
           onClick={() => {
+            alert('here')
             if (window?.innerWidth < 768) scrollToAutocomplete()
           }}
         >
