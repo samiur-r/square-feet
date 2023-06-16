@@ -124,11 +124,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     }
   }, [selectedLocation])
 
-  useEffect(() => {
-    if (inputRef.current && isHomePage) {
-      inputRef.current.focus()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (inputRef.current && isHomePage) {
+  //     inputRef.current.focus()
+  //   }
+  // }, [])
 
   const inputFocusOrBlur = (open: boolean) => {
     if (open) inputRef.current?.focus()
