@@ -11,6 +11,7 @@ import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
 import { locations } from 'constant'
 import Router, { useRouter } from 'next/router'
+import { scrollToPrevPosition } from 'utils/scrollUtils'
 
 const Search: NextPage = () => {
   const {
@@ -40,6 +41,7 @@ const Search: NextPage = () => {
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
+  const [showPage, setShowPage] = useState(false)
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
@@ -130,14 +132,8 @@ const Search: NextPage = () => {
 
   useEffect(() => {
     if (scrollYTo) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: scrollPosition,
-          left: 0,
-          behavior: 'smooth'
-        })
-      }, 500)
-    }
+      scrollToPrevPosition(scrollPosition, setShowPage)
+    } else setShowPage(true)
 
     fetchPosts(searchPostCount ? Math.ceil(searchPostCount / 10) * 10 : 10, 0)
 
@@ -257,7 +253,11 @@ const Search: NextPage = () => {
   }
 
   return (
-    <div className="bg-custom-white-light min-h-screen">
+    <div
+      className={`${
+        showPage ? 'opacity-1' : 'opacity-0'
+      } bg-custom-white-light min-h-screen`}
+    >
       <Breadcrumbs
         breadcrumbsItems={
           locationsSelected && locationsSelected.length
