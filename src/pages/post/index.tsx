@@ -290,13 +290,11 @@ const CreatePost: NextPage<{
 
   useEffect(() => {
     if (scrollToTop) {
-      setTimeout(() => {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'auto'
-        })
-      }, 300)
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto'
+      })
       setScrollToTop(false)
     }
   }, [scrollToTop])
