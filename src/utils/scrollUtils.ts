@@ -6,12 +6,12 @@ const scrollToPrevPosition = async (
   handleShowPage: (show: boolean) => void
 ) => {
   await delay(100)
-
   window.scrollTo({
     top: scrollPosition,
     left: 0,
     behavior: 'auto'
   })
+  await delay(200)
   handleShowPage(true)
 }
 

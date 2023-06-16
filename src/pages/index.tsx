@@ -15,7 +15,7 @@ import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
 import { IPost, LocationType } from 'interfaces'
 import { useStore } from 'store'
-import { delay, scrollToPrevPosition } from 'utils/scrollUtils'
+import { scrollToPrevPosition } from 'utils/scrollUtils'
 
 const Home: NextPage<{
   totalPosts: number
