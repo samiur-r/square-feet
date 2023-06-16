@@ -22,6 +22,7 @@ interface AutoCompleteProps {
   handleSetSelectedLocation?: Dispatch<
     SetStateAction<LocationType | LocationType[] | any>
   >
+  handleParentClick?: () => void
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -31,7 +32,8 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   canUpdateFilterAutoCompleteShow,
   isError,
   handleCanUpdateFilterAutoCompleteShow,
-  handleSetSelectedLocation
+  handleSetSelectedLocation,
+  handleParentClick
 }) => {
   const { updateToast } = useStore()
 
@@ -139,7 +141,10 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const onInputBlur = () => setIsFocused(false)
 
   return (
-    <div className="dir-rtl w-full relative">
+    <div
+      className="dir-rtl w-full relative"
+      onClick={handleParentClick || undefined}
+    >
       <Combobox defaultValue={selected} onChange={setSelected}>
         {({ open }) => (
           <>

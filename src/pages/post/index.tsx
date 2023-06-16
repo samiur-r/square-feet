@@ -284,10 +284,6 @@ const CreatePost: NextPage<{
     }
   }
 
-  const scrollToAutocomplete = () => {
-    setScrollToTop(true)
-  }
-
   useEffect(() => {
     if (scrollToTop) {
       if (topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -343,8 +339,9 @@ const CreatePost: NextPage<{
       <div className="w-full md:text-center">
         <Description value="أدخل البيانات التالية لإضافة اعلان" />
       </div>
+      <div ref={topRef} />
       <form className="w-full max-w-md px-3 md:px-0 mt-8 md:mt-10">
-        <div className="relative" ref={topRef}>
+        <div className="relative">
           <Popover className="relative">
             <Popover.Panel className="absolute z-10 -top-14 right-2 text-secondary bg-custom-white-light shadow-md p-2 rounded-md">
               Hey! You can not edit this field
@@ -368,17 +365,15 @@ const CreatePost: NextPage<{
             </label>
           </Popover>
         </div>
-        <div
-          className="mt-8 md:mt-10"
-          onClick={() => {
-            if (window?.innerWidth < 768) scrollToAutocomplete()
-          }}
-        >
+        <div className="mt-8 md:mt-10">
           <AutoComplete
             locations={locationList}
             selectedLocation={selectedLocation}
             handleSetSelectedLocation={setSelectedLocation}
             isError={cityErrors.length >= 1}
+            handleParentClick={() => {
+              if (window?.innerWidth < 768) setScrollToTop(true)
+            }}
           />
           {cityErrors && (
             <div className="flex flex-col gap-2">
