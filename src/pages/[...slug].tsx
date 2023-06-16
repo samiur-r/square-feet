@@ -13,6 +13,7 @@ import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
 import Router, { useRouter } from 'next/router'
+import { scrollToPrevPosition } from 'utils/scrollUtils'
 
 const getStateTitleFromCity = (locationObj: LocationType) => {
   if (locationObj?.id === undefined) return ''
@@ -49,8 +50,8 @@ const Search: NextPage<PageProps> = ({
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
-    // scrollYTo,
-    // scrollPosition,
+    scrollYTo,
+    scrollPosition,
     filterPostCount,
     updateFilterPostCount,
     setLocationsSelected,
@@ -72,6 +73,7 @@ const Search: NextPage<PageProps> = ({
   const [showPageData, setShowPageData] = useState(false)
   const [showPostTitle, setShowPostTile] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
+  const [showPage, setShowPage] = useState(false)
 
   const router = useRouter()
 
@@ -98,14 +100,6 @@ const Search: NextPage<PageProps> = ({
   useEffect(() => {
     setTotalPosts(count)
   }, [count])
-
-  // useEffect(() => {
-  //   if (isFirstRender) {
-  //     setTimeout(() => {
-  //       scrollRef.current.scrollIntoView({ behavior: 'smooth' })
-  //     }, 1000)
-  //   }
-  // }, [isFirstRender])
 
   const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
@@ -162,15 +156,9 @@ const Search: NextPage<PageProps> = ({
   }, [isIntersecting])
 
   useEffect(() => {
-    // if (scrollYTo) {
-    //   setTimeout(() => {
-    //     window.scrollTo({
-    //       top: scrollPosition,
-    //       left: 0,
-    //       behavior: 'smooth'
-    //     })
-    //   }, 500)
-    // }
+    if (scrollYTo) {
+      scrollToPrevPosition(scrollPosition, setShowPage)
+    } else setShowPage(true)
 
     const handleRouteChange = () => {
       updateScrollPosition(window.scrollY)
@@ -192,27 +180,6 @@ const Search: NextPage<PageProps> = ({
       updateScrollYTo(false)
     }
   }, [])
-
-  // const scroll = useCallback(
-  //   (
-  //     node: {
-  //       getBoundingClientRect: () => {
-  //         (): unknown
-  //         new (): unknown
-  //         top: number | undefined
-  //       }
-  //     } | null
-  //   ) => {
-  //     if (node !== null) {
-  //       window.scrollTo({
-  //         top: node.getBoundingClientRect().top,
-  //         // @ts-ignore
-  //         behavior: 'smooth'
-  //       })
-  //     }
-  //   },
-  //   []
-  // )
 
   const breadcrumbsItems = [
     {
@@ -312,7 +279,11 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div className="bg-custom-white-light min-h-screen">
+    <div
+      className={`${
+        showPage ? 'opacity-1' : 'opacity-0'
+      } bg-custom-white-light min-h-screen`}
+    >
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />

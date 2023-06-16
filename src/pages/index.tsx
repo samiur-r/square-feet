@@ -41,21 +41,6 @@ const Home: NextPage<{
     }
   }, [])
 
-  // useEffect(() => {
-  //   if (scrollYTo) {
-  //     setTimeout(() => {
-  //       window.scrollTo({
-  //         top: scrollPosition,
-  //         left: 0,
-  //         behavior: 'auto'
-  //       })
-  //     }, 100)
-  //     setTimeout(() => {
-  //       setShowPage(true)
-  //     }, 200)
-  //   } else setShowPage(true)
-  // }, [])
-
   useEffect(() => {
     if (scrollYTo) {
       scrollToPrevPosition(scrollPosition, setShowPage)
