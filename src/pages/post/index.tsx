@@ -285,6 +285,7 @@ const CreatePost: NextPage<{
   }
 
   const scrollToAutocomplete = () => {
+    alert('here2')
     setScrollToTop(true)
   }
 
