@@ -127,7 +127,7 @@ const Search: NextPage<PageProps> = ({
       setIsCallingApi(false)
       if (!showPostTitle) setShowPostTile(true)
       setPosts([...posts, ...response.data.posts])
-      if (isFirstRender) {
+      if (isFirstRender && !scrollYTo) {
         setTimeout(() => {
           scrollRef.current.scrollIntoView({ behavior: 'auto' })
         }, 100)
