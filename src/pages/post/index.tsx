@@ -285,12 +285,12 @@ const CreatePost: NextPage<{
   }
 
   const scrollToAutocomplete = () => {
-    alert('here2')
     setScrollToTop(true)
   }
 
   useEffect(() => {
     if (scrollToTop) {
+      alert('here')
       window.scrollTo({
         top: 0,
         left: 0,
@@ -376,7 +376,6 @@ const CreatePost: NextPage<{
         <div
           className="mt-8 md:mt-10"
           onClick={() => {
-            alert('here')
             if (window?.innerWidth < 768) scrollToAutocomplete()
           }}
         >
