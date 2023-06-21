@@ -27,6 +27,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     categorySelected,
     priceRangeSelected,
     keyword: lastKeyword,
+    updateCanFetchPosts,
     setPropertyTypeSelected,
     setCategorySelected,
     setPriceRangeSelected,
@@ -63,6 +64,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     updateSearchPostCount(0)
     setIsCallingApi(false)
     setShowFilterModal(false)
+    updateCanFetchPosts(true)
     Router.push('/search')
   }
 
