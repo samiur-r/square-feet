@@ -44,7 +44,7 @@ const Posts: React.FC<{ totalPosts: number }> = ({ totalPosts }) => {
     const handleBeforeUnload = (e: any) => {
       e.preventDefault()
       updateIndexPostCount(0)
-      return
+      return 0
     }
     window.addEventListener('beforeunload', handleBeforeUnload)
 
