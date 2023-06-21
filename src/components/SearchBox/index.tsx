@@ -8,6 +8,7 @@ import CTA from 'components/CTA'
 import { categories } from 'constant'
 import { LocationType } from 'interfaces'
 import { useStore } from 'store'
+import ApiClient from 'utils/ApiClient'
 
 const SearchBox: React.FC<{
   locations: LocationType[]
@@ -70,6 +71,31 @@ const SearchBox: React.FC<{
   useEffect(() => {
     setSelectedCategory(categorySelected)
   }, [categorySelected])
+
+  const sortPropertyTypes = async () => {
+    try {
+      const res = await ApiClient({
+        method: 'GET',
+        url: `propertyTypes/${selectedCategory?.id}`
+      })
+
+      if (res.data.propertyTypes) {
+        setPropertyTypeList([
+          {
+            id: 0,
+            title: 'الكل'
+          },
+          ...res.data.propertyTypes
+        ])
+      }
+    } catch (error) {
+      /* empty */
+    }
+  }
+
+  useEffect(() => {
+    sortPropertyTypes()
+  }, [selectedCategory])
 
   const handleLocationChanged = (
     id: number,

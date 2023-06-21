@@ -107,7 +107,7 @@ const Posts: NextPage<{
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <div {...swipeHandlers}>
+    <div {...swipeHandlers} className="min-h-screen">
       {postInfo && <Breadcrumbs breadcrumbsItems={breadcrumbsItems} />}
       <div className="dir-rtl grid gap-8 pb-10">
         <div className="bg-primary-light flex flex-col gap-2 md:gap-7 justify-center items-center text-white px-10 py-8 md:py-10 rounded-b-lg md:rounded-none">

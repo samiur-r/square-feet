@@ -389,14 +389,16 @@ const Nav: React.FC = () => {
           )}
           {!isFilterPage && !isPostPage && (
             <div className="hidden md:flex w-3/12">
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <a href="/post?mode=create">
-                <CTA
-                  title={newPostBtnText}
-                  backgroundColor="primary"
-                  Icon={<PlusCircleIcon className="h-6 w-6 ml-3 z-10" />}
-                />
-              </a>
+              <Link href="/post?mode=create">
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+                <a href="/post?mode=create">
+                  <CTA
+                    title={newPostBtnText}
+                    backgroundColor="primary"
+                    Icon={<PlusCircleIcon className="h-6 w-6 ml-3 z-10" />}
+                  />
+                </a>
+              </Link>
             </div>
           )}
           {!isFilterPage && !isPostPage && (
