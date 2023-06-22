@@ -55,7 +55,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setIsCallingApi(true)
     let propertyType
 
-    if (propertyTypeSelected?.id === 0) propertyType = undefined
+    if (propertyTypeSelected?.id === 0) propertyType = propertyTypeSelected
     else propertyType = propertyTypeSelected
 
     updateIsSearchFromFilterModal(true)
