@@ -99,7 +99,7 @@ export const getStaticProps: GetServerSideProps = async () => {
         locations: responseLocations.data?.locations || null,
         propertyTypes: responseLocations.data?.propertyTypes || null
       },
-      revalidate: 20
+      revalidate: 60
     }
   } catch (error) {
     /* empty */
