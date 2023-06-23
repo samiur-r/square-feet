@@ -81,7 +81,7 @@ const Home: NextPage<{
   )
 }
 
-export const getStaticProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const response = await ApiClient({
       method: 'GET',
@@ -98,8 +98,8 @@ export const getStaticProps: GetServerSideProps = async () => {
         totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0,
         locations: responseLocations.data?.locations || null,
         propertyTypes: responseLocations.data?.propertyTypes || null
-      },
-      revalidate: 20
+      }
+      // revalidate: 20
     }
   } catch (error) {
     /* empty */
