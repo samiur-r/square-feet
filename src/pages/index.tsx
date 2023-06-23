@@ -13,7 +13,7 @@ import Faq from 'components/Articles/Faq'
 import Posts from 'components/Posts'
 import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
-import { IPost, LocationType } from 'interfaces'
+import { LocationType } from 'interfaces'
 import { useStore } from 'store'
 import { scrollToPrevPosition } from 'utils/scrollUtils'
 
