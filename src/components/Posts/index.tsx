@@ -41,16 +41,16 @@ const Posts: React.FC<{ totalPosts: number }> = ({ totalPosts }) => {
   useEffect(() => {
     fetchPosts(indexPostCount ? Math.ceil(indexPostCount / 10) * 10 : 10, 0)
 
-    const handleBeforeUnload = (e: any) => {
-      e.preventDefault()
-      updateIndexPostCount(0)
-      return 0
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload)
+    // const handleBeforeUnload = (e: any) => {
+    //   e.preventDefault()
+    //   updateIndexPostCount(0)
+    //   return 0
+    // }
+    // window.addEventListener('beforeunload', handleBeforeUnload)
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
+    // return () => {
+    //   window.removeEventListener('beforeunload', handleBeforeUnload)
+    // }
   }, [])
 
   useEffect(() => {
