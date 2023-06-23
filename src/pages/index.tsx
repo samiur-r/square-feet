@@ -14,38 +14,38 @@ import Posts from 'components/Posts'
 import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
 import { LocationType } from 'interfaces'
-import { useStore } from 'store'
-import { scrollToPrevPosition } from 'utils/scrollUtils'
+// import { useStore } from 'store'
+// import { scrollToPrevPosition } from 'utils/scrollUtils'
 
 const Home: NextPage<{
   totalPosts: number
   locations: LocationType[]
   propertyTypes: any
 }> = ({ totalPosts, locations, propertyTypes }) => {
-  const router = useRouter()
+  // const router = useRouter()
 
-  const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
-    useStore()
+  // const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
+  //   useStore()
   const [showPage, setShowPage] = useState(false)
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
-    }
+  // useEffect(() => {
+  //   const handleRouteChange = () => {
+  //     updateScrollPosition(window.scrollY)
+  //   }
 
-    router.events.on('routeChangeStart', handleRouteChange)
+  //   router.events.on('routeChangeStart', handleRouteChange)
 
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      updateScrollYTo(false)
-    }
-  }, [])
+  //   return () => {
+  //     router.events.off('routeChangeStart', handleRouteChange)
+  //     updateScrollYTo(false)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    if (scrollYTo) {
-      scrollToPrevPosition(scrollPosition, setShowPage)
-    } else setShowPage(true)
-  }, [])
+  // useEffect(() => {
+  //   if (scrollYTo) {
+  //     scrollToPrevPosition(scrollPosition, setShowPage)
+  //   } else setShowPage(true)
+  // }, [])
 
   return (
     <div
