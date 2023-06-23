@@ -69,8 +69,7 @@ const Home: NextPage<{
         </div>
         <Banner />
       </div>
-      {/* <div ref={scroll as LegacyRef<HTMLDivElement>} /> */}
-      <Posts totalPosts={totalPosts} />
+      {/* <Posts totalPosts={totalPosts} /> */}
       <Guide />
       <Cards />
       <div className="bg-primary grid gap-8 py-8">
