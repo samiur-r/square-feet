@@ -36,12 +36,11 @@ const Posts: NextPage<{
 
   const [postInfo, setPostInfo] = useState<IPost | undefined>(undefined)
 
-  const { updateScrollYTo, updateHighlightedPost } = useStore()
+  const { updateHighlightedPost } = useStore()
 
   const router = useRouter()
 
   const handleSwipeRight = () => {
-    updateScrollYTo(true)
     router.back()
   }
 

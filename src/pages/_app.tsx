@@ -2,8 +2,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import NextNProgress from 'nextjs-progressbar'
-
 import type { AppProps } from 'next/app'
+
 import '../styles/globals.css'
 import Layout from 'components/Layout'
 import { useCreateStore, Provider, StoreState } from 'store'

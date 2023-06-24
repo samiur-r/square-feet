@@ -13,13 +13,15 @@ import {
 } from './slices/filteredPostSlice'
 import { createAdminSlice, AdminSliceType } from './slices/adminSlice'
 import { createUiSlice, UiSliceType } from './slices/uiSlice'
+import { createPostSlice, PostSliceType } from './slices/postSlice'
 
 export type StoreState = UserSliceType &
   ToastSliceType &
   SearchSliceType &
   FilteredPostSliceType &
   AdminSliceType &
-  UiSliceType
+  UiSliceType &
+  PostSliceType
 
 let store: any
 
@@ -50,7 +52,9 @@ export const initializeStore = (preloadedState: unknown = {}) => {
         // @ts-ignore
         ...createAdminSlice(...a),
         // @ts-ignore
-        ...createUiSlice(...a)
+        ...createUiSlice(...a),
+        // @ts-ignore
+        ...createPostSlice(...a)
       }),
       { name: 'store' }
     )

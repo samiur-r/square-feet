@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import Hero from 'components/Home/Hero'
@@ -13,46 +12,64 @@ import Faq from 'components/Articles/Faq'
 import Posts from 'components/Posts'
 import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
-import { LocationType } from 'interfaces'
-// import { useStore } from 'store'
-// import { scrollToPrevPosition } from 'utils/scrollUtils'
+import { IPost, LocationType } from 'interfaces'
+import { useStore } from 'store'
+import { scrollToPrevPosition } from 'utils/scrollUtils'
 
 const Home: NextPage<{
+  posts: any
   totalPosts: number
   locations: LocationType[]
   propertyTypes: any
-}> = ({ totalPosts, locations, propertyTypes }) => {
-  // const router = useRouter()
+}> = ({ posts, totalPosts, locations, propertyTypes }) => {
+  const { indexPosts, updateIndexPosts } = useStore()
 
-  // const { scrollYTo, scrollPosition, updateScrollYTo, updateScrollPosition } =
-  //   useStore()
-  const [showPage, setShowPage] = useState(false)
+  const router = useRouter()
 
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     updateScrollPosition(window.scrollY)
-  //   }
+  useEffect(() => {
+    const handleRouteChange = () => {
+      // Store the scroll position
+      const scrollPosition = window.pageYOffset
+      sessionStorage.setItem(router.asPath, scrollPosition.toString())
+    }
 
-  //   router.events.on('routeChangeStart', handleRouteChange)
+    const handleScrollRestoration = () => {
+      // Restore the scroll position
+      const scrollPosition = sessionStorage.getItem(router.asPath)
+      if (scrollPosition) {
+        scrollToPrevPosition(parseInt(scrollPosition, 10), router.asPath)
+      }
+    }
 
-  //   return () => {
-  //     router.events.off('routeChangeStart', handleRouteChange)
-  //     updateScrollYTo(false)
-  //   }
-  // }, [])
+    router.events.on('routeChangeStart', handleRouteChange)
+    router.events.on('routeChangeComplete', handleScrollRestoration)
 
-  // useEffect(() => {
-  //   if (scrollYTo) {
-  //     scrollToPrevPosition(scrollPosition, setShowPage)
-  //   } else setShowPage(true)
-  // }, [])
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+      router.events.off('routeChangeComplete', handleScrollRestoration)
+    }
+  }, [router])
+
+  const reHydratePosts = () => {
+    const missingElements = posts.filter((elementA: IPost) => {
+      return !indexPosts.some((elementB) => {
+        return elementB.id === elementA.id
+      })
+    })
+
+    if (missingElements.length) {
+      indexPosts.unshift(...missingElements)
+      if (indexPosts.length >= 10) indexPosts.splice(-missingElements.length)
+    }
+  }
+
+  useEffect(() => {
+    if (!indexPosts.length) updateIndexPosts(posts)
+    else reHydratePosts()
+  }, [posts])
 
   return (
-    <div
-      className={`${
-        showPage ? 'opacity-1' : 'opacity-0'
-      } bg-gray-50 md:bg-white`}
-    >
+    <div className="bg-gray-50 md:bg-white">
       <Head>
         <title>
           شقق للايجار ✔️ بيوت للبيع ✔️ بوشملان دليل عقارات الكويت #1
@@ -69,7 +86,7 @@ const Home: NextPage<{
         </div>
         <Banner />
       </div>
-      {/* <Posts totalPosts={totalPosts} /> */}
+      <Posts totalPosts={totalPosts} />
       <Guide />
       <Cards />
       <div className="bg-primary grid gap-8 py-8">
@@ -80,7 +97,7 @@ const Home: NextPage<{
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetServerSideProps = async () => {
   try {
     const response = await ApiClient({
       method: 'GET',
@@ -94,6 +111,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return {
       props: {
+        posts: response.data.posts ? response.data?.posts : [],
         totalPosts: response.data?.totalPosts ? response.data?.totalPosts : 0,
         locations: responseLocations.data?.locations || null,
         propertyTypes: responseLocations.data?.propertyTypes || null

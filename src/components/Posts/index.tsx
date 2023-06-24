@@ -7,21 +7,17 @@ import { useStore } from 'store'
 import PostCard from './PostCard'
 
 const Posts: React.FC<{ totalPosts: number }> = ({ totalPosts }) => {
-  const { indexPostCount, updateIndexPostCount } = useStore()
-
+  const { indexPosts, updateIndexPosts } = useStore()
   const [postList, setPostList] = useState<any>([])
   const [postCount, setPostCount] = useState(0)
   const [isCallingApi, setIsCallingAPi] = useState(false)
 
+  useEffect(() => {
+    setPostList(indexPosts)
+  }, [indexPosts])
+
   const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
-
-    let count = indexPostCount
-
-    if (offset === 0) {
-      updateIndexPostCount(0)
-      count = 0
-    }
 
     setIsCallingAPi(true)
     try {
@@ -32,26 +28,11 @@ const Posts: React.FC<{ totalPosts: number }> = ({ totalPosts }) => {
 
       setIsCallingAPi(false)
       setPostList([...postList, ...response.data.posts])
-      updateIndexPostCount(count + response.data.posts.length)
+      updateIndexPosts([...indexPosts, ...response.data.posts])
     } catch (error) {
       /* empty */
     }
   }
-
-  useEffect(() => {
-    fetchPosts(indexPostCount ? Math.ceil(indexPostCount / 10) * 10 : 10, 0)
-
-    // const handleBeforeUnload = (e: any) => {
-    //   e.preventDefault()
-    //   updateIndexPostCount(0)
-    //   return 0
-    // }
-    // window.addEventListener('beforeunload', handleBeforeUnload)
-
-    // return () => {
-    //   window.removeEventListener('beforeunload', handleBeforeUnload)
-    // }
-  }, [])
 
   useEffect(() => {
     if (postList && postList.length) setPostCount(postList.length)
@@ -74,7 +55,7 @@ const Posts: React.FC<{ totalPosts: number }> = ({ totalPosts }) => {
             onClick={() =>
               fetchPosts(
                 10,
-                indexPostCount ? Math.ceil(indexPostCount / 10) * 10 : 10
+                indexPosts ? Math.ceil(indexPosts.length / 10) * 10 : 10
               )
             }
           >
