@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 
 import Hero from 'components/Home/Hero'
 import Banner from 'components/Home/Banner'
@@ -12,9 +11,10 @@ import Faq from 'components/Articles/Faq'
 import Posts from 'components/Posts'
 import SearchBox from 'components/SearchBox'
 import ApiClient from 'utils/ApiClient'
-import { IPost, LocationType } from 'interfaces'
+import { LocationType } from 'interfaces'
 import { useStore } from 'store'
-import { scrollToPrevPosition } from 'utils/scrollUtils'
+import useScrollRestoration from 'hooks/useScrollRestoration'
+import reHydrateStore from 'utils/reHydrateStore'
 
 const Home: NextPage<{
   posts: any
@@ -23,49 +23,11 @@ const Home: NextPage<{
   propertyTypes: any
 }> = ({ posts, totalPosts, locations, propertyTypes }) => {
   const { indexPosts, updateIndexPosts } = useStore()
-
-  const router = useRouter()
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      // Store the scroll position
-      const scrollPosition = window.pageYOffset
-      sessionStorage.setItem(router.asPath, scrollPosition.toString())
-    }
-
-    const handleScrollRestoration = () => {
-      // Restore the scroll position
-      const scrollPosition = sessionStorage.getItem(router.asPath)
-      if (scrollPosition) {
-        scrollToPrevPosition(parseInt(scrollPosition, 10), router.asPath)
-      }
-    }
-
-    router.events.on('routeChangeStart', handleRouteChange)
-    router.events.on('routeChangeComplete', handleScrollRestoration)
-
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      router.events.off('routeChangeComplete', handleScrollRestoration)
-    }
-  }, [router])
-
-  const reHydratePosts = () => {
-    const missingElements = posts.filter((elementA: IPost) => {
-      return !indexPosts.some((elementB) => {
-        return elementB.id === elementA.id
-      })
-    })
-
-    if (missingElements.length) {
-      indexPosts.unshift(...missingElements)
-      if (indexPosts.length >= 10) indexPosts.splice(-missingElements.length)
-    }
-  }
+  useScrollRestoration()
 
   useEffect(() => {
     if (!indexPosts.length) updateIndexPosts(posts)
-    else reHydratePosts()
+    else reHydrateStore(posts, indexPosts)
   }, [posts])
 
   return (

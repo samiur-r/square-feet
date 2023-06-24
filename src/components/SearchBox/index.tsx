@@ -22,7 +22,8 @@ const SearchBox: React.FC<{
     setPropertyTypeSelected,
     setCategorySelected,
     updateToast,
-    updateIsSearchFromFilterModal
+    updateIsSearchFromFilterModal,
+    updateFilteredPosts
   } = useStore()
 
   const [selectedCategory, setSelectedCategory] = useState<
@@ -170,6 +171,7 @@ const SearchBox: React.FC<{
     setPropertyTypeSelected(selectedPropertyType)
     setCategorySelected(selectedCategory)
     updateIsSearchFromFilterModal(false)
+    updateFilteredPosts([])
 
     if (!location || (location && location.length <= 1)) {
       setIsCallingApi(false)

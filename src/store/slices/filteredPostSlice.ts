@@ -2,7 +2,6 @@ import { IPost } from 'interfaces'
 import { StateCreator } from 'zustand'
 
 export interface FilteredPostSliceType {
-  filterPostCount: number
   searchPostCount: number
   agentPostCount: number
   accountPostCount: number
@@ -10,7 +9,6 @@ export interface FilteredPostSliceType {
   filteredArchivedPosts: IPost[]
   totalFilteredArchivedPosts: number | undefined
   updateTotalFilteredPost: (count: number) => void
-  updateFilterPostCount: (count: number) => void
   updateSearchPostCount: (count: number) => void
   updateAgentPostCount: (count: number) => void
   updateAccountPostCount: (count: number) => void
@@ -21,7 +19,6 @@ export interface FilteredPostSliceType {
 export const createFilteredPostSlice: StateCreator<FilteredPostSliceType> = (
   set
 ) => ({
-  filterPostCount: 0,
   searchPostCount: 0,
   filteredArchivedPosts: [],
   totalFilteredArchivedPosts: undefined,
@@ -39,10 +36,6 @@ export const createFilteredPostSlice: StateCreator<FilteredPostSliceType> = (
   updateAccountPostCount: (count: number) =>
     set(() => ({
       accountPostCount: count
-    })),
-  updateFilterPostCount: (count: number) =>
-    set(() => ({
-      filterPostCount: count
     })),
   updateSearchPostCount: (count: number) =>
     set(() => ({

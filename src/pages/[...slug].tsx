@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useRef, useState } from 'react'
+import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
 import { locations, categories, propertyTypes } from 'constant'
@@ -12,8 +12,9 @@ import { useStore } from 'store'
 import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
-import Router, { useRouter } from 'next/router'
-import { scrollToPrevPosition } from 'utils/scrollUtils'
+import Router from 'next/router'
+import reHydrateStore from 'utils/reHydrateStore'
+import useScrollRestoration from 'hooks/useScrollRestoration'
 
 const getStateTitleFromCity = (locationObj: LocationType) => {
   if (locationObj?.id === undefined) return ''
@@ -26,6 +27,7 @@ const getStateTitleFromCity = (locationObj: LocationType) => {
 }
 
 interface PageProps {
+  postList: IPost[]
   count: number
   articles: string[]
   metaTitle: string
@@ -37,6 +39,7 @@ interface PageProps {
 }
 
 const Search: NextPage<PageProps> = ({
+  postList,
   count,
   articles,
   metaTitle,
@@ -46,40 +49,60 @@ const Search: NextPage<PageProps> = ({
   selectedCategory,
   similarSearches
 }) => {
+  useScrollRestoration()
   const {
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
-    scrollYTo,
-    scrollPosition,
-    filterPostCount,
-    updateFilterPostCount,
+    filteredPosts,
     setLocationsSelected,
     setPropertyTypeSelected,
     setCategorySelected,
-    updateScrollYTo,
-    updateScrollPosition,
     setArchivedLocationsSelected,
     setArchivedPropertyTypeSelected,
     setArchivedCategorySelected,
     updateFilteredArchivedPostsCount,
-    updateFilteredArchivedPosts
+    updateFilteredArchivedPosts,
+    updateFilteredPosts
   } = useStore()
   const [posts, setPosts] = useState<IPost[]>([])
   const [totalPosts, setTotalPosts] = useState<number | undefined>(undefined)
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isFirstRender, setIsFirstRender] = useState(true)
-  const [showPageData, setShowPageData] = useState(false)
-  const [showPostTitle, setShowPostTile] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
-  const [showPage, setShowPage] = useState(false)
-
-  const router = useRouter()
 
   const ref = useRef<HTMLDivElement>(null)
-  const scrollRef = useRef<any>(null)
   const isIntersecting = useOnScreen(ref)
+
+  const scrollRef = useCallback(
+    (
+      node: {
+        getBoundingClientRect: () => {
+          (): unknown
+          new (): unknown
+          top: number | undefined
+        }
+      } | null
+    ) => {
+      if (node !== null) {
+        window.scrollTo({
+          top: node.getBoundingClientRect().top
+          // behavior: 'smooth'
+        })
+      }
+    },
+    []
+  )
+
+  useEffect(() => {
+    if (!filteredPosts.length) updateFilteredPosts(postList)
+    else reHydrateStore(postList, filteredPosts)
+  }, [postList])
+
+  useEffect(() => {
+    setPosts(filteredPosts)
+  }, [filteredPosts])
 
   useEffect(() => {
     setLocationsSelected(selectedLocations)
@@ -99,18 +122,12 @@ const Search: NextPage<PageProps> = ({
 
   useEffect(() => {
     setTotalPosts(count)
+    setIsFirstRender(false)
   }, [count])
 
   const fetchPosts = async (limit: number, offset: number) => {
     if (totalPosts && postCount >= totalPosts) return
     setIsCallingApi(true)
-
-    let countPost = filterPostCount
-
-    if (offset === 0) {
-      updateFilterPostCount(0)
-      countPost = 0
-    }
 
     try {
       const response = await ApiClient({
@@ -125,22 +142,11 @@ const Search: NextPage<PageProps> = ({
         }
       })
       setIsCallingApi(false)
-      if (!showPostTitle) setShowPostTile(true)
       setPosts([...posts, ...response.data.posts])
-      if (isFirstRender && !scrollYTo) {
-        setTimeout(() => {
-          scrollRef.current.scrollIntoView({ behavior: 'auto' })
-        }, 100)
-      }
-      updateFilterPostCount(countPost + response.data.posts.length)
-      setIsFirstRender(false)
+      updateFilteredPosts([...filteredPosts, ...response.data.posts])
     } catch (error) {
       setIsCallingApi(false)
     }
-    if (!showPageData)
-      setTimeout(() => {
-        setShowPageData(true)
-      }, 500)
   }
 
   useEffect(() => {
@@ -149,37 +155,11 @@ const Search: NextPage<PageProps> = ({
         setIsCallingApi(true)
         fetchPosts(
           10,
-          filterPostCount ? Math.ceil(filterPostCount / 10) * 10 : 10
+          filteredPosts ? Math.ceil(filteredPosts.length / 10) * 10 : 10
         )
       }
     }
   }, [isIntersecting])
-
-  useEffect(() => {
-    if (scrollYTo) {
-      scrollToPrevPosition(scrollPosition, setShowPage)
-    } else setShowPage(true)
-
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
-    }
-
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    fetchPosts(filterPostCount ? Math.ceil(filterPostCount / 10) * 10 : 10, 0)
-
-    const handleBeforeUnload = (e: any) => {
-      e.preventDefault()
-      updateFilterPostCount(0)
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-      router.events.off('routeChangeStart', handleRouteChange)
-      updateScrollYTo(false)
-    }
-  }, [])
 
   const breadcrumbsItems = [
     {
@@ -279,11 +259,7 @@ const Search: NextPage<PageProps> = ({
   }
 
   return (
-    <div
-      className={`${
-        showPage ? 'opacity-1' : 'opacity-0'
-      } bg-custom-white-light min-h-screen`}
-    >
+    <div className="bg-custom-white-light min-h-screen">
       <Head>
         <title>{metaTitle || ''}</title>
         <meta name="description" content={metaDescription || ''} />
@@ -296,11 +272,7 @@ const Search: NextPage<PageProps> = ({
         }
       />
       <div className="dir-rtl container max-w-5xl py-10 flex flex-col">
-        <div
-          className={`${
-            showPageData ? 'opacity-1' : 'opacity-0'
-          } flex flex-col gap-5`}
-        >
+        <div className="flex flex-col gap-5">
           <FilterArticle articles={articles} />
           <div>
             <Title value="قد تهمك نتائج بحث مشابهة" />
@@ -314,15 +286,14 @@ const Search: NextPage<PageProps> = ({
                   </a>
                 </Link>
               ))}
-            <div ref={scrollRef} className="mt-20 h-1" />
+            <div
+              ref={scrollRef as LegacyRef<HTMLDivElement>}
+              className="mt-20 h-1"
+            />
           </div>
         </div>
         <div className="container max-w-[736px] flex flex-col gap-2 mt-10 p-0">
-          <div
-            className={`${
-              showPostTitle ? 'opacity-1' : 'opacity-0'
-            } self-start flex gap-2 items-center`}
-          >
+          <div className="self-start flex gap-2 items-center">
             <Title
               value={`${
                 selectedPropertyType && selectedPropertyType.id !== 0
@@ -345,7 +316,7 @@ const Search: NextPage<PageProps> = ({
           </div>
         </div>
         <div ref={ref} />
-        {isCallingApi && showPageData && (
+        {isCallingApi && (
           <div className="flex justify-center mt-10">
             <svg
               aria-hidden="true"
@@ -519,6 +490,19 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       }
     })
 
+    const responsePost = await ApiClient({
+      method: 'POST',
+      url: '/search',
+      data: {
+        limit: 10,
+        offset: 0,
+        location: location ? [location] : null,
+        propertyType,
+        category
+      }
+    })
+
+    const postList = responsePost.data.posts || []
     const count = response.data?.totalPosts || 0
     const articles = responseArticleAndMeta.data?.articles || []
     const metaTitle = responseArticleAndMeta.data?.meta_title || ''
@@ -526,6 +510,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     return {
       props: {
+        postList,
         count,
         articles,
         metaTitle,

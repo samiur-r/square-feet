@@ -3,20 +3,20 @@ import { StateCreator } from 'zustand'
 
 export interface PostSliceType {
   indexPosts: IPost[]
-  indexPostCount: number
+  filteredPosts: IPost[]
   updateIndexPosts: (posts: IPost[]) => void
-  updateIndexPostCount: (count: number) => void
+  updateFilteredPosts: (posts: IPost[]) => void
 }
 
 export const createPostSlice: StateCreator<PostSliceType> = (set) => ({
-  indexPostCount: 0,
   indexPosts: [],
-  updateIndexPostCount: (count: number) =>
-    set(() => ({
-      indexPostCount: count
-    })),
+  filteredPosts: [],
   updateIndexPosts: (posts) =>
     set(() => ({
       indexPosts: posts
+    })),
+  updateFilteredPosts: (posts) =>
+    set(() => ({
+      filteredPosts: posts
     }))
 })
