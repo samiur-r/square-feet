@@ -71,7 +71,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
   return (
     <Transition.Root show={showFilterModal} as={Fragment}>
       <Dialog as="div" className="fixed z-30" onClose={setShowFilterModal}>
-        {/* <Transition.Child
+        <Transition.Child
           as={Fragment}
           enter="ease-out duration-500"
           enterFrom="opacity-0"
@@ -79,9 +79,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
           leave="ease-in duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-        > */}
-        <div className="fixed inset-0 bg-custom-gray bg-opacity-75 transition-opacity" />
-        {/* </Transition.Child> */}
+        >
+          <div className="fixed inset-0 bg-custom-gray bg-opacity-75 transition-opacity" />
+        </Transition.Child>
 
         <div className="fixed inset-0 z-20 overflow-y-auto">
           <div className="flex min-h-full items-start justify-center md:p-4 text-center sm:items-center sm:p-0">
