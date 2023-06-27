@@ -50,7 +50,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
     updateCanFetchPosts,
     setLocationsSelected: updateLocationsSelected,
     updateToast,
-    updateFilterPostCount,
     updateIsSearchFromFilterModal
   } = useStore()
 
@@ -92,7 +91,6 @@ const FilterAutoComplete: React.FC<FilterAutoCompleteProps> = ({
         locationsSelected.length <= 1 &&
         locationsSelected[0]
       ) {
-        updateFilterPostCount(0)
         redirectToFilter(locationsSelected[0].title as string)
       }
 
