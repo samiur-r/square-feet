@@ -10,56 +10,46 @@ import { IPost, LocationType } from 'interfaces'
 import { useOnScreen } from 'hooks/useOnScreen'
 import ApiClient from 'utils/ApiClient'
 import { locations } from 'constant'
-import Router, { useRouter } from 'next/router'
-import { scrollToPrevPosition } from 'utils/scrollUtils'
+import Router from 'next/router'
 
 const Search: NextPage = () => {
   const {
-    searchPostCount,
+    searchedPosts,
     locationsSelected,
     propertyTypeSelected,
     categorySelected,
     canFetchPosts,
-    scrollYTo,
-    scrollPosition,
     priceRangeSelected,
     keyword,
     isSearchFromFilterModal,
-    updateSearchPostCount,
     updateCanFetchPosts,
-    updateScrollYTo,
-    updateScrollPosition,
     setArchivedLocationsSelected,
     setArchivedPropertyTypeSelected,
     setArchivedCategorySelected,
     updateFilteredArchivedPostsCount,
     updateFilteredArchivedPosts,
-    updateIsSearchFromFilterModal
+    updateSearchedPosts
   } = useStore()
   const [posts, setPosts] = useState<IPost[]>([])
   const [totalPosts, setTotalPosts] = useState<number | undefined>()
   const [postCount, setPostCount] = useState<number>(0)
   const [isCallingApi, setIsCallingApi] = useState(false)
   const [isFetchingArchivedPosts, setIsFetchingArchivedPosts] = useState(false)
-  const [showPage, setShowPage] = useState(false)
 
   const ref = useRef<HTMLDivElement>(null)
   const isIntersecting = useOnScreen(ref)
-  const router = useRouter()
 
   useEffect(() => {
     setPostCount(posts.length)
   }, [posts])
 
+  // useEffect(() => {
+  //   setPosts(searchedPosts)
+  // }, [searchedPosts])
+
   const fetchPosts = async (limit: number, offset: number) => {
     if (!canFetchPosts && totalPosts && postCount >= totalPosts) return
     setIsCallingApi(true)
-    let countPost = searchPostCount
-
-    if (offset === 0) {
-      updateSearchPostCount(0)
-      countPost = 0
-    }
 
     try {
       const response = await ApiClient({
@@ -84,7 +74,7 @@ const Search: NextPage = () => {
       if (canFetchPosts) setPosts(response.data.posts)
       else setPosts([...posts, ...response.data.posts])
       setTotalPosts(response?.data?.count)
-      updateSearchPostCount(countPost + response.data.posts.length)
+      updateSearchedPosts([...searchedPosts, ...response.data.posts])
       updateCanFetchPosts(false)
     } catch (error) {
       setIsCallingApi(false)
@@ -97,7 +87,7 @@ const Search: NextPage = () => {
         setIsCallingApi(true)
         fetchPosts(
           10,
-          searchPostCount ? Math.ceil(searchPostCount / 10) * 10 : 10
+          searchedPosts ? Math.ceil(searchedPosts.length / 10) * 10 : 10
         )
       }
     }
@@ -131,29 +121,10 @@ const Search: NextPage = () => {
   )
 
   useEffect(() => {
-    if (scrollYTo) {
-      scrollToPrevPosition(scrollPosition, setShowPage)
-    } else setShowPage(true)
-
-    fetchPosts(searchPostCount ? Math.ceil(searchPostCount / 10) * 10 : 10, 0)
-
-    const handleRouteChange = () => {
-      updateScrollPosition(window.scrollY)
-    }
-    const handleBeforeUnload = (e: any) => {
-      e.preventDefault()
-      updateSearchPostCount(0)
-      updateIsSearchFromFilterModal(false)
-    }
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    router.events.on('routeChangeStart', handleRouteChange)
-
-    // Cleanup the event listener
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-      updateScrollYTo(false)
-    }
+    fetchPosts(
+      searchedPosts ? Math.ceil(searchedPosts.length / 10) * 10 : 10,
+      0
+    )
   }, [])
 
   const getStateTitleFromCity = (locationObj: LocationType) => {
@@ -253,11 +224,7 @@ const Search: NextPage = () => {
   }
 
   return (
-    <div
-      className={`${
-        showPage ? 'opacity-1' : 'opacity-0'
-      } bg-custom-white-light min-h-screen`}
-    >
+    <div className="bg-custom-white-light min-h-screen">
       <Breadcrumbs
         breadcrumbsItems={
           locationsSelected && locationsSelected.length
