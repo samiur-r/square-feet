@@ -1,4 +1,4 @@
-# Boshamlan
+# Square Feet
 
 ## Features
 
@@ -20,8 +20,8 @@
 ## Getting started
 
 ```
-git clone https://github.com/q8villa/boshamlan-frontend.git
-cd boshamlan-frontend
+git clone https://github.com/samiur-r/square-feet.git
+cd square-feet
 npm install
 npm run dev
 ```
